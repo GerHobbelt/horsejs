@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Main\Browser.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\Renderer.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Browser\Handler.cpp">
+      <Filter>Browser</Filter>
+    </ClCompile>
+    <ClCompile Include="Scheme\SchemeHandler.cpp">
+      <Filter>Scheme</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Main">
+      <UniqueIdentifier>{a593f96d-a4e3-4c9e-9282-0ec5988e3a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Browser">
+      <UniqueIdentifier>{e813deff-9eb4-44da-afd0-5aeeb4f5c49b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scheme">
+      <UniqueIdentifier>{473b5fb6-780a-4325-8bdc-c4ef7e62ac86}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Main\Browser.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\Other.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\Renderer.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\WindowDelegate.h">
+      <Filter>Browser</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\ViewDelegate.h">
+      <Filter>Browser</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\Handler.h">
+      <Filter>Browser</Filter>
+    </ClInclude>
+    <ClInclude Include="Scheme\SchemeHandler.h">
+      <Filter>Scheme</Filter>
+    </ClInclude>
+    <ClInclude Include="Scheme\SchemeHandlerFactory.h">
+      <Filter>Scheme</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
