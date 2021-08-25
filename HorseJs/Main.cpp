@@ -9,7 +9,6 @@
 #include "Scheme/SchemeHandlerFactory.h"
 
 #if defined(CEF_USE_SANDBOX)
-// The cef_sandbox.lib static library may not link successfully with all VS versions.
 #pragma comment(lib, "cef_sandbox.lib")
 #endif
 
@@ -47,17 +46,21 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
 #if !defined(CEF_USE_SANDBOX)
     settings.no_sandbox = true;
 #endif
-    // Initialize CEF.
     CefInitialize(main_args, settings, app.get(), sandbox_info);
     CefRegisterSchemeHandlerFactory("horse", "tests", new SchemeHandlerFactory());
-    // Run the CEF message loop. This will block until CefQuitMessageLoop() is called.
     CefRunMessageLoop();
-    // Shut down CEF.
     CefShutdown();
     return 0;
 }
 
 /*
+* 
+* 配置文件
+*       指定静态文件目录，或指定具体的入口页面文件路径
+*       是否立即显示窗口
+* npm包
+*       下载exe和相关的dll文件
+*       
 打开调试器或者找到其他可以调试页面代码的方法
 无标题栏和无边框的窗口
 MAC下使用CEF的办法
