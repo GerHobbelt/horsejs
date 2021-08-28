@@ -51,5 +51,6 @@
     <ClInclude Include="Scheme\SchemeHandlerFactory.h">
       <Filter>Scheme</Filter>
     </ClInclude>
+    <ClInclude Include="Common\json.hpp" />
   </ItemGroup>
 </Project>

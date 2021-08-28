@@ -1,5 +1,7 @@
 #include "SchemeHandler.h"
 #include "include/wrapper/cef_helpers.h"
+#include <fstream>
+#include <filesystem>
 
 SchemeHandler::SchemeHandler() :offset_(0)
 {
@@ -10,23 +12,18 @@ bool SchemeHandler::Open(CefRefPtr<CefRequest> request, bool& handle_request, Ce
     handle_request = true;
     bool handled = false;
     std::string url = request->GetURL();
-    if (strstr(url.c_str(), "handler.html") != nullptr) {
-        data_ = R"(<html><head>
-<title>Client Scheme Handler</title>
-<style>html,body{margin:0px;padding:0px} 
-.draggable { -webkit-app-region: drag; height: 60px; background-color: blue; }
-.nondraggable { -webkit-app-region: no-drag; width: 100px; height:60px; background-color: red;float:right;}</style></head>
-<body style="background:#fff">
-  <div class="draggable">
-    <div class="nondraggable"></div>
-  </div>
-    <input id="a" type="text" />
-<input id="b" type="text" />
-</body></html>)";
-        handled = true;
-        mime_type_ = "text/html";
-    }
-    return handled;
+    url.erase(0, 8);
+    auto curWorkDir = std::filesystem::current_path();
+    curWorkDir.append(url);
+    std::ifstream reader;
+    reader.open(curWorkDir, std::ios::in);
+    auto flag = reader.is_open();
+    std::stringstream buffer;
+    buffer << reader.rdbuf();
+    reader.close();
+    data_ = buffer.str();
+    mime_type_ = "text/html";
+    return true;
 }
 
 void SchemeHandler::GetResponseHeaders(CefRefPtr<CefResponse> response, int64& response_length, CefString& redirectUrl)

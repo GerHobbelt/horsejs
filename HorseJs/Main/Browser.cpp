@@ -13,7 +13,7 @@ void Browser::OnContextInitialized() {
     CEF_REQUIRE_UI_THREAD();
     CefRefPtr<Handler> handler(new Handler());
     CefBrowserSettings browser_settings;
-    std::string url = "horse://test/handler.html";
+    std::string url = "horse://app/index.html";
     CefRefPtr<CefBrowserView> browser_view = CefBrowserView::CreateBrowserView(handler, url, browser_settings, nullptr, nullptr, new ViewDelegate());
     CefWindow::CreateTopLevelWindow(new WindowDelegate(browser_view));
 }
