@@ -7,6 +7,7 @@
 #include "Main/Other.h"
 #include "Main/Renderer.h"
 #include "Scheme/SchemeHandlerFactory.h"
+#include "Common/json.hpp"
 
 #if defined(CEF_USE_SANDBOX)
 #pragma comment(lib, "cef_sandbox.lib")
@@ -16,10 +17,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
 {
     CefEnableHighDPISupport();
     void* sandbox_info = nullptr;
-#if defined(CEF_USE_SANDBOX)
     CefScopedSandboxInfo scoped_sandbox;
     sandbox_info = scoped_sandbox.sandbox_info();
-#endif
     CefMainArgs main_args(hInstance);
     CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
     command_line->InitFromString(::GetCommandLineW());
@@ -43,11 +42,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
     {
         settings.chrome_runtime = true;
     }
-#if !defined(CEF_USE_SANDBOX)
-    settings.no_sandbox = true;
-#endif
     CefInitialize(main_args, settings, app.get(), sandbox_info);
-    CefRegisterSchemeHandlerFactory("horse", "tests", new SchemeHandlerFactory());
+    CefRegisterSchemeHandlerFactory("horse", "app", new SchemeHandlerFactory());
     CefRunMessageLoop();
     CefShutdown();
     return 0;
@@ -66,5 +62,18 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
 MAC下使用CEF的办法
 托盘图标、文件系统、剪切板等API
 如何加密用户源码
+
+
+2.  在 XXX 目录下创建一个 horse.config.json 的文件，并输入如下内容：
+
+```json
+{
+  "appDir": "./app/"
+}
+```
+
+配置文件中的具体含义如下
+
+> appDir：你的静态文件的目录，必须为相对路径，也就是说你的 HTML/CSS/JS 等文件必须放置在 yourAppName 子目录内，该子目录下必须包含一个 index.html 的文件，HorseJs 加载的第一个页面就是它；
 
 */
