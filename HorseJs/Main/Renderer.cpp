@@ -1,25 +1,20 @@
 #include "Renderer.h"
 #include <iostream>
-//#include "HorseV8Handler.h"
+#include <fstream>
+#include <filesystem>
+#include "../V8Handler/V8Handler.h"
 void Renderer::OnWebKitInitialized()
 {
-    std::string extensionCode =
-        "var test;"
-        "if (!test)"
-        "  test = {};"
-        "(function() {"
-        "  test.myval = 'My Value!';"
-        "  test.myfunc = function() {"
-        "    native function myfunc();"
-        "    return myfunc();"
-        "  };"
-        "})();";
-
-    // Create an instance of my CefV8Handler object.
-    //CefRefPtr<CefV8Handler> handler = new HorseV8Handler();
-
-    // Register the extension.
-    //CefRegisterExtension("v8/test", extensionCode, handler);
+    auto targetPath = std::filesystem::current_path();
+    targetPath.append("extension/index.js");
+    std::ifstream reader;
+    reader.open(targetPath, std::ios::in);
+    std::stringstream buffer;
+    buffer << reader.rdbuf();
+    reader.close();
+    auto extensionCode = buffer.str();
+    CefRefPtr<CefV8Handler> handler = new V8Handler();    
+    CefRegisterExtension("horse/extension", extensionCode, handler);
 }
 void Renderer::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
 {

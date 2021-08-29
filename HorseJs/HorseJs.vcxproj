@@ -176,14 +176,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Browser\Handler.h" />
+    <ClInclude Include="Browser\MsgHandler\Window.h" />
     <ClInclude Include="Browser\ViewDelegate.h" />
     <ClInclude Include="Browser\WindowDelegate.h" />
     <ClInclude Include="Common\json.hpp" />
     <ClInclude Include="Main\Browser.h" />
     <ClInclude Include="Main\Other.h" />
     <ClInclude Include="Main\Renderer.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scheme\SchemeHandler.h" />
     <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
+    <ClInclude Include="V8Handler\V8Handler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HorseJs.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

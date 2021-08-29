@@ -2,23 +2,16 @@
 #include "include/cef_app.h"
 #include "include/base/cef_scoped_ptr.h"
 #include "include/cef_command_line.h"
-#include "include/cef_sandbox_win.h"
 #include "Main/Browser.h"
 #include "Main/Other.h"
 #include "Main/Renderer.h"
 #include "Scheme/SchemeHandlerFactory.h"
 #include "Common/json.hpp"
 
-#if defined(CEF_USE_SANDBOX)
-#pragma comment(lib, "cef_sandbox.lib")
-#endif
 
 int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInstance, [[maybe_unused]] LPTSTR lpCmdLine, int nCmdShow)
 {
     CefEnableHighDPISupport();
-    void* sandbox_info = nullptr;
-    CefScopedSandboxInfo scoped_sandbox;
-    sandbox_info = scoped_sandbox.sandbox_info();
     CefMainArgs main_args(hInstance);
     CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
     command_line->InitFromString(::GetCommandLineW());
@@ -35,14 +28,14 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
     {
         app = new Other();
     }
-    int exit_code = CefExecuteProcess(main_args, app, sandbox_info);
+    int exit_code = CefExecuteProcess(main_args, app, nullptr);
     if (exit_code >= 0) return exit_code;
     CefSettings settings;
     if (command_line->HasSwitch("enable-chrome-runtime"))
     {
         settings.chrome_runtime = true;
     }
-    CefInitialize(main_args, settings, app.get(), sandbox_info);
+    CefInitialize(main_args, settings, app.get(), nullptr);
     CefRegisterSchemeHandlerFactory("horse", "app", new SchemeHandlerFactory());
     CefRunMessageLoop();
     CefShutdown();
