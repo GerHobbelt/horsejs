@@ -55,6 +55,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="V8Handler\V8Handler.h" />
     <ClInclude Include="Browser\MsgHandler\Window.h" />
+    <ClInclude Include="Browser\MsgHandler\Dialog.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />

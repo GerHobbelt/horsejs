@@ -2,10 +2,10 @@
 #include "include/wrapper/cef_message_router.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
-class Window
+class Dialog
 {
 public:
-    Window() = delete;
+    Dialog() = delete;
     static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
         CefRefPtr<CefBrowserView> browser_view = CefBrowserView::GetForBrowser(browser);

@@ -13,8 +13,21 @@ public:
         if (name == "jsFunc") 
         {
             CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(arguments[0]->GetStringValue());
-            //CefRefPtr<CefListValue> args = msg->GetArgumentList();
-            //args->SetString(0, arguments[0]->GetStringValue());
+            CefRefPtr<CefListValue> args = msg->GetArgumentList();
+            for (size_t i = 1; i < arguments.size(); i++)
+            {
+                if (arguments[i]->IsString()) {
+                    args->SetString(i-1, arguments[i]->GetStringValue());
+                }else if (arguments[i]->IsInt()) {
+                    args->SetInt(i - 1, arguments[i]->GetIntValue());
+                } else if (arguments[i]->IsBool()) {
+                    args->SetBool(i - 1, arguments[i]->GetBoolValue());
+                } else if (arguments[i]->IsDouble()) {
+                    args->SetDouble(i - 1, arguments[i]->GetBoolValue());
+                } else if (arguments[i]->IsNull()) {
+                    args->SetNull(i - 1);
+                }
+            }
             CefRefPtr<CefV8Context> context = CefV8Context::GetCurrentContext();
             context.get()->GetFrame()->SendProcessMessage(PID_BROWSER, msg);
             return true;
