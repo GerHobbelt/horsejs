@@ -1,10 +1,10 @@
 # HorseJs
 
-#### 介绍
+## 介绍
 
 使用 HTML/JS/CSS 创建更快速、更稳定的桌面应用
 
-#### 说明
+## 说明
 
 HorseJs 是基于 cef 开发的，没有内置 Node.js，它直接使用 C++提供了类似 Electron 或 NW.js 的能力，比如使用 JavaScript 访问文件（或目录）、打开对话框、访问剪切板、创建托盘图标等。
 
@@ -12,32 +12,27 @@ HorseJs 是基于 cef 开发的，没有内置 Node.js，它直接使用 C++提�
 
 HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，开发者可以在这类项目中使用任何 npm 包，因为构建工具会把你的依赖包构建到你的最终产物中，但 HorseJs 并不支持在生产环境中加载 Node.js 的原生组件。
 
-目前此项目尚处于实验验证阶段，将来我会逐步为其添加各项功能
+## 起步
 
-#### 起步
+1.  下载 HorseJs 的二进制文件并解压到目录 yourAppName 中
+2.  在 XXX 目录下创建一个 horse.config.json 的文件，并输入如下内容：
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+```json
+{
+  "appDir": "./app/"
+}
+```
 
-#### 使用说明
+配置文件中的具体含义如下
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+> appDir：你的静态文件的目录，必须为相对路径，也就是说你的 HTML/CSS/JS 等文件必须放置在 yourAppName 子目录内，该子目录下必须包含一个 index.html 的文件，HorseJs 加载的第一个页面就是它；
 
-#### 参与贡献
+3. 启动 HorseJs.exe 你将会看到你的第一个应用
+4. 你可以使用 Resource Hacker 之类的工具修改 HorseJs.exe 的图标或属性信息
+5. 你可以使用 NSIS 或 InnoSetup 之类的工具把 XXX 目录下的内容制作成一个安装文件，分发给你的用户
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+## 其他
 
-#### 特技
-
-1.  使用 Readme_XXX.md 来支持不同的语言，例如 Readme_en.md, Readme_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1.  本项目基于 MIT 协议开源，大家可以放心使用；
+2.  目前此项目尚处于实验验证阶段，将来我会逐步为其添加各项功能；
+3.  欢迎并感谢大家提 Issue，但暂时不接受 Pull Request
