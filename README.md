@@ -27,9 +27,10 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，开�
 
 > appDir：你的静态文件的目录，必须为相对路径，也就是说你的 HTML/CSS/JS 等文件必须放置在 yourAppName 子目录内，该子目录下必须包含一个 index.html 的文件，HorseJs 加载的第一个页面就是它；
 
-3. 启动 HorseJs.exe 你将会看到你的第一个应用
-4. 你可以使用 Resource Hacker 之类的工具修改 HorseJs.exe 的图标或属性信息
-5. 你可以使用 NSIS 或 InnoSetup 之类的工具把 XXX 目录下的内容制作成一个安装文件，分发给你的用户
+3. 把你的静态文件放置在 app 子目录内；
+4. 启动 HorseJs.exe 你将会看到你的第一个应用；
+5. 你可以使用 Resource Hacker 之类的工具修改 HorseJs.exe 的图标或属性信息；
+6. 你可以使用 NSIS 或 InnoSetup 之类的工具把 XXX 目录下的内容制作成一个安装文件，分发给你的用户；
 
 ## 其他
 
