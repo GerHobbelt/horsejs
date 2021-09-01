@@ -17,7 +17,6 @@ bool SchemeHandler::Open(CefRefPtr<CefRequest> request, bool& handle_request, Ce
     curWorkDir.append(url);
     std::ifstream reader;
     reader.open(curWorkDir, std::ios::in);
-    auto flag = reader.is_open();
     std::stringstream buffer;
     buffer << reader.rdbuf();
     reader.close();

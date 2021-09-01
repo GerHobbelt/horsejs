@@ -41,6 +41,20 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，开�
 
 这些配置与 Electron 或 NW.js 是一致的。
 
+## 窗口控制
+
+1. 最大化当前窗口
+
+```javascript
+horse.window.maximize();
+```
+
+2. 最小化当前窗口：horse.window.maximize();
+
+```javascript
+horse.window.maximize();
+```
+
 # 其他
 
 1.  本项目基于 MIT 协议开源，大家可以放心使用；
