@@ -43,16 +43,54 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，开�
 
 ## 窗口控制
 
-1. 最大化当前窗口
+- 最大化当前窗口
 
 ```javascript
 horse.window.maximize();
 ```
 
-2. 最小化当前窗口：horse.window.maximize();
+- 最小化当前窗口
 
 ```javascript
 horse.window.maximize();
+```
+
+- 还原窗口
+
+```javascript
+horse.window.restore();
+```
+
+- 关闭窗口
+
+```javascript
+horse.window.close();
+```
+
+- 隐藏窗口
+
+```javascript
+horse.window.hide();
+```
+
+- 显示窗口
+
+```javascript
+horse.window.show();
+```
+
+- 改变窗口大小
+
+```javascript
+horse.window.resize(width, height);
+```
+
+## 对话框
+
+- 改变窗口大小
+
+```javascript
+horse.window.resize(width, height);
 ```
 
 # 其他

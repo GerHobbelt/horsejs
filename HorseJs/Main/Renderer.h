@@ -10,6 +10,7 @@ public:
     void OnWebKitInitialized() OVERRIDE;
     void OnBrowserDestroyed(CefRefPtr<CefBrowser> browser) OVERRIDE;
     void OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefDOMNode> node) OVERRIDE;
+    bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) OVERRIDE;
 private:
     IMPLEMENT_REFCOUNTING(Renderer);
     DISALLOW_COPY_AND_ASSIGN(Renderer);
