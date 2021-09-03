@@ -22,7 +22,7 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，开�
 
 # 使用
 
-- (可拖拽区域)[Doc/AppRegion.md]
+- [可拖拽区域](Doc/AppRegion.md)
 
 ## 窗口控制
 
