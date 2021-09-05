@@ -10,7 +10,7 @@ HorseJs 是基于 cef 开发的，没有内置 Node.js，它直接使用 C++提�
 
 由于没有 Node.js，所以 HorseJs 运行速度更快，Electron 创建一个新的 BrowserWindow 是非常低效的，HorseJs 就没有这个问题，同样的，少了了很多 Node.js 的干扰，HorseJs 应用也会变得更稳定。
 
-HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，开发者可以在这类项目中使用任何 npm 包，因为构建工具会把你的依赖包构建到你的最终产物中，但 HorseJs 并不支持在生产环境中加载 Node.js 的原生组件。
+HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，因为构建工具会把你的依赖包构建到你的最终产物中，所以开发者可以在这类项目中使用任何 npm 包，但 HorseJs 并不支持在生产环境中加载 Node.js 的原生模块。
 
 # 起步
 
