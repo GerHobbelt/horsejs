@@ -12,7 +12,7 @@ bool SchemeHandler::Open(CefRefPtr<CefRequest> request, bool& handle_request, Ce
     handle_request = true;
     bool handled = false;
     std::string url = request->GetURL();
-    url.erase(0, 8);
+    url.erase(0, 8); //ÒÆ³ý£ºhorse://
     auto curWorkDir = std::filesystem::current_path();
     curWorkDir.append(url);
     std::ifstream reader;

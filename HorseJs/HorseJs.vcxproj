@@ -180,6 +180,7 @@
     <ClInclude Include="Browser\MsgHandler\Window.h" />
     <ClInclude Include="Browser\ViewDelegate.h" />
     <ClInclude Include="Browser\WindowDelegate.h" />
+    <ClInclude Include="Common\Config.h" />
     <ClInclude Include="Common\json.hpp" />
     <ClInclude Include="Main\Browser.h" />
     <ClInclude Include="Main\Other.h" />
@@ -191,6 +192,13 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="horse.config.json">
+      <DeploymentContent>true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

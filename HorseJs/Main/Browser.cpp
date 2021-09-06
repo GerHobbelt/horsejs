@@ -8,12 +8,15 @@
 #include "../Browser/ViewDelegate.h"
 #include "../Browser/WindowDelegate.h"
 #include "../Browser/Handler.h"
+#include "../Common/Config.h"
 
 void Browser::OnContextInitialized() {
     CEF_REQUIRE_UI_THREAD();
     CefRefPtr<Handler> handler(new Handler());
     CefBrowserSettings browser_settings;
-    std::string url = "horse://app/index.html";
+    auto config = Config::get();
+    auto startPath = config["startPath"].get<std::string>();
+    std::string url = "horse://"+ startPath;
     CefRefPtr<CefBrowserView> browser_view = CefBrowserView::CreateBrowserView(handler, url, browser_settings, nullptr, nullptr, new ViewDelegate());
     CefWindow::CreateTopLevelWindow(new WindowDelegate(browser_view));
 }

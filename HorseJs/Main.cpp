@@ -6,7 +6,6 @@
 #include "Main/Other.h"
 #include "Main/Renderer.h"
 #include "Scheme/SchemeHandlerFactory.h"
-#include "Common/json.hpp"
 
 
 int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInstance, [[maybe_unused]] LPTSTR lpCmdLine, int nCmdShow)
