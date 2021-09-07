@@ -1,6 +1,6 @@
 {
   "appName": "HorseJs",
   "startPath": "app/index.html",
-  "autoShowFirstWindow": false,
+  "autoShowFirstWindow": true,
   "version": "0.0.1"
 }
