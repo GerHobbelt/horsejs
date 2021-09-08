@@ -2,7 +2,11 @@
 
 # 介绍
 
-使用 HTML/JS/CSS 创建更快速、更稳定的桌面应用
+使用 HTML/JS/CSS 创建更快速、更稳定的桌面应用。
+
+<div align=center>
+<img src="Doc/horseApp.png" />
+</div>
 
 # 说明
 
