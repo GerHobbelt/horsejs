@@ -18,6 +18,9 @@ public:
         }
         CefSize size{ 800,600 };
         window->CenterWindow(size);
+        CefRefPtr<CefImage> image = CefImage::CreateImage();
+        image->AddPNG(1.0f, );
+        window->SetWindowAppIcon(image);
         // Give keyboard focus to the browser view.
         browser_view_->RequestFocus();
     }

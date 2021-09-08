@@ -63,5 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="horse.config.json" />
+    <CopyFileToFolders Include="extension\index.js" />
   </ItemGroup>
 </Project>
