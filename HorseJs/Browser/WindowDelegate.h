@@ -3,11 +3,14 @@
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "../Common/Config.h"
+#include <fstream>
+#include <filesystem>
 class WindowDelegate :
     public CefWindowDelegate
 {
 public:
     explicit WindowDelegate(CefRefPtr<CefBrowserView> browser_view) : browser_view_(browser_view) {}
+
     void OnWindowCreated(CefRefPtr<CefWindow> window) OVERRIDE
     {
         window->AddChildView(browser_view_);
@@ -19,7 +22,8 @@ public:
         CefSize size{ 800,600 };
         window->CenterWindow(size);
         CefRefPtr<CefImage> image = CefImage::CreateImage();
-        image->AddPNG(1.0f, );
+        PrepareIcon(image, 1.0f, "icon1.png");
+        PrepareIcon(image, 2.0f, "icon2.png");
         window->SetWindowAppIcon(image);
         // Give keyboard focus to the browser view.
         browser_view_->RequestFocus();
@@ -45,7 +49,20 @@ public:
     }
 private:
     CefRefPtr<CefBrowserView> browser_view_;
+    void PrepareIcon(CefRefPtr<CefImage> image, double scale_factor, const std::string& name) {
+        auto curWorkDir = std::filesystem::current_path();
+        curWorkDir.append(name);
+        std::ifstream reader;
+        reader.open(curWorkDir, std::ios::binary);
+        std::stringstream buffer;
+        buffer << reader.rdbuf();
+        reader.close();
+        std::string data = buffer.str();
+        image->AddPNG(scale_factor, data.c_str(), data.size());
+        
+    }
     IMPLEMENT_REFCOUNTING(WindowDelegate);
     DISALLOW_COPY_AND_ASSIGN(WindowDelegate);
+
 };
 
