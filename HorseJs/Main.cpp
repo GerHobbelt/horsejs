@@ -35,7 +35,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
         settings.chrome_runtime = true;
     }
     CefInitialize(main_args, settings, app.get(), nullptr);
-    CefRegisterSchemeHandlerFactory("horse", "app", new SchemeHandlerFactory());
+    CefRegisterSchemeHandlerFactory("http", "horse", new SchemeHandlerFactory());
     CefRunMessageLoop();
     CefShutdown();
     return 0;

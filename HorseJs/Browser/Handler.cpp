@@ -115,6 +115,11 @@ bool Handler::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> 
     CEF_REQUIRE_UI_THREAD();
     return false;
 }
+
+void Handler::OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value)
+{
+    return;
+}
 void Handler::OnDraggableRegionsChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const std::vector<CefDraggableRegion>& regions)
 {
     CefRefPtr<CefBrowserView> browser_view = CefBrowserView::GetForBrowser(browser);
