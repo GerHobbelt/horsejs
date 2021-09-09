@@ -41,15 +41,21 @@ var horse = {
 	resize: function (width,height) {
 		return jsFunc(`window_${arguments.callee.name}`,width,height);
 	},
+	//todo
 	addEventListener:function(name,cb){
 		horse.__events.__addEventListenner(`window_${name}`,cb);
 	},
+	//todo
 	removeEventListener:function(name,cb){
 		horse.__events.__removeEventListenner(`window_${name}`,cb);
 	}
   },
   dialog:{
-
+	  openFile:function(option){
+		  return jsFunc(`dialog_${arguments.callee.name}`,option.title,option.defaultFilePath,option.filters,option.lastFilterIndex);
+	  },
+	  openFolder:function({title,defaultFilePath,filters,lastFilterIndex}){
+		  return jsFunc(`dialog_${arguments.callee.name}`,option.title,option.defaultFilePath,option.filters,option.lastFilterIndex);
+	  }
   }  
 };
-console.log("121212")
