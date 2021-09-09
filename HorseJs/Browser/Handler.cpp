@@ -141,11 +141,11 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
 {
     CEF_REQUIRE_UI_THREAD();
     std::string message_name = message->GetName();
-    if (message_name._Starts_with("window"))
+    if (message_name._Starts_with("Window"))
     {
         return Window::ProcessMsg(browser, frame, source_process, message);
     }
-    else if(message_name._Starts_with("dialog"))
+    else if(message_name._Starts_with("Dialog"))
     {
         return Dialog::ProcessMsg(browser, frame, source_process, message);
     }

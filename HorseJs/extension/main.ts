@@ -11,4 +11,5 @@ class Horse {
     this.info = new Info();
   }
 }
-let horse = new Horse();
+// @ts-ignore
+horse = new Horse();

@@ -10,19 +10,16 @@ public:
     V8Handler() = default;
     virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE
     {
-        if (name == "jsFunc") 
+        if (name != "__horseFunc") return false;
+        CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(arguments[0]->GetStringValue());
+        CefRefPtr<CefListValue> args = msg->GetArgumentList();
+        for (size_t i = 1; i < arguments.size(); i++)
         {
-            CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(arguments[0]->GetStringValue());
-            CefRefPtr<CefListValue> args = msg->GetArgumentList();
-            for (size_t i = 1; i < arguments.size(); i++)
-            {
-                setListValue(args, i - 1, arguments[i]);
-            }
-            CefRefPtr<CefV8Context> context = CefV8Context::GetCurrentContext();
-            context.get()->GetFrame()->SendProcessMessage(PID_BROWSER, msg);
-            return true;
+            setListValue(args, i - 1, arguments[i]);
         }
-        return false;
+        CefRefPtr<CefV8Context> context = CefV8Context::GetCurrentContext();
+        context.get()->GetFrame()->SendProcessMessage(PID_BROWSER, msg);
+        return true;
     };
 private:
     IMPLEMENT_REFCOUNTING(V8Handler);

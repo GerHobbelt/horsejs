@@ -1,3 +1,5 @@
+native function __horseFunc();
+var horse;
 (() => {
   // Dialog.ts
   var Dialog = class {
@@ -35,7 +37,7 @@
     }
     minimize() {
       let arg = this.getFirstArgument(this.minimize);
-      return __horseFunc(arg);
+      __horseFunc(arg);
     }
     close() {
       let arg = this.getFirstArgument(this.close);
@@ -67,5 +69,5 @@
       this.info = new Info();
     }
   };
-  var horse = new Horse();
+  horse = new Horse();
 })();
