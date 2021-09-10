@@ -1,10 +1,38 @@
 native function __horseFunc();
 var horse;
 (() => {
-  // src/Dialog.ts
+  // src/Util.ts
+  var Util = class {
+    static randomNum(len = 12) {
+      return Math.floor(Math.pow(10, len) * Math.random());
+    }
+    static sleep(timeSpan = 600) {
+      return new Promise((r) => setTimeout(r, timeSpan));
+    }
+    static debounce(fn, span = 360) {
+      let timer = null;
+      return function() {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, arguments), span);
+      };
+    }
+    static throttle(fn, span = 360) {
+      let timer = null;
+      return function() {
+        if (timer)
+          return;
+        timer = setTimeout(() => {
+          fn.apply(this, arguments);
+          timer = null;
+        }, span);
+      };
+    }
+  };
+
+  // src/Handler/Dialog.ts
   var Dialog = class {
     getFirstArgument(method) {
-      return `${Dialog.name}_${method.name}`;
+      return `${Dialog.name}_${method.name}_${Util.randomNum()}`;
     }
     openFile({ title, defaultFilePath, filters, lastFilterIndex }) {
       let arg = this.getFirstArgument(this.openFile);
@@ -16,7 +44,7 @@ var horse;
     }
   };
 
-  // src/Info.ts
+  // src/Handler/Info.ts
   var Info = class {
     constructor() {
       this.horseVersion = "0.0.1";
@@ -26,10 +54,10 @@ var horse;
     }
   };
 
-  // src/Window.ts
+  // src/Handler/Window.ts
   var Window = class {
     getFirstArgument(method) {
-      return `${Window.name}_${method.name}`;
+      return `${Window.name}_${method.name}_${Util.randomNum()}`;
     }
     maximize() {
       let arg = this.getFirstArgument(this.maximize);
