@@ -11,7 +11,8 @@ esbuild.buildSync({
   bundle: true,
   sourcemap: false,
 })
-let js = `native function __horseFunc();${os.EOL}var horse;${os.EOL}${fs.readFileSync(outfile)}`
+let pre = `native function __callHorseFunc();${os.EOL}native function __listenHorseFunc();${os.EOL}var horse;`
+let js = `${pre}${os.EOL}${fs.readFileSync(outfile)}`
 fs.writeFileSync(outfile, js)
 
 // native function jsFunc();

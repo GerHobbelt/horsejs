@@ -1,4 +1,5 @@
-declare let __horseFunc: (msgName: string, ...otherParams) => {}
+declare let __callHorseFunc: (msgName: string, ...otherParams) => {}
+declare let __listenHorseFunc: (callBack: Function) => {}
 export class Util {
   static randomNum(len = 12) {
     return Math.floor(Math.pow(10, len) * Math.random())
@@ -25,7 +26,10 @@ export class Util {
       }, span)
     }
   }
-  static call(msgName: string, ...otherParams) {
-    __horseFunc(msgName, ...otherParams)
+  static callHorse(msgName: string, ...otherParams) {
+    __callHorseFunc(msgName, ...otherParams)
+  }
+  static listenHorse(callBack: Function) {
+    __listenHorseFunc(callBack)
   }
 }
