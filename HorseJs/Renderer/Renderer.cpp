@@ -2,7 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
-#include "../V8Handler/V8Handler.h"
+#include "V8Handler.h"
+#include "../Renderer/MsgHandler/Dialog.h"
 void Renderer::OnWebKitInitialized()
 {
     auto targetPath = std::filesystem::current_path();
@@ -26,5 +27,15 @@ void Renderer::OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<Cef
 }
 bool Renderer::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
 {
+    std::string message_name = message->GetName();
+    if (message_name._Starts_with("Dialog"))
+    {
+        //return Window::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("Window"))
+    {
+
+    }
+    return false;
     return false;
 }

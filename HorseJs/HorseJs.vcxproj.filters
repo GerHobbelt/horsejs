@@ -2,10 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Main\Browser.cpp">
+    <ClCompile Include="Browser\Browser.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="Main\Renderer.cpp">
+    <ClCompile Include="Renderer\Renderer.cpp">
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="Browser\Handler.cpp">
@@ -27,13 +27,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Main\Browser.h">
+    <ClInclude Include="Browser\Browser.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="Main\Other.h">
+    <ClInclude Include="Other\Other.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="Main\Renderer.h">
+    <ClInclude Include="Renderer\Renderer.h">
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="Browser\WindowDelegate.h">
@@ -53,25 +53,26 @@
     </ClInclude>
     <ClInclude Include="Common\json.hpp" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="V8Handler\V8Handler.h" />
+    <ClInclude Include="Renderer\V8Handler.h" />
     <ClInclude Include="Browser\MsgHandler\Window.h" />
     <ClInclude Include="Browser\MsgHandler\Dialog.h" />
     <ClInclude Include="Common\Config.h" />
     <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
+    <ClInclude Include="Renderer\MsgHandler\Dialog.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="horse.config.json" />
+    <CopyFileToFolders Include="Resource\horse.config.json" />
     <CopyFileToFolders Include="app\index.html" />
     <CopyFileToFolders Include="app\index.js" />
     <CopyFileToFolders Include="app\icon\iconfont.css" />
     <CopyFileToFolders Include="app\icon\iconfont.ttf" />
     <CopyFileToFolders Include="app\icon\iconfont.woff" />
     <CopyFileToFolders Include="app\icon\iconfont.woff2" />
-    <CopyFileToFolders Include="icon1.png" />
-    <CopyFileToFolders Include="icon2.png" />
+    <CopyFileToFolders Include="Resource\icon1.png" />
+    <CopyFileToFolders Include="Resource\icon2.png" />
     <CopyFileToFolders Include="extension\extension.js" />
   </ItemGroup>
 </Project>

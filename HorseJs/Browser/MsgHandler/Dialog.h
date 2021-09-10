@@ -25,6 +25,8 @@ public:
             CefRefPtr<CefRunFileDialogCallback> dcb = new DialogCallback();
             browser->GetHost()->RunFileDialog(mode, args->GetString(0), args->GetString(1),filter, args->GetInt(3),dcb);
             CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create("test");
+            CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
+
             frame->SendProcessMessage(PID_RENDERER, msg);
         }
         else if (message_name == "openFolder")
