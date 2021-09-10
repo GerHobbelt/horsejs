@@ -1,7 +1,7 @@
 native function __horseFunc();
 var horse;
 (() => {
-  // Dialog.ts
+  // src/Dialog.ts
   var Dialog = class {
     getFirstArgument(method) {
       return `${Dialog.name}_${method.name}`;
@@ -16,7 +16,7 @@ var horse;
     }
   };
 
-  // Info.ts
+  // src/Info.ts
   var Info = class {
     constructor() {
       this.horseVersion = "0.0.1";
@@ -26,7 +26,7 @@ var horse;
     }
   };
 
-  // Window.ts
+  // src/Window.ts
   var Window = class {
     getFirstArgument(method) {
       return `${Window.name}_${method.name}`;
@@ -61,7 +61,7 @@ var horse;
     }
   };
 
-  // main.ts
+  // src/main.ts
   var Horse = class {
     constructor() {
       this.window = new Window();

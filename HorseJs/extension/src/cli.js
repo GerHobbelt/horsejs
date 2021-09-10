@@ -2,7 +2,7 @@ let esbuild = require("esbuild");
 let path = require("path");
 let fs = require("fs");
 let os = require("os");
-let entryFilePath = path.join(process.cwd(), "main.ts");
+let entryFilePath = path.join(process.cwd(), "src/main.ts");
 let outfile = path.join(process.cwd(), "extension.js");
 esbuild.buildSync({
   entryPoints: [entryFilePath],
