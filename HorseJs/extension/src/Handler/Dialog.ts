@@ -1,17 +1,17 @@
-import { Util } from "../Util";
-
+import { Util } from '../Util'
+declare let __horseFunc: (msgName: string, ...otherParams) => {}
 export class Dialog {
   private getFirstArgument(method: Function) {
-    return `${Dialog.name}_${method.name}_${Util.randomNum()}`;
+    // @ts-ignore
+    return `${Dialog.name}_${method.name}_${Util.randomNum()}`
   }
   openFile({ title, defaultFilePath, filters, lastFilterIndex }) {
-    let arg = this.getFirstArgument(this.openFile);
-    // @ts-ignore
-    __horseFunc(arg, title, defaultFilePath, filters, lastFilterIndex);
+    let arg = this.getFirstArgument(this.openFile)
+    __horseFunc(arg, title, defaultFilePath, filters, lastFilterIndex)
   }
   openFolder({ title, defaultFilePath, filters, lastFilterIndex }) {
-    let arg = this.getFirstArgument(this.openFolder);
-    // @ts-ignore
-    __horseFunc(arg, title, defaultFilePath, filters, lastFilterIndex);
+    let arg = this.getFirstArgument(this.openFolder)
+
+    __horseFunc(arg, title, defaultFilePath, filters, lastFilterIndex)
   }
 }

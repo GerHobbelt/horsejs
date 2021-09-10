@@ -12,7 +12,7 @@ public:
         std::string message_name = message->GetName();
         message_name.erase(0, message_name.find_first_of('_') + 1);
         CefBrowserHost::FileDialogMode mode;
-        if (message_name == "openFile")
+        if (message_name._Starts_with("openFile"))
         {
             mode = FILE_DIALOG_OPEN;
             CefRefPtr<CefListValue> args = message->GetArgumentList();
@@ -22,14 +22,10 @@ public:
             {
                 filter.push_back(filterSrc->GetString(i));
             }
-            CefRefPtr<CefRunFileDialogCallback> dcb = new DialogCallback();
-            browser->GetHost()->RunFileDialog(mode, args->GetString(0), args->GetString(1),filter, args->GetInt(3),dcb);
-            CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create("Dialog_");
-            CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
-
-            frame->SendProcessMessage(PID_RENDERER, msg);
+            CefRefPtr<CefRunFileDialogCallback> dcb = new DialogCallback(message,frame);
+            browser->GetHost()->RunFileDialog(mode, args->GetString(0), args->GetString(1),filter, args->GetInt(3),dcb);            
         }
-        else if (message_name == "openFolder")
+        else if (message_name._Starts_with("openFolder"))
         {
             mode = FILE_DIALOG_OPEN_FOLDER;
         }

@@ -186,7 +186,7 @@
     <ClInclude Include="Browser\Browser.h" />
     <ClInclude Include="Other\Other.h" />
     <ClInclude Include="Renderer\Renderer.h" />
-    <ClInclude Include="Renderer\MsgHandler\Dialog.h" />
+    <ClInclude Include="Renderer\MsgHandler\DialogR.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scheme\SchemeHandler.h" />
     <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
