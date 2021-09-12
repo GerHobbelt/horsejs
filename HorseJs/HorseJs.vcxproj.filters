@@ -64,5 +64,13 @@
   <ItemGroup>
     <CopyFileToFolders Include="horse.config.json" />
     <CopyFileToFolders Include="extension\index.js" />
+    <CopyFileToFolders Include="app\index.html" />
+    <CopyFileToFolders Include="app\index.js" />
+    <CopyFileToFolders Include="app\icon\iconfont.css" />
+    <CopyFileToFolders Include="app\icon\iconfont.ttf" />
+    <CopyFileToFolders Include="app\icon\iconfont.woff" />
+    <CopyFileToFolders Include="app\icon\iconfont.woff2" />
+    <CopyFileToFolders Include="icon1.png" />
+    <CopyFileToFolders Include="icon2.png" />
   </ItemGroup>
 </Project>
