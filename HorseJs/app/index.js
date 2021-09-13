@@ -21,6 +21,9 @@ window.addEventListener("load", async () => {
     btnArr[1].classList.remove("horse-restore");
     btnArr[1].classList.add("horse-maximize");
   });
+  horse.window.addEventListener("show", () => {
+    console.log("show");
+  });
   // let result = await horse.dialog.openFile({
   //   title: "test",
   //   defaultFilePath: "C:\\AMD",

@@ -1,10 +1,29 @@
 import { Util } from '../Util'
 import { Eventer } from './Eventer'
-
+declare type eventType = 'maximize' | 'unMaximize' | 'show' | 'hide'
 export class Window {
   isMaximized = false
   private getFirstArgument(method: Function) {
     return `${Window.name}_${method.name}_${Util.randomNum()}`
+  }
+  private processMaximizeEvent() {
+    this.isMaximized = this.getIsMaximized()
+    window.addEventListener(
+      'resize',
+      Util.debounce(() => {
+        let curState = this.getIsMaximized()
+        let oldState = this.isMaximized
+        this.isMaximized = curState
+        if (oldState && !curState) Eventer.emitEvent(`${Window.name}_unMaximize`)
+        else if (!oldState && curState) Eventer.emitEvent(`${Window.name}_maximize`)
+      })
+    )
+  }
+  private processShowEvent() {
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) Eventer.emitEvent(`${Window.name}_hide`)
+      else Eventer.emitEvent(`${Window.name}_show`)
+    })
   }
   getIsMaximized() {
     return window.outerHeight === screen.availHeight && window.outerWidth === screen.availWidth
@@ -37,23 +56,14 @@ export class Window {
     let arg = this.getFirstArgument(this.resize)
     Util.callHorse(arg)
   }
-  addEventListener(eventName: 'maximize' | 'unMaximize', cb: Function) {
+  addEventListener(eventName: eventType, cb: Function) {
     Eventer.addEventListener(`${Window.name}_${eventName}`, cb)
   }
-  removeEventListener(eventName: 'maximize' | 'unMaximize', cb: Function) {
+  removeEventListener(eventName: eventType, cb: Function) {
     Eventer.addEventListener(`${Window.name}_${eventName}`, cb)
   }
   constructor() {
-    this.isMaximized = this.getIsMaximized()
-    window.addEventListener(
-      'resize',
-      Util.debounce(() => {
-        let curState = this.getIsMaximized()
-        let oldState = this.isMaximized
-        this.isMaximized = curState
-        if (oldState && !curState) Eventer.emitEvent('unMaximize')
-        else if (!oldState && curState) Eventer.emitEvent('maximize')
-      })
-    )
+    this.processMaximizeEvent()
+    this.processShowEvent()
   }
 }
