@@ -24,11 +24,17 @@ window.addEventListener("load", async () => {
   horse.window.addEventListener("show", () => {
     console.log("show");
   });
-  let result = await horse.dialog.openFile({
-    title: "test",
-    defaultFilePath: "C:\\AMD",
-    filters: ["*"],
-    lastFilterIndex: 0,
+  // let result = await horse.dialog.openFile({
+  //   title: "test",
+  //   defaultFilePath: "C:\\AMD",
+  //   filters: ["*"],
+  //   lastFilterIndex: 0,
+  // });
+  // console.log(JSON.stringify(result));
+  document.querySelector("#docLink").addEventListener("click", () => {
+    horse.shell.openExternal({
+      target: "https://gitee.com/horsejs/horsejs#%E6%96%87%E6%A1%A3",
+      workingDir: "",
+    });
   });
-  console.log(JSON.stringify(result));
 });

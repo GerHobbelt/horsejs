@@ -181,6 +181,7 @@
     <ClInclude Include="Browser\Handler.h" />
     <ClInclude Include="Browser\MsgHandler\Dialog.h" />
     <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
+    <ClInclude Include="Browser\MsgHandler\Shell.h" />
     <ClInclude Include="Browser\MsgHandler\Window.h" />
     <ClInclude Include="Browser\ViewDelegate.h" />
     <ClInclude Include="Browser\WindowDelegate.h" />

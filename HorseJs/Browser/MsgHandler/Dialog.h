@@ -29,7 +29,6 @@ public:
         {
             mode = FILE_DIALOG_OPEN_FOLDER;
         }
-
         return true;
     }
 };
