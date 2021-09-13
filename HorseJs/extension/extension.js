@@ -1,6 +1,6 @@
 var horse;
 (() => {
-  // src/Util.ts
+  // extension/src/Util.ts
   var Util = class {
     static randomNum(len = 12) {
       return Math.floor(Math.pow(10, len) * Math.random());
@@ -31,7 +31,7 @@ var horse;
     }
   };
 
-  // src/Handler/Eventer.ts
+  // extension/src/Handler/Eventer.ts
   var _Eventer = class {
     static emitEvent(msgName, result) {
       if (!_Eventer.dic[msgName])
@@ -48,7 +48,7 @@ var horse;
   var Eventer = _Eventer;
   Eventer.dic = {};
 
-  // src/Handler/Dialog.ts
+  // extension/src/Handler/Dialog.ts
   var Dialog = class {
     getFirstArgument(method) {
       return `${Dialog.name}_${method.name}_${Util.randomNum()}`;
@@ -74,7 +74,7 @@ var horse;
     }
   };
 
-  // src/Handler/Info.ts
+  // extension/src/Handler/Info.ts
   var Info = class {
     constructor() {
       this.horseVersion = "0.0.1";
@@ -84,7 +84,7 @@ var horse;
     }
   };
 
-  // src/Handler/Window.ts
+  // extension/src/Handler/Window.ts
   var Window = class {
     constructor() {
       this.isMaximized = false;
@@ -92,14 +92,13 @@ var horse;
       window.addEventListener("resize", Util.debounce(() => {
         let curState = this.getIsMaximized();
         let oldState = this.isMaximized;
-        console.log(oldState, curState, this.isMaximized);
         this.isMaximized = curState;
-        console.log(oldState, curState, this.isMaximized);
         if (oldState && !curState)
           Eventer.emitEvent("unMaximize");
         else if (!oldState && curState)
           Eventer.emitEvent("maximize");
       }));
+      console.log(1);
     }
     getFirstArgument(method) {
       return `${Window.name}_${method.name}_${Util.randomNum()}`;
@@ -140,7 +139,7 @@ var horse;
     }
   };
 
-  // src/main.ts
+  // extension/src/main.ts
   var Horse = class {
     constructor() {
       this.__nativeMsgPipe = Eventer.__nativeMsgPipe;

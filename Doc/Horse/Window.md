@@ -49,15 +49,41 @@ horse.window.resize(width, height);
 - 窗口最大化
 
 ```javascript
-horse.window.addEventListener("maximized", () => {
-  //your window is maximized
+horse.window.addEventListener("maximize", () => {
+  //your code
 });
 ```
 
-- 窗口最小化
+- 取消窗口最大化
 
 ```javascript
-horse.window.addEventListener("minimized", () => {
-  //your window is minimized
+horse.window.addEventListener("unMaximize", () => {
+  //your code
 });
+```
+
+- 窗口隐藏
+
+```javascript
+horse.window.addEventListener("hide", () => {
+  //your code
+});
+```
+
+- 窗口显示
+
+```javascript
+horse.window.addEventListener("show", () => {
+  //your code
+});
+```
+
+- 移除事件监听
+
+如果开发者没有提供第二个参数，将会移除所有关于 eventName 的事件监听
+
+eventName 可能的值为 show、hide、unMaximize 等
+
+```javascript
+horse.window.removeEventListener(eventName, yourFunction);
 ```
