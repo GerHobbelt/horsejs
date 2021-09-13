@@ -16,7 +16,9 @@ let pre = `var horse;` //native function __callHorseFunc();${os.EOL}
 let js = `${pre}${os.EOL}${fs.readFileSync(outfile)}`
 fs.writeFileSync(outfile, js)
 let now = new Date()
-console.log(`build ok  ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`)
+console.log('-------------------------------------')
+console.log(`build extension ok  ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`)
+console.log('-------------------------------------')
 
 // native function jsFunc();
 // var horse = {
