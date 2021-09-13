@@ -1,7 +1,6 @@
 #pragma once
 #include "include/cef_app.h"
 #include "V8Handler.h"
-#include "MsgHandler/DialogR.h"
 class Renderer :
     public CefApp,
     public CefRenderProcessHandler

@@ -1,9 +1,13 @@
 import { Util } from '../Util'
+import { Eventer } from './Eventer'
 
 export class Window {
+  isMaximized = false
   private getFirstArgument(method: Function) {
-    // @ts-ignore
     return `${Window.name}_${method.name}_${Util.randomNum()}`
+  }
+  getIsMaximized() {
+    return window.outerHeight === screen.availHeight && window.outerWidth === screen.availWidth
   }
   maximize() {
     let arg = this.getFirstArgument(this.maximize)
@@ -32,5 +36,21 @@ export class Window {
   resize(width, height) {
     let arg = this.getFirstArgument(this.resize)
     Util.callHorse(arg)
+  }
+  addEventListener(eventName: 'maximize' | 'unMaximize', cb: Function) {
+    Eventer.addEventListener(eventName, cb)
+  }
+  constructor() {
+    this.isMaximized = this.getIsMaximized()
+    window.addEventListener(
+      'resize',
+      Util.debounce(() => {
+        let curState = this.getIsMaximized()
+        let oldState = this.isMaximized
+        this.isMaximized = curState
+        if (oldState && !curState) Eventer.emitEvent('unMaximize')
+        else if (!oldState && curState) Eventer.emitEvent('maximize')
+      })
+    )
   }
 }

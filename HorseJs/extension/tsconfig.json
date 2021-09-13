@@ -1,4 +1,8 @@
 {
+    "compilerOptions": {
+        "lib": ["es2015","DOM"],
+        "target":"es2015"
+    },
     // "compileOnSave": true
-    "lib": ["es6"]
+
  }
