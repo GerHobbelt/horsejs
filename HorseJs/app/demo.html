@@ -5,14 +5,36 @@
     <link rel="stylesheet" href="./common.css" />
     <style>
       .content {
-        color: rgb(0, 122, 204);
+        color: #333;
+        background: #fefefe;
         flex: 1;
-        flex-direction: column;
-        text-align: center;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: justify;
+      }
+      #menuContainer {
+        background: rgb(219, 237, 255);
+        width: 180px;
+        line-height: 38px;
+        font-size: 15px;
+        padding: 12px 0px;
+      }
+      #menuContainer div {
+        cursor: pointer;
+        padding-left: 16px;
+        border-left: 6px solid transparent;
+      }
+      #menuContainer div:hover {
+        background: rgb(140, 200, 255);
+        color: #fff;
+        border-left: 6px solid rgb(121, 184, 255);
+      }
+
+      #menuContainer .menuSelected {
+        background: rgb(33, 136, 255) !important;
+        color: #fff;
+        border-left: 6px solid rgb(0, 92, 197) !important;
+      }
+      #demoContainer {
+        flex: 1;
       }
     </style>
   </head>
@@ -25,13 +47,40 @@
       </div>
     </div>
     <div class="content">
-      <div id="openFileBtn">打开文件对话框</div>
+      <div id="menuContainer">
+        <div class="menuSelected">窗口</div>
+        <div>对话框</div>
+        <div>剪切板</div>
+        <div>shell</div>
+        <div>网络</div>
+        <div>系统菜单</div>
+        <div>系统通知</div>
+        <div>托盘图标</div>
+        <div>崩溃报告</div>
+      </div>
+      <div id="demoContainer">
+        <div id="openFileBtn">打开文件对话框</div>
+      </div>
     </div>
+    <script>
+      let menuContainer = document.querySelector("#menuContainer");
+      menuContainer.addEventListener("click", (e) => {
+        if (e.target == menuContainer) return;
+        if (e.target.classList.contains("menuSelected")) return;
+        document
+          .querySelector(".menuSelected")
+          .classList.remove("menuSelected");
+        e.target.classList.add("menuSelected");
+      });
+    </script>
     <script src="common.js" type="module"></script>
+    <script src="./demo/demoPageLogic.js" type="module"></script>
     <script type="module">
       import { toolBtnLogic } from "./common.js";
+      import { demoPageLogic } from "./demo/demoPageLogic.js";
       window.addEventListener("load", async () => {
         toolBtnLogic();
+        demoPageLogic.init();
         document
           .querySelector("#openFileBtn")
           .addEventListener("click", async () => {
