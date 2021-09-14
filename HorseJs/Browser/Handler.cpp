@@ -21,6 +21,8 @@ namespace {
     }
 }
 
+
+
 Handler::Handler() : use_views_(true), is_closing_(false) {
     DCHECK(!g_instance);
     g_instance = this;
@@ -28,6 +30,30 @@ Handler::Handler() : use_views_(true), is_closing_(false) {
 
 Handler::~Handler() {
     g_instance = nullptr;
+}
+
+bool Handler::OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& target_url, const CefString& target_frame_name,
+    WindowOpenDisposition target_disposition,
+    bool user_gesture,
+    const CefPopupFeatures& popupFeatures,
+    CefWindowInfo& windowInfo,
+    CefRefPtr<CefClient>& client,
+    CefBrowserSettings& settings,
+    CefRefPtr<CefDictionaryValue>& extra_info,
+    bool* no_javascript_access)
+{
+    //MainContext::Get()->GetRootWindowManager()->CreateRootWindowAsPopup(!is_devtools, is_osr(), popupFeatures, windowInfo, client, settings);
+    //switch (target_disposition)
+    //{
+    //case WOD_NEW_FOREGROUND_TAB:
+    //case WOD_NEW_BACKGROUND_TAB:
+    //case WOD_NEW_POPUP:
+    //case WOD_NEW_WINDOW:
+    //    browser->GetMainFrame()->LoadURL(target_url);
+    //    return true; //Í£Ö¹´´½¨
+    //}
+
+    return false;
 }
 // static
 Handler* Handler::GetInstance() {

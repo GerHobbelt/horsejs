@@ -1,7 +1,10 @@
 #pragma once
-#include "include/wrapper/cef_message_router.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
+#include "../../Common/json.hpp"
+#include "../Handler.h"
+#include "../ViewDelegate.h"
+using nlohmann::json;
 class Window
 {
 public:
@@ -41,7 +44,22 @@ public:
         else if (message_name._Starts_with("resize"))
         {
             CefRefPtr<CefListValue> args = message->GetArgumentList();
-            CefSize size(args->GetInt(0), args->GetInt(1));
+            auto sizeStr = args->GetString(0).ToString();
+            auto sizeObj = json::parse(sizeStr);
+            CefSize size(sizeObj["width"], sizeObj["height"]);
+            window->SetSize(size);
+        }
+        else if (message_name._Starts_with("open"))
+        {
+            CEF_REQUIRE_UI_THREAD();
+            CefRefPtr<CefListValue> args = message->GetArgumentList();
+            auto configStr = args->GetString(0).ToString();
+            auto configObj = json::parse(configStr);
+            CefSize size(configObj["width"], configObj["height"]);            
+            CefBrowserSettings browser_settings;
+            std::string url = configObj["url"];
+            CefRefPtr<CefBrowserView> browser_view = CefBrowserView::CreateBrowserView(Handler::GetInstance(), url, browser_settings, nullptr, nullptr, new ViewDelegate());
+            auto window = CefWindow::CreateTopLevelWindow(new WindowDelegate(browser_view));
             window->SetSize(size);
         }
         return true;

@@ -69,3 +69,6 @@ MAC下使用CEF的办法
 > appDir：你的静态文件的目录，必须为相对路径，也就是说你的 HTML/CSS/JS 等文件必须放置在 yourAppName 子目录内，该子目录下必须包含一个 index.html 的文件，HorseJs 加载的第一个页面就是它；
 
 */
+
+
+// --renderer-startup-dialog 
