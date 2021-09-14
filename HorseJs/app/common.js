@@ -1,4 +1,4 @@
-window.addEventListener("load", async () => {
+export let toolBtnLogic = () => {
   let btnArr = document.querySelector(".titleTool").children;
   btnArr[0].addEventListener("click", () => {
     horse.window.minimize();
@@ -21,20 +21,4 @@ window.addEventListener("load", async () => {
     btnArr[1].classList.remove("horse-restore");
     btnArr[1].classList.add("horse-maximize");
   });
-  horse.window.addEventListener("show", () => {
-    console.log("show");
-  });
-  // let result = await horse.dialog.openFile({
-  //   title: "test",
-  //   defaultFilePath: "C:\\AMD",
-  //   filters: ["*"],
-  //   lastFilterIndex: 0,
-  // });
-  // console.log(JSON.stringify(result));
-  document.querySelector("#docLink").addEventListener("click", () => {
-    horse.shell.openExternal({
-      target: "https://gitee.com/horsejs/horsejs#%E6%96%87%E6%A1%A3",
-      workingDir: "",
-    });
-  });
-});
+};

@@ -66,20 +66,20 @@ var horse;
     getFirstArgument(method) {
       return `${Dialog.name}_${method.name}_${Util.randomNum()}`;
     }
-    openFile({ title, defaultFilePath, filters, lastFilterIndex }) {
+    openFile(config) {
       return new Promise((resolve, reject) => {
         let msgName = this.getFirstArgument(this.openFile);
         eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, title, defaultFilePath, filters, lastFilterIndex);
+        Util.callHorse(msgName, JSON.stringify(config));
       });
     }
-    openFolder({ title, defaultFilePath, filters, lastFilterIndex, cb }) {
+    openFolder(config) {
       return new Promise((resolve, reject) => {
         let msgName = this.getFirstArgument(this.openFolder);
         eventer.addEventListener(msgName, (result) => {
           resolve(result);
         });
-        Util.callHorse(msgName, title, defaultFilePath, filters, lastFilterIndex);
+        Util.callHorse(msgName, JSON.stringify(config));
       });
     }
   };
@@ -124,42 +124,49 @@ var horse;
           eventer.emitEvent(`${Window.name}_show`);
       });
     }
-    getIsMaximized() {
-      return window.outerHeight === screen.availHeight && window.outerWidth === screen.availWidth;
-    }
-    maximize() {
-      let arg = this.getFirstArgument(this.maximize);
-      Util.callHorse(arg);
-    }
-    minimize() {
-      let arg = this.getFirstArgument(this.minimize);
-      Util.callHorse(arg);
-    }
-    close() {
-      let arg = this.getFirstArgument(this.close);
-      Util.callHorse(arg);
-    }
-    restore() {
-      let arg = this.getFirstArgument(this.restore);
-      Util.callHorse(arg);
-    }
-    hide() {
-      let arg = this.getFirstArgument(this.hide);
-      Util.callHorse(arg);
-    }
-    show() {
-      let arg = this.getFirstArgument(this.show);
-      Util.callHorse(arg);
-    }
-    resize(width, height) {
-      let arg = this.getFirstArgument(this.resize);
-      Util.callHorse(arg);
+    open(config) {
+      return new Promise((resolve, reject) => {
+        let msgName = this.getFirstArgument(this.open);
+        eventer.addEventListener(msgName, (result) => resolve(result));
+        Util.callHorse(msgName, JSON.stringify(config));
+      });
     }
     addEventListener(eventName, cb) {
       eventer.addEventListener(`${Window.name}_${eventName}`, cb);
     }
     removeEventListener(eventName, cb) {
-      eventer.addEventListener(`${Window.name}_${eventName}`, cb);
+      eventer.removeEventListener(`${Window.name}_${eventName}`, cb);
+    }
+    getIsMaximized() {
+      return window.outerHeight === screen.availHeight && window.outerWidth === screen.availWidth;
+    }
+    maximize() {
+      let msgName = this.getFirstArgument(this.maximize);
+      Util.callHorse(msgName);
+    }
+    minimize() {
+      let msgName = this.getFirstArgument(this.minimize);
+      Util.callHorse(msgName);
+    }
+    close() {
+      let msgName = this.getFirstArgument(this.close);
+      Util.callHorse(msgName);
+    }
+    restore() {
+      let msgName = this.getFirstArgument(this.restore);
+      Util.callHorse(msgName);
+    }
+    hide() {
+      let msgName = this.getFirstArgument(this.hide);
+      Util.callHorse(msgName);
+    }
+    show() {
+      let msgName = this.getFirstArgument(this.show);
+      Util.callHorse(msgName);
+    }
+    resize(width, height) {
+      let msgName = this.getFirstArgument(this.resize);
+      Util.callHorse(msgName);
     }
   };
 

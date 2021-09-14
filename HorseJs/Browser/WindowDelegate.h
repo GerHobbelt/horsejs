@@ -5,8 +5,7 @@
 #include "../Common/Config.h"
 #include <fstream>
 #include <filesystem>
-class WindowDelegate :
-    public CefWindowDelegate
+class WindowDelegate : public CefWindowDelegate
 {
 public:
     explicit WindowDelegate(CefRefPtr<CefBrowserView> browser_view) : browser_view_(browser_view) {}
@@ -19,13 +18,14 @@ public:
         if (autoShowFirstWindow) {
             window->Show();
         }
-        CefSize size{ 800,600 };
-        window->CenterWindow(size);
+        //CefSize size{ 800,600 };
+        //window->CenterWindow(size);
+        window->CenterWindow(window->GetSize());
         CefRefPtr<CefImage> image = CefImage::CreateImage();
         PrepareIcon(image, 1.0f, "icon1.png");
         PrepareIcon(image, 2.0f, "icon2.png");
         window->SetWindowAppIcon(image);
-        browser_view_->RequestFocus();
+        browser_view_->RequestFocus(); 
     }
     bool IsFrameless(CefRefPtr<CefWindow> window) OVERRIDE
     {
@@ -44,6 +44,7 @@ public:
     }
     CefSize GetPreferredSize(CefRefPtr<CefView> view) OVERRIDE
     {
+        //return view->GetSize();
         return CefSize(800, 600);
     }
 private:

@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <title>HorseJs</title>
+    <link rel="stylesheet" href="./icon/iconfont.css" />
+    <link rel="stylesheet" href="./common.css" />
+    <style>
+      .content {
+        color: rgb(0, 122, 204);
+        flex: 1;
+        flex-direction: column;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: justify;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="titleBar">
+      <div class="titleTool">
+        <div class="iconfont horse-minimize"></div>
+        <div class="iconfont horse-maximize"></div>
+        <div class="iconfont horse-close closeBtn"></div>
+      </div>
+    </div>
+    <div class="content">
+      <div id="openFileBtn">打开文件对话框</div>
+    </div>
+    <script src="common.js" type="module"></script>
+    <script type="module">
+      import { toolBtnLogic } from "./common.js";
+      window.addEventListener("load", async () => {
+        toolBtnLogic();
+        document.querySelector("#openFileBtn").addEventListener("click", () => {
+          let result = await horse.dialog.openFile({
+            title: "test",
+            defaultFilePath: "C:\\AMD",
+            filters: ["*"],
+            lastFilterIndex: 0,
+          });
+          console.log(JSON.stringify(result));
+        });
+      });
+    </script>
+  </body>
+</html>
