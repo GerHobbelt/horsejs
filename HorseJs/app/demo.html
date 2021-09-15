@@ -32,9 +32,38 @@
         background: rgb(33, 136, 255) !important;
         color: #fff;
         border-left: 6px solid rgb(0, 92, 197) !important;
+        position: relative;
+      }
+      #menuContainer .menuSelected::after {
+        display: block;
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        right: 0px;
+        top: calc(50% - 5px);
+        border-top: solid 4px transparent;
+        border-right: solid 4px #fff;
+        border-bottom: solid 4px transparent;
+        content: "";
       }
       #demoContainer {
         flex: 1;
+        padding: 26px;
+      }
+      .demoBtn {
+        display: inline-block;
+        margin: 0px 8px;
+        border-radius: 3px;
+        padding: 0px 12px;
+        border: 1px solid rgb(140, 200, 255);
+        cursor: pointer;
+        height: 36px;
+        line-height: 36px;
+      }
+      .demoBtn:hover {
+        background: rgb(33, 136, 255);
+        border: 1px solid rgb(33, 136, 255);
+        color: #fff;
       }
     </style>
   </head>
@@ -48,7 +77,7 @@
     </div>
     <div class="content">
       <div id="menuContainer">
-        <div class="menuSelected">窗口</div>
+        <div id="menu_window" class="menuSelected">窗口</div>
         <div>对话框</div>
         <div>剪切板</div>
         <div>shell</div>
@@ -59,7 +88,14 @@
         <div>崩溃报告</div>
       </div>
       <div id="demoContainer">
-        <div id="openFileBtn">打开文件对话框</div>
+        <div class="windowSection">
+          <div class="demoBtn" id="windowSizeChangeBtn">
+            改变窗口大小到800*600
+          </div>
+          <div class="demoBtn" id="hideShowWindowBtn">
+            窗口隐藏，3秒钟之后窗口再显示
+          </div>
+        </div>
       </div>
     </div>
     <script>
