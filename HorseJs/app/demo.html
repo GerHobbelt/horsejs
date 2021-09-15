@@ -40,7 +40,7 @@
         height: 0px;
         position: absolute;
         right: 0px;
-        top: calc(50% - 5px);
+        top: calc(50% - 4px);
         border-top: solid 4px transparent;
         border-right: solid 4px #fff;
         border-bottom: solid 4px transparent;
@@ -65,6 +65,17 @@
         border: 1px solid rgb(33, 136, 255);
         color: #fff;
       }
+      .demoBtn:active {
+        background: rgb(3, 102, 214);
+        border: 1px solid rgb(3, 102, 214);
+        color: #fff;
+      }
+      .sectionSelected {
+        display: block !important;
+      }
+      .section {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -77,18 +88,18 @@
     </div>
     <div class="content">
       <div id="menuContainer">
-        <div id="menu_window" class="menuSelected">窗口</div>
-        <div>对话框</div>
-        <div>剪切板</div>
-        <div>shell</div>
-        <div>网络</div>
-        <div>系统菜单</div>
-        <div>系统通知</div>
-        <div>托盘图标</div>
-        <div>崩溃报告</div>
+        <div id="menuWindow" class="menuSelected">窗口</div>
+        <div id="menuDialog">对话框</div>
+        <div id="menuClipboard">剪切板</div>
+        <div id="menuShell">shell</div>
+        <div id="menuNet">网络</div>
+        <div id="menuMenu">系统菜单</div>
+        <div id="menuNotification">系统通知</div>
+        <div id="menuGlobalShortcut">托盘图标</div>
+        <div id="menuCrashReport">崩溃报告</div>
       </div>
       <div id="demoContainer">
-        <div class="windowSection">
+        <div id="sectionWindow" class="section sectionSelected">
           <div class="demoBtn" id="windowSizeChangeBtn">
             改变窗口大小到800*600
           </div>
@@ -96,38 +107,31 @@
             窗口隐藏，3秒钟之后窗口再显示
           </div>
         </div>
+        <div id="sectionDialog" class="section">
+          <div class="demoBtn" id="openFileBtn">打开一个文件</div>
+          <div class="demoBtn" id="openFolderBtn">打开一个目录</div>
+        </div>
+        <div id="sectionclipboard" class="section"></div>
+        <div id="sectionShell" class="section"></div>
+        <div id="sectionNet" class="section"></div>
+        <div id="sectionMenu" class="section"></div>
+        <div id="sectionNotification" class="section"></div>
+        <div id="sectionGlobalShortcut" class="section"></div>
+        <div id="sectionCrashReport" class="section"></div>
       </div>
     </div>
-    <script>
-      let menuContainer = document.querySelector("#menuContainer");
-      menuContainer.addEventListener("click", (e) => {
-        if (e.target == menuContainer) return;
-        if (e.target.classList.contains("menuSelected")) return;
-        document
-          .querySelector(".menuSelected")
-          .classList.remove("menuSelected");
-        e.target.classList.add("menuSelected");
-      });
-    </script>
+    <script></script>
     <script src="common.js" type="module"></script>
     <script src="./demo/demoPageLogic.js" type="module"></script>
+    <script src="./demo/windowLogic.js" type="module"></script>
     <script type="module">
       import { toolBtnLogic } from "./common.js";
       import { demoPageLogic } from "./demo/demoPageLogic.js";
+      import { windowLogic } from "./demo/windowLogic.js";
       window.addEventListener("load", async () => {
         toolBtnLogic();
         demoPageLogic.init();
-        document
-          .querySelector("#openFileBtn")
-          .addEventListener("click", async () => {
-            let result = await horse.dialog.openFile({
-              title: "test",
-              defaultFilePath: "C:\\AMD",
-              filters: ["*"],
-              lastFilterIndex: 0,
-            });
-            console.log(JSON.stringify(result));
-          });
+        windowLogic.init();
       });
     </script>
   </body>
