@@ -1,3 +1,4 @@
+let $ = (selector) => document.querySelector(selector);
 export let windowLogic = {
   windowSizeChange: function () {
     horse.window.resize({ width: 800, height: 600 });
@@ -21,24 +22,12 @@ export let windowLogic = {
     horse.window.close();
   },
   init: function () {
-    document
-      .querySelector("#windowSizeChangeBtn")
-      .addEventListener("click", this.windowSizeChange);
-    document
-      .querySelector("#hideShowWindowBtn")
-      .addEventListener("click", this.hideShowWindow);
-    document
-      .querySelector("#maximizeWindowBtn")
-      .addEventListener("click", this.maximizeWindow);
-    document
-      .querySelector("#restoreWindowBtn")
-      .addEventListener("click", this.restoreWindow);
-    document
-      .querySelector("#minimizeWindowBtn")
-      .addEventListener("click", this.minimizeWindow);
-    document
-      .querySelector("#closeWindowBtn")
-      .addEventListener("click", this.closeWindow);
+    $("#windowSizeChangeBtn").addEventListener("click", this.windowSizeChange);
+    $("#hideShowWindowBtn").addEventListener("click", this.hideShowWindow);
+    $("#maximizeWindowBtn").addEventListener("click", this.maximizeWindow);
+    $("#restoreWindowBtn").addEventListener("click", this.restoreWindow);
+    $("#minimizeWindowBtn").addEventListener("click", this.minimizeWindow);
+    $("#closeWindowBtn").addEventListener("click", this.closeWindow);
     // document
     // .querySelector("#openFileBtn")
     // .addEventListener("click", async () => {
