@@ -166,7 +166,7 @@ var horse;
     }
     resize(size) {
       let msgName = this.getFirstArgument(this.resize);
-      Util.callHorse(msgName, size);
+      Util.callHorse(msgName, JSON.stringify(size));
     }
   };
 
@@ -175,9 +175,9 @@ var horse;
     getFirstArgument(method) {
       return `${Shell.name}_${method.name}_${Util.randomNum()}`;
     }
-    openExternal({ target, workingDir }) {
+    openExternal(config) {
       let msgName = this.getFirstArgument(this.openExternal);
-      Util.callHorse(msgName, target, workingDir);
+      Util.callHorse(msgName, JSON.stringify(config));
     }
   };
 

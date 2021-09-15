@@ -12,5 +12,14 @@ export let demoPageLogic = {
         .classList.remove("sectionSelected");
       document.querySelector(`#${id}`).classList.add("sectionSelected");
     });
+    document.querySelector(".sectionCodeLink").addEventListener("click", () => {
+      let codeFileName = document
+        .querySelector(".menuSelected")
+        .getAttribute("id")
+        .replace("menu", "")
+        .toLowerCase();
+      let target = `https://gitee.com/horsejs/horsejs/blob/master/HorseJs/app/demo/${codeFileName}.js`;
+      horse.shell.openExternal({ target, workingDir: "" });
+    });
   },
 };
