@@ -9,7 +9,6 @@ export class Dialog {
     return new Promise((resolve, reject) => {
       let msgName = this.getFirstArgument(this.openFile)
       eventer.addEventListener(msgName, (result) => resolve(result))
-      //todo 不要结构，直接传对象
       Util.callHorse(msgName, JSON.stringify(config))
     })
   }
@@ -19,7 +18,6 @@ export class Dialog {
       eventer.addEventListener(msgName, (result) => {
         resolve(result)
       })
-      //todo 不要结构，直接传对象
       Util.callHorse(msgName, JSON.stringify(config))
     })
   }

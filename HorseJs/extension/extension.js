@@ -92,6 +92,16 @@ var horse;
       this.osName = "win";
       this.osArch = "x64";
     }
+    getFirstArgument(method) {
+      return `${Info.name}_${method.name}_${Util.randomNum()}`;
+    }
+    getPath(config) {
+      return new Promise((resolve, reject) => {
+        let msgName = this.getFirstArgument(this.getPath);
+        eventer.addEventListener(msgName, (result) => resolve(result));
+        Util.callHorse(msgName, JSON.stringify(config));
+      });
+    }
   };
 
   // extension/src/Handler/Window.ts

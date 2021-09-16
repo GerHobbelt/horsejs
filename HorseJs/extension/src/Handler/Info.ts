@@ -1,6 +1,19 @@
+import { eventer } from '../eventer'
+import { Util } from '../Util'
+
 export class Info {
-  horseVersion: string = "0.0.1";
-  appVersion: string = "0.0.1";
-  osName: string = "win";
-  osArch: string = "x64";
+  private getFirstArgument(method: Function) {
+    return `${Info.name}_${method.name}_${Util.randomNum()}`
+  }
+  horseVersion: string = '0.0.1'
+  appVersion: string = '0.0.1'
+  osName: string = 'win'
+  osArch: string = 'x64'
+  getPath(config: { name }) {
+    return new Promise((resolve, reject) => {
+      let msgName = this.getFirstArgument(this.getPath)
+      eventer.addEventListener(msgName, (result) => resolve(result))
+      Util.callHorse(msgName, JSON.stringify(config))
+    })
+  }
 }
