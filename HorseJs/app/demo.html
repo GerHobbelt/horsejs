@@ -79,7 +79,7 @@
       }
       .sectionCodeLink {
         position: absolute;
-        right: 50px;
+        right: 30px;
         bottom: 30px;
         padding: 0px 12px;
         line-height: 36px;
@@ -130,7 +130,12 @@
           <div class="demoBtn" id="closeWindowBtn">关闭窗口</div>
         </div>
         <div id="sectionDialog" class="section">
-          <div class="demoBtn" id="openFileBtn">打开一个文件</div>
+          <div class="demoBtn" id="openFileBtn">
+            打开文件（只能选择一个文件）
+          </div>
+          <div class="demoBtn" id="openMultiFileBtn">
+            打开文件（允许选择多个文件）
+          </div>
           <div class="demoBtn" id="openFolderBtn">打开一个目录</div>
         </div>
         <div id="sectionclipboard" class="section"></div>
@@ -147,14 +152,17 @@
     <script src="common.js" type="module"></script>
     <script src="./demo/demoPageLogic.js" type="module"></script>
     <script src="./demo/window.js" type="module"></script>
+    <script src="./demo/dialog.js" type="module"></script>
     <script type="module">
       import { toolBtnLogic } from "./common.js";
       import { demoPageLogic } from "./demo/demoPageLogic.js";
       import { windowLogic } from "./demo/window.js";
+      import { dialogLogic } from "./demo/dialog.js";
       window.addEventListener("load", async () => {
         toolBtnLogic();
         demoPageLogic.init();
-        window.init();
+        windowLogic.init();
+        dialogLogic.init();
       });
     </script>
   </body>

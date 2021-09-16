@@ -1,6 +1,8 @@
 #pragma once
 #include "include/wrapper/cef_message_router.h"
 #include "include/cef_browser.h"
+#include "../../Common/json.hpp"
+using nlohmann::json;
 class DialogCallback : public CefRunFileDialogCallback
 {
 public:
@@ -11,14 +13,14 @@ public:
 		CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
 		CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
 		msgArgs->SetSize(1);
-		std::string jsonStr = "{err:false,data:[";
+		json result;
+		result["success"] = true;
+		result["data"] = {};
 		for (size_t i = 0; i < file_paths.size(); i++)
 		{
-			if (i != 0) jsonStr += ",";
-			jsonStr += "'" + file_paths[i].ToString() + "'";
+			result["data"].push_back(file_paths[i].ToString());
 		}
-		jsonStr += "]}";
-		msgArgs->SetString(0, jsonStr);
+		msgArgs->SetString(0, result.dump());
 		frame->SendProcessMessage(PID_RENDERER, msg);
 	}
 private:

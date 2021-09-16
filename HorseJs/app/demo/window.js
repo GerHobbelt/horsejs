@@ -28,16 +28,5 @@ export let windowLogic = {
     $("#restoreWindowBtn").addEventListener("click", this.restoreWindow);
     $("#minimizeWindowBtn").addEventListener("click", this.minimizeWindow);
     $("#closeWindowBtn").addEventListener("click", this.closeWindow);
-    // document
-    // .querySelector("#openFileBtn")
-    // .addEventListener("click", async () => {
-    //   let result = await horse.dialog.openFile({
-    //     title: "test",
-    //     defaultFilePath: "C:\\AMD",
-    //     filters: ["*"],
-    //     lastFilterIndex: 0,
-    //   });
-    //   console.log(JSON.stringify(result));
-    // });
   },
 };

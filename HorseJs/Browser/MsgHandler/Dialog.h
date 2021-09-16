@@ -16,17 +16,18 @@ public:
         CefBrowserHost::FileDialogMode mode;
         if (message_name._Starts_with("openFile"))
         {
-            mode = FILE_DIALOG_OPEN;
+            
             CefRefPtr<CefListValue> args = message->GetArgumentList();
             auto configStr = args->GetString(0).ToString();
             auto config = json::parse(configStr);
+            mode = config["multiSelections"].get<bool>() ? FILE_DIALOG_OPEN_MULTIPLE : FILE_DIALOG_OPEN;
             std::vector<CefString> filter;
             for each (const std::string& var in config["filters"])
             {
                 filter.push_back(var);
             }
             CefRefPtr<CefRunFileDialogCallback> dcb = new DialogCallback(message,frame);
-            browser->GetHost()->RunFileDialog(mode, args->GetString(0), args->GetString(1),filter, args->GetInt(3),dcb);            
+            browser->GetHost()->RunFileDialog(mode, config["title"].get<std::string>(), config["defaultFilePath"].get<std::string>(),filter, args->GetInt(3), dcb);
         }
         else if (message_name._Starts_with("openFolder"))
         {
