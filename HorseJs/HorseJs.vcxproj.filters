@@ -54,6 +54,7 @@
     <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
     <ClInclude Include="Browser\MsgHandler\Shell.h" />
     <ClInclude Include="Browser\MsgHandler\Info.h" />
+    <ClInclude Include="Browser\MsgHandler\Clipboard.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
@@ -75,5 +76,6 @@
     <CopyFileToFolders Include="app\demo\window.js" />
     <CopyFileToFolders Include="app\demo\dialog.js" />
     <CopyFileToFolders Include="app\demo\info.js" />
+    <CopyFileToFolders Include="app\demo\clipboard.js" />
   </ItemGroup>
 </Project>

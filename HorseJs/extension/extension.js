@@ -191,14 +191,29 @@ var horse;
     }
   };
 
+  // extension/src/Handler/Clipboard.ts
+  var Clipboard = class {
+    getFirstArgument(method) {
+      return `${Clipboard.name}_${method.name}_${Util.randomNum()}`;
+    }
+    getData(config) {
+      return new Promise((resolve, reject) => {
+        let msgName = this.getFirstArgument(this.getData);
+        eventer.addEventListener(msgName, (result) => resolve(result));
+        Util.callHorse(msgName, JSON.stringify(config));
+      });
+    }
+  };
+
   // extension/src/main.ts
   var Horse = class {
     constructor() {
-      this.eventer = eventer;
       this.window = new Window();
       this.dialog = new Dialog();
       this.info = new Info();
       this.shell = new Shell();
+      this.eventer = eventer;
+      this.clipboard = new Clipboard();
     }
   };
   horse = new Horse();

@@ -5,7 +5,7 @@
 #include "DialogCallback.h"
 #include "../../Common/json.hpp"
 using nlohmann::json;
-class Dialog:public CefRunFileDialogCallback
+class Dialog
 {
 public:
     Dialog() = delete;
