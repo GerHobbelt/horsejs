@@ -24,10 +24,18 @@ public:
             auto pathName = config["name"].get<std::string>();
             json result;
             result["success"] = true;
+            int type = CSIDL_APPDATA;
             if (pathName == "desktop") {
-                std::string data = getSystemPath();   
-                result["data"] = data;
+                type = CSIDL_DESKTOPDIRECTORY;
             }
+            else if(pathName == "appData")
+            {
+                type = CSIDL_APPDATA;
+            }
+            wchar_t pathBuffer[MAX_PATH];
+            SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, pathBuffer);
+            std::string data = getSystemPath(pathBuffer);
+            result["data"] = data;
             CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
             CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
             msgArgs->SetSize(1);
@@ -40,12 +48,10 @@ public:
         }
         return true;
     }
-    static char* getSystemPath() {
-        wchar_t system_buffer[MAX_PATH];
-        SHGetFolderPath(NULL, CSIDL_DESKTOPDIRECTORY, NULL, SHGFP_TYPE_CURRENT, system_buffer);
-        int pSize = WideCharToMultiByte(CP_OEMCP, 0, system_buffer, wcslen(system_buffer), NULL, 0, NULL, NULL);
+    static char* getSystemPath(const wchar_t* pathBuffer) {
+        int pSize = WideCharToMultiByte(CP_OEMCP, 0, pathBuffer, wcslen(pathBuffer), NULL, 0, NULL, NULL);
         char* pCStrKey = new char[pSize + 1];
-        WideCharToMultiByte(CP_OEMCP, 0, system_buffer, wcslen(system_buffer), pCStrKey, pSize, NULL, NULL);
+        WideCharToMultiByte(CP_OEMCP, 0, pathBuffer, wcslen(pathBuffer), pCStrKey, pSize, NULL, NULL);
         pCStrKey[pSize] = '\0';
         return pCStrKey;
     }
