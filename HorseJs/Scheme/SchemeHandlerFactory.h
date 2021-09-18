@@ -11,6 +11,7 @@
 #include "include/wrapper/cef_stream_resource_handler.h"
 #include <fstream>
 #include <filesystem>
+#include <iostream>
 
 class SchemeHandlerFactory :
     public CefSchemeHandlerFactory
@@ -25,6 +26,9 @@ public:
         url.erase(0, 13); //移除：http://horse/
         std::filesystem::path targetPath = std::filesystem::current_path();
         targetPath.append(url);
+        if (!std::filesystem::exists(targetPath)) {
+            std::cout << "试图加载" << targetPath << "，但找不到这个文件";
+        }
         auto ext = targetPath.extension().generic_string();
         std::string mime_type_;
         if (ext == ".html") {

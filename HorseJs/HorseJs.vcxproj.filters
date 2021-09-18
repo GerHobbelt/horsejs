@@ -79,6 +79,7 @@
     <CopyFileToFolders Include="app\demo\info.js" />
     <CopyFileToFolders Include="app\demo\clipboard.js" />
     <CopyFileToFolders Include="app\demo\file.js" />
+    <CopyFileToFolders Include="app\demo.css" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
