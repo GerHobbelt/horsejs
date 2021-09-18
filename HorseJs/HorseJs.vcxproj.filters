@@ -73,13 +73,13 @@
     <CopyFileToFolders Include="app\common.css" />
     <CopyFileToFolders Include="app\demo.html" />
     <CopyFileToFolders Include="app\common.js" />
-    <CopyFileToFolders Include="app\demo\demoPageLogic.js" />
     <CopyFileToFolders Include="app\demo\window.js" />
     <CopyFileToFolders Include="app\demo\dialog.js" />
     <CopyFileToFolders Include="app\demo\info.js" />
     <CopyFileToFolders Include="app\demo\clipboard.js" />
     <CopyFileToFolders Include="app\demo\file.js" />
     <CopyFileToFolders Include="app\demo.css" />
+    <CopyFileToFolders Include="app\demo.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

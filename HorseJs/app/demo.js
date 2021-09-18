@@ -1,5 +1,5 @@
 let $ = (selector) => document.querySelector(selector);
-export let demoPageLogic = {
+export let demo = {
   init: () => {
     $("#menuContainer").addEventListener("click", (e) => {
       let id = e.target.getAttribute("id");
@@ -22,7 +22,7 @@ export let demoPageLogic = {
       let id = e.target.getAttribute("id");
       let parentId = e.target.parentElement.getAttribute("id");
       parentId = parentId.replace("section", "").toLowerCase();
-      let { processor } = await import(`./${parentId}.js`);
+      let { processor } = await import(`./demo/${parentId}.js`);
       processor[id]();
     });
   },
