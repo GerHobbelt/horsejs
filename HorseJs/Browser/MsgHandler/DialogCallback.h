@@ -10,6 +10,7 @@ public:
 	{};
 	void OnFileDialogDismissed(int selected_accept_filter, const std::vector<CefString>& file_paths) OVERRIDE
 	{
+		//todo 不必要整个message，只要message->GetName()即可
 		CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
 		CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
 		msgArgs->SetSize(1);

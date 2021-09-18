@@ -181,6 +181,7 @@
     <ClInclude Include="Browser\MsgHandler\Clipboard.h" />
     <ClInclude Include="Browser\MsgHandler\Dialog.h" />
     <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
+    <ClInclude Include="Browser\MsgHandler\File.h" />
     <ClInclude Include="Browser\MsgHandler\Info.h" />
     <ClInclude Include="Browser\MsgHandler\Shell.h" />
     <ClInclude Include="Browser\MsgHandler\Window.h" />
@@ -287,6 +288,12 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="app\demo\clipboard.js">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="app\demo\file.js">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
     </CopyFileToFolders>

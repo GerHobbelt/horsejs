@@ -205,6 +205,20 @@ var horse;
     }
   };
 
+  // extension/src/Handler/File.ts
+  var File = class {
+    getFirstArgument(method) {
+      return `${File.name}_${method.name}_${Util.randomNum()}`;
+    }
+    readDir(config) {
+      return new Promise((resolve, reject) => {
+        let msgName = this.getFirstArgument(this.readDir);
+        eventer.addEventListener(msgName, (result) => resolve(result));
+        Util.callHorse(msgName, JSON.stringify(config));
+      });
+    }
+  };
+
   // extension/src/main.ts
   var Horse = class {
     constructor() {
@@ -214,6 +228,7 @@ var horse;
       this.shell = new Shell();
       this.eventer = eventer;
       this.clipboard = new Clipboard();
+      this.file = new File();
     }
   };
   horse = new Horse();

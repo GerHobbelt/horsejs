@@ -14,6 +14,7 @@
 #include "MsgHandler/Shell.h"
 #include "MsgHandler/Info.h"
 #include "MsgHandler/Clipboard.h"
+#include "MsgHandler/File.h"
 
 namespace {
     Handler* g_instance = nullptr;
@@ -189,6 +190,10 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     else if (message_name._Starts_with("Clipboard"))
     {
         return Clipboard::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("File"))
+    {
+        return File::ProcessMsg(browser, frame, source_process, message);
     }
     return false;
 }
