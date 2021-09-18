@@ -26,7 +26,7 @@ void Renderer::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFram
     object->SetValue("__callHorseFunc", func, V8_PROPERTY_ATTRIBUTE_NONE);
 
     auto targetPath = std::filesystem::current_path();
-    targetPath.append("app//extension.js");
+    targetPath.append("extension.js");
     std::ifstream reader;
     reader.open(targetPath, std::ios::in);
     std::stringstream buffer;

@@ -15,7 +15,7 @@ public:
         if (!config_.is_null()) return config_;
         auto targetPath = std::filesystem::current_path();
         //todo 如果没有这个文件
-        targetPath.append("horse.config.json");
+        targetPath.append("app/horse.config.json");
         std::ifstream reader;
         reader.open(targetPath, std::ios::in);
         std::stringstream buffer;

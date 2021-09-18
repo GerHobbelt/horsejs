@@ -18,12 +18,12 @@ public:
         std::string message_name = message->GetName();
         message_name.erase(0, message_name.find_first_of('_') + 1);
         CefRefPtr<CefListValue> args = message->GetArgumentList();
+        auto configStr = args->GetString(0).ToString();
+        auto configObj = json::parse(configStr);
         json result;
         result["success"] = true;
         if (message_name._Starts_with("readDir"))
         {
-            auto configStr = args->GetString(0).ToString();
-            auto configObj = json::parse(configStr);
             std::string folderPath = configObj["folderPath"].get<std::string>();
             result["data"] = json::array();
             static std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
