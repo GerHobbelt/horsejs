@@ -32,6 +32,10 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，因�
 
 - [全局对象](Doc/Horse.md)
 
+  - [窗口控制](Doc/Horse/Window.md)
+
+  - [对话框](Doc/Horse/Dialog.md)
+
 - [可拖拽区域](Doc/AppRegion.md)
 
 # 其他

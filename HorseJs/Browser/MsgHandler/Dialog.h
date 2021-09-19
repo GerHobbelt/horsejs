@@ -8,10 +8,6 @@ public:
     Dialog() = delete;
     static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
-        CefRefPtr<CefBrowserView> browser_view = CefBrowserView::GetForBrowser(browser);
-        if (!browser_view) return false;
-        CefRefPtr<CefWindow> window = browser_view->GetWindow();
-        if (!window) return false;
         std::string message_name = message->GetName();
         message_name.erase(0, message_name.find_first_of('_') + 1);
         if (message_name == "maximize")
@@ -22,28 +18,7 @@ public:
         {
             window->Minimize();
         }
-        else if (message_name == "restore")
-        {
-            window->Restore();
-        }
-        else if (message_name == "close")
-        {
-            window->Close();
-        }
-        else if (message_name == "hide")
-        {
-            window->Hide();
-        }
-        else if (message_name == "show")
-        {
-            window->Show();
-        }
-        else if (message_name == "resize")
-        {
-            CefRefPtr<CefListValue> args = message->GetArgumentList();
-            CefSize size(args->GetInt(0), args->GetInt(1));
-            window->SetSize(size);
-        }
+        browser->GetHost()->RunFileDialog();
         return true;
     }
 };

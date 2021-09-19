@@ -25,7 +25,6 @@ public:
         PrepareIcon(image, 1.0f, "icon1.png");
         PrepareIcon(image, 2.0f, "icon2.png");
         window->SetWindowAppIcon(image);
-        // Give keyboard focus to the browser view.
         browser_view_->RequestFocus();
     }
     bool IsFrameless(CefRefPtr<CefWindow> window) OVERRIDE
