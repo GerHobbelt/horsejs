@@ -29,17 +29,17 @@ export let demo = {
       $(".console").innerHTML = "";
     });
     $(".drager").addEventListener("mousedown", (e) => {
+      let target = $(".consoleContainer");
       let dragerHeightChange = (e) => {
         if (e.clientY < 180 || e.clientY > window.innerHeight - 120) return;
-        $(".consoleContainer").setAttribute(
-          "style",
-          `height:calc(100% - ${e.clientY - 40}px)`
-        );
+        target.setAttribute("style", `height:calc(100% - ${e.clientY - 40}px)`);
+      };
+      let mouseUpHandler = () => {
+        document.removeEventListener("mousemove", dragerHeightChange);
+        document.removeEventListener("mouseup", mouseUpHandler);
       };
       document.addEventListener("mousemove", dragerHeightChange);
-      document.addEventListener("mouseup", () => {
-        document.removeEventListener("mousemove", dragerHeightChange);
-      });
+      document.addEventListener("mouseup", mouseUpHandler);
     });
     window.demoLog = (info) => {
       let logDom = document.createElement("div");

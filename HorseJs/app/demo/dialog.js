@@ -7,11 +7,7 @@ export let processor = {
       filters: ["*"],
       lastFilterIndex: 0,
     });
-    if (result.success) {
-      alert(JSON.stringify(result.data));
-    } else {
-      alert("error");
-    }
+    demoLog(result);
   },
   openMultiFile: async () => {
     let result = await horse.dialog.openFile({
@@ -21,16 +17,16 @@ export let processor = {
       filters: ["*"],
       lastFilterIndex: 0,
     });
-    if (result.success) {
-      alert(JSON.stringify(result.data));
-    } else {
-      alert("error");
-    }
+    demoLog(result);
   },
-  openFolder: () => {
-    horse.window.hide();
-    setTimeout(() => {
-      horse.window.show();
-    }, 3000);
+  openFolder: async () => {
+    let result = await horse.dialog.openFolder({
+      title: "test",
+      defaultFilePath: "C:\\AMD",
+      multiSelections: true,
+      filters: ["*"],
+      lastFilterIndex: 0,
+    });
+    demoLog(result);
   },
 };

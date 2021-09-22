@@ -25,27 +25,25 @@ public:
             auto config = json::parse(configStr);
             auto pathName = config["name"].get<std::string>();
             if (pathName == "desktop") {
-                int type = CSIDL_DESKTOPDIRECTORY;
                 wchar_t pathBuffer[MAX_PATH];
-                SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, pathBuffer);
+                SHGetFolderPath(NULL, CSIDL_DESKTOPDIRECTORY, NULL, SHGFP_TYPE_CURRENT, pathBuffer);
                 result["data"] = getSystemPath(pathBuffer);
             }
             else if(pathName == "appData")
             {
-                int type = CSIDL_APPDATA;
                 wchar_t pathBuffer[MAX_PATH];
                 SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, pathBuffer);
                 result["data"] = getSystemPath(pathBuffer);
             }
             else if(pathName == "exePath")
             {
-                result["data"] = std::filesystem::current_path().generic_string();
-            }
-            else if (pathName == "exeFolder")
-            {
                 wchar_t pathBuffer[MAX_PATH];
                 GetModuleFileName(NULL, pathBuffer, MAX_PATH);
                 result["data"] = getSystemPath(pathBuffer);
+            }
+            else if (pathName == "exeFolder")
+            {
+                result["data"] = std::filesystem::current_path().generic_string();
             }
         }
         else if (message_name._Starts_with("getAppInfo"))
