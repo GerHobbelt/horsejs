@@ -9,7 +9,7 @@ export let demo = {
       $(".sectionSelected").classList.remove("sectionSelected");
       $(`#${id.replace("menu", "section")}`).classList.add("sectionSelected");
     });
-    $(".sectionCodeLink").addEventListener("click", () => {
+    $("#sectionCodeLink").addEventListener("click", () => {
       let codeFileName = $(".menuSelected")
         .getAttribute("id")
         .replace("menu", "")
@@ -25,5 +25,28 @@ export let demo = {
       let { processor } = await import(`./demo/${parentId}.js`);
       processor[id]();
     });
+    $("#cleanLogBtn").addEventListener("click", (e) => {
+      $(".console").innerHTML = "";
+    });
+    $(".drager").addEventListener("mousedown", (e) => {
+      let dragerHeightChange = (e) => {
+        if (e.clientY < 180 || e.clientY > window.innerHeight - 120) return;
+        $(".consoleContainer").setAttribute(
+          "style",
+          `height:calc(100% - ${e.clientY - 40}px)`
+        );
+      };
+      document.addEventListener("mousemove", dragerHeightChange);
+      document.addEventListener("mouseup", () => {
+        document.removeEventListener("mousemove", dragerHeightChange);
+      });
+    });
+    window.demoLog = (info) => {
+      let logDom = document.createElement("div");
+      logDom.classList.add("logDom");
+      logDom.innerHTML = JSON.stringify(info, 4);
+      $(".console").appendChild(logDom);
+      logDom.scrollIntoView();
+    };
   },
 };

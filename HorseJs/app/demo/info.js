@@ -3,56 +3,32 @@ export let processor = {
     let result = await horse.info.getPath({
       name: "desktop",
     });
-    if (result.success) {
-      alert(JSON.stringify(result.data));
-    } else {
-      alert("error");
-    }
+    demoLog(result);
   },
   getAppDataPath: async () => {
     let result = await horse.info.getPath({
       name: "appData",
     });
-    if (result.success) {
-      alert(JSON.stringify(result.data));
-    } else {
-      alert("error");
-    }
+    demoLog(result);
   },
   getExePath: async () => {
     let result = await horse.info.getPath({
       name: "exePath",
     });
-    if (result.success) {
-      alert(JSON.stringify(result.data));
-    } else {
-      alert("error");
-    }
+    demoLog(result);
   },
   getExeFolder: async () => {
     let result = await horse.info.getPath({
       name: "exeFolder",
     });
-    if (result.success) {
-      alert(JSON.stringify(result.data));
-    } else {
-      alert("error");
-    }
+    demoLog(result);
   },
   getAppInfo: async () => {
     let result = await horse.info.getAppInfo();
-    if (result.success) {
-      alert(JSON.stringify(result.data));
-    } else {
-      alert("error");
-    }
+    demoLog(result);
   },
   getHorseInfo: async () => {
     let result = await horse.info.getHorseInfo();
-    if (result.success) {
-      alert(JSON.stringify(result.data));
-    } else {
-      alert("error");
-    }
+    demoLog(result);
   },
 };

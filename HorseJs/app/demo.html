@@ -63,6 +63,9 @@
           <div class="demoBtn" id="readDir">
             获取一个文件夹下的所有路径（包括文件路径和子目录路径）
           </div>
+          <div class="demoBtn" id="stat">
+            获取一个路径的属性信息（路径可以是文件夹也可以是文件）
+          </div>
         </div>
         <div id="sectionShell" class="section"></div>
         <div id="sectionNet" class="section"></div>
@@ -75,7 +78,12 @@
           <div class="console"></div>
         </div>
       </div>
-      <div class="sectionCodeLink">查看代码</div>
+      <div id="sectionCodeLink" style="right: 18px" class="demoToolBtn">
+        查看代码
+      </div>
+      <div id="cleanLogBtn" style="right: 98px" class="demoToolBtn">
+        清空输出
+      </div>
     </div>
     <script type="module">
       import { titleBarBtnLogic } from "./common.js";
