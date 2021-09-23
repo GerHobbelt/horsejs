@@ -2,7 +2,8 @@
 #include "include/wrapper/cef_message_router.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
-class Dialog
+#include "DialogCallback.h"
+class Dialog:public CefRunFileDialogCallback
 {
 public:
     Dialog() = delete;
@@ -10,15 +11,27 @@ public:
     {
         std::string message_name = message->GetName();
         message_name.erase(0, message_name.find_first_of('_') + 1);
-        if (message_name == "maximize")
+        CefBrowserHost::FileDialogMode mode;
+        if (message_name == "openFile")
         {
-            window->Maximize();            
+            mode = FILE_DIALOG_OPEN;
+            CefRefPtr<CefListValue> args = message->GetArgumentList();
+            CefRefPtr<CefListValue> filterSrc = args->GetList(2);
+            std::vector<CefString> filter;
+            for (size_t i = 0; i < filterSrc->GetSize(); i++)
+            {
+                filter.push_back(filterSrc->GetString(i));
+            }
+            CefRefPtr<CefRunFileDialogCallback> dcb = new DialogCallback();
+            browser->GetHost()->RunFileDialog(mode, args->GetString(0), args->GetString(1),filter, args->GetInt(3),dcb);
+            CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create("test");
+            frame->SendProcessMessage(PID_RENDERER, msg);
         }
-        else if (message_name == "minimize")
+        else if (message_name == "openFolder")
         {
-            window->Minimize();
+            mode = FILE_DIALOG_OPEN_FOLDER;
         }
-        browser->GetHost()->RunFileDialog();
+
         return true;
     }
 };

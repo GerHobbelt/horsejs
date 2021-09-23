@@ -57,6 +57,7 @@
     <ClInclude Include="Browser\MsgHandler\Window.h" />
     <ClInclude Include="Browser\MsgHandler\Dialog.h" />
     <ClInclude Include="Common\Config.h" />
+    <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />

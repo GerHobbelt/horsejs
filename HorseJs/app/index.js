@@ -46,4 +46,10 @@ window.addEventListener("load", () => {
   };
   maximizeLogic();
   window.addEventListener("resize", debounce(maximizeLogic));
+  horse.dialog.openFile({
+    title: "test",
+    defaultFilePath: "C:\\AMD",
+    filters: ["*"],
+    lastFilterIndex: 0,
+  });
 });
