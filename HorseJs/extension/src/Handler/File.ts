@@ -51,9 +51,9 @@ export class File {
       Util.callHorse(msgName, JSON.stringify(config))
     })
   }
-  readFileFromPosition(config: { path: string; position: number; from: 'start' | 'end' | 'current'; bufferSize: number }) {
+  readFileFromPosition(config: { path: string; position: number; bufferSize: number }) {
     return new Promise((resolve, reject) => {
-      let msgName = this.getFirstArgument(this.readFile)
+      let msgName = this.getFirstArgument(this.readFileFromPosition)
       eventer.addEventListener(msgName, (result) => resolve(result))
       Util.callHorse(msgName, JSON.stringify(config))
     })
