@@ -79,4 +79,45 @@ export let processor = {
     });
     demoLog(result);
   },
+  writeFile: async () => {
+    let folderResult = await horse.dialog.openFile({
+      title: "请你先选择一个文件~~~",
+      defaultFilePath: "C:\\",
+      multiSelections: false,
+      filters: ["*"],
+      lastFilterIndex: 0,
+    });
+    let result = await horse.file.writeFile({
+      path: folderResult.data[0],
+      data: `
+      你好，世界
+      안녕 세계
+      Hello World
+      `,
+      existThen: "append",
+    });
+    demoLog(result);
+  },
+  writeFileCreate: async () => {
+    let folderResult = await horse.dialog.openFolder({
+      title: "请你先选择一个目录~~~",
+      defaultFilePath: "C:\\",
+      multiSelections: false,
+      filters: ["*"],
+      lastFilterIndex: 0,
+    });
+    let name = Math.floor(Math.pow(10, 6) * Math.random());
+    let path = folderResult.data[0] + `/${name}.txt`;
+    let result = await horse.file.writeFile({
+      path,
+      data: `
+      你好，世界
+      안녕 세계
+      Hello World
+      `,
+      existThen: "append",
+      notExistThen: "create",
+    });
+    demoLog(result);
+  },
 };

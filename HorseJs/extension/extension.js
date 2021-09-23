@@ -271,6 +271,17 @@ var horse;
         Util.callHorse(msgName, JSON.stringify(config));
       });
     }
+    writeFile(config) {
+      if (!config.existThen)
+        config.existThen = "error";
+      if (!config.notExistThen)
+        config.notExistThen = "create";
+      return new Promise((resolve, reject) => {
+        let msgName = this.getFirstArgument(this.writeFile);
+        eventer.addEventListener(msgName, (result) => resolve(result));
+        Util.callHorse(msgName, JSON.stringify(config));
+      });
+    }
     readFileFromPosition(config) {
       return new Promise((resolve, reject) => {
         let msgName = this.getFirstArgument(this.readFileFromPosition);

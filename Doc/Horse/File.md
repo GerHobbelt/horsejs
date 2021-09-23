@@ -73,3 +73,26 @@ let result = await horse.file.readFileFromPosition({
 });
 console.log(result.data);
 ```
+
+- 写入文件
+
+path 为目标文件
+
+data 为待写入数据
+
+existThen 可能的值为：'append'， 'cover' ， 'error', 当文件存在时，如何写入文件
+
+notExistThen 可能的值为：'create' ， 'error',当文件不存在时，如何写入文件
+
+```javascript
+let result = await horse.file.writeFile({
+  path: "c://1234.zip",
+  data: `
+      你好，世界
+      안녕 세계
+      Hello World
+      `,
+  existThen: "append",
+  notExistThen: "create",
+});
+```
