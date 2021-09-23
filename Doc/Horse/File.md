@@ -13,5 +13,5 @@
 如下代码中 result.data 为一个数组，数组里包含获取到的结果
 
 ```javascript
-let result = await horse.file.readDir({ folderPath: "c://" });
+let result = await horse.file.readDir({ path: "c://" });
 ```

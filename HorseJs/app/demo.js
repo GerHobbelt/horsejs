@@ -41,10 +41,15 @@ export let demo = {
       document.addEventListener("mousemove", dragerHeightChange);
       document.addEventListener("mouseup", mouseUpHandler);
     });
-    window.demoLog = (info) => {
+    window.demoLog = (...info) => {
       let logDom = document.createElement("div");
       logDom.classList.add("logDom");
-      logDom.innerHTML = JSON.stringify(info, 4);
+      let outPut = "";
+      info.forEach((element) => {
+        if (outPut.length > 0) outPut += "<br />";
+        outPut += JSON.stringify(element, 4);
+      });
+      logDom.innerHTML = outPut;
       $(".console").appendChild(logDom);
       logDom.scrollIntoView();
     };
