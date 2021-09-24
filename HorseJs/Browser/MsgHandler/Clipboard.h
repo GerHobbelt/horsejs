@@ -22,17 +22,39 @@ public:
             auto configStr = args->GetString(0).ToString();
             auto configObj = json::parse(configStr);
             CefString dataTypeStr = configObj["dataType"].get<std::string>();
-            int dataType = 1;
-            if (dataTypeStr == "text") dataType = CF_TEXT;
-            if (!OpenClipboard(NULL)) return true;
-            if(!IsClipboardFormatAvailable(CF_TEXT)) return true;
-            HANDLE hClip = GetClipboardData(CF_TEXT);
-            char* pBuf = (char*)GlobalLock(hClip);
-            GlobalUnlock(hClip);
-            CloseClipboard();
-            result["data"] = pBuf;
+            if (!OpenClipboard(NULL)) {
+                result["success"] = false;
+                result["error"] = "OpenClipboard Error";
+            }
+            else if (dataTypeStr == "text")
+            {
+                if (!IsClipboardFormatAvailable(CF_TEXT)) {
+                    result["success"] = false;
+                    result["error"] = "IsClipboardFormatAvailable CF_TEXT Error";
+                } else {
+                    HANDLE hClip = GetClipboardData(CF_TEXT);
+                    char* pBuf = (char*)GlobalLock(hClip);
+                    GlobalUnlock(hClip);
+                    CloseClipboard();
+                    result["data"] = pBuf;
+                }
+            }
+            else if(dataTypeStr == "file")
+            {
+                if (!IsClipboardFormatAvailable(CF_HDROP)) {
+                    result["success"] = false;
+                    result["error"] = "IsClipboardFormatAvailable CF_TEXT Error";
+                } else {
+                    HANDLE hClip = GetClipboardData(CF_HDROP);
+                    std::string data = (char*)GlobalLock(hClip);
+                    GlobalUnlock(hClip);
+                    CloseClipboard();
+                    result["data"] = data;
+                }
+            }
+            //CF_BITMAP    
         }
-        else if (message_name._Starts_with("getHtml"))
+        else if (message_name._Starts_with("setData"))
         {
         }
         else if (message_name._Starts_with("getHtml"))
