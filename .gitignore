@@ -4,6 +4,7 @@
 /HorseJs/GPUCache/**
 /HorseJs/x64/**
 /x64/**
+/HorseJs/extension/node_modules/**
 # Prerequisites
 *.d
 
