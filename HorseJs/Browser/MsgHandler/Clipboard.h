@@ -45,7 +45,23 @@ public:
                     result["success"] = false;
                     result["error"] = "IsClipboardFormatAvailable CF_TEXT Error";
                 } else {
-                    HANDLE hClip = GetClipboardData(CF_HDROP);
+                    HDROP hDrop = HDROP(GetClipboardData(CF_HDROP));
+                    if (hDrop != NULL)
+                    {
+                        WCHAR szFilePathName[MAX_PATH + 1] = { 0 };
+
+                        UINT nNumOfFiles = DragQueryFile(hDrop, 0xFFFFFFFF, NULL, 0); 
+                        for (UINT nIndex = 0; nIndex < nNumOfFiles; ++nIndex)
+                        {
+                            memset(szFilePathName, 0, MAX_PATH + 1);
+                            DragQueryFile(hDrop, nIndex, szFilePathName, MAX_PATH);  // 得到文件名
+
+                            _bstr_t path(szFilePathName);
+                            std::string ss = (LPCSTR)path;
+
+                            path_list.push_back(ss);
+                        }
+                    }
                     std::string data = (char*)GlobalLock(hClip);
                     GlobalUnlock(hClip);
                     CloseClipboard();
