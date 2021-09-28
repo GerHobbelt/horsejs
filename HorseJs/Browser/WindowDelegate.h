@@ -10,7 +10,7 @@ class WindowDelegate : public CefWindowDelegate
 public:
     explicit WindowDelegate(CefRefPtr<CefBrowserView> browser_view) : browser_view_(browser_view) {}
 
-    void OnWindowCreated(CefRefPtr<CefWindow> window) OVERRIDE
+    void OnWindowCreated(CefRefPtr<CefWindow> window) override
     {
         window->AddChildView(browser_view_);
         auto config = Config::get();
@@ -27,22 +27,22 @@ public:
         window->SetWindowAppIcon(image);
         browser_view_->RequestFocus(); 
     }
-    bool IsFrameless(CefRefPtr<CefWindow> window) OVERRIDE
+    bool IsFrameless(CefRefPtr<CefWindow> window) override
     {
         return true;
     }
-    void OnWindowDestroyed(CefRefPtr<CefWindow> window) OVERRIDE
+    void OnWindowDestroyed(CefRefPtr<CefWindow> window) override
     {
         browser_view_ = nullptr;
     }
-    bool CanClose(CefRefPtr<CefWindow> window) OVERRIDE
+    bool CanClose(CefRefPtr<CefWindow> window) override
     {
         CefRefPtr<CefBrowser> browser = browser_view_->GetBrowser();
         if (browser)
             return browser->GetHost()->TryCloseBrowser();
         return true;
     }
-    CefSize GetPreferredSize(CefRefPtr<CefView> view) OVERRIDE
+    CefSize GetPreferredSize(CefRefPtr<CefView> view) override
     {
         //return view->GetSize();
         return CefSize(800, 600);

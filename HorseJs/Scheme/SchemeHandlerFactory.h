@@ -18,7 +18,7 @@ class SchemeHandlerFactory :
 {
 public:
     SchemeHandlerFactory() = default;
-    CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request) OVERRIDE
+    CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request) override
     {
         CEF_REQUIRE_IO_THREAD();
         //return new SchemeHandler();

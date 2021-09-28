@@ -7,16 +7,6 @@ Renderer::Renderer() :v8Handler(new V8Handler())
 }
 void Renderer::OnWebKitInitialized()
 {
-    //auto targetPath = std::filesystem::current_path();
-    //targetPath.append("extension.js");
-    //std::ifstream reader;
-    //reader.open(targetPath, std::ios::in);
-    //std::stringstream buffer;
-    //buffer << reader.rdbuf();
-    //reader.close();
-    //auto extensionCode = buffer.str();
-    //CefRefPtr<CefV8Handler> handler = new V8Handler();    
-    //CefRegisterExtension("horse/extension", extensionCode, v8Handler);
 }
 void Renderer::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
 {
@@ -33,7 +23,6 @@ void Renderer::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFram
     buffer << reader.rdbuf();
     reader.close();
     auto jsCode = buffer.str();
-    //todo µ÷ÊÔÎÊÌâ
     frame->ExecuteJavaScript(jsCode,"http://horse/extension.js", 1);
 }
 void Renderer::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)

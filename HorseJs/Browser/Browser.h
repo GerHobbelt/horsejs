@@ -5,9 +5,9 @@ class Browser :
     public CefBrowserProcessHandler {
 public:
     Browser() = default;
-    virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() OVERRIDE { return this; }
-    virtual void OnContextInitialized() OVERRIDE;
-    CefRefPtr<CefClient> GetDefaultClient() OVERRIDE;
+    virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override { return this; }
+    virtual void OnContextInitialized() override;
+    CefRefPtr<CefClient> GetDefaultClient() override;
 private:
     IMPLEMENT_REFCOUNTING(Browser);
 };

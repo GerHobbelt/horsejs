@@ -8,7 +8,7 @@ class DialogCallback : public CefRunFileDialogCallback
 public:
 	DialogCallback(CefRefPtr<CefProcessMessage> message, CefRefPtr<CefFrame> frame):message(message),frame(frame)
 	{};
-	void OnFileDialogDismissed(int selected_accept_filter, const std::vector<CefString>& file_paths) OVERRIDE
+	void OnFileDialogDismissed(int selected_accept_filter, const std::vector<CefString>& file_paths) override
 	{
 		//todo 不必要整个message，只要message->GetName()即可
 		CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());

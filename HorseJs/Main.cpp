@@ -1,6 +1,8 @@
 #include <windows.h>
+#include <wx/wx.h>
+#include <wx/clipbrd.h>
 #include "include/cef_app.h"
-#include "include/base/cef_scoped_ptr.h"
+#include "include/base/cef_scoped_refptr.h"
 #include "include/cef_command_line.h"
 #include "Browser/Browser.h"
 #include "Other/Other.h"
@@ -36,10 +38,20 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
     }
     CefInitialize(main_args, settings, app.get(), nullptr);
     CefRegisterSchemeHandlerFactory("http", "horse", new SchemeHandlerFactory());
+    wxCmdLineArgType cmdLine = (char*)lpCmdLine;
+    wxEntryStart(hInstance, hPrevInstance, cmdLine, nCmdShow);
+    if (wxTheClipboard->Open())
+    {
+        wxTheClipboard->SetData(new wxTextDataObject("²âÊÔ²âÊÔ"));
+        wxTheClipboard->Close();
+    }
     CefRunMessageLoop();
     CefShutdown();
+    wxEntryCleanup();
     return 0;
 }
+
+
 
 /*
 * 
