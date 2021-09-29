@@ -4,17 +4,9 @@ import { Base } from './Base'
 
 export class Clipboard extends Base {
   getData(config: { dataType: string }) {
-    return new Promise((resolve, reject) => {
-      let msgName = this.getFirstArgument(this.getData)
-      eventer.addEventListener(msgName, (result) => resolve(result))
-      Util.callHorse(msgName, JSON.stringify(config))
-    })
+    return this.callHorse(this.getData, config)
   }
   setData(config: { dataType: string; data: string | [string] }) {
-    return new Promise((resolve, reject) => {
-      let msgName = this.getFirstArgument(this.setData)
-      eventer.addEventListener(msgName, (result) => resolve(result))
-      Util.callHorse(msgName, JSON.stringify(config))
-    })
+    return this.callHorse(this.setData, config)
   }
 }

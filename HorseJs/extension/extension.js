@@ -1,5 +1,47 @@
 var horse;
 (() => {
+  // extension/src/eventer.ts
+  var Eventer = class {
+    constructor() {
+      this.dic = {};
+    }
+    emitEvent(msgName, result) {
+      if (!this.dic[msgName])
+        return;
+      this.dic[msgName].forEach((func) => func(result));
+    }
+    addEventListener(msgName, cb) {
+      if (!this.dic[msgName])
+        this.dic[msgName] = [cb];
+      else
+        this.dic[msgName].push(cb);
+    }
+    addOnceEventListener(msgName, cb) {
+      let cbWrap = (result) => {
+        let index = this.dic[msgName].findIndex((v) => v == cbWrap);
+        if (index >= 0)
+          this.dic[msgName].splice(index, 1);
+        cb(result);
+      };
+      if (!this.dic[msgName])
+        this.dic[msgName] = [cbWrap];
+      else
+        this.dic[msgName].push(cbWrap);
+    }
+    removeEventListener(msgName, cb) {
+      if (!this.dic[msgName] || this.dic[msgName].length < 1)
+        return;
+      if (!cb) {
+        delete this.dic[msgName];
+        return;
+      }
+      let index = this.dic[msgName].findIndex((v) => v == cb);
+      if (index >= 0)
+        this.dic[msgName].splice(index, 1);
+    }
+  };
+  var eventer = new Eventer();
+
   // extension/src/Util.ts
   var Util = class {
     static randomNum(len = 12) {
@@ -26,68 +68,32 @@ var horse;
         }, span);
       };
     }
-    static callHorse(msgName, ...otherParams) {
-      __callHorseFunc(msgName, ...otherParams);
-    }
   };
-
-  // extension/src/eventer.ts
-  var Eventer = class {
-    constructor() {
-      this.dic = {};
-    }
-    emitEvent(msgName, result) {
-      if (!this.dic[msgName])
-        return;
-      this.dic[msgName].forEach((func) => func(result));
-    }
-    addEventListener(msgName, cb) {
-      if (!this.dic[msgName])
-        this.dic[msgName] = [cb];
-      else
-        this.dic[msgName].push(cb);
-    }
-    removeEventListener(msgName, cb) {
-      if (!this.dic[msgName] || this.dic[msgName].length < 1)
-        return;
-      if (!cb) {
-        delete this.dic[msgName];
-        return;
-      }
-      let index = this.dic[msgName].findIndex((v) => v == cb);
-      if (index >= 0)
-        this.dic[msgName].splice(index, 1);
-    }
-  };
-  var eventer = new Eventer();
 
   // extension/src/Handler/Base.ts
   var Base = class {
-    test() {
-      console.log(this.constructor.name);
+    createMsgName(method) {
+      return `${this.constructor.name}_${method.name}_${Util.randomNum()}`;
+    }
+    callHorseNative(msgName, ...otherParams) {
+      __callHorseFunc(msgName, ...otherParams);
+    }
+    callHorse(method, config) {
+      return new Promise((resolve, reject) => {
+        let msgName = this.createMsgName(method);
+        eventer.addOnceEventListener(msgName, (result) => resolve(result));
+        this.callHorseNative(msgName, JSON.stringify(config));
+      });
     }
   };
 
   // extension/src/Handler/Dialog.ts
   var Dialog = class extends Base {
-    getFirstArgument(method) {
-      return `${Dialog.name}_${method.name}_${Util.randomNum()}`;
-    }
     openFile(config) {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.openFile);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.openFile, config);
     }
     openFolder(config) {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.openFolder);
-        eventer.addEventListener(msgName, (result) => {
-          resolve(result);
-        });
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.openFolder, config);
     }
   };
 
@@ -100,29 +106,14 @@ var horse;
       this.osName = "win";
       this.osArch = "x64";
     }
-    getFirstArgument(method) {
-      return `${Info.name}_${method.name}_${Util.randomNum()}`;
-    }
     getPath(config) {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.getPath);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.getPath, config);
     }
     getAppInfo() {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.getAppInfo);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName);
-      });
+      return this.callHorse(this.getAppInfo, {});
     }
     getHorseInfo() {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.getHorseInfo);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName);
-      });
+      return this.callHorse(this.getHorseInfo, {});
     }
   };
 
@@ -131,13 +122,8 @@ var horse;
     constructor() {
       super();
       this.isMaximized = false;
-      super.test();
-      console.log(this.constructor.name);
       this.processMaximizeEvent();
       this.processShowEvent();
-    }
-    getFirstArgument(method) {
-      return `${Window.name}_${method.name}_${Util.randomNum()}`;
     }
     processMaximizeEvent() {
       this.isMaximized = this.getIsMaximized();
@@ -160,11 +146,7 @@ var horse;
       });
     }
     open(config) {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.open);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.open, config);
     }
     addEventListener(eventName, cb) {
       eventer.addEventListener(`${Window.name}_${eventName}`, cb);
@@ -176,105 +158,64 @@ var horse;
       return window.outerHeight === screen.availHeight && window.outerWidth === screen.availWidth;
     }
     maximize() {
-      let msgName = this.getFirstArgument(this.maximize);
-      Util.callHorse(msgName);
+      return this.callHorse(this.maximize, {});
     }
     minimize() {
-      let msgName = this.getFirstArgument(this.minimize);
-      Util.callHorse(msgName);
+      return this.callHorse(this.minimize, {});
     }
     close() {
-      let msgName = this.getFirstArgument(this.close);
-      Util.callHorse(msgName);
+      return this.callHorse(this.close, {});
     }
     restore() {
-      let msgName = this.getFirstArgument(this.restore);
-      Util.callHorse(msgName);
+      return this.callHorse(this.restore, {});
     }
     hide() {
-      let msgName = this.getFirstArgument(this.hide);
-      Util.callHorse(msgName);
+      return this.callHorse(this.hide, {});
     }
     show() {
-      let msgName = this.getFirstArgument(this.show);
-      Util.callHorse(msgName);
+      return this.callHorse(this.show, {});
     }
-    resize(size) {
-      let msgName = this.getFirstArgument(this.resize);
-      Util.callHorse(msgName, JSON.stringify(size));
+    resize(config) {
+      return this.callHorse(this.resize, config);
     }
   };
 
   // extension/src/Handler/Shell.ts
   var Shell = class extends Base {
-    getFirstArgument(method) {
-      return `${Shell.name}_${method.name}_${Util.randomNum()}`;
-    }
     openExternal(config) {
-      let msgName = this.getFirstArgument(this.openExternal);
-      Util.callHorse(msgName, JSON.stringify(config));
+      return this.callHorse(this.openExternal, config);
     }
   };
 
   // extension/src/Handler/Clipboard.ts
   var Clipboard = class extends Base {
-    getFirstArgument(method) {
-      return `${Clipboard.name}_${method.name}_${Util.randomNum()}`;
-    }
     getData(config) {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.getData);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.getData, config);
     }
     setData(config) {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.setData);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.setData, config);
     }
   };
 
   // extension/src/Handler/File.ts
   var File = class extends Base {
-    getFirstArgument(method) {
-      return `${File.name}_${method.name}_${Util.randomNum()}`;
-    }
     readDir(config) {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.readDir);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.readDir, config);
     }
     isFolder(config) {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.isFolder);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.isFolder, config);
     }
     getFileSize(config) {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.getFileSize);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.getFileSize, config);
     }
     getLastWriteTime(config) {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.getLastWriteTime);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.getLastWriteTime, config);
     }
     readFile(config) {
       if (!config.bufferSize)
         config.bufferSize = 65536;
       return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.readFile);
+        let msgName = this.createMsgName(this.readFile);
         eventer.addEventListener(msgName, (result) => {
           if (result.success) {
             config.onData(result.data);
@@ -286,7 +227,7 @@ var horse;
             resolve(result);
           }
         });
-        Util.callHorse(msgName, JSON.stringify(config));
+        this.callHorseNative(msgName, JSON.stringify(config));
       });
     }
     writeFile(config) {
@@ -294,18 +235,10 @@ var horse;
         config.existThen = "error";
       if (!config.notExistThen)
         config.notExistThen = "create";
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.writeFile);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.writeFile, config);
     }
     readFileFromPosition(config) {
-      return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.readFileFromPosition);
-        eventer.addEventListener(msgName, (result) => resolve(result));
-        Util.callHorse(msgName, JSON.stringify(config));
-      });
+      return this.callHorse(this.readFileFromPosition, config);
     }
   };
 
