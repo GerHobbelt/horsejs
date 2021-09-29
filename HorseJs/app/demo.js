@@ -49,7 +49,7 @@ export let demo = {
         if (outPut.length > 0) outPut += "<br />";
         outPut += JSON.stringify(element, 4);
       });
-      logDom.innerHTML = outPut;
+      logDom.innerText = outPut;
       $(".console").appendChild(logDom);
       logDom.scrollIntoView();
     };

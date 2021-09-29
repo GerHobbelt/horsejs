@@ -4,8 +4,10 @@
 #include "include/wrapper/cef_message_router.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
-#include "include/base/cef_bind.h"
+#include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
+#include "include/wrapper/cef_helpers.h"
+#include "include/base/cef_callback.h"
 class Shell
 {
 public:
@@ -33,6 +35,8 @@ public:
             const std::wstring target = L"\"" + targetTemp.ToWString() + L"\"";
             const std::wstring workingDir = workingDirTemp.ToWString();
             //CefPostTask(TID_UI, base::Bind(&open, target,workingDir));
+            auto dir = workingDir.empty() ? nullptr : workingDir.c_str();
+            auto openResult = ShellExecuteW(nullptr, L"open", target.c_str(), nullptr, dir, SW_SHOWNORMAL);
         }
         else if (message_name._Starts_with("openFolder"))
         {

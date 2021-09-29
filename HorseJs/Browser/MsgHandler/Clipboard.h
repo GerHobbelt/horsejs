@@ -17,16 +17,16 @@ public:
         CefRefPtr<CefListValue> args = message->GetArgumentList();
         json result;
         result["success"] = true;
-        if (message_name._Starts_with("getData"))
+        if (!wxTheClipboard->Open())
         {
-            if (!wxTheClipboard->Open())
-            {
+            result["success"] = false;
+            result["error"] = "OpenClipboard Error";
+            wxTheClipboard->SetData(new wxTextDataObject("Some text"));
+            wxTheClipboard->Close();
+        }
+        else if (message_name._Starts_with("getData"))
+        {
 
-                result["success"] = false;
-                result["error"] = "OpenClipboard Error";
-                wxTheClipboard->SetData(new wxTextDataObject("Some text"));
-                wxTheClipboard->Close();
-            }
             auto configStr = args->GetString(0).ToString();
             auto configObj = json::parse(configStr);
             CefString dataTypeStr = configObj["dataType"].get<std::string>();
@@ -38,7 +38,7 @@ public:
             {
                 if (!wxTheClipboard->IsSupported(wxDataFormat(wxDF_TEXT))) {
                     result["success"] = false;
-                    result["error"] = "剪切板内没有文本数据";
+                    result["error"] = u8"剪切板内没有文本数据";
                 }
                 else
                 {
@@ -50,12 +50,12 @@ public:
             }
             else if (dataTypeStr == "file")
             {
-                if (!wxTheClipboard->IsSupported(wxDataFormat(wxDF_FILENAME))) {
-                    result["success"] = false;
-                    result["error"] = "剪切板内没有文件数据";
-                }
-                else
-                {
+                //if (!wxTheClipboard->IsSupported(wxDataFormat(wxDF_FILENAME))) {
+                //    result["success"] = false;
+                //    result["error"] = u8"剪切板内没有文件数据";
+                //}
+                //else
+                //{
                     wxFileDataObject data;
                     wxTheClipboard->GetData(data);
                     auto files = data.GetFilenames();
@@ -64,7 +64,14 @@ public:
                     {
                         result["data"].push_back(file.utf8_string());
                     }
-                }
+                //}
+            }
+            else if (dataTypeStr == "html")
+            {
+                wxHTMLDataObject data;
+                wxTheClipboard->GetData(data);
+                auto html = data.GetHTML();
+                result["data"] = html.utf8_string();
             }
             //CF_BITMAP    
         }
@@ -77,6 +84,7 @@ public:
         else if (message_name._Starts_with("getHtml"))
         {
         }
+        wxTheClipboard->Close();
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
         CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
         msgArgs->SetSize(1);
