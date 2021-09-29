@@ -7,7 +7,11 @@
 #include "include/wrapper/cef_message_router.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
+#include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
+#include "include/wrapper/cef_helpers.h"
+#include "include/base/cef_callback.h"
+
 
 #include "../../Common/json.hpp"
 using nlohmann::json;
@@ -88,7 +92,7 @@ public:
         {
             std::string path = configObj["path"].get<std::string>();
             long long bufferSize = configObj["bufferSize"].get<int>();
-            //CefPostTask(TID_UI, base::Bind(&readFile, path,bufferSize, frame,msg));
+            CefPostTask(TID_UI, base::BindOnce(&readFile, path,bufferSize, frame,msg));
             return true;
         }
         else if (message_name._Starts_with("writeFile"))
