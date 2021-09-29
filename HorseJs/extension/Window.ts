@@ -10,7 +10,7 @@ export class Window {
   minimize() {
     let arg = this.getFirstArgument(this.minimize);
     // @ts-ignore
-    return __horseFunc(arg);
+    __horseFunc(arg);
   }
   close() {
     let arg = this.getFirstArgument(this.close);

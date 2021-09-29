@@ -6,7 +6,7 @@
 void Renderer::OnWebKitInitialized()
 {
     auto targetPath = std::filesystem::current_path();
-    targetPath.append("extension/index.js");
+    targetPath.append("extension.js");
     std::ifstream reader;
     reader.open(targetPath, std::ios::in);
     std::stringstream buffer;
