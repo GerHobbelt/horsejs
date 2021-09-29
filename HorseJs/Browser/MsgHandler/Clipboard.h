@@ -17,24 +17,17 @@ public:
         CefRefPtr<CefListValue> args = message->GetArgumentList();
         json result;
         result["success"] = true;
+        auto configStr = args->GetString(0).ToString();
+        auto configObj = json::parse(configStr);
+        CefString dataTypeStr = configObj["dataType"].get<std::string>();
         if (!wxTheClipboard->Open())
         {
             result["success"] = false;
             result["error"] = "OpenClipboard Error";
-            wxTheClipboard->SetData(new wxTextDataObject("Some text"));
-            wxTheClipboard->Close();
         }
         else if (message_name._Starts_with("getData"))
         {
-
-            auto configStr = args->GetString(0).ToString();
-            auto configObj = json::parse(configStr);
-            CefString dataTypeStr = configObj["dataType"].get<std::string>();
-            if (!wxTheClipboard->Open()) {
-                result["success"] = false;
-                result["error"] = "OpenClipboard Error";
-            }
-            else if (dataTypeStr == "text")
+            if (dataTypeStr == "text")
             {
                 if (!wxTheClipboard->IsSupported(wxDataFormat(wxDF_TEXT))) {
                     result["success"] = false;
@@ -73,16 +66,33 @@ public:
                 auto html = data.GetHTML();
                 result["data"] = html.utf8_string();
             }
-            //CF_BITMAP    
         }
         else if (message_name._Starts_with("setData"))
         {
-        }
-        else if (message_name._Starts_with("getHtml"))
-        {
-        }
-        else if (message_name._Starts_with("getHtml"))
-        {
+            if (dataTypeStr == "text")
+            {
+                std::string dataStr = configObj["data"].get<std::string>();
+                wxString str = wxString::FromUTF8(dataStr);
+                wxTextDataObject* data = new wxTextDataObject(str);
+                wxTheClipboard->SetData(data);
+            }
+            else if (dataTypeStr == "file")
+            {
+                std::vector<std::string> dataArr = configObj["data"].get<std::vector<std::string>>();
+                wxFileDataObject* data = new wxFileDataObject();
+                for (auto& filePath : dataArr) {
+                    wxString str = wxString::FromUTF8(filePath);
+                    data->AddFile(str);
+                }
+                wxTheClipboard->SetData(data);
+            }
+            else if (dataTypeStr == "html")
+            {
+                std::string dataStr = configObj["data"].get<std::string>();
+                wxString str = wxString::FromUTF8(dataStr);
+                wxHTMLDataObject* data = new wxHTMLDataObject(str);
+                wxTheClipboard->SetData(data);
+            }
         }
         wxTheClipboard->Close();
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
