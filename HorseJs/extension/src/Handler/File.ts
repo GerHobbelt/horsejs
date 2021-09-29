@@ -41,4 +41,7 @@ export class File extends Base {
   readFileFromPosition(config: { path: string; position: number; bufferSize: number }) {
     return this.callHorse(this.readFileFromPosition, config)
   }
+  copy(config: { src: string; dest: string }) {
+    return this.callHorse(this.copy, config)
+  }
 }

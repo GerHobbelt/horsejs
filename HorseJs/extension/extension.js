@@ -240,6 +240,47 @@ var horse;
     readFileFromPosition(config) {
       return this.callHorse(this.readFileFromPosition, config);
     }
+    copy(config) {
+      return this.callHorse(this.copy, config);
+    }
+  };
+
+  // extension/src/Handler/Path.ts
+  var Path = class {
+    constructor() {
+      this.splitDeviceRe = /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?([\\\/])?([\s\S]*?)$/;
+      this.splitTailRe = /^([\s\S]*?)((?:\.{1,2}|[^\\\/]+?|)(\.[^.\/\\]*|))(?:[\\\/]*)$/;
+    }
+    splitPath(fileName) {
+      let result = this.splitDeviceRe.exec(fileName);
+      let device = (result[1] || "") + (result[2] || "");
+      let tail = result[3] || "";
+      let result2 = this.splitTailRe.exec(tail);
+      let dir = result2[1];
+      let basename = result2[2];
+      let ext = result2[3];
+      return [device, dir, basename, ext];
+    }
+    dirName(path) {
+      var result = this.splitPath(path), root = result[0], dir = result[1];
+      if (!root && !dir) {
+        return ".";
+      }
+      if (dir) {
+        dir = dir.substr(0, dir.length - 1);
+      }
+      return root + dir;
+    }
+    baseName(path, ext) {
+      var f = this.splitPath(path)[2];
+      if (ext && f.substr(-1 * ext.length) === ext) {
+        f = f.substr(0, f.length - ext.length);
+      }
+      return f;
+    }
+    extName(path) {
+      return this.splitPath(path)[3];
+    }
   };
 
   // extension/src/main.ts
@@ -252,6 +293,7 @@ var horse;
       this.eventer = eventer;
       this.clipboard = new Clipboard();
       this.file = new File();
+      this.path = new Path();
     }
   };
   horse = new Horse();

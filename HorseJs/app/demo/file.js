@@ -120,4 +120,25 @@ export let processor = {
     });
     demoLog(result);
   },
+  copyFile: async () => {
+    let srcResult = await horse.dialog.openFile({
+      title: "请选择待拷贝的文件",
+      defaultFilePath: "C:\\",
+      multiSelections: false,
+      filters: ["*"],
+      lastFilterIndex: 0,
+    });
+    let destResult = await horse.dialog.openFolder({
+      title: "请选择拷贝目标目录",
+      defaultFilePath: "C:\\",
+      multiSelections: false,
+      filters: ["*"],
+      lastFilterIndex: 0,
+    });
+    let src = srcResult.data[0];
+    let baseName = horse.path.baseName(src);
+    let dest = destResult.data[0] + baseName;
+    await horse.file.copy({ src, dest });
+    demoLog(result);
+  },
 };
