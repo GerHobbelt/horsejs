@@ -1,10 +1,8 @@
 import { Util } from '../Util'
 import { eventer } from '../eventer'
 import { DialogConfig } from './DialogConfig'
-export class Dialog {
-  private getFirstArgument(method: Function) {
-    return `${Dialog.name}_${method.name}_${Util.randomNum()}`
-  }
+import { Base } from './Base'
+export class Dialog extends Base {
   openFile(config: DialogConfig) {
     return new Promise((resolve, reject) => {
       let msgName = this.getFirstArgument(this.openFile)

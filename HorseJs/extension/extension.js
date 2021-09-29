@@ -61,8 +61,15 @@ var horse;
   };
   var eventer = new Eventer();
 
+  // extension/src/Handler/Base.ts
+  var Base = class {
+    test() {
+      console.log(this.constructor.name);
+    }
+  };
+
   // extension/src/Handler/Dialog.ts
-  var Dialog = class {
+  var Dialog = class extends Base {
     getFirstArgument(method) {
       return `${Dialog.name}_${method.name}_${Util.randomNum()}`;
     }
@@ -85,8 +92,9 @@ var horse;
   };
 
   // extension/src/Handler/Info.ts
-  var Info = class {
+  var Info = class extends Base {
     constructor() {
+      super(...arguments);
       this.horseVersion = "0.0.1";
       this.appVersion = "0.0.1";
       this.osName = "win";
@@ -119,9 +127,12 @@ var horse;
   };
 
   // extension/src/Handler/Window.ts
-  var Window = class {
+  var Window = class extends Base {
     constructor() {
+      super();
       this.isMaximized = false;
+      super.test();
+      console.log(this.constructor.name);
       this.processMaximizeEvent();
       this.processShowEvent();
     }
@@ -195,7 +206,7 @@ var horse;
   };
 
   // extension/src/Handler/Shell.ts
-  var Shell = class {
+  var Shell = class extends Base {
     getFirstArgument(method) {
       return `${Shell.name}_${method.name}_${Util.randomNum()}`;
     }
@@ -206,7 +217,7 @@ var horse;
   };
 
   // extension/src/Handler/Clipboard.ts
-  var Clipboard = class {
+  var Clipboard = class extends Base {
     getFirstArgument(method) {
       return `${Clipboard.name}_${method.name}_${Util.randomNum()}`;
     }
@@ -227,7 +238,7 @@ var horse;
   };
 
   // extension/src/Handler/File.ts
-  var File = class {
+  var File = class extends Base {
     getFirstArgument(method) {
       return `${File.name}_${method.name}_${Util.randomNum()}`;
     }
