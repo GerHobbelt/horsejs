@@ -11,6 +11,17 @@ export class Path {
     let ext = result2[3]
     return [device, dir, basename, ext]
   }
+  private win32StatPath(path) {
+    var result = this.splitDeviceRe.exec(path),
+      device = result[1] || '',
+      isUnc = !!device && device[1] !== ':'
+    return {
+      device: device,
+      isUnc: isUnc,
+      isAbsolute: isUnc || !!result[2],
+      tail: result[3],
+    }
+  }
   dirName(path: string) {
     var result = this.splitPath(path),
       root = result[0],
@@ -33,6 +44,7 @@ export class Path {
   extName(path: string) {
     return this.splitPath(path)[3]
   }
+  resolve(path: string) {}
 }
 // todo 目前只支持windows
 // https://github.com/jinder/path/blob/master/path.js
