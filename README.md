@@ -6,6 +6,8 @@
 
 <div align=center>
 <img src="Doc/horseApp.png" />
+<br />
+QQ交流群：650631559
 </div>
 
 # 说明
