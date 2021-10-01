@@ -137,7 +137,7 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
     <Manifest>
-      <AdditionalManifestFiles>$(ProjectDir)cef.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>$(ProjectDir)Resource/cef.manifest</AdditionalManifestFiles>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -170,8 +170,8 @@
   <ItemGroup>
     <ClCompile Include="Browser\Handler.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Main\Browser.cpp" />
-    <ClCompile Include="Main\Renderer.cpp" />
+    <ClCompile Include="Browser\Browser.cpp" />
+    <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Scheme\SchemeHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -183,19 +183,20 @@
     <ClInclude Include="Browser\WindowDelegate.h" />
     <ClInclude Include="Common\Config.h" />
     <ClInclude Include="Common\json.hpp" />
-    <ClInclude Include="Main\Browser.h" />
-    <ClInclude Include="Main\Other.h" />
-    <ClInclude Include="Main\Renderer.h" />
+    <ClInclude Include="Browser\Browser.h" />
+    <ClInclude Include="Other\Other.h" />
+    <ClInclude Include="Renderer\Renderer.h" />
+    <ClInclude Include="Renderer\MsgHandler\Dialog.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scheme\SchemeHandler.h" />
     <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
-    <ClInclude Include="V8Handler\V8Handler.h" />
+    <ClInclude Include="Renderer\V8Handler.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="horse.config.json">
+    <CopyFileToFolders Include="Resource\horse.config.json">
       <DeploymentContent>true</DeploymentContent>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <FileType>Document</FileType>
@@ -233,10 +234,10 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="icon1.png">
+    <CopyFileToFolders Include="Resource\icon1.png">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="icon2.png">
+    <CopyFileToFolders Include="Resource\icon2.png">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
     </CopyFileToFolders>
   </ItemGroup>

@@ -1,6 +1,5 @@
 #pragma once
 #include "include/cef_v8.h"
-#include "../Main/Browser.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 class V8Handler :

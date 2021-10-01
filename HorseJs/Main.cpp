@@ -2,9 +2,9 @@
 #include "include/cef_app.h"
 #include "include/base/cef_scoped_ptr.h"
 #include "include/cef_command_line.h"
-#include "Main/Browser.h"
-#include "Main/Other.h"
-#include "Main/Renderer.h"
+#include "Browser/Browser.h"
+#include "Other/Other.h"
+#include "Renderer/Renderer.h"
 #include "Scheme/SchemeHandlerFactory.h"
 
 
