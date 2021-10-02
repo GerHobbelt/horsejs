@@ -1,10 +1,8 @@
-# HorseJs 源码构建指南
-
 此文档不是提供给普通开发者的，而是提供给那些希望为 HorseJs 贡献代码的专业人员的
 
-## Debug 编译
+# Debug 编译
 
-### 准备 wxWidgets
+## 准备 wxWidgets
 
 首先在[wxWidgets 官网下载页面](https://www.wxwidgets.org/downloads/)下载 wxWidgets 的源码安装包（Windows Installer）
 
@@ -24,7 +22,7 @@ _ITERATOR_DEBUG_LEVEL=0
 
 以 Debug 的方式重新生成整个解决方案，执行完成后，把整个 wxWidgets 源码拷贝至 horsejs 根目录下的 wxWidgetsDebug 文件夹内
 
-### 准备 cef
+## 准备 cef
 
 到[cef 官网](https://cef-builds.spotifycdn.com/index.html#windows64)下载合适的 cef 版本
 
@@ -32,7 +30,7 @@ _ITERATOR_DEBUG_LEVEL=0
 
 重新生成 libcef_dll_wrapper 子项目，然后把 cef 项目所在目录下的所有内容拷贝至 horsejs 根目录下的 cefDebug 目录内
 
-### 准备 二进制资源
+## 准备 二进制资源
 
 在 Debug 模式下启动 HorseJs，如果启动失败，则：
 
