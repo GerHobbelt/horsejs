@@ -17,7 +17,7 @@ public:
         auto configStr = args->GetString(0).ToString();
         auto config = json::parse(configStr);
         std::vector<CefString> filter;
-        for each (const std::string & var in config["filters"])
+        for (const std::string & var : config["filters"])
         {
             filter.push_back(var);
         }

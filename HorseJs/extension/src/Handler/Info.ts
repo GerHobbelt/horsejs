@@ -1,5 +1,3 @@
-import { eventer } from '../eventer'
-import { Util } from '../Util'
 import { Base } from './Base'
 
 export class Info extends Base {

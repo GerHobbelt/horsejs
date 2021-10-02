@@ -40,6 +40,10 @@ _ITERATOR_DEBUG_LEVEL=0
 
 拷贝完成后再次启动项目，就可以成功运行了。
 
+## 调试 JavaScript 脚本
+
+在谷歌浏览器中打开 [谷歌浏览器调试工具](chrome://inspect/#devices)
+
 # Release 编译
 
 （此文档尚未完成）
