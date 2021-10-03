@@ -2,7 +2,6 @@
 #include "include/wrapper/cef_message_router.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
-#include "DialogCallback.h"
 #include <wx/stdpaths.h>
 
 #include "../../Common/json.hpp"

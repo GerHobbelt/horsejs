@@ -33,11 +33,4 @@ public:
         frame->SendProcessMessage(PID_RENDERER, msg);
         return true;
     }
-    static char* getSystemPath(const wchar_t* pathBuffer) {
-        int pSize = WideCharToMultiByte(CP_OEMCP, 0, pathBuffer, wcslen(pathBuffer), NULL, 0, NULL, NULL);
-        char* pCStrKey = new char[pSize + 1];
-        WideCharToMultiByte(CP_OEMCP, 0, pathBuffer, wcslen(pathBuffer), pCStrKey, pSize, NULL, NULL);
-        pCStrKey[pSize] = '\0';
-        return pCStrKey;
-    }
 };

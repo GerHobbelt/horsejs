@@ -305,6 +305,13 @@ var horse;
     }
   };
 
+  // extension/src/Handler/Menu.ts
+  var Menu = class extends Base {
+    popup(config) {
+      return this.callHorse(this.popup, config);
+    }
+  };
+
   // extension/src/main.ts
   var Horse = class {
     constructor() {
@@ -317,6 +324,7 @@ var horse;
       this.file = new File();
       this.path = new Path();
       this.system = new System();
+      this.menu = new Menu();
     }
   };
   horse = new Horse();
