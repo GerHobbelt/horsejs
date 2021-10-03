@@ -23,6 +23,7 @@
         <div id="menuShell">shell</div>
         <div id="menuSystem">系统</div>
         <div id="menuFile">文件</div>
+        <div id="menuPath">路径</div>
         <div id="menuNet">网络</div>
         <div id="menuMenu">菜单</div>
         <div id="menuNotification">系统通知</div>
@@ -48,10 +49,7 @@
           <div class="demoBtn" id="openFolder">打开一个目录</div>
         </div>
         <div id="sectionInfo" class="section">
-          <div class="demoBtn" id="getDesktopPath">获取桌面路径</div>
-          <div class="demoBtn" id="getAppDataPath">获取数据目录路径</div>
-          <div class="demoBtn" id="getExePath">获取可执行文件路径</div>
-          <div class="demoBtn" id="getExeFolder">获取可执行文件所在目录</div>
+          
           <div class="demoBtn" id="getAppInfo">获取应用的基本信息</div>
           <div class="demoBtn" id="getHorseInfo">获取框架的基本信息</div>
         </div>
@@ -68,9 +66,6 @@
           <div class="demoBtn" id="setClipboardHTML">向剪切板写入HTML</div>
         </div>
         <div id="sectionFile" class="section">
-          <div class="demoBtn" id="readDir">
-            获取一个文件夹下的所有路径（包括文件路径和子目录路径）
-          </div>
           <div class="demoBtn" id="stat">
             获取一个路径的属性信息（路径可以是文件夹也可以是文件）
           </div>
@@ -90,6 +85,15 @@
             写文件（如果文件不存在则创建文件）
           </div>
           <div class="demoBtn" id="copyFile">拷贝文件</div>
+        </div>
+        <div id="sectionPath" class="section">          
+          <div class="demoBtn" id="readDir">
+            获取一个文件夹下的所有路径（包括文件路径和子目录路径）
+          </div>
+          <div class="demoBtn" id="getDesktopPath">获取桌面路径</div>
+          <div class="demoBtn" id="getAppDataPath">获取数据目录路径</div>
+          <div class="demoBtn" id="getExePath">获取可执行文件路径</div>
+          <div class="demoBtn" id="getExeFolder">获取可执行文件所在目录</div>
         </div>
         <div id="sectionShell" class="section">          
           <div class="demoBtn" id="openUrlWithDefaultBrowser">
