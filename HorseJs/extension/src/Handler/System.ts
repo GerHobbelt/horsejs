@@ -1,7 +1,10 @@
 import { Base } from './Base'
 
 export class System extends Base {
-  setAutoStart(config: { setOrRemove: 'set' | 'remove' }) {
-    return this.callHorse(this.setAutoStart, config)
+  autoStart(config: { setOrRemove: 'set' | 'remove' }) {
+    return this.callHorse(this.autoStart, config)
+  }
+  protocolClient(config: { setOrRemove: 'set' | 'remove' }) {
+    return this.callHorse(this.protocolClient, config)
   }
 }

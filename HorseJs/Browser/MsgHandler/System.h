@@ -26,7 +26,7 @@ public:
         CefRefPtr<CefListValue> args = message->GetArgumentList();
         auto configStr = args->GetString(0).ToString();
         auto configObj = json::parse(configStr);
-        if (message_name._Starts_with("setAutoStart"))
+        if (message_name._Starts_with("autoStart"))
         {
             #if defined(OS_WIN)
             wxRegKey regKey(wxRegKey::HKCU, "Software\\Microsoft\\Windows\\CurrentVersion\\Run");
@@ -42,15 +42,36 @@ public:
             }
             #endif
         }
-        else if (message_name._Starts_with("getAppInfo"))
+        else if (message_name._Starts_with("protocolClient"))
         {
-            result["data"] = Config::get();
+            #if defined(OS_WIN)
+            auto setOrRemove = configObj["setOrRemove"].get<std::string>();
+            auto protocolName = configObj["protocolName"].get<std::string>();
+            wxRegKey regKey0(wxRegKey::HKCR, protocolName + "\\shell\\open\\command");
+            wxRegKey regKey(wxRegKey::HKCU, "Software\\Classes\\" + protocolName + "\\shell\\open\\command");           
+            if (setOrRemove == "set")
+            {
+                regKey0.Create();
+                regKey.Create();
+                auto val = "\"" + wxStandardPaths::Get().GetExecutablePath() + "\" --protocol-launcher \"%1\"";
+                bool flag0 = regKey0.SetValue("", val);
+                bool flag = regKey.SetValue("", val);
+            }
+            else
+            {
+                regKey0.DeleteSelf();
+                regKey.DeleteSelf();
+            }
+            #endif
         }
         else if (message_name._Starts_with("getHorseInfo"))
         {
-            json data;
-            data["HorseJsVersion"] = "0.0.1";
-            result["data"] = data;
+            #if defined(OS_WIN)
+            auto appName = "horse.app." + Config::get()["appName"].get<std::string>();
+            wxRegKey regKey(wxRegKey::HKCU, "Software\\Classes\\"+appName+"\\shell\\open\\command");
+            auto setOrRemove = configObj["setOrRemove"].get<std::string>();
+
+            #endif
         }
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
         CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
