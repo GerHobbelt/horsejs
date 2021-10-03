@@ -295,6 +295,13 @@ var horse;
     }
   };
 
+  // extension/src/Handler/System.ts
+  var System = class extends Base {
+    setAutoStart(config) {
+      return this.callHorse(this.setAutoStart, config);
+    }
+  };
+
   // extension/src/main.ts
   var Horse = class {
     constructor() {
@@ -306,6 +313,7 @@ var horse;
       this.clipboard = new Clipboard();
       this.file = new File();
       this.path = new Path();
+      this.system = new System();
     }
   };
   horse = new Horse();

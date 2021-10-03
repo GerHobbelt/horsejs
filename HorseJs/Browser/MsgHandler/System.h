@@ -26,16 +26,17 @@ public:
         CefRefPtr<CefListValue> args = message->GetArgumentList();
         auto configStr = args->GetString(0).ToString();
         auto configObj = json::parse(configStr);
-        if (message_name._Starts_with("setAutoStartWithSystem"))
+        if (message_name._Starts_with("setAutoStart"))
         {
             #if defined(OS_WIN)
             wxRegKey regKey(wxRegKey::HKCU, "Software\\Microsoft\\Windows\\CurrentVersion\\Run");
             auto appName = "horse.app." + Config::get()["appName"].get<std::string>();
-            if (configObj["setOrRemove"] == "set" && !regKey.Exists())
+            auto setOrRemove = configObj["setOrRemove"].get<std::string>();
+            if (setOrRemove == "set")
             {                           
                 bool flag = regKey.SetValue(appName, wxStandardPaths::Get().GetExecutablePath());
             }
-            else if(configObj["setOrRemove"] == "remove" && regKey.Exists())
+            else if(setOrRemove == "remove")
             {
                 regKey.DeleteValue(appName);
             }
