@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "build":"node src/cli"
+  },
   "dependencies": {
     "esbuild": "^0.12.25"
   }
