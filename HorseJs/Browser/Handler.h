@@ -8,7 +8,8 @@ class Handler :
     public CefDisplayHandler,
     public CefLifeSpanHandler,
     public CefLoadHandler,
-    public CefDragHandler
+    public CefDragHandler,
+    public CefContextMenuHandler
 {
 public:
     explicit Handler();
@@ -18,6 +19,7 @@ public:
     virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override { return this; }
     virtual CefRefPtr<CefLoadHandler> GetLoadHandler() override { return this; }
     CefRefPtr<CefDragHandler> GetDragHandler() override { return this; }
+    CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override { return this; }
     virtual void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title) override;
     virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) override;
     virtual bool DoClose(CefRefPtr<CefBrowser> browser) override;
@@ -37,6 +39,8 @@ public:
         CefRefPtr<CefDictionaryValue>& extra_info,
         bool* no_javascript_access) override;
     void CloseAllBrowsers(bool force_close);
+    virtual void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model);
+    virtual bool OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, int command_id, EventFlags event_flags);
     bool IsClosing() const { return is_closing_; }
     static bool IsChromeRuntimeEnabled();
     CefRefPtr<CefMessageRouterBrowserSide> message_router_;
