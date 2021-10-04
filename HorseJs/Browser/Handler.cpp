@@ -156,10 +156,27 @@ bool Handler::IsChromeRuntimeEnabled() {
 void Handler::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
 {
     model->Clear();
+    if (menuData.is_null()) return;
+    int menuIdStartIndex = 666;
+    for (auto& menuItem : menuData)
+    {
+        //todo 不支持子菜单
+        model->AddItem(menuIdStartIndex, menuItem["name"].get<std::string>());
+        menuIdStartIndex += 1;
+    }
 }
 bool Handler::OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, int command_id, EventFlags event_flags)
 {
+    switch (command_id)
+    {
+    default:
+        break;
+    }
     return true;
+}
+void Handler::OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
+{
+    menuData.clear();
 }
 bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) 
 {
@@ -198,8 +215,8 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
         return System::ProcessMsg(browser, frame, source_process, message);
     }
     else if (message_name._Starts_with("Menu"))
-    {
-        return Menu::ProcessMsg(browser, frame, source_process, message);
+    {        
+        return Menu::ProcessMsg(browser, frame, source_process, message,this);
     }
     return false;
 }
