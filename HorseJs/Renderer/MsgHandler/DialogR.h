@@ -1,9 +1,9 @@
 #pragma once
 #include "include/cef_app.h" //todo 只要包含这么一个头文件?
-class Dialog
+class DialogR
 {
 public:
-    Dialog() = delete;
+    DialogR() = delete;
     static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
         //std::string message_name = message->GetName();
@@ -31,6 +31,6 @@ public:
         //    mode = FILE_DIALOG_OPEN_FOLDER;
         //}
 
-        //return true;
+        return true;
     }
 };

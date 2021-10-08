@@ -2,8 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
-#include "V8Handler.h"
-#include "../Renderer/MsgHandler/Dialog.h"
+Renderer::Renderer() :v8Handler(new V8Handler())
+{
+}
 void Renderer::OnWebKitInitialized()
 {
     auto targetPath = std::filesystem::current_path();
@@ -15,7 +16,13 @@ void Renderer::OnWebKitInitialized()
     reader.close();
     auto extensionCode = buffer.str();
     CefRefPtr<CefV8Handler> handler = new V8Handler();    
-    CefRegisterExtension("horse/extension", extensionCode, handler);
+    CefRegisterExtension("horse/extension", extensionCode, v8Handler);
+}
+void Renderer::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
+{
+    CefRefPtr<CefV8Value> object = context->GetGlobal();
+    CefRefPtr<CefV8Value> func = CefV8Value::CreateFunction("__horseFuncCallBack", v8Handler);
+    object->SetValue("__horseFuncCallBack", func, V8_PROPERTY_ATTRIBUTE_NONE);
 }
 void Renderer::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
 {
@@ -30,12 +37,11 @@ bool Renderer::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr
     std::string message_name = message->GetName();
     if (message_name._Starts_with("Dialog"))
     {
-        //return Window::ProcessMsg(browser, frame, source_process, message);
+        return DialogR::ProcessMsg(browser, frame, source_process, message);
     }
     else if (message_name._Starts_with("Window"))
     {
 
     }
-    return false;
     return false;
 }
