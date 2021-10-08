@@ -120,13 +120,6 @@ var horse;
 
   // extension/src/Handler/Info.ts
   var Info = class extends Base {
-    constructor() {
-      super(...arguments);
-      this.horseVersion = "0.0.1";
-      this.appVersion = "0.0.1";
-      this.osName = "win";
-      this.osArch = "x64";
-    }
     getAppInfo() {
       return this.callHorse(this.getAppInfo, {});
     }

@@ -26,6 +26,7 @@ public:
         url.erase(0, 13); //移除：http://horse/
         std::filesystem::path targetPath = std::filesystem::current_path();
         targetPath.append(url);
+        //LOG(ERROR) << targetPath.generic_u8string();
         if (!std::filesystem::exists(targetPath)) {
             std::cout << "试图加载" << targetPath << "，但找不到这个文件";
         }
@@ -54,7 +55,7 @@ public:
         {
             mime_type_ = "application/*";
         }
-        auto stream = CefStreamReader::CreateForFile(targetPath.generic_string());
+        auto stream = CefStreamReader::CreateForFile(targetPath.generic_wstring());
         return new CefStreamResourceHandler(mime_type_, stream);
     };
     IMPLEMENT_REFCOUNTING(SchemeHandlerFactory);
