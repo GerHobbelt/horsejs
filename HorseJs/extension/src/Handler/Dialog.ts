@@ -1,6 +1,8 @@
+import { Util } from "../Util";
+
 export class Dialog {
   private getFirstArgument(method: Function) {
-    return `${Dialog.name}_${method.name}`;
+    return `${Dialog.name}_${method.name}_${Util.randomNum()}`;
   }
   openFile({ title, defaultFilePath, filters, lastFilterIndex }) {
     let arg = this.getFirstArgument(this.openFile);

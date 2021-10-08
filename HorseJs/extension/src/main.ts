@@ -1,6 +1,6 @@
-import { Dialog } from "./Dialog";
-import { Info } from "./Info";
-import { Window } from "./Window";
+import { Dialog } from "./Handler/Dialog";
+import { Info } from "./Handler/Info";
+import { Window } from "./Handler/Window";
 class Horse {
   window: Window;
   dialog: Dialog;

@@ -1,6 +1,8 @@
+import { Util } from "../Util";
+
 export class Window {
   private getFirstArgument(method: Function) {
-    return `${Window.name}_${method.name}`;
+    return `${Window.name}_${method.name}_${Util.randomNum()}`;
   }
   maximize() {
     let arg = this.getFirstArgument(this.maximize);
