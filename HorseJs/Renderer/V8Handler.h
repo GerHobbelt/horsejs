@@ -9,7 +9,7 @@ public:
     V8Handler() = default;
     virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE
     {
-        if (name == "__horseFunc") {
+        if (name == "__callHorseFunc") {
             CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(arguments[0]->GetStringValue());
             CefRefPtr<CefListValue> args = msg->GetArgumentList();
             for (size_t i = 1; i < arguments.size(); i++)
@@ -19,7 +19,10 @@ public:
             CefRefPtr<CefV8Context> context = CefV8Context::GetCurrentContext();
             context.get()->GetFrame()->SendProcessMessage(PID_BROWSER, msg);
             return true;
-        }else if(name == "__horseFuncCallBack")
+        }
+        else if (name == "__listenHorseFunc") {
+            arguments[0]->GetStringValue()
+        }
 
     };
 private:
