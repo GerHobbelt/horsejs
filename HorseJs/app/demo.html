@@ -49,7 +49,6 @@
           <div class="demoBtn" id="openFolder">打开一个目录</div>
         </div>
         <div id="sectionInfo" class="section">
-          
           <div class="demoBtn" id="getAppInfo">获取应用的基本信息</div>
           <div class="demoBtn" id="getHorseInfo">获取框架的基本信息</div>
         </div>
@@ -86,40 +85,30 @@
           </div>
           <div class="demoBtn" id="copyFile">拷贝文件</div>
         </div>
-        <div id="sectionPath" class="section">          
+        <div id="sectionPath" class="section">
           <div class="demoBtn" id="readDir">
             获取一个文件夹下的所有路径（包括文件路径和子目录路径）
           </div>
           <div class="demoBtn" id="getDesktopPath">获取桌面路径</div>
           <div class="demoBtn" id="getAppDataPath">获取数据目录路径</div>
           <div class="demoBtn" id="getExePath">获取可执行文件路径</div>
-          <div class="demoBtn" id="getTempPath">获取缓存目录</div>          
+          <div class="demoBtn" id="getTempPath">获取缓存目录</div>
           <div class="demoBtn" id="getDirName">获取一个文件所在的目录</div>
           <div class="demoBtn" id="getExtName">获取一个文件的扩展名</div>
         </div>
-        <div id="sectionShell" class="section">          
+        <div id="sectionShell" class="section">
           <div class="demoBtn" id="openUrlWithDefaultBrowser">
             使用默认浏览器打开网页链接
           </div>
         </div>
         <div id="sectionSystem" class="section">
-          <div class="demoBtn" id="setAutoStart">
-            设置开机自启动
-          </div>
-          <div class="demoBtn" id="removeAutoStart">
-            取消开机自启动
-          </div>          
-          <div class="demoBtn" id="setProtocol">
-            设置默认协议(horse://)
-          </div>          
-          <div class="demoBtn" id="removeProtocol">
-            删除默认协议(horse://)
-          </div>
+          <div class="demoBtn" id="setAutoStart">设置开机自启动</div>
+          <div class="demoBtn" id="removeAutoStart">取消开机自启动</div>
+          <div class="demoBtn" id="setProtocol">设置默认协议(horse://)</div>
+          <div class="demoBtn" id="removeProtocol">删除默认协议(horse://)</div>
         </div>
-        <div id="sectionMenu" class="section">                 
-          <!--<div class="demoBtn" id="popup">
-            显示菜单
-          </div>-->
+        <div id="sectionMenu" class="section">
+          <div class="demoBtn" id="popup">显示菜单</div>
         </div>
         <div id="sectionNet" class="section"></div>
         <div id="sectionNotification" class="section"></div>
@@ -144,10 +133,6 @@
         titleBarBtnLogic();
         demo.init();
       });
-      
-      document.body.addEventListener("contextmenu",(e)=>{
-        console.log(e)
-      })
     </script>
   </body>
 </html>

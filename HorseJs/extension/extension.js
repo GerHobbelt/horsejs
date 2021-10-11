@@ -323,7 +323,9 @@ var horse;
   var Menu = class extends Base {
     popup(config) {
       return __async(this, null, function* () {
-        console.log(window.event);
+        if (!config.position) {
+          config.position = { x: -1, y: -1 };
+        }
         yield this.callHorse(this.popup, config);
       });
     }
