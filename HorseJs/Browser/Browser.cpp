@@ -22,6 +22,7 @@ void Browser::OnContextInitialized() {
     auto startPath = config["startPath"].get<std::string>();
     std::string url = "http://horse/"+ startPath;  //todo 这里不应该有app子目录
     CefRefPtr<CefBrowserView> browser_view = CefBrowserView::CreateBrowserView(handler, url, browser_settings, nullptr, nullptr, new ViewDelegate());
+    browser_view->SetID(2);
     CefWindow::CreateTopLevelWindow(new WindowDelegate(browser_view));
 }
 

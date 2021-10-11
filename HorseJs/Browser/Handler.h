@@ -3,7 +3,7 @@
 #include <list>
 #include <set>
 #include "include/wrapper/cef_message_router.h"
-#include "../../Common/json.hpp"
+#include "../Common/json.hpp"
 using nlohmann::json;
 class Handler :
     public CefClient,

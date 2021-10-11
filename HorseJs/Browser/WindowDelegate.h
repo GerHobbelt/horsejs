@@ -1,10 +1,12 @@
 #pragma once
+#include <fstream>
+#include <filesystem>
 #include "include/views/cef_window_delegate.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "../Common/Config.h"
-#include <fstream>
-#include <filesystem>
+#include "../Common/json.hpp"
+using nlohmann::json;
 class WindowDelegate : public CefWindowDelegate
 {
 public:
@@ -44,8 +46,22 @@ public:
     }
     CefSize GetPreferredSize(CefRefPtr<CefView> view) override
     {
-        //return view->GetSize();
-        return CefSize(800, 600);
+        json miniSize = Config::get()["sizeConfig"]["startSize"];
+        int width = miniSize["width"].get<int>();
+        int height = miniSize["height"].get<int>();
+        return CefSize(width, height);
+    }
+    CefSize GetMinimumSize(CefRefPtr<CefView> view) override {
+        json miniSize = Config::get()["sizeConfig"]["miniSize"];
+        int width = miniSize["width"].get<int>();
+        int height = miniSize["height"].get<int>();
+        return CefSize(width, height);
+    }
+    CefSize GetMaximumSize(CefRefPtr<CefView> view) override {
+        json miniSize = Config::get()["sizeConfig"]["maxSize"];
+        int width = miniSize["width"].get<int>();
+        int height = miniSize["height"].get<int>();
+        return CefSize(width, height);
     }
 private:
     CefRefPtr<CefBrowserView> browser_view_;
