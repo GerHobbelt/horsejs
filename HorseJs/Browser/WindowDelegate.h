@@ -6,6 +6,9 @@
 #include "include/views/cef_window.h"
 #include "../Common/Config.h"
 #include "../Common/json.hpp"
+#include <wx/nativewin.h>
+#include <wx/menu.h>
+#include "NativeWindow.h"
 using nlohmann::json;
 class WindowDelegate : public CefWindowDelegate
 {
@@ -27,6 +30,7 @@ public:
     CefSize GetMaximumSize(CefRefPtr<CefView> view) override;
 private:
     CefRefPtr<CefBrowserView> browser_view_;
+    NativeWindow* nativeWindow;
     void PrepareIcon(CefRefPtr<CefImage> image, double scale_factor, const std::string& name);
     CefSize getSizeConfig(std::string_view configName);
     IMPLEMENT_REFCOUNTING(WindowDelegate);

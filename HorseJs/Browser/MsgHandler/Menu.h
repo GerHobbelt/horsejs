@@ -24,39 +24,53 @@ public:
         CefRefPtr<CefListValue> args = message->GetArgumentList();
         auto configStr = args->GetString(0).ToString();
         json config = json::parse(configStr);
-        wxMenu* menu = new wxMenu();         
+        
         if (message_name._Starts_with("popup"))
         {
             int menuId = 666;
             instance->menuData = config["data"];
-            HWND winId = browser->GetHost()->GetWindowHandle();
             //SendMessage(winId, WM_NCRBUTTONUP, 0, MAKELPARAM(300,300));
             CefMouseEvent event;
             event.modifiers = cef_event_flags_t::EVENTFLAG_RIGHT_MOUSE_BUTTON;
             if (config["position"]["x"].get<int>() == -1) {
-                //LPPOINT lParam;
-                //GetCursorPos(lParam);
-                //int xPos = -GET_X_LPARAM(lParam);
-                //int yPos = -GET_Y_LPARAM(lParam);
-                wxPoint mousePoint = wxGetMousePosition();
-                CefRefPtr<CefBrowserView> browser_view = CefBrowserView::GetForBrowser(browser);
-                CefRefPtr<CefWindow> window = browser_view->GetWindow();
-                CefRect rect = window->GetBounds();
-                CefPoint point1(mousePoint.x, mousePoint.y);
-                float scaleFactor = window->GetDisplay()->GetDeviceScaleFactor();
-                CefPoint point2(mousePoint.x, mousePoint.y);
-                window->GetDisplay()->ConvertPointFromPixels(point2);
-                //LPRECT lpRect;
-                //GetWindowRect(winId,lpRect);
-                event.x = mousePoint.x - rect.x* scaleFactor - 128;
-                event.y = mousePoint.y - rect.y* scaleFactor - 56; //todo 
+                int menuId = 666;
+                wxMenu* menu = new wxMenu();
+                for (auto& menuItem : config["data"])
+                {
+                    auto name = menuItem["name"].get<std::string>();
+                    menu->Append(menuId, wxString::FromUTF8(name));
+                    //wxTheApp->Bind(wxEVT_MENU, &onMenuClicked, menuId);
+                    menuId += 1;
+                }
+                HWND winId = browser->GetHost()->GetWindowHandle();
+                auto win = wxWindow::FindWindowById(9989);
+                win->PopupMenu(menu);
+                //#if defined(OS_WIN)
+                //HWND winId = browser->GetHost()->GetWindowHandle();
+                ////LPPOINT lParam;
+                ////GetCursorPos(lParam);
+                ////int xPos = -GET_X_LPARAM(lParam);
+                ////int yPos = -GET_Y_LPARAM(lParam);
+                //wxPoint mousePoint = wxGetMousePosition();
+                //CefRefPtr<CefBrowserView> browser_view = CefBrowserView::GetForBrowser(browser);
+                //CefRefPtr<CefWindow> window = browser_view->GetWindow();
+                //CefRect rect = window->GetBounds();
+                //CefPoint point1(mousePoint.x, mousePoint.y);
+                //float scaleFactor = window->GetDisplay()->GetDeviceScaleFactor();
+                //CefPoint point2(mousePoint.x, mousePoint.y);
+                //window->GetDisplay()->ConvertPointFromPixels(point2);
+                ////LPRECT lpRect;
+                ////GetWindowRect(winId,lpRect);
+                //event.x = mousePoint.x - rect.x* scaleFactor - 128;
+                //event.y = mousePoint.y - rect.y* scaleFactor - 56; //todo 
+                //#endif
             }
             else
             {
                 event.x = config["position"]["x"].get<int>();
                 event.y = config["position"]["y"].get<int>();
             }
-            browser->GetHost()->SendMouseClickEvent(event, CefBrowserHost::MouseButtonType::MBT_RIGHT, true,1);
+            //browser->GetHost()->SendMouseClickEvent(event, CefBrowserHost::MouseButtonType::MBT_RIGHT, true,1);
         }
         else if (message_name._Starts_with("getHorseInfo"))
         {

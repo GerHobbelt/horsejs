@@ -317,6 +317,16 @@ var horse;
     protocolClient(config) {
       return this.callHorse(this.protocolClient, config);
     }
+    notify(config) {
+      return new Promise((resolve, reject) => {
+        let msgName = this.createMsgName(this.notify);
+        eventer.addOnceEventListener(msgName, (result) => {
+          config[result.type]();
+        });
+        this.callHorseNative(msgName, JSON.stringify(config));
+        resolve({ success: true });
+      });
+    }
   };
 
   // extension/src/Handler/Menu.ts
