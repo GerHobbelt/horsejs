@@ -17,3 +17,11 @@ let result = await horse.info.getHorseInfo();
 console.log(result.data);
 //{"HorseJsVersion":"0.0.2"}
 ```
+
+# 获取系统信息
+
+```js
+let result = await horse.info.getOSInfo();
+console.log(result);
+// {"arch":"64 bit","name":"Windows","version":[10,0,16299]}
+```

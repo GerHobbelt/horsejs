@@ -11,6 +11,7 @@
 /wxWidgetsDebug/**
 /cefRelease/**
 /cefDebug/**
+/enc_temp_folder/**
 # Prerequisites
 *.d
 
