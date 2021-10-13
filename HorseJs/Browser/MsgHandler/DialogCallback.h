@@ -10,6 +10,15 @@ public:
 	{
 		CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
 		CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
+		msgArgs->SetSize(1);
+		std::string jsonStr = "{err:false,result:[";
+		for (size_t i = 0; i < file_paths.size(); i++)
+		{
+			if (i != 0) jsonStr += ",";
+			jsonStr += "'" + file_paths[i].ToString() + "'";
+		}
+		jsonStr += "]}";
+		msgArgs->SetString(0, jsonStr);
 		frame->SendProcessMessage(PID_RENDERER, msg);
 	}
 private:

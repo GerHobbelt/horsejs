@@ -186,7 +186,6 @@
     <ClInclude Include="Browser\Browser.h" />
     <ClInclude Include="Other\Other.h" />
     <ClInclude Include="Renderer\Renderer.h" />
-    <ClInclude Include="Renderer\MsgHandler\DialogR.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scheme\SchemeHandler.h" />
     <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
@@ -244,6 +243,7 @@
   <ItemGroup>
     <CopyFileToFolders Include="extension\extension.js">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app/</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

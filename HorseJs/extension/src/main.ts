@@ -6,12 +6,11 @@ export class Horse {
   window: Window
   dialog: Dialog
   info: Info
-  eventer: Eventer
+  __nativeMsgPipe = Eventer.__nativeMsgPipe
   constructor() {
     this.window = new Window()
     this.dialog = new Dialog()
     this.info = new Info()
-    this.eventer = new Eventer()
   }
 }
 declare let horse: Horse

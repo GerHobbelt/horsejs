@@ -20,9 +20,9 @@ public:
             context.get()->GetFrame()->SendProcessMessage(PID_BROWSER, msg);
             return true;
         }
-        else if (name == "__listenHorseFunc") {
-            arguments[0]->GetStringValue()
-        }
+        //else if (name == "__listenHorseFunc") {
+        //    arguments[0]->GetStringValue()
+        //}
 
     };
 private:

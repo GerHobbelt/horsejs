@@ -1,23 +1,4 @@
-//防抖
-let debounce = (fn, span = 680) => {
-  let timer = null;
-  return function () {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(this, arguments), span);
-  };
-};
-//限流
-let throttle = (fn, span = 680) => {
-  let timer = null;
-  return function () {
-    if (timer) return;
-    timer = setTimeout(() => {
-      fn.apply(this, arguments);
-      timer = null;
-    }, span);
-  };
-};
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
   let btnArr = document.querySelector(".titleTool").children;
   btnArr[0].addEventListener("click", () => {
     horse.window.minimize();
@@ -32,24 +13,19 @@ window.addEventListener("load", () => {
   btnArr[2].addEventListener("click", () => {
     horse.window.close();
   });
-  let maximizeLogic = () => {
-    if (
-      window.outerHeight === screen.availHeight &&
-      window.outerWidth === screen.availWidth
-    ) {
-      btnArr[1].classList.remove("horse-maximize");
-      btnArr[1].classList.add("horse-restore");
-    } else {
-      btnArr[1].classList.remove("horse-restore");
-      btnArr[1].classList.add("horse-maximize");
-    }
-  };
-  maximizeLogic();
-  window.addEventListener("resize", debounce(maximizeLogic));
-  horse.dialog.openFile({
-    title: "test",
-    defaultFilePath: "C:\\AMD",
-    filters: ["*"],
-    lastFilterIndex: 0,
+  horse.window.addEventListener("maximize", () => {
+    btnArr[1].classList.remove("horse-maximize");
+    btnArr[1].classList.add("horse-restore");
   });
+  horse.window.addEventListener("unMaximize", () => {
+    btnArr[1].classList.remove("horse-restore");
+    btnArr[1].classList.add("horse-maximize");
+  });
+  // let result = await horse.dialog.openFile({
+  //   title: "test",
+  //   defaultFilePath: "C:\\AMD",
+  //   filters: ["*"],
+  //   lastFilterIndex: 0,
+  // });
+  // console.log(result);
 });

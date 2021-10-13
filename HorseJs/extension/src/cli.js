@@ -11,9 +11,11 @@ esbuild.buildSync({
   bundle: true,
   sourcemap: false,
 })
-let pre = `native function __callHorseFunc();${os.EOL}native function __listenHorseFunc();${os.EOL}var horse;`
+let pre = `var horse;` //native function __callHorseFunc();${os.EOL}
 let js = `${pre}${os.EOL}${fs.readFileSync(outfile)}`
 fs.writeFileSync(outfile, js)
+let now = new Date()
+console.log(`build ok  ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`)
 
 // native function jsFunc();
 // var horse = {
