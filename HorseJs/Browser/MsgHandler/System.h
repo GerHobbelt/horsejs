@@ -13,6 +13,7 @@
 
 #include "../../Common/json.hpp"
 #include "../../Common/Config.h"
+#include "ClientData.h"
 using nlohmann::json;
 class System
 {
@@ -29,27 +30,27 @@ public:
         auto configObj = json::parse(configStr);
         if (message_name._Starts_with("autoStart"))
         {
-            #if defined(OS_WIN)
+#if defined(OS_WIN)
             wxRegKey regKey(wxRegKey::HKCU, "Software\\Microsoft\\Windows\\CurrentVersion\\Run");
             auto appName = "horse.app." + Config::get()["appName"].get<std::string>();
             auto setOrRemove = configObj["setOrRemove"].get<std::string>();
             if (setOrRemove == "set")
-            {                           
+            {
                 bool flag = regKey.SetValue(appName, wxStandardPaths::Get().GetExecutablePath());
             }
-            else if(setOrRemove == "remove")
+            else if (setOrRemove == "remove")
             {
                 regKey.DeleteValue(appName);
             }
-            #endif
+#endif
         }
         else if (message_name._Starts_with("protocolClient"))
         {
-            #if defined(OS_WIN)
+#if defined(OS_WIN)
             auto setOrRemove = configObj["setOrRemove"].get<std::string>();
             auto protocolName = configObj["protocolName"].get<std::string>();
             wxRegKey regKey0(wxRegKey::HKCR, protocolName + "\\shell\\open\\command");
-            wxRegKey regKey(wxRegKey::HKCU, "Software\\Classes\\" + protocolName + "\\shell\\open\\command");           
+            wxRegKey regKey(wxRegKey::HKCU, "Software\\Classes\\" + protocolName + "\\shell\\open\\command");
             if (setOrRemove == "set")
             {
                 regKey0.Create();
@@ -63,22 +64,28 @@ public:
                 regKey0.DeleteSelf();
                 regKey.DeleteSelf();
             }
-            #endif
+#endif
         }
         else if (message_name._Starts_with("getHorseInfo"))
         {
-            #if defined(OS_WIN)
+#if defined(OS_WIN)
             auto appName = "horse.app." + Config::get()["appName"].get<std::string>();
-            wxRegKey regKey(wxRegKey::HKCU, "Software\\Classes\\"+appName+"\\shell\\open\\command");
+            wxRegKey regKey(wxRegKey::HKCU, "Software\\Classes\\" + appName + "\\shell\\open\\command");
             auto setOrRemove = configObj["setOrRemove"].get<std::string>();
-            #endif
+#endif
         }
         else if (message_name._Starts_with("notify"))
         {
             auto title = configObj["title"].get<std::string>();
             auto body = configObj["body"].get<std::string>();
-            auto notification = wxNotificationMessage(wxString::FromUTF8(title), wxString::FromUTF8(body));
-            notification.Show();
+            wxNotificationMessage* notification = new wxNotificationMessage(wxString::FromUTF8(title), wxString::FromUTF8(body));
+            ClientData* clientData = new ClientData();
+            clientData->browser = browser;
+            clientData->frame = frame;
+            clientData->msgName = message->GetName().ToString()+"_event";
+            notification->Bind(wxEVT_NOTIFICATION_MESSAGE_CLICK, &System::notifyClick,-1,-1,clientData);
+            //notification->Bind(wxEVT_NOTIFICATION_MESSAGE_DISMISSED, &System::notifyClick, -1, -1, clientData);   //显示之前也会触发这个事件，奇怪
+            notification->Show();
         }
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
         CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
@@ -86,5 +93,27 @@ public:
         msgArgs->SetString(0, result.dump());
         frame->SendProcessMessage(PID_RENDERER, msg);
         return true;
-    }
+    };
+    //static bool firstDismiss;
+    static void notifyClick(wxCommandEvent& event) {
+        auto type = event.GetEventType();
+        //if (firstDismiss && type == wxEVT_NOTIFICATION_MESSAGE_DISMISSED) {
+        //    firstDismiss = false;
+        //    return;
+        //}
+        auto obj = static_cast<ClientData*>(event.GetEventUserData());   
+        CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(obj->msgName);
+        CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
+        json result;
+        if (type == wxEVT_NOTIFICATION_MESSAGE_CLICK) {
+
+            result["type"] = "click";
+        }
+        //else if (type == wxEVT_NOTIFICATION_MESSAGE_DISMISSED) {
+        //    result["type"] = "dismiss";
+        //}
+        msgArgs->SetSize(1);
+        msgArgs->SetString(0, result.dump());
+        obj->frame->SendProcessMessage(PID_RENDERER, msg);
+    };
 };

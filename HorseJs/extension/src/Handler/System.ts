@@ -12,10 +12,12 @@ export class System extends Base {
     return new Promise((resolve, reject) => {
       let msgName = this.createMsgName(this.notify)
       eventer.addOnceEventListener(msgName, (result) => {
+        resolve({ success: true })
+      })
+      eventer.addOnceEventListener(msgName + '_event', (result) => {
         config[result.type]()
       })
       this.callHorseNative(msgName, JSON.stringify(config))
-      resolve({ success: true })
     })
   }
 }

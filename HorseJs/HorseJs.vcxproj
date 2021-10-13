@@ -181,6 +181,7 @@
   <ItemGroup>
     <ClInclude Include="Browser\Browser.h" />
     <ClInclude Include="Browser\Handler.h" />
+    <ClInclude Include="Browser\MsgHandler\ClientData.h" />
     <ClInclude Include="Browser\MsgHandler\Clipboard.h" />
     <ClInclude Include="Browser\MsgHandler\Dialog.h" />
     <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
