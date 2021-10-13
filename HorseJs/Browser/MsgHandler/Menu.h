@@ -28,28 +28,33 @@ public:
         if (message_name._Starts_with("popup"))
         {
             instance->menuData = config["data"];
-            CefMouseEvent event;
-            event.modifiers = cef_event_flags_t::EVENTFLAG_RIGHT_MOUSE_BUTTON;
             wxPoint point = wxDefaultPosition;
             if (config["position"]["x"].get<int>() != -1) {
                 point.x = config["position"]["x"].get<int>();
                 point.y = config["position"]["y"].get<int>();
             }
-            int menuId = 666;
+            int menuId = 0;
             wxMenu* menu = new wxMenu();
             ClientData* userData = new ClientData();
-            userData->browser = browser;
             userData->frame = frame;
+            userData->msgName = message->GetName().ToString() + "_event";
             menu->SetClientObject(userData);
             for (auto& menuItem : config["data"])
             {
                 auto name = menuItem["name"].get<std::string>();
-                menu->Append(menuId, wxString::FromUTF8(name));
+                auto tip = menuItem["tip"].get<std::string>();
+                menu->Append(menuId, wxString::FromUTF8(name), wxString::FromUTF8(tip));
                 wxTheApp->Bind(wxEVT_MENU, &onMenuClicked, menuId);
                 menuId += 1;
             }
             auto win = wxWindow::FindFocus();
-            win->PopupMenu(menu,point);
+            CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
+            CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
+            msgArgs->SetSize(1);
+            msgArgs->SetString(0, result.dump());
+            frame->SendProcessMessage(PID_RENDERER, msg);
+            win->PopupMenu(menu,point);  //这里会阻塞，所以提前返回消息
+            return true;
         }
         else if (message_name._Starts_with("getHorseInfo"))
         {
@@ -67,7 +72,13 @@ public:
     static void onMenuClicked(wxCommandEvent& e) {
         auto id = e.GetId();
         auto target = wxDynamicCast(e.GetEventObject(),wxMenu);
-        auto clientObj = static_cast<ClientData*>(target->GetClientObject());
-        //auto data = clientObj->GetData();
+        auto obj = static_cast<ClientData*>(target->GetClientObject());
+        CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(obj->msgName);
+        CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
+        json result;
+        result["index"] = id;
+        msgArgs->SetSize(1);
+        msgArgs->SetString(0, result.dump());
+        obj->frame->SendProcessMessage(PID_RENDERER, msg);
     }
 };
