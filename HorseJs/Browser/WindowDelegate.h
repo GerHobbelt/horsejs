@@ -19,12 +19,14 @@ public:
     bool IsFrameless(CefRefPtr<CefWindow> window) override
     {
         return true;
-    }
+    };
     void OnWindowDestroyed(CefRefPtr<CefWindow> window) override
     {
         browser_view_ = nullptr;
-    }
-    bool CanClose(CefRefPtr<CefWindow> window) override;
+    };
+    bool CanClose(CefRefPtr<CefWindow> window) override {
+        return true;
+    };
     CefSize GetPreferredSize(CefRefPtr<CefView> view);
     CefSize GetMinimumSize(CefRefPtr<CefView> view) override;
     CefSize GetMaximumSize(CefRefPtr<CefView> view) override;

@@ -7,6 +7,9 @@
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Browser\ViewDelegate.cpp" />
     <ClCompile Include="Browser\WindowDelegate.cpp" />
+    <ClCompile Include="main_message_loop_multithreaded_win.cc" />
+    <ClCompile Include="main_message_loop.cc" />
+    <ClCompile Include="util_win.cc" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Main">
@@ -45,6 +48,9 @@
     <ClInclude Include="Browser\NativeWindow.h" />
     <ClInclude Include="Browser\TopWindow.h" />
     <ClInclude Include="Browser\MsgHandler\ClientData.h" />
+    <ClInclude Include="main_message_loop_multithreaded_win.h" />
+    <ClInclude Include="main_message_loop.h" />
+    <ClInclude Include="util_win.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />

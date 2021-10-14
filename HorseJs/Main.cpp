@@ -8,6 +8,9 @@
 #include "Renderer/Renderer.h"
 #include "Scheme/SchemeHandlerFactory.h"
 #include "Browser/TheWxApp.h"
+#include "Browser/TopWindow.h"
+//#include "main_message_loop.h"
+//#include "main_message_loop_multithreaded_win.h"
 
 
 // --renderer-startup-dialog 
@@ -34,23 +37,24 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
     }
     int exit_code = CefExecuteProcess(main_args, app, nullptr);
     if (exit_code >= 0) return exit_code;
-
+    //std::unique_ptr<MainMessageLoop> message_loop;
+    //message_loop.reset(new MainMessageLoopMultithreadedWin);
+    
     wxCmdLineArgType cmdLine = (char*)lpCmdLine;
     wxEntryStart(hInstance, hPrevInstance, cmdLine, nCmdShow);
     wxTheApp->CallOnInit();
-
+    //TopWindow* win = new TopWindow();
+    //win->Show();
     CefSettings settings;
-    if (command_line->HasSwitch("enable-chrome-runtime"))
-    {
-        settings.chrome_runtime = true;
-    }
+    settings.multi_threaded_message_loop = true;
     CefInitialize(main_args, settings, app.get(), nullptr);
     CefRegisterSchemeHandlerFactory("http", "horse", new SchemeHandlerFactory());
-
-
-    CefRunMessageLoop();
-    CefShutdown();
+    //int result = message_loop->Run();
+    //CefRunMessageLoop();
+    //CefDoMessageLoopWork();
+    wxTheApp->OnRun();
     wxEntryCleanup();
+    CefShutdown();
     return 0;
 }
 
