@@ -1,7 +1,9 @@
 #pragma once
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
+#include "include/cef_version.h"
 #include <wx/platinfo.h>
+#include <wx/version.h> 
 #include "../Handler.h"
 #include "../ViewDelegate.h"
 
@@ -24,7 +26,10 @@ public:
         else if (message_name._Starts_with("getHorseInfo"))
         {
             json data;
-            data["HorseJsVersion"] = "0.0.3";
+            data["HorseJsVersion"] = {0,0,3};
+            data["wxWidgetsVersion"] = { wxMAJOR_VERSION ,wxMINOR_VERSION ,wxRELEASE_NUMBER };
+            data["cefVersion"] = { CEF_VERSION_MAJOR ,CEF_VERSION_MINOR ,CEF_VERSION_PATCH ,CEF_COMMIT_NUMBER };
+            data["chromeVersion"] = { CHROME_VERSION_MAJOR ,CHROME_VERSION_MINOR ,CHROME_VERSION_BUILD ,CHROME_VERSION_PATCH };
             result["data"] = data;
         }
         else if (message_name._Starts_with("getOSInfo"))
