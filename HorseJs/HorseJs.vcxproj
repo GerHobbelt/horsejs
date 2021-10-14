@@ -139,6 +139,9 @@
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)Resource/cef.manifest</AdditionalManifestFiles>
     </Manifest>
+    <PreBuildEvent>
+      <Command>node $(projectDir)extension\src\cli.js</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

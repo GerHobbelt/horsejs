@@ -38,7 +38,10 @@ export class Window {
     Util.callHorse(arg)
   }
   addEventListener(eventName: 'maximize' | 'unMaximize', cb: Function) {
-    Eventer.addEventListener(eventName, cb)
+    Eventer.addEventListener(`${Window.name}_${eventName}`, cb)
+  }
+  removeEventListener(eventName: 'maximize' | 'unMaximize', cb: Function) {
+    Eventer.addEventListener(`${Window.name}_${eventName}`, cb)
   }
   constructor() {
     this.isMaximized = this.getIsMaximized()

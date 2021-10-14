@@ -8,4 +8,13 @@ export class Eventer {
     if (!this.dic[msgName]) this.dic[msgName] = [cb]
     else this.dic[msgName].push(cb)
   }
+  public static removeEventListener(msgName: string, cb: Function) {
+    if (!this.dic[msgName] || this.dic[msgName].length < 1) return
+    if (!cb) {
+      delete this.dic[msgName]
+      return
+    }
+    let index = this.dic[msgName].findIndex((v) => v == cb)
+    if (index >= 0) this.dic[msgName].splice(index, 1)
+  }
 }
