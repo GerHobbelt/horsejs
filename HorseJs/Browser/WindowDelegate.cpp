@@ -11,8 +11,8 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window)
         window->Show();
         //TopWindow* win = new TopWindow();
         //win->Show();
-        //HWND hwnd = window->GetWindowHandle();
-        //nativeWindow = new NativeWindow(hwnd);
+        HWND hwnd = window->GetWindowHandle();
+        nativeWindow = new NativeWindow(hwnd);
     }
     window->CenterWindow(window->GetSize());
     CefRefPtr<CefImage> image = CefImage::CreateImage();
