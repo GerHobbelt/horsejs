@@ -31,20 +31,23 @@ var horse;
     }
   };
 
-  // extension/src/Handler/Eventer.ts
-  var _Eventer = class {
-    static emitEvent(msgName, result) {
-      if (!_Eventer.dic[msgName])
-        return;
-      _Eventer.dic[msgName].forEach((func) => func(result));
+  // extension/src/eventer.ts
+  var Eventer = class {
+    constructor() {
+      this.dic = {};
     }
-    static addEventListener(msgName, cb) {
+    emitEvent(msgName, result) {
+      if (!this.dic[msgName])
+        return;
+      this.dic[msgName].forEach((func) => func(result));
+    }
+    addEventListener(msgName, cb) {
       if (!this.dic[msgName])
         this.dic[msgName] = [cb];
       else
         this.dic[msgName].push(cb);
     }
-    static removeEventListener(msgName, cb) {
+    removeEventListener(msgName, cb) {
       if (!this.dic[msgName] || this.dic[msgName].length < 1)
         return;
       if (!cb) {
@@ -56,8 +59,7 @@ var horse;
         this.dic[msgName].splice(index, 1);
     }
   };
-  var Eventer = _Eventer;
-  Eventer.dic = {};
+  var eventer = new Eventer();
 
   // extension/src/Handler/Dialog.ts
   var Dialog = class {
@@ -67,17 +69,14 @@ var horse;
     openFile({ title, defaultFilePath, filters, lastFilterIndex }) {
       return new Promise((resolve, reject) => {
         let msgName = this.getFirstArgument(this.openFile);
-        console.log(msgName);
-        Eventer.addEventListener(msgName, (result) => {
-          resolve(result);
-        });
+        eventer.addEventListener(msgName, (result) => resolve(result));
         Util.callHorse(msgName, title, defaultFilePath, filters, lastFilterIndex);
       });
     }
     openFolder({ title, defaultFilePath, filters, lastFilterIndex, cb }) {
       return new Promise((resolve, reject) => {
         let msgName = this.getFirstArgument(this.openFolder);
-        Eventer.addEventListener(msgName, (result) => {
+        eventer.addEventListener(msgName, (result) => {
           resolve(result);
         });
         Util.callHorse(msgName, title, defaultFilePath, filters, lastFilterIndex);
@@ -112,17 +111,17 @@ var horse;
         let oldState = this.isMaximized;
         this.isMaximized = curState;
         if (oldState && !curState)
-          Eventer.emitEvent(`${Window.name}_unMaximize`);
+          eventer.emitEvent(`${Window.name}_unMaximize`);
         else if (!oldState && curState)
-          Eventer.emitEvent(`${Window.name}_maximize`);
+          eventer.emitEvent(`${Window.name}_maximize`);
       }));
     }
     processShowEvent() {
       document.addEventListener("visibilitychange", () => {
         if (document.hidden)
-          Eventer.emitEvent(`${Window.name}_hide`);
+          eventer.emitEvent(`${Window.name}_hide`);
         else
-          Eventer.emitEvent(`${Window.name}_show`);
+          eventer.emitEvent(`${Window.name}_show`);
       });
     }
     getIsMaximized() {
@@ -157,16 +156,17 @@ var horse;
       Util.callHorse(arg);
     }
     addEventListener(eventName, cb) {
-      Eventer.addEventListener(`${Window.name}_${eventName}`, cb);
+      eventer.addEventListener(`${Window.name}_${eventName}`, cb);
     }
     removeEventListener(eventName, cb) {
-      Eventer.addEventListener(`${Window.name}_${eventName}`, cb);
+      eventer.addEventListener(`${Window.name}_${eventName}`, cb);
     }
   };
 
   // extension/src/main.ts
   var Horse = class {
     constructor() {
+      this.eventer = eventer;
       this.window = new Window();
       this.dialog = new Dialog();
       this.info = new Info();

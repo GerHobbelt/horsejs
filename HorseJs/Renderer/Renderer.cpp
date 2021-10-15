@@ -48,7 +48,7 @@ bool Renderer::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr
 {
     std::string message_name = message->GetName();
     auto args = message->GetArgumentList();
-    std::string script = "horse.evnter.emitEvent('" + message_name + "'," + args->GetString(0).ToString() +");";
+    std::string script = "horse.eventer.emitEvent('" + message_name + "'," + args->GetString(0).ToString() +");";
     frame->ExecuteJavaScript(script, frame->GetURL(), 0);
     return true;
 }

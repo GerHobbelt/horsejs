@@ -5,5 +5,5 @@
 - 打开文件对话框
 
 ```javascript
-horse.dialog.maximize();
+let result = await horse.dialog.openFile();
 ```

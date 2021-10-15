@@ -11,7 +11,7 @@ public:
 		CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
 		CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
 		msgArgs->SetSize(1);
-		std::string jsonStr = "{err:false,result:[";
+		std::string jsonStr = "{err:false,data:[";
 		for (size_t i = 0; i < file_paths.size(); i++)
 		{
 			if (i != 0) jsonStr += ",";

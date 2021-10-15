@@ -24,11 +24,11 @@ window.addEventListener("load", async () => {
   horse.window.addEventListener("show", () => {
     console.log("show");
   });
-  // let result = await horse.dialog.openFile({
-  //   title: "test",
-  //   defaultFilePath: "C:\\AMD",
-  //   filters: ["*"],
-  //   lastFilterIndex: 0,
-  // });
-  // console.log(result);
+  let result = await horse.dialog.openFile({
+    title: "test",
+    defaultFilePath: "C:\\AMD",
+    filters: ["*"],
+    lastFilterIndex: 0,
+  });
+  console.log(JSON.stringify(result));
 });

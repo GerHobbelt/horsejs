@@ -1,12 +1,12 @@
 import { Dialog } from './Handler/Dialog'
-import { Eventer } from './Handler/Eventer'
+import { eventer } from './eventer'
 import { Info } from './Handler/Info'
 import { Window } from './Handler/Window'
 export class Horse {
   window: Window
   dialog: Dialog
   info: Info
-  eventer: Eventer
+  eventer = eventer
   constructor() {
     this.window = new Window()
     this.dialog = new Dialog()

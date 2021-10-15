@@ -1,5 +1,5 @@
 import { Util } from '../Util'
-import { Eventer } from './Eventer'
+import { eventer } from '../eventer'
 declare type eventType = 'maximize' | 'unMaximize' | 'show' | 'hide'
 export class Window {
   isMaximized = false
@@ -14,15 +14,15 @@ export class Window {
         let curState = this.getIsMaximized()
         let oldState = this.isMaximized
         this.isMaximized = curState
-        if (oldState && !curState) Eventer.emitEvent(`${Window.name}_unMaximize`)
-        else if (!oldState && curState) Eventer.emitEvent(`${Window.name}_maximize`)
+        if (oldState && !curState) eventer.emitEvent(`${Window.name}_unMaximize`)
+        else if (!oldState && curState) eventer.emitEvent(`${Window.name}_maximize`)
       })
     )
   }
   private processShowEvent() {
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) Eventer.emitEvent(`${Window.name}_hide`)
-      else Eventer.emitEvent(`${Window.name}_show`)
+      if (document.hidden) eventer.emitEvent(`${Window.name}_hide`)
+      else eventer.emitEvent(`${Window.name}_show`)
     })
   }
   getIsMaximized() {
@@ -57,10 +57,10 @@ export class Window {
     Util.callHorse(arg)
   }
   addEventListener(eventName: eventType, cb: Function) {
-    Eventer.addEventListener(`${Window.name}_${eventName}`, cb)
+    eventer.addEventListener(`${Window.name}_${eventName}`, cb)
   }
   removeEventListener(eventName: eventType, cb: Function) {
-    Eventer.addEventListener(`${Window.name}_${eventName}`, cb)
+    eventer.addEventListener(`${Window.name}_${eventName}`, cb)
   }
   constructor() {
     this.processMaximizeEvent()
