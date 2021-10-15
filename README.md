@@ -3,9 +3,9 @@
 <div align=center>
 使用 HTML/JS/CSS 创建更快速、更稳定的桌面应用。
 <br />
-<img src="Doc/horseApp.png" />
-<br />
 QQ交流群：650631559
+<br />
+<img src="Doc/horseApp.png" />
 </div>
 
 # 说明
