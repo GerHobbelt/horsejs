@@ -24,15 +24,13 @@ public:
     {
         browser_view_ = nullptr;
     };
-    bool CanClose(CefRefPtr<CefWindow> window) override {
-        return true;
-    };
+    bool CanClose(CefRefPtr<CefWindow> window) override;
     CefSize GetPreferredSize(CefRefPtr<CefView> view);
     CefSize GetMinimumSize(CefRefPtr<CefView> view) override;
     CefSize GetMaximumSize(CefRefPtr<CefView> view) override;
-private:
     CefRefPtr<CefBrowserView> browser_view_;
     NativeWindow* nativeWindow;
+private:
     void PrepareIcon(CefRefPtr<CefImage> image, double scale_factor, const std::string& name);
     CefSize getSizeConfig(std::string_view configName);
     IMPLEMENT_REFCOUNTING(WindowDelegate);

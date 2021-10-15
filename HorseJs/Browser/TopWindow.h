@@ -5,7 +5,7 @@ class TopWindow : public wxFrame
 {
 public:
     TopWindow() : wxFrame(NULL, wxID_ANY, "") {
-        //Bind(wxEVT_CLOSE_WINDOW, &TopWindow::OnClose,this);
+        Bind(wxEVT_CLOSE_WINDOW, &TopWindow::OnClose,this);
     };
     void OnClose(wxCloseEvent& event) {
         //if (event.CanVeto() && m_bFileNotSaved)
