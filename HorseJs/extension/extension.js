@@ -163,6 +163,17 @@ var horse;
     }
   };
 
+  // extension/src/Handler/Shell.ts
+  var Shell = class {
+    getFirstArgument(method) {
+      return `${Shell.name}_${method.name}_${Util.randomNum()}`;
+    }
+    openExternal({ target, workingDir }) {
+      let msgName = this.getFirstArgument(this.openExternal);
+      Util.callHorse(msgName, target, workingDir);
+    }
+  };
+
   // extension/src/main.ts
   var Horse = class {
     constructor() {
@@ -170,6 +181,7 @@ var horse;
       this.window = new Window();
       this.dialog = new Dialog();
       this.info = new Info();
+      this.shell = new Shell();
     }
   };
   horse = new Horse();
