@@ -44,6 +44,17 @@ var horse;
       else
         this.dic[msgName].push(cb);
     }
+    static removeEventListener(msgName, cb) {
+      if (!this.dic[msgName] || this.dic[msgName].length < 1)
+        return;
+      if (!cb) {
+        delete this.dic[msgName];
+        return;
+      }
+      let index = this.dic[msgName].findIndex((v) => v == cb);
+      if (index >= 0)
+        this.dic[msgName].splice(index, 1);
+    }
   };
   var Eventer = _Eventer;
   Eventer.dic = {};
@@ -88,20 +99,31 @@ var horse;
   var Window = class {
     constructor() {
       this.isMaximized = false;
+      this.processMaximizeEvent();
+      this.processShowEvent();
+    }
+    getFirstArgument(method) {
+      return `${Window.name}_${method.name}_${Util.randomNum()}`;
+    }
+    processMaximizeEvent() {
       this.isMaximized = this.getIsMaximized();
       window.addEventListener("resize", Util.debounce(() => {
         let curState = this.getIsMaximized();
         let oldState = this.isMaximized;
         this.isMaximized = curState;
         if (oldState && !curState)
-          Eventer.emitEvent("unMaximize");
+          Eventer.emitEvent(`${Window.name}_unMaximize`);
         else if (!oldState && curState)
-          Eventer.emitEvent("maximize");
+          Eventer.emitEvent(`${Window.name}_maximize`);
       }));
-      console.log(1);
     }
-    getFirstArgument(method) {
-      return `${Window.name}_${method.name}_${Util.randomNum()}`;
+    processShowEvent() {
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden)
+          Eventer.emitEvent(`${Window.name}_hide`);
+        else
+          Eventer.emitEvent(`${Window.name}_show`);
+      });
     }
     getIsMaximized() {
       return window.outerHeight === screen.availHeight && window.outerWidth === screen.availWidth;
@@ -135,14 +157,16 @@ var horse;
       Util.callHorse(arg);
     }
     addEventListener(eventName, cb) {
-      Eventer.addEventListener(eventName, cb);
+      Eventer.addEventListener(`${Window.name}_${eventName}`, cb);
+    }
+    removeEventListener(eventName, cb) {
+      Eventer.addEventListener(`${Window.name}_${eventName}`, cb);
     }
   };
 
   // extension/src/main.ts
   var Horse = class {
     constructor() {
-      this.__nativeMsgPipe = Eventer.__nativeMsgPipe;
       this.window = new Window();
       this.dialog = new Dialog();
       this.info = new Info();

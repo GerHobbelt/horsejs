@@ -6,7 +6,7 @@ export class Horse {
   window: Window
   dialog: Dialog
   info: Info
-  __nativeMsgPipe = Eventer.__nativeMsgPipe
+  eventer: Eventer
   constructor() {
     this.window = new Window()
     this.dialog = new Dialog()
