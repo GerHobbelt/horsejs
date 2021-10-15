@@ -169,6 +169,9 @@
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)Resource\cef.manifest</AdditionalManifestFiles>
     </Manifest>
+    <PreBuildEvent>
+      <Command>node $(projectDir)extension\src\cli.js --minify</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Browser\Browser.cpp" />
@@ -342,20 +345,23 @@
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app</DestinationFolders>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="app\demo\shell.js">
-      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="app\demo\path.js">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="app\demo\system.js">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="app\demo\menu.js">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
     </CopyFileToFolders>
     <CopyFileToFolders Include="Common\DefaultConfig.json">
       <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\demo\tray.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>

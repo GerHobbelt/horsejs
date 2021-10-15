@@ -11,7 +11,6 @@
 #include "include/wrapper/cef_helpers.h"
 #include "MsgHandler/Window.h"
 #include "MsgHandler/Dialog.h"
-#include "MsgHandler/Shell.h"
 #include "MsgHandler/Info.h"
 #include "MsgHandler/Clipboard.h"
 #include "MsgHandler/File.h"
@@ -190,10 +189,6 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     else if(message_name._Starts_with("Dialog"))
     {
         return Dialog::ProcessMsg(browser, frame, source_process, message);
-    }
-    else if (message_name._Starts_with("Shell"))
-    {
-        return Shell::ProcessMsg(browser, frame, source_process, message);
     }
     else if (message_name._Starts_with("Info"))
     {
