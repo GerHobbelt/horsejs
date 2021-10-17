@@ -3,6 +3,7 @@
 #include "TopWindow.h"
 #include <wx/timer.h>
 #include "wx/msw/private.h"
+#include "wx/msw/window.h"
 class NativeWindow : public wxNativeWindow
 {
 public:
@@ -39,6 +40,21 @@ public:
     {
         Disown();
     };
+protected:
+    WXLRESULT MSWWindowProc(WXUINT nMsg, WXWPARAM wParam, WXLPARAM lParam) wxOVERRIDE
+    {        
+        WXLRESULT rc;
+        if (m_oldWndProc)
+            rc = ::CallWindowProc(m_oldWndProc, GetHwnd(), nMsg, wParam, lParam);
+        else
+            rc = ::DefWindowProc(GetHwnd(), nMsg, wParam, lParam);
+        //WM_WINDOWPOSCHANGING        
+        if (nMsg != WM_SYSCOMMAND) return rc;
+        if (wParam != SC_CLOSE) return rc;
+        
+        //this->parent->Destroy();
+        return rc;
+    }
 private:
     wxWindow* parent;
 };
