@@ -26,7 +26,7 @@ public:
         else if (message_name._Starts_with("getHorseInfo"))
         {
             json data;
-            data["HorseJsVersion"] = {0,0,3};
+            data["HorseJsVersion"] = {0,0,4};
             data["wxWidgetsVersion"] = { wxMAJOR_VERSION ,wxMINOR_VERSION ,wxRELEASE_NUMBER };
             data["cefVersion"] = { CEF_VERSION_MAJOR ,CEF_VERSION_MINOR ,CEF_VERSION_PATCH ,CEF_COMMIT_NUMBER };
             data["chromeVersion"] = { CHROME_VERSION_MAJOR ,CHROME_VERSION_MINOR ,CHROME_VERSION_BUILD ,CHROME_VERSION_PATCH };
@@ -38,7 +38,15 @@ public:
             json data;
             data["arch"] = platformInfo.GetArchName();
             data["name"] = platformInfo.GetOperatingSystemFamilyName();
+            //data["name2"] = platformInfo.GetOperatingSystemIdName();
             data["version"] = { platformInfo.GetOSMajorVersion(), platformInfo.GetToolkitMinorVersion() ,platformInfo.GetOSMicroVersion() };
+            result["data"] = data;
+        }
+        else if (message_name._Starts_with("getHardwareInfo"))
+        {
+            wxPlatformInfo platformInfo = wxPlatformInfo::Get();
+            json data;
+            data["arch"] = platformInfo.GetArchName();
             result["data"] = data;
         }
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());

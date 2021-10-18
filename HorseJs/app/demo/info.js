@@ -11,4 +11,8 @@ export let processor = {
     let result = await horse.info.getOSInfo();
     demoLog(result);
   },
+  getHardwareInfo: async () => {
+    let result = await horse.info.getHardwareInfo();
+    demoLog(result);
+  },
 };

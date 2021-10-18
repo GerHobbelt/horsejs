@@ -66,14 +66,6 @@ public:
             }
 #endif
         }
-        else if (message_name._Starts_with("getHorseInfo"))
-        {
-#if defined(OS_WIN)
-            auto appName = "horse.app." + Config::get()["appName"].get<std::string>();
-            wxRegKey regKey(wxRegKey::HKCU, "Software\\Classes\\" + appName + "\\shell\\open\\command");
-            auto setOrRemove = configObj["setOrRemove"].get<std::string>();
-#endif
-        }
         else if (message_name._Starts_with("notify"))
         {
             auto title = configObj["title"].get<std::string>();
