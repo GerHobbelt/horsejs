@@ -175,7 +175,6 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Browser\Browser.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
-    <ClCompile Include="Scheme\SchemeHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Browser\Handler.h" />
@@ -191,7 +190,6 @@
     <ClInclude Include="Other\Other.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Scheme\SchemeHandler.h" />
     <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
     <ClInclude Include="Renderer\V8Handler.h" />
   </ItemGroup>
@@ -199,7 +197,7 @@
     <ResourceCompile Include="HorseJs.rc" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="Resource\horse.config.json">
+    <CopyFileToFolders Include="app\horse.config.json">
       <DeploymentContent>true</DeploymentContent>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <FileType>Document</FileType>
@@ -224,10 +222,6 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="app\index.js">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
-    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="app\icon\iconfont.ttf">
@@ -248,6 +242,20 @@
     <CopyFileToFolders Include="extension\extension.js">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app/</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="app\common.css">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\common.js">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\demo.html">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

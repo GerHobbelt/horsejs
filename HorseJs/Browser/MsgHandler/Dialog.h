@@ -3,6 +3,8 @@
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "DialogCallback.h"
+#include "../../Common/json.hpp"
+using nlohmann::json;
 class Dialog:public CefRunFileDialogCallback
 {
 public:
@@ -16,11 +18,12 @@ public:
         {
             mode = FILE_DIALOG_OPEN;
             CefRefPtr<CefListValue> args = message->GetArgumentList();
-            CefRefPtr<CefListValue> filterSrc = args->GetList(2);
+            auto configStr = args->GetString(0).ToString();
+            auto config = json::parse(configStr);
             std::vector<CefString> filter;
-            for (size_t i = 0; i < filterSrc->GetSize(); i++)
+            for each (const std::string& var in config["filters"])
             {
-                filter.push_back(filterSrc->GetString(i));
+                filter.push_back(var);
             }
             CefRefPtr<CefRunFileDialogCallback> dcb = new DialogCallback(message,frame);
             browser->GetHost()->RunFileDialog(mode, args->GetString(0), args->GetString(1),filter, args->GetInt(3),dcb);            

@@ -8,7 +8,6 @@
 #include "include/cef_response.h"
 #include "include/cef_scheme.h"
 #include "include/wrapper/cef_helpers.h"
-#include "SchemeHandler.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
 #include <fstream>
 #include <filesystem>

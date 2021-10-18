@@ -11,9 +11,6 @@
     <ClCompile Include="Browser\Handler.cpp">
       <Filter>Browser</Filter>
     </ClCompile>
-    <ClCompile Include="Scheme\SchemeHandler.cpp">
-      <Filter>Scheme</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Main">
@@ -45,9 +42,6 @@
     <ClInclude Include="Browser\Handler.h">
       <Filter>Browser</Filter>
     </ClInclude>
-    <ClInclude Include="Scheme\SchemeHandler.h">
-      <Filter>Scheme</Filter>
-    </ClInclude>
     <ClInclude Include="Scheme\SchemeHandlerFactory.h">
       <Filter>Scheme</Filter>
     </ClInclude>
@@ -64,9 +58,8 @@
     <ResourceCompile Include="HorseJs.rc" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="Resource\horse.config.json" />
+    <CopyFileToFolders Include="app\horse.config.json" />
     <CopyFileToFolders Include="app\index.html" />
-    <CopyFileToFolders Include="app\index.js" />
     <CopyFileToFolders Include="app\icon\iconfont.css" />
     <CopyFileToFolders Include="app\icon\iconfont.ttf" />
     <CopyFileToFolders Include="app\icon\iconfont.woff" />
@@ -74,5 +67,8 @@
     <CopyFileToFolders Include="Resource\icon1.png" />
     <CopyFileToFolders Include="Resource\icon2.png" />
     <CopyFileToFolders Include="extension\extension.js" />
+    <CopyFileToFolders Include="app\common.css" />
+    <CopyFileToFolders Include="app\demo.html" />
+    <CopyFileToFolders Include="app\common.js" />
   </ItemGroup>
 </Project>
