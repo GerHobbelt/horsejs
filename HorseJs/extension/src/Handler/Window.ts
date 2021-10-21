@@ -66,9 +66,9 @@ export class Window {
     let msgName = this.getFirstArgument(this.show)
     Util.callHorse(msgName)
   }
-  resize(width, height) {
+  resize(size: { width; height }) {
     let msgName = this.getFirstArgument(this.resize)
-    Util.callHorse(msgName)
+    Util.callHorse(msgName, size)
   }
   constructor() {
     this.processMaximizeEvent()

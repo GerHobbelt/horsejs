@@ -1,4 +1,4 @@
-<html>
+﻿<html>
   <head>
     <title>HorseJs</title>
     <link rel="stylesheet" href="./icon/iconfont.css" />
@@ -32,15 +32,17 @@
       import { toolBtnLogic } from "./common.js";
       window.addEventListener("load", async () => {
         toolBtnLogic();
-        document.querySelector("#openFileBtn").addEventListener("click", () => {
-          let result = await horse.dialog.openFile({
-            title: "test",
-            defaultFilePath: "C:\\AMD",
-            filters: ["*"],
-            lastFilterIndex: 0,
+        document
+          .querySelector("#openFileBtn")
+          .addEventListener("click", async () => {
+            let result = await horse.dialog.openFile({
+              title: "test",
+              defaultFilePath: "C:\\AMD",
+              filters: ["*"],
+              lastFilterIndex: 0,
+            });
+            console.log(JSON.stringify(result));
           });
-          console.log(JSON.stringify(result));
-        });
       });
     </script>
   </body>

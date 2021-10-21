@@ -5,9 +5,9 @@
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_helpers.h"
-#include "../Browser/ViewDelegate.h"
-#include "../Browser/WindowDelegate.h"
-#include "../Browser/Handler.h"
+#include "ViewDelegate.h"
+#include "WindowDelegate.h"
+#include "Handler.h"
 #include "../Common/Config.h"
 
 void Browser::OnContextInitialized() {

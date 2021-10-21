@@ -164,9 +164,9 @@ var horse;
       let msgName = this.getFirstArgument(this.show);
       Util.callHorse(msgName);
     }
-    resize(width, height) {
+    resize(size) {
       let msgName = this.getFirstArgument(this.resize);
-      Util.callHorse(msgName);
+      Util.callHorse(msgName, size);
     }
   };
 
