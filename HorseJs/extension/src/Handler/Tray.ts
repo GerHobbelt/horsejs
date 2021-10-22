@@ -3,7 +3,7 @@ import { Base } from './Base'
 
 export class Tray extends Base {
   className = 'Tray'
-  async create(config: { iconPath: string; menu: [{ name: string }]; menuClick: (index) => {} }) {
+  async create(config: { iconPath: string; tip?: string; menu: [{ name: string }]; menuClick: (index) => {} }) {
     return new Promise((resolve, reject) => {
       let msgName = this.createMsgName(this.create)
       eventer.addOnceEventListener(msgName, (result) => {
