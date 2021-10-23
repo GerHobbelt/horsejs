@@ -8,6 +8,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: Arial, Helvetica, sans-serif;
+  user-select: none;
 }
 ::-webkit-scrollbar {
   width: 7px;

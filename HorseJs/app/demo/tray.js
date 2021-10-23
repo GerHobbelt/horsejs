@@ -8,8 +8,8 @@ export let processor = {
       menuClick: (index) => {
         demoLog(`你点击了第${index}个菜单`);
       },
-      trayClick: (clickType) => {
-        demoLog("托盘图标事件：", clickType);
+      leftButtonDown: () => {
+        demoLog("托盘图标事件");
       },
     });
     demoLog(result);
