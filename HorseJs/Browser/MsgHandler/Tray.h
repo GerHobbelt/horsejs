@@ -28,30 +28,26 @@ public:
         CefRefPtr<CefListValue> args = message->GetArgumentList();
         auto configStr = args->GetString(0).ToString();
         json config = json::parse(configStr);
-        static wxTaskBarIcon* taskBarIcon;
         if (message_name._Starts_with("create"))
         {
-            if (taskBarIcon != nullptr) {
-                taskBarIcon->Destroy();
-            }
             auto iconPath = config["iconPath"].get<std::string>();
             auto tip = config["tip"].get<std::string>();
-            taskBarIcon = new wxTaskBarIcon();
+            Tray::taskBarIcon = new wxTaskBarIcon();
             ClientData* userData = new ClientData();
             userData->frame = frame;
             userData->msgName = message->GetName().ToString();
-            taskBarIcon->SetClientObject(userData);
+            Tray::taskBarIcon->SetClientObject(userData);
             wxIconLocation location;
             location.SetFileName(wxString::FromUTF8(iconPath));
             wxIcon icon(location);
-            taskBarIcon->SetIcon(icon, wxString::FromUTF8(tip));
-            taskBarIcon->Bind(wxEVT_TASKBAR_MOVE, &onTrayEvent);
-            taskBarIcon->Bind(wxEVT_TASKBAR_LEFT_DOWN, &onTrayEvent);
-            taskBarIcon->Bind(wxEVT_TASKBAR_LEFT_DCLICK, &onTrayEvent);
-            taskBarIcon->Bind(wxEVT_TASKBAR_LEFT_UP, &onTrayEvent);
-            taskBarIcon->Bind(wxEVT_TASKBAR_RIGHT_DOWN, &onTrayEvent);
-            taskBarIcon->Bind(wxEVT_TASKBAR_RIGHT_DCLICK, &onTrayEvent);
-            taskBarIcon->Bind(wxEVT_TASKBAR_RIGHT_UP, &onTrayEvent);
+            Tray::taskBarIcon->SetIcon(icon, wxString::FromUTF8(tip));
+            Tray::taskBarIcon->Bind(wxEVT_TASKBAR_MOVE, &onTrayEvent);
+            Tray::taskBarIcon->Bind(wxEVT_TASKBAR_LEFT_DOWN, &onTrayEvent);
+            Tray::taskBarIcon->Bind(wxEVT_TASKBAR_LEFT_DCLICK, &onTrayEvent);
+            Tray::taskBarIcon->Bind(wxEVT_TASKBAR_LEFT_UP, &onTrayEvent);
+            Tray::taskBarIcon->Bind(wxEVT_TASKBAR_RIGHT_DOWN, &onTrayEvent);
+            Tray::taskBarIcon->Bind(wxEVT_TASKBAR_RIGHT_DCLICK, &onTrayEvent);
+            Tray::taskBarIcon->Bind(wxEVT_TASKBAR_RIGHT_UP, &onTrayEvent);
             if (!config["menu"].is_null()){
                 Tray::menu = new wxMenu();
                 Tray::menu->SetClientObject(userData);
@@ -69,8 +65,14 @@ public:
 
         }
         else if (message_name._Starts_with("destroy")) {
-            if (taskBarIcon != nullptr) {
-                taskBarIcon->Destroy();
+            if (Tray::menu != nullptr) {
+                delete Tray::menu;
+                Tray::menu = nullptr;
+            }
+            if (Tray::taskBarIcon != nullptr) {
+                Tray::taskBarIcon->RemoveIcon();
+                Tray::taskBarIcon->Destroy();
+                Tray::taskBarIcon = nullptr;
             }
         }
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
@@ -82,6 +84,7 @@ public:
     }
 private:
     static wxMenu* menu;
+    static wxTaskBarIcon* taskBarIcon;
     static void onMenuClicked(wxCommandEvent& e) {
         auto id = e.GetId();
         auto target = wxDynamicCast(e.GetEventObject(), wxMenu);
@@ -132,3 +135,4 @@ private:
     }
 };
 wxMenu*  Tray::menu = nullptr;
+wxTaskBarIcon* Tray::taskBarIcon = nullptr;
