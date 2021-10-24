@@ -370,7 +370,7 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Resource\icon.ico">
-      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
