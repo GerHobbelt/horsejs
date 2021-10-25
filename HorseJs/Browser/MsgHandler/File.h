@@ -12,6 +12,7 @@
 #include "include/wrapper/cef_helpers.h"
 #include "include/base/cef_callback.h"
 #include "wx/filefn.h"
+#include <wx/ffile.h>
 
 
 #include "../../Common/json.hpp"
@@ -145,82 +146,100 @@ public:
 private:
     static void readFile(const std::wstring& path, long long bufferSize,CefRefPtr<CefFrame> frame, CefRefPtr<CefProcessMessage> msg)
     {
-        //wxFile file;
-        //file.Open(path);
-        //wxFileOffset fileSize = file.Length();
-        //CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
-        //json result;
-        //result["success"] = true;
-        //result["fileSize"] = fileSize;
-        //static std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
-        //auto size = bufferSize;
-        //while (!file.Eof())
-        //{
-        //    wxFileOffset position = file.Tell();
-        //    wxFileOffset leftSize = fileSize - position;
-        //    if (leftSize < size) {
-        //        size = leftSize;
-        //    }
-        //    wchar_t* data = new wchar_t[size];
-        //    file.Read(data, size); 
-        //    std::string temp(utf8_conv.to_bytes(data));
-        //    result["data"] = temp;
-        //    if (!file.Eof()) {
-        //        result["finished"] = false;  //todo 这里应该先返回，其他接口的风格也是如此
-        //        std::string dataStr = result.dump();
-        //        msgArgs->SetString(0, dataStr);
-        //        frame->SendProcessMessage(PID_RENDERER, msg);
-        //    }
-        //    delete[] data;
-        //}
-        //file.Close();
-        //result["finished"] = true;  //todo 这里应该先返回，其他接口的风格也是如此
-        //auto resultStr = result.dump();
-        //msgArgs->SetString(0, resultStr);
-        //frame->SendProcessMessage(PID_RENDERER, msg);
-        // 
-        // 
-        
+        wxFile file;
+        file.Open(path);
+        //wxString* myTestData = new wxString();
+        //file.ReadAll(myTestData, wxConvWhateverWorks);
+        wxFileOffset fileSize = file.Length();
+        CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
         json result;
         result["success"] = true;
-        long long fileSize = std::filesystem::file_size(path);
         result["fileSize"] = fileSize;
-        result["finished"] = false;
-        std::wifstream reader;
-        CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
-        reader.open(path, std::ios::binary);
-        if (!reader.is_open()) {
-            result["success"] = false;
-            auto resultStr = result.dump();
-            msgArgs->SetString(0, resultStr);
-            frame->SendProcessMessage(PID_RENDERER, msg);
-            return ;
-        }
         static std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
         auto size = bufferSize;
-        while (reader.tellg() < fileSize)
+        while (!file.Eof())
         {
-            auto remainSize = fileSize - reader.tellg();
-            if (bufferSize > remainSize) {
-                size = remainSize;
+            wxFileOffset position = file.Tell();
+            wxFileOffset leftSize = fileSize - position;
+            if (leftSize < size) {
+                size = leftSize;
             }
-            wchar_t* buffer = new wchar_t[size + 1];
-            buffer[size] = '\0';
-            reader.read(buffer, size);
-            std::string temp(utf8_conv.to_bytes(buffer));
-            result["data"] = temp;
+            unsigned char* buffer = new unsigned char[size];
+            file.Read(buffer, size);
+            unsigned char testChar = buffer[600];
+            CefRefPtr<CefBinaryValue> data = CefBinaryValue::Create(buffer, size);
+            msgArgs->SetBinary(0, data);
+            frame->SendProcessMessage(PID_RENDERER, msg);
             delete[] buffer;
-            if (reader.tellg() < fileSize) {
-                auto resultStr = result.dump();
-                msgArgs->SetString(0, resultStr);
-                frame->SendProcessMessage(PID_RENDERER, msg);
-            }
+            msg = CefProcessMessage::Create(msg->GetName());
+            msgArgs = msg->GetArgumentList();
+            //wchar_t* buffer = new wchar_t[size + 1];
+            //char* buffer = new char[size + 1];
+            //buffer[size] = '\0';
+            //wxString str1 = wxString::FromUTF8(buffer);
+            //std::string temp(utf8_conv.to_bytes(buffer));
+            //std::string temp(buffer);
+            //result["data"] = temp;
+            //delete[] buffer;
+            //if (!file.Eof()) {
+            //    result["finished"] = false;  //todo 这里应该先返回，其他接口的风格也是如此
+            //    std::string dataStr = result.dump();
+            //    msgArgs->SetString(0, dataStr);
+            //    frame->SendProcessMessage(PID_RENDERER, msg);
+            //}
         }
-        reader.close();
+        file.Close();
         result["finished"] = true;  //todo 这里应该先返回，其他接口的风格也是如此
         auto resultStr = result.dump();
         msgArgs->SetString(0, resultStr);
         frame->SendProcessMessage(PID_RENDERER, msg);
+        // 
+        //         
+        //json result;
+        //result["success"] = true;
+        //long long fileSize = std::filesystem::file_size(path);
+        //result["fileSize"] = fileSize;
+        //result["finished"] = false;
+        //std::wifstream reader;
+        //CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
+        //reader.open(path, std::ios::in | std::ios::binary);
+        //if (!reader.is_open()) {
+        //    result["success"] = false;
+        //    auto resultStr = result.dump();
+        //    msgArgs->SetString(0, resultStr);
+        //    frame->SendProcessMessage(PID_RENDERER, msg);
+        //    return ;
+        //}
+        //static std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
+        //auto size = bufferSize;
+        //long long pointer = 0;
+        //while (pointer < fileSize)
+        //{
+        //    auto remainSize = fileSize - pointer;
+        //    if (bufferSize > remainSize) {
+        //        size = remainSize;
+        //    }
+        //    wchar_t* buffer = new wchar_t[size + 1];
+        //    buffer[size] = '\0';
+        //    reader.read(buffer, size);
+        //    pointer += size;
+        //    std::string temp(utf8_conv.to_bytes(buffer));
+        //    result["data"] = temp;
+        //    delete[] buffer;
+        //    if (msgArgs->GetSize() > 0) {
+        //        msg = CefProcessMessage::Create(msg->GetName());
+        //    }
+        //    if (pointer < fileSize) {
+        //        auto resultStr = result.dump();
+        //        msgArgs->SetString(0, resultStr);
+        //        frame->SendProcessMessage(PID_RENDERER, msg);
+        //    }
+        //}
+        //reader.close();
+        //result["finished"] = true;  //todo 这里应该先返回，其他接口的风格也是如此
+        //auto resultStr = result.dump();
+        //msgArgs->SetString(0, resultStr);
+        //frame->SendProcessMessage(PID_RENDERER, msg);
     }
     static bool sendMsg() {
     }

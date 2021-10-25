@@ -7,49 +7,55 @@ class V8Handler :
 {
 public:
     V8Handler() = default;
+    //CefRefPtr<CefV8Context> context;
+    CefRefPtr<CefV8Value> callBack;
     virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) override
     {
-        if (name == "__callHorseFunc") {
-            auto msgName = arguments[0]->GetStringValue();
-            CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(msgName);
-            if (arguments.size() > 1) {
-                auto str = arguments[1]->GetStringValue();
-                CefRefPtr<CefListValue> args = msg->GetArgumentList();
-                args->SetString(0, str);
-            }
-            CefRefPtr<CefV8Context> context = CefV8Context::GetCurrentContext();
-            context.get()->GetFrame()->SendProcessMessage(PID_BROWSER, msg);
-            return true;
+        if (name != "__callHorseFunc") return true;
+        if (arguments.size() < 2) return true;
+        auto msgName = arguments[0]->GetStringValue();
+        CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(msgName);
+        if (arguments[1]->IsString()) {
+            auto str = arguments[1]->GetStringValue();
+            CefRefPtr<CefListValue> args = msg->GetArgumentList();
+            args->SetString(0, str);
         }
+        if (arguments.size() > 2 && arguments[2]->IsFunction()) {
+            //context = CefV8Context::GetCurrentContext();
+            this->callBack = arguments[2];
+        }
+        CefRefPtr<CefV8Context> context = CefV8Context::GetCurrentContext();
+        context.get()->GetFrame()->SendProcessMessage(PID_BROWSER, msg);
+        return true;
     };
 private:
     IMPLEMENT_REFCOUNTING(V8Handler);
-    void setListValue(CefRefPtr<CefListValue> target,size_t index,CefRefPtr<CefV8Value> data) {
-        if (data->IsString()) {
-            target->SetString(index, data->GetStringValue());
-        }
-        else if (data->IsInt() || data->IsUInt()) {
-            target->SetInt(index, data->GetIntValue());
-        }
-        else if (data->IsBool()) {
-            target->SetBool(index, data->GetBoolValue());
-        }
-        else if (data->IsDouble()) {
-            target->SetDouble(index, data->GetBoolValue());
-        }
-        else if (data->IsNull()) {
-            target->SetNull(index);
-        }
-        else if (data->IsArray()) {
-            CefRefPtr<CefListValue> arr = CefListValue::Create();
-            auto arrLen = data->GetArrayLength();
-            for (size_t i = 0; i < arrLen; i++)
-            {
-                setListValue(arr, i, data->GetValue(i));
-            }
-            target->SetList(index, arr);
-        }
-    }
+    //void setListValue(CefRefPtr<CefListValue> target,size_t index,CefRefPtr<CefV8Value> data) {
+    //    if (data->IsString()) {
+    //        target->SetString(index, data->GetStringValue());
+    //    }
+    //    else if (data->IsInt() || data->IsUInt()) {
+    //        target->SetInt(index, data->GetIntValue());
+    //    }
+    //    else if (data->IsBool()) {
+    //        target->SetBool(index, data->GetBoolValue());
+    //    }
+    //    else if (data->IsDouble()) {
+    //        target->SetDouble(index, data->GetBoolValue());
+    //    }
+    //    else if (data->IsNull()) {
+    //        target->SetNull(index);
+    //    }
+    //    else if (data->IsArray()) {
+    //        CefRefPtr<CefListValue> arr = CefListValue::Create();
+    //        auto arrLen = data->GetArrayLength();
+    //        for (size_t i = 0; i < arrLen; i++)
+    //        {
+    //            setListValue(arr, i, data->GetValue(i));
+    //        }
+    //        target->SetList(index, arr);
+    //    }
+    //}
     //void WebKernelConvertor::CefV8Array2ListValue(CefRefPtr<CefV8Value> source, CefRefPtr<CefListValue> target)
     //{
     //    assert(source->IsArray());
