@@ -166,7 +166,6 @@ private:
             }
             unsigned char* buffer = new unsigned char[size];
             file.Read(buffer, size);
-            unsigned char testChar = buffer[600];
             CefRefPtr<CefBinaryValue> data = CefBinaryValue::Create(buffer, size);
             msgArgs->SetBinary(0, data);
             frame->SendProcessMessage(PID_RENDERER, msg);

@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "include/wrapper/cef_helpers.h"
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -29,6 +30,13 @@ void Renderer::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFram
     auto jsCode = buffer.str();
     //LOG(ERROR) << jsCode;
     frame->ExecuteJavaScript(jsCode,"http://horse/extension.js", 1);
+
+
+    //std::string testData = "test";
+    //char* buffer2 = testData.data();
+    //size_t size = testData.length();
+    //CefRefPtr<CefV8ArrayBufferReleaseCallback> cb = new ReleaseCallback();
+    //CefRefPtr<CefV8Value> bufferArr = CefV8Value::CreateArrayBuffer(buffer2, size, cb);
 }
 void Renderer::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
 {
@@ -40,6 +48,8 @@ void Renderer::OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<Cef
 }
 bool Renderer::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
 {
+    //CEF_REQUIRE_UI_THREAD();
+    
     std::string message_name = message->GetName();
     auto args = message->GetArgumentList();
     if (args->GetType(0) == CefValueType::VTYPE_STRING) {
@@ -50,13 +60,16 @@ bool Renderer::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr
         size_t size = data->GetSize();
         unsigned char* buffer = new unsigned char[size];
         data->GetData(buffer, size, 0);
-        unsigned char testChar = buffer[600];
+        CefRefPtr<CefV8Context> context = frame->GetV8Context();
+        context->Enter();
         CefRefPtr<CefV8ArrayBufferReleaseCallback> cb = new ReleaseCallback();
-        CefRefPtr<CefV8Value> bufferArr = CefV8Value::CreateArrayBuffer(buffer,size,cb);
+        CefRefPtr<CefV8Value> bufferArr = CefV8Value::CreateArrayBuffer(buffer, size, cb);
+        //CefRefPtr<CefV8Value> bufferArr = frame->GetV8Context()->GetGlobal()->CreateArrayBuffer(buffer,size,cb);
         CefV8ValueList args;
         args.push_back(bufferArr);
         v8Handler->callBack->ExecuteFunction(nullptr, args);
-        delete[] buffer;
+        context->Exit();
+        //delete[] buffer;
     }
     return true;
 }

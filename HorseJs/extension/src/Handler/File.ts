@@ -16,22 +16,13 @@ export class File extends Base {
     if (!config.bufferSize) config.bufferSize = 65536
     return new Promise((resolve, reject) => {
       let msgName = this.createMsgName(this.readFile)
-      eventer.addEventListener(msgName, (result) => {
-        //这个事件不会被清除
-        if (result.success) {
-          config.onData(result.data)
-        } else {
-          reject('error')
-        }
+      eventer.addOnceEventListener(msgName, (result) => {
         if (result.finished) {
-          delete result.data
           resolve(result)
         }
       })
       this.callHorseNative(msgName, JSON.stringify(config), (chunk: ArrayBuffer) => {
-        alert(123123)
-        debugger
-        console.log(chunk)
+        config.onData(chunk)
       })
     })
   }
