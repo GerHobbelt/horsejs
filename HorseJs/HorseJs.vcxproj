@@ -190,6 +190,7 @@
     <ClInclude Include="Browser\MsgHandler\Dialog.h" />
     <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
     <ClInclude Include="Browser\MsgHandler\File.h" />
+    <ClInclude Include="Browser\MsgHandler\Helper.h" />
     <ClInclude Include="Browser\MsgHandler\Info.h" />
     <ClInclude Include="Browser\MsgHandler\Menu.h" />
     <ClInclude Include="Browser\MsgHandler\Path.h" />

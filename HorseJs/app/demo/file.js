@@ -50,10 +50,13 @@ export let processor = {
       bufferSize: 65536,
       onData: (chunk) => {
         let fileData = decoder.decode(chunk);
-        demoLog(fileData);
+        demoLog("文件数据片：", fileData);
+      },
+      onDataFinish: (result) => {
+        demoLog("读取文件完成：", result);
       },
     });
-    demoLog("文件读取完成", result);
+    demoLog("请求读取文件：", result);
   },
   readFileFromPosition: async () => {
     let folderResult = await horse.dialog.openFile({
@@ -63,10 +66,18 @@ export let processor = {
       filters: ["*"],
       lastFilterIndex: 0,
     });
+    let decoder = new TextDecoder("utf-8");
     let result = await horse.file.readFileFromPosition({
       path: folderResult.data[0],
       bufferSize: 65536,
-      position: 3,
+      position: 6,
+      onData: (chunk) => {
+        let fileData = decoder.decode(chunk);
+        demoLog("文件数据片：", fileData);
+      },
+      onDataFinish: (result) => {
+        demoLog("读取文件完成：", result);
+      },
     });
     demoLog(result);
   },
