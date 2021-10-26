@@ -1,9 +1,4 @@
 #pragma once
-#include <fstream>
-#include <filesystem>
-#include <codecvt> // codecvt_utf8
-#include <locale>  // wstring_convert
-#include <sstream>
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "include/cef_task.h"
