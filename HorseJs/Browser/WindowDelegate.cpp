@@ -7,7 +7,8 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window)
     window->AddChildView(browser_view_);
     auto config = Config::get();
     HWND hwnd = window->GetWindowHandle();
-    nativeWindow = new NativeWindow(hwnd);
+    nativeWindow = new NativeWindow(hwnd,window);
+
     HICON hIcon = (HICON)LoadImage(GetModuleHandle(0), MAKEINTRESOURCE(102), IMAGE_ICON, 32, 32, 0);
     LRESULT res = SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
     auto autoShowFirstWindow = config["autoShowFirstWindow"].get<bool>();
@@ -25,7 +26,8 @@ bool WindowDelegate::CanClose(CefRefPtr<CefWindow> window)
 {
     CefRefPtr<CefBrowser> browser = browser_view_->GetBrowser();
     if (browser) {
-        return browser->GetHost()->TryCloseBrowser();
+        browser->GetHost()->TryCloseBrowser();
+        nativeWindow->parent->Close();
     }        
     return true;
 }
