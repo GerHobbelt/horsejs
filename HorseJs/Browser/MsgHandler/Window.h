@@ -15,33 +15,32 @@ public:
         if (!browser_view) return false;
         CefRefPtr<CefWindow> window = browser_view->GetWindow();
         if (!window) return false;
-        std::string message_name = message->GetName();
-        message_name.erase(0, message_name.find_first_of('_') + 1);
-        if (message_name._Starts_with("maximize"))
+        std::string filter = Helper::getFilter(message);
+        if (filter._Starts_with("maximize"))
         {
             window->Maximize();            
         }
-        else if (message_name._Starts_with("minimize"))
+        else if (filter._Starts_with("minimize"))
         {
             window->Minimize();
         }
-        else if (message_name._Starts_with("restore"))
+        else if (filter._Starts_with("restore"))
         {
             window->Restore();
         }
-        else if (message_name._Starts_with("close"))
+        else if (filter._Starts_with("close"))
         {
             window->Close();
         }
-        else if (message_name._Starts_with("hide"))
+        else if (filter._Starts_with("hide"))
         {
             window->Hide();
         }
-        else if (message_name._Starts_with("show"))
+        else if (filter._Starts_with("show"))
         {
             window->Show();
         }
-        else if (message_name._Starts_with("resize"))
+        else if (filter._Starts_with("resize"))
         {
             CefRefPtr<CefListValue> args = message->GetArgumentList();
             auto sizeStr = args->GetString(0).ToString();
@@ -49,7 +48,7 @@ public:
             CefSize size(sizeObj["width"], sizeObj["height"]);
             window->SetSize(size);
         }
-        else if (message_name._Starts_with("open"))
+        else if (filter._Starts_with("open"))
         {
             CEF_REQUIRE_UI_THREAD();
             CefRefPtr<CefListValue> args = message->GetArgumentList();
