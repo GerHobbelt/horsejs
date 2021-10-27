@@ -21,10 +21,10 @@ export let processor = {
   setClipboardFile: async () => {
     let fileResult = await horse.dialog.openFile({
       title: "test",
-      defaultFilePath: "C:\\AMD",
+      defaultPath: "C:\\AMD",
       multiSelections: true,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
     let result = await horse.clipboard.setData({
       dataType: "file",
