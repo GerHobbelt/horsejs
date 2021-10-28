@@ -83,12 +83,16 @@
         bottom: 30px;
         padding: 0px 12px;
         line-height: 36px;
-        background: rgb(3, 102, 214);
+        background: rgb(33, 136, 255);
         color: white;
         box-shadow: 2px 2px 8px 0px #888;
         border-radius: 3px;
         font-size: 13px;
         cursor: pointer;
+      }
+      .sectionCodeLink:hover {
+        box-shadow: 2px 2px 3px 0px #333;
+        background: rgb(3, 102, 214);
       }
     </style>
   </head>
@@ -150,7 +154,7 @@
       window.addEventListener("load", async () => {
         toolBtnLogic();
         demoPageLogic.init();
-        windowLogic.init();
+        window.init();
       });
     </script>
   </body>

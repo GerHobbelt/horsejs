@@ -26,8 +26,12 @@ public:
         if (message_name._Starts_with("openExternal"))
         {
             CefRefPtr<CefListValue> args = message->GetArgumentList();
-            const std::wstring target = L"\"" + args->GetString(0).ToWString() + L"\"";     
-            const std::wstring workingDir = args->GetString(1).ToWString();
+            auto configStr = args->GetString(0).ToString();
+            auto configObj = json::parse(configStr);
+            CefString targetTemp = configObj["target"].get<std::string>();
+            CefString workingDirTemp = configObj["workingDir"].get<std::string>();
+            const std::wstring target = L"\"" + targetTemp.ToWString() + L"\"";
+            const std::wstring workingDir = workingDirTemp.ToWString();
             CefPostTask(TID_UI, base::Bind(&open, target,workingDir));
         }
         else if (message_name._Starts_with("openFolder"))
