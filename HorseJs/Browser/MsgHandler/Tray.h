@@ -19,7 +19,7 @@ class Tray
 public:
     Tray() = delete;
 
-    static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message, Handler* instance)
+    static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
         std::string msgName = message->GetName();
         std::string filter = Helper::getFilter(message);
