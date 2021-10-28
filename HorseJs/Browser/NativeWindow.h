@@ -12,7 +12,7 @@ public:
         static int id = 9987;
         id += 1;
         parent = new TopWindow();
-        //parent->Show();  //不能显示，显示就坏了醋了
+        parent->Show();  //不能显示，显示就坏了醋了
         const wxRect r = wxRectFromRECT(wxGetWindowRect(hwnd));
         if (!CreateBase(parent, id, r.GetPosition(), r.GetSize(), 0, wxDefaultValidator, wxS("nativewindow"))) {
             return;
