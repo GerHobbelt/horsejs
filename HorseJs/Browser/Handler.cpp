@@ -9,6 +9,8 @@
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_closure_task.h"
 #include "include/wrapper/cef_helpers.h"
+#include "../Common/Config.h"
+
 #include "MsgHandler/Window.h"
 #include "MsgHandler/Dialog.h"
 #include "MsgHandler/Info.h"
@@ -66,28 +68,51 @@ void Handler::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& titl
     }
 }
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="browser"></param>
+/// <param name="origin_url"></param>
+/// <param name="dialog_type"></param>
+/// <param name="message_text"></param>
+/// <param name="default_prompt_text"></param>
+/// <param name="callback"></param>
+/// <param name="suppress_message">
+/// 如果这个参数被设置为true，并且函数返回值为false，将阻止页面打开JS的弹出窗口。 
+/// 如果这个参数被设置为false，并且函数返回值也是false，页面将会打开这个JS弹出窗口。
+/// </param>
+/// <returns></returns>
 bool Handler::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, JSDialogType dialog_type, const CefString& message_text, const CefString& default_prompt_text, CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message)
 {
+    HWND winHandle = browser->GetHost()->GetWindowHandle();
+    auto parent = wxFindWinFromHandle(winHandle);
+    auto config = Config::get();
+    auto appName = wxString::FromUTF8(config["appName"].get<std::string>());
+    auto msg = message_text.ToWString();
+    suppress_message = true;
     if (dialog_type == JSDIALOGTYPE_ALERT) {
-        auto win = wxTheApp->GetTopWindow();
-        wxMessageDialog dialog(win, message_text.ToWString(),"HorseJs", wxOK | wxCENTRE,wxPoint(800,600));
+        wxMessageDialog dialog(parent, msg, appName, wxOK | wxCENTRE);
         dialog.ShowModal();
-        //int answer = wxMessageBox(message_text.ToWString(), "提示", wxYES_NO | wxCANCEL);
-        //if (answer == wxYES) {
-        //}
-        //else
-        //{
-        //}
-        suppress_message = true;
     }
     else if (dialog_type == JSDIALOGTYPE_CONFIRM) {
-
+        wxMessageDialog dialog(parent, msg, appName, wxOK | wxCANCEL);
+        auto result = dialog.ShowModal();  //(()=>{var a = confirm('测试');console.log(a)})();
+        if (result == wxID_OK)
+        {
+            callback->Continue(true, "");
+        }
+        else
+        {
+            callback->Continue(false, "");
+        }
     }
     else if (dialog_type == JSDIALOGTYPE_PROMPT) {
-
+        suppress_message = false;
+        // todo 这里有问题，不知道怎么把用户输入的东西返回给js
+        //wxTextEntryDialog dialog(parent, msg, appName, wxEmptyString);
+        //dialog.Show();
     }
     return false;
-
 }
 
 void Handler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
