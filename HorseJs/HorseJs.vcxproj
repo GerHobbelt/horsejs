@@ -180,7 +180,6 @@
     <ClCompile Include="Browser\WindowDelegate.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
-    <ClCompile Include="util_win.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Browser\Browser.h" />
@@ -209,7 +208,6 @@
     <ClInclude Include="Renderer\V8Handler.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
-    <ClInclude Include="util_win.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />

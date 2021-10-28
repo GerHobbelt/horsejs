@@ -20,7 +20,7 @@ public:
     explicit Handler();
     ~Handler();
     static Handler* GetInstance();
-    json menuData;
+    //json menuData;
     //CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override { return this; }
     //virtual void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) override;
     //virtual bool OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, int command_id, EventFlags event_flags) override;

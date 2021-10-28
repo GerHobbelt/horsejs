@@ -7,7 +7,6 @@
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Browser\ViewDelegate.cpp" />
     <ClCompile Include="Browser\WindowDelegate.cpp" />
-    <ClCompile Include="util_win.cc" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Main">
@@ -45,7 +44,6 @@
     <ClInclude Include="Browser\NativeWindow.h" />
     <ClInclude Include="Browser\TopWindow.h" />
     <ClInclude Include="Browser\MsgHandler\ClientData.h" />
-    <ClInclude Include="util_win.h" />
     <ClInclude Include="Browser\MsgHandler\Tray.h" />
     <ClInclude Include="Browser\MsgHandler\Helper.h" />
   </ItemGroup>
