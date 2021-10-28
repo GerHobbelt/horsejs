@@ -51,6 +51,18 @@ public:
         {
             mime_type_ = "image/svg+xml";
         }
+        else if (ext == ".png")
+        {
+            mime_type_ = "image/png";
+        }
+        else if (ext == ".jpg" || ext == ".jpeg")
+        {
+            mime_type_ = "image/jpeg";
+        }
+        else if (ext == ".gif")
+        {
+            mime_type_ = "image/gif";
+        }
         else
         {
             mime_type_ = "application/*";
