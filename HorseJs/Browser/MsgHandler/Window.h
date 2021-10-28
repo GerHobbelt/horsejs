@@ -4,6 +4,7 @@
 #include "../Handler.h"
 #include "../ViewDelegate.h"
 #include "../../Common/json.hpp"
+#include "Helper.h"
 using nlohmann::json;
 class Window
 {
@@ -11,10 +12,11 @@ public:
     Window() = delete;
     static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
+        std::string msgName = message->GetName();
+        json result;
+        result["success"] = true;
         CefRefPtr<CefBrowserView> browser_view = CefBrowserView::GetForBrowser(browser);
-        if (!browser_view) return false;
         CefRefPtr<CefWindow> window = browser_view->GetWindow();
-        if (!window) return false;
         std::string filter = Helper::getFilter(message);
         if (filter._Starts_with("maximize"))
         {
@@ -31,6 +33,10 @@ public:
         else if (filter._Starts_with("close"))
         {
             window->Close();
+        }
+        else if (filter._Starts_with("center"))
+        {            
+            window->CenterWindow(window->GetSize());
         }
         else if (filter._Starts_with("hide"))
         {
@@ -61,6 +67,7 @@ public:
             auto window = CefWindow::CreateTopLevelWindow(new WindowDelegate(browser_view));
             window->SetSize(size);
         }
+        Helper::SendMsg(frame, msgName, result);
         return true;
     }
 };

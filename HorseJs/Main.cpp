@@ -45,6 +45,12 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
     //win->Show();
     CefSettings settings;
     settings.multi_threaded_message_loop = true;
+#if defined(_DEBUG)
+    settings.log_severity = cef_log_severity_t::LOGSEVERITY_INFO;
+#else
+    settings.log_severity = cef_log_severity_t::LOGSEVERITY_ERROR;
+#endif
+    
     CefInitialize(main_args, settings, app.get(), nullptr);
     CefRegisterSchemeHandlerFactory("http", "horse", new SchemeHandlerFactory());
     //int result = message_loop->Run();

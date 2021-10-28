@@ -1,23 +1,33 @@
 export let processor = {
-  windowSizeChange: () => {
-    horse.window.resize({ width: 800, height: 600 });
+  windowSizeChange: async () => {
+    let result = await horse.window.resize({ width: 800, height: 600 });
+    demoLog(result);
   },
-  hideShowWindow: () => {
-    horse.window.hide();
+  hideShowWindow: async () => {
+    let result = await horse.window.hide();
     setTimeout(() => {
       horse.window.show();
     }, 3000);
+    demoLog(result);
   },
-  maximizeWindow: () => {
-    horse.window.maximize();
+  maximizeWindow: async () => {
+    let result = await horse.window.maximize();
+    demoLog(result);
   },
-  restoreWindow: () => {
-    horse.window.restore();
+  restoreWindow: async () => {
+    let result = await horse.window.restore();
+    demoLog(result);
   },
-  minimizeWindow: () => {
-    horse.window.minimize();
+  minimizeWindow: async () => {
+    let result = await horse.window.minimize();
+    demoLog(result);
   },
-  closeWindow: () => {
-    horse.window.close();
+  closeWindow: async () => {
+    let result = await horse.window.close();
+    demoLog(result);
+  },
+  centerWindow: async () => {
+    let result = await horse.window.center();
+    demoLog(result);
   },
 };
