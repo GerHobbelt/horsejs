@@ -26,7 +26,7 @@ public:
         json result;
         result["success"] = true;
         json configObj = Helper::getConfig(message);
-        if (filter._Starts_with("autoStart"))
+        if (filter == "autoStart")
         {
 #if defined(OS_WIN)
             wxRegKey regKey(wxRegKey::HKCU, "Software\\Microsoft\\Windows\\CurrentVersion\\Run");
@@ -42,7 +42,7 @@ public:
             }
 #endif
         }
-        else if (filter._Starts_with("protocolClient"))
+        else if (filter == "protocolClient")
         {
 #if defined(OS_WIN)
             auto setOrRemove = configObj["setOrRemove"].get<std::string>();
@@ -64,7 +64,7 @@ public:
             }
 #endif
         }
-        else if (filter._Starts_with("notify"))
+        else if (filter == "notify")
         {
             auto title = configObj["title"].get<std::string>();
             auto body = configObj["body"].get<std::string>();
@@ -76,7 +76,7 @@ public:
             notification->Bind(wxEVT_NOTIFICATION_MESSAGE_DISMISSED, &System::notifyClick, -1, -1, clientData);   //显示之前也会触发这个事件，奇怪
             notification->Show();
         }
-        if (filter._Starts_with("openExternal"))
+        else if (filter == "openExternal")
         {
             std::string targetTemp = configObj["target"].get<std::string>();
             wxLaunchDefaultApplication(wxString::FromUTF8(targetTemp));

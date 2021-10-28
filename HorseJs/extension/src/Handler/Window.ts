@@ -63,6 +63,9 @@ export class Window extends Base {
   center() {
     return this.callHorse(this.center, {})
   }
+  openDevTool() {
+    return this.callHorse(this.openDevTool, {})
+  }
   constructor() {
     super()
     this.processMaximizeEvent()

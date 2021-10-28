@@ -30,4 +30,8 @@ export let processor = {
     let result = await horse.window.center();
     demoLog(result);
   },
+  openDevTool: async () => {
+    let result = await horse.window.openDevTool();
+    demoLog(result);
+  },
 };

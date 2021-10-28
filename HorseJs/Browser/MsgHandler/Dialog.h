@@ -25,12 +25,12 @@ public:
         auto title = Helper::convertString( configObj["title"].get<std::string>());
         auto defaultPath = Helper::convertString(configObj["defaultPath"].get<std::string>());
         auto filterIndex = configObj["filterIndex"].get<int>();
-        if (filter._Starts_with("openFile"))
+        if (filter == "openFile")
         {
             mode = configObj["multiSelections"].get<bool>() ? FILE_DIALOG_OPEN_MULTIPLE : FILE_DIALOG_OPEN;
             browser->GetHost()->RunFileDialog(mode, title, defaultPath, fileFilters, filterIndex, dcb);
         }
-        else if (filter._Starts_with("openFolder"))
+        else if (filter == "openFolder")
         {
             mode = FILE_DIALOG_OPEN_FOLDER;
             browser->GetHost()->RunFileDialog(mode, title, defaultPath, fileFilters, filterIndex, dcb);

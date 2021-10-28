@@ -26,7 +26,7 @@ public:
         json result;
         result["success"] = true;
         json configObj = Helper::getConfig(message);
-        if (filter._Starts_with("create"))
+        if (filter == "create")
         {
             auto iconPath = configObj["iconPath"].get<std::string>();
             wxString tip = wxEmptyString;
@@ -63,7 +63,7 @@ public:
                 }
             }
         }
-        else if (filter._Starts_with("resetIcon")) {
+        else if (filter == "resetIcon") {
             auto iconPath = configObj["iconPath"].get<std::string>();
             wxString tip = wxEmptyString;
             if (!configObj["tip"].is_null()) {
@@ -75,7 +75,7 @@ public:
             wxIcon icon(location);
             Tray::taskBarIcon->SetIcon(icon, tip);
         }
-        else if (filter._Starts_with("destroy")) {
+        else if (filter == "destroy") {
             if (Tray::menu != nullptr) {
                 delete Tray::menu;
                 Tray::menu = nullptr;

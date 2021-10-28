@@ -33,6 +33,7 @@ namespace {
         static std::string getFilter(CefRefPtr<CefProcessMessage> message) {
             std::string filterName = message->GetName();
             filterName.erase(0, filterName.find_first_of('_') + 1);
+            filterName = filterName.substr(0, filterName.find_first_of('_'));
             return filterName;
         }
         static std::wstring convertString(const std::string& target) {
