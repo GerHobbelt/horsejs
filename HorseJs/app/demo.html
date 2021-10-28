@@ -48,11 +48,10 @@
       }
       #demoContainer {
         flex: 1;
-        padding: 26px;
       }
       .demoBtn {
         display: inline-block;
-        margin: 0px 8px;
+        margin: 8px 8px;
         border-radius: 3px;
         padding: 0px 12px;
         border: 1px solid rgb(140, 200, 255);
@@ -75,6 +74,21 @@
       }
       .section {
         display: none;
+        padding: 26px 26px 80px 26px;
+        overflow-y: auto;
+      }
+      .sectionCodeLink {
+        position: absolute;
+        right: 50px;
+        bottom: 30px;
+        padding: 0px 12px;
+        line-height: 36px;
+        background: rgb(3, 102, 214);
+        color: white;
+        box-shadow: 2px 2px 8px 0px #888;
+        border-radius: 3px;
+        font-size: 13px;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -106,6 +120,10 @@
           <div class="demoBtn" id="hideShowWindowBtn">
             窗口隐藏，3秒钟之后窗口再显示
           </div>
+          <div class="demoBtn" id="maximizeWindowBtn">最大化窗口</div>
+          <div class="demoBtn" id="restoreWindowBtn">还原窗口</div>
+          <div class="demoBtn" id="minimizeWindowBtn">最小化窗口</div>
+          <div class="demoBtn" id="closeWindowBtn">关闭窗口</div>
         </div>
         <div id="sectionDialog" class="section">
           <div class="demoBtn" id="openFileBtn">打开一个文件</div>
@@ -119,15 +137,16 @@
         <div id="sectionGlobalShortcut" class="section"></div>
         <div id="sectionCrashReport" class="section"></div>
       </div>
+      <div class="sectionCodeLink">查看代码</div>
     </div>
     <script></script>
     <script src="common.js" type="module"></script>
     <script src="./demo/demoPageLogic.js" type="module"></script>
-    <script src="./demo/windowLogic.js" type="module"></script>
+    <script src="./demo/window.js" type="module"></script>
     <script type="module">
       import { toolBtnLogic } from "./common.js";
       import { demoPageLogic } from "./demo/demoPageLogic.js";
-      import { windowLogic } from "./demo/windowLogic.js";
+      import { windowLogic } from "./demo/window.js";
       window.addEventListener("load", async () => {
         toolBtnLogic();
         demoPageLogic.init();
