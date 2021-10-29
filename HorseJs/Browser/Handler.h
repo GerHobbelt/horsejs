@@ -63,6 +63,7 @@ public:
     std::set<CefMessageRouterBrowserSide::Handler*> message_handler_set_;
 private:
     const bool use_views_;
+    wxTextEntryDialog* dlg;
     typedef std::list<CefRefPtr<CefBrowser>> BrowserList;
     BrowserList browser_list_;
     bool is_closing_;
