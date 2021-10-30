@@ -1,6 +1,5 @@
-let $ = (selector) => document.querySelector(selector);
-export let dialogLogic = {
-  openFile: async function () {
+export let processor = {
+  openFile: async () => {
     let result = await horse.dialog.openFile({
       title: "test",
       defaultFilePath: "C:\\AMD",
@@ -14,7 +13,7 @@ export let dialogLogic = {
       alert("error");
     }
   },
-  openMultiFile: async function () {
+  openMultiFile: async () => {
     let result = await horse.dialog.openFile({
       title: "test",
       defaultFilePath: "C:\\AMD",
@@ -28,15 +27,10 @@ export let dialogLogic = {
       alert("error");
     }
   },
-  openFolder: function () {
+  openFolder: () => {
     horse.window.hide();
     setTimeout(() => {
       horse.window.show();
     }, 3000);
-  },
-  init: function () {
-    $("#openFileBtn").addEventListener("click", this.openFile);
-    $("#openMultiFileBtn").addEventListener("click", this.openMultiFile);
-    $("#openFolderBtn").addEventListener("click", this.openFolder);
   },
 };

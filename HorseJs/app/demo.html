@@ -108,6 +108,7 @@
       <div id="menuContainer">
         <div id="menuWindow" class="menuSelected">窗口</div>
         <div id="menuDialog">对话框</div>
+        <div id="menuInfo">系统信息</div>
         <div id="menuClipboard">剪切板</div>
         <div id="menuShell">shell</div>
         <div id="menuNet">网络</div>
@@ -118,27 +119,26 @@
       </div>
       <div id="demoContainer">
         <div id="sectionWindow" class="section sectionSelected">
-          <div class="demoBtn" id="windowSizeChangeBtn">
-            改变窗口大小到800*600
-          </div>
-          <div class="demoBtn" id="hideShowWindowBtn">
+          <div class="demoBtn" id="windowSizeChange">改变窗口大小到800*600</div>
+          <div class="demoBtn" id="hideShowWindow">
             窗口隐藏，3秒钟之后窗口再显示
           </div>
-          <div class="demoBtn" id="maximizeWindowBtn">最大化窗口</div>
-          <div class="demoBtn" id="restoreWindowBtn">还原窗口</div>
-          <div class="demoBtn" id="minimizeWindowBtn">最小化窗口</div>
-          <div class="demoBtn" id="closeWindowBtn">关闭窗口</div>
+          <div class="demoBtn" id="maximizeWindow">最大化窗口</div>
+          <div class="demoBtn" id="restoreWindow">还原窗口</div>
+          <div class="demoBtn" id="minimizeWindow">最小化窗口</div>
+          <div class="demoBtn" id="closeWindow">关闭窗口</div>
         </div>
         <div id="sectionDialog" class="section">
-          <div class="demoBtn" id="openFileBtn">
-            打开文件（只能选择一个文件）
-          </div>
-          <div class="demoBtn" id="openMultiFileBtn">
+          <div class="demoBtn" id="openFile">打开文件（只能选择一个文件）</div>
+          <div class="demoBtn" id="openMultiFile">
             打开文件（允许选择多个文件）
           </div>
-          <div class="demoBtn" id="openFolderBtn">打开一个目录</div>
+          <div class="demoBtn" id="openFolder">打开一个目录</div>
         </div>
-        <div id="sectionclipboard" class="section"></div>
+        <div id="sectionInfo" class="section">
+          <div class="demoBtn" id="getDesktopPath">获取桌面路径</div>
+        </div>
+        <div id="sectionClipboard" class="section"></div>
         <div id="sectionShell" class="section"></div>
         <div id="sectionNet" class="section"></div>
         <div id="sectionMenu" class="section"></div>
@@ -148,21 +148,12 @@
       </div>
       <div class="sectionCodeLink">查看代码</div>
     </div>
-    <script></script>
-    <script src="common.js" type="module"></script>
-    <script src="./demo/demoPageLogic.js" type="module"></script>
-    <script src="./demo/window.js" type="module"></script>
-    <script src="./demo/dialog.js" type="module"></script>
     <script type="module">
       import { toolBtnLogic } from "./common.js";
       import { demoPageLogic } from "./demo/demoPageLogic.js";
-      import { windowLogic } from "./demo/window.js";
-      import { dialogLogic } from "./demo/dialog.js";
       window.addEventListener("load", async () => {
         toolBtnLogic();
         demoPageLogic.init();
-        windowLogic.init();
-        dialogLogic.init();
       });
     </script>
   </body>

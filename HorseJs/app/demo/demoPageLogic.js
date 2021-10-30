@@ -1,25 +1,29 @@
+let $ = (selector) => document.querySelector(selector);
 export let demoPageLogic = {
   init: () => {
-    let menuContainer = document.querySelector("#menuContainer");
-    menuContainer.addEventListener("click", (e) => {
-      if (e.target == menuContainer) return;
-      if (e.target.classList.contains("menuSelected")) return;
-      document.querySelector(".menuSelected").classList.remove("menuSelected");
+    $("#menuContainer").addEventListener("click", (e) => {
+      let id = e.target.getAttribute("id");
+      if (!id || e.target.classList.contains("menuSelected")) return;
+      $(".menuSelected").classList.remove("menuSelected");
       e.target.classList.add("menuSelected");
-      let id = e.target.getAttribute("id").replace("menu", "section");
-      document
-        .querySelector(".sectionSelected")
-        .classList.remove("sectionSelected");
-      document.querySelector(`#${id}`).classList.add("sectionSelected");
+      $(".sectionSelected").classList.remove("sectionSelected");
+      $(`#${id.replace("menu", "section")}`).classList.add("sectionSelected");
     });
-    document.querySelector(".sectionCodeLink").addEventListener("click", () => {
-      let codeFileName = document
-        .querySelector(".menuSelected")
+    $(".sectionCodeLink").addEventListener("click", () => {
+      let codeFileName = $(".menuSelected")
         .getAttribute("id")
         .replace("menu", "")
         .toLowerCase();
       let target = `https://gitee.com/horsejs/horsejs/blob/master/HorseJs/app/demo/${codeFileName}.js`;
       horse.shell.openExternal({ target, workingDir: "" });
+    });
+    $("#demoContainer").addEventListener("click", async (e) => {
+      if (!e.target.classList.contains("demoBtn")) return;
+      let id = e.target.getAttribute("id");
+      let parentId = e.target.parentElement.getAttribute("id");
+      parentId = parentId.replace("section", "").toLowerCase();
+      let { processor } = await import(`./${parentId}.js`);
+      processor[id]();
     });
   },
 };

@@ -12,6 +12,7 @@
 #include "MsgHandler/Window.h"
 #include "MsgHandler/Dialog.h"
 #include "MsgHandler/Shell.h"
+#include "MsgHandler/Info.h"
 
 namespace {
     Handler* g_instance = nullptr;
@@ -179,6 +180,10 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     else if (message_name._Starts_with("Shell"))
     {
         return Shell::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("Info"))
+    {
+        return Info::ProcessMsg(browser, frame, source_process, message);
     }
     return false;
 }

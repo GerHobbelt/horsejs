@@ -53,6 +53,7 @@
     <ClInclude Include="Common\Config.h" />
     <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
     <ClInclude Include="Browser\MsgHandler\Shell.h" />
+    <ClInclude Include="Browser\MsgHandler\Info.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
@@ -73,5 +74,6 @@
     <CopyFileToFolders Include="app\demo\demoPageLogic.js" />
     <CopyFileToFolders Include="app\demo\window.js" />
     <CopyFileToFolders Include="app\demo\dialog.js" />
+    <CopyFileToFolders Include="app\demo\info.js" />
   </ItemGroup>
 </Project>
