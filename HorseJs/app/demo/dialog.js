@@ -7,7 +7,7 @@ export let processor = {
       filters: ["*"],
       filterIndex: 0,
     });
-    demoLog(result);
+    console.log(result);
   },
   openMultiFile: async () => {
     let result = await horse.dialog.openFile({
@@ -17,7 +17,7 @@ export let processor = {
       filters: ["*"],
       filterIndex: 0,
     });
-    demoLog(result);
+    console.log(result);
   },
   openFolder: async () => {
     let result = await horse.dialog.openFolder({
@@ -27,6 +27,6 @@ export let processor = {
       filters: ["*"],
       filterIndex: 0,
     });
-    demoLog(result);
+    console.log(result);
   },
 };

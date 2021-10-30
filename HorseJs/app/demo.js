@@ -17,6 +17,9 @@ export let demo = {
       let target = `https://gitee.com/horsejs/horsejs/blob/master/HorseJs/app/demo/${codeFileName}.js`;
       horse.system.openExternal({ target, workingDir: "" });
     });
+    $("#openDevToolBtn").addEventListener("click", async () => {
+      await horse.window.openDevTool();
+    });
     $("#demoContainer").addEventListener("click", async (e) => {
       if (!e.target.classList.contains("demoBtn")) return;
       let id = e.target.getAttribute("id");
@@ -25,33 +28,5 @@ export let demo = {
       let { processor } = await import(`./demo/${parentId}.js`);
       processor[id]();
     });
-    $("#cleanLogBtn").addEventListener("click", (e) => {
-      $(".console").innerHTML = "";
-    });
-    $(".drager").addEventListener("mousedown", (e) => {
-      let target = $(".consoleContainer");
-      let dragerHeightChange = (e) => {
-        if (e.clientY < 180 || e.clientY > window.innerHeight - 120) return;
-        target.setAttribute("style", `height:calc(100% - ${e.clientY - 40}px)`);
-      };
-      let mouseUpHandler = () => {
-        document.removeEventListener("mousemove", dragerHeightChange);
-        document.removeEventListener("mouseup", mouseUpHandler);
-      };
-      document.addEventListener("mousemove", dragerHeightChange);
-      document.addEventListener("mouseup", mouseUpHandler);
-    });
-    window.demoLog = (...info) => {
-      let logDom = document.createElement("div");
-      logDom.classList.add("logDom");
-      let outPut = "";
-      info.forEach((element) => {
-        if (outPut.length > 0) outPut += "&nbsp;&nbsp;";
-        outPut += JSON.stringify(element, 4);
-      });
-      logDom.innerHTML = outPut;
-      $(".console").appendChild(logDom);
-      logDom.scrollIntoView();
-    };
   },
 };

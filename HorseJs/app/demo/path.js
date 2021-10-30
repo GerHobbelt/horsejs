@@ -8,44 +8,44 @@ export let processor = {
       filterIndex: 0,
     });
     let result = await horse.path.readDir({ path: folderResult.data[0] });
-    demoLog(result);
+    console.log(result);
   },
   getDesktopPath: async () => {
     let result = await horse.path.getPath({
       name: "desktop",
     });
-    demoLog(result);
+    console.log(result);
   },
   getAppDataPath: async () => {
     let result = await horse.path.getPath({
       name: "appData",
     });
-    demoLog(result);
+    console.log(result);
   },
   getExePath: async () => {
     let result = await horse.path.getPath({
       name: "exePath",
     });
-    demoLog(result);
+    console.log(result);
   },
   getTempPath: async () => {
     let result = await horse.path.getPath({
       name: "temp",
     });
-    demoLog(result);
+    console.log(result);
   },
   getDirName: async () => {
     let result = await horse.path.getPath({
       name: "exePath",
     });
     let data = horse.path.dirName(result.data);
-    demoLog(data);
+    console.log(data);
   },
   getExtName: async () => {
     let result = await horse.path.getPath({
       name: "exePath",
     });
     let data = horse.path.extName(result.data);
-    demoLog(data);
+    console.log(data);
   },
 };

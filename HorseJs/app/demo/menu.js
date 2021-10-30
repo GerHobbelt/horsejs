@@ -15,10 +15,10 @@ export let processor = {
     let result = await horse.menu.popup({
       data,
       click: (id) => {
-        demoLog(`你点击的菜单ID为${id}`);
+        console.log(`你点击的菜单ID为${id}`);
       },
     });
-    demoLog(result);
+    console.log(result);
   },
   popupAtPoint: async () => {
     let data = [
@@ -30,9 +30,9 @@ export let processor = {
       data,
       position: { x: 200, y: 300 },
       click: (id) => {
-        demoLog(`你点击的菜单ID为${id}`);
+        console.log(`你点击的菜单ID为${id}`);
       },
     });
-    demoLog(result);
+    console.log(result);
   },
 };
