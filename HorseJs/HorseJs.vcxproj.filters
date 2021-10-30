@@ -72,5 +72,6 @@
     <CopyFileToFolders Include="app\common.js" />
     <CopyFileToFolders Include="app\demo\demoPageLogic.js" />
     <CopyFileToFolders Include="app\demo\window.js" />
+    <CopyFileToFolders Include="app\demo\dialog.js" />
   </ItemGroup>
 </Project>

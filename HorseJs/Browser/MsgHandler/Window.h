@@ -1,9 +1,9 @@
 #pragma once
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
-#include "../../Common/json.hpp"
 #include "../Handler.h"
 #include "../ViewDelegate.h"
+#include "../../Common/json.hpp"
 using nlohmann::json;
 class Window
 {
