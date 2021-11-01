@@ -67,7 +67,6 @@ private:
     typedef std::list<CefRefPtr<CefBrowser>> BrowserList;
     BrowserList browser_list_;
     bool is_closing_;
-    void notifyClick(wxCommandEvent& event);
     IMPLEMENT_REFCOUNTING(Handler);
 };
 
