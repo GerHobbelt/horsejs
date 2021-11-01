@@ -13,27 +13,29 @@ export let processor = {
     console.log(result);
   },
   getFileSize: async () => {
-    let folderResult = await horse.dialog.openFile({
+    let fileResult = await horse.dialog.openFile({
       title: "请你先选择一个文件~~~",
       defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
       filterIndex: 0,
     });
-    let result = await horse.file.getFileSize({ path: folderResult.data[0] });
+    if (!fileResult.data) return;
+    let result = await horse.file.getFileSize({ path: fileResult.data[0] });
     console.log(result);
   },
   readFile: async () => {
-    let folderResult = await horse.dialog.openFile({
+    let fileResult = await horse.dialog.openFile({
       title: "请你先选择一个文件~~~",
       defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
       filterIndex: 0,
     });
+    if (!fileResult.data) return;
     let decoder = new TextDecoder("utf-8");
     let result = await horse.file.readFile({
-      path: folderResult.data[0],
+      path: fileResult.data[0],
       bufferSize: 65536,
       onData: (chunk) => {
         let fileData = decoder.decode(chunk);
@@ -46,16 +48,17 @@ export let processor = {
     console.log("请求读取文件：", result);
   },
   readFileFromPosition: async () => {
-    let folderResult = await horse.dialog.openFile({
+    let fileResult = await horse.dialog.openFile({
       title: "请你先选择一个文件~~~",
       defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
       filterIndex: 0,
     });
+    if (!fileResult.data) return;
     let decoder = new TextDecoder("utf-8");
     let result = await horse.file.readFileFromPosition({
-      path: folderResult.data[0],
+      path: fileResult.data[0],
       bufferSize: 65536,
       position: 6,
       onData: (chunk) => {
@@ -69,15 +72,16 @@ export let processor = {
     console.log(result);
   },
   writeFile: async () => {
-    let folderResult = await horse.dialog.openFile({
+    let fileResult = await horse.dialog.openFile({
       title: "请你先选择一个文件~~~",
       defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
       filterIndex: 0,
     });
+    if (!fileResult.data) return;
     let result = await horse.file.writeFile({
-      path: folderResult.data[0],
+      path: fileResult.data[0],
       data: `
       你好，世界
       안녕 세계
@@ -95,8 +99,9 @@ export let processor = {
       filters: ["*"],
       filterIndex: 0,
     });
+    if (!folderResult.data) return;
     let name = Math.floor(Math.pow(10, 6) * Math.random());
-    let path = folderResult.data[0] + `/${name}.txt`;
+    let path = horse.path.join(folderResult.data[0], `${name}.txt`);
     let result = await horse.file.writeFile({
       path,
       data: `
@@ -117,6 +122,7 @@ export let processor = {
       filters: ["*"],
       filterIndex: 0,
     });
+    if (!srcResult.data) return;
     let destResult = await horse.dialog.openFolder({
       title: "请选择拷贝目标目录",
       defaultPath: "C:\\",
@@ -124,6 +130,7 @@ export let processor = {
       filters: ["*"],
       filterIndex: 0,
     });
+    if (!destResult.data) return;
     let src = srcResult.data[0];
     let baseName = horse.path.baseName(src);
     let dest = destResult.data[0] + baseName;
