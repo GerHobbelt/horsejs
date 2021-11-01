@@ -113,6 +113,8 @@ bool Handler::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_
         }
     }
     else if (dialog_type == JSDIALOGTYPE_PROMPT) {
+        wxMessageDialog dialog(parent, "抱歉，目前暂时不支持prompt弹窗", appName, wxOK | wxCENTRE);
+        dialog.ShowModal();
         //CEF_REQUIRE_UI_THREAD();
         //wxGetTextFromUser(msg, appName, wxEmptyString, parent);
         //suppress_message = false;        
@@ -145,8 +147,8 @@ bool Handler::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_
         //condition.Broadcast();
         //condition.Wait([&] {return i == 1; });
         //todo 这里有问题
-        auto result = wxGetTextFromUser(msg, appName, wxEmptyString, parent);
-        callback->Continue(true, result.ToStdString());
+        //auto result = wxGetTextFromUser(msg, appName, wxEmptyString, parent);
+        //callback->Continue(true, result.ToStdString());
     }
     return false;
 }
