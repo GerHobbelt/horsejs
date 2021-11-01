@@ -36,6 +36,13 @@ horse.path.dirname("/foo/bar/baz/asdf/quux");
 // 返回: '/foo/bar/baz/asdf'
 ```
 
+# 判断一个路径是否为目录
+
+```javascript
+let result = await horse.path.isFolder({ path: "c://a.zip" });
+console.log(result.data);
+```
+
 # 获取路径中的文件名
 
 获取路径的最后一部分，类似于 Unix basename 命令。 尾随的目录分隔符被忽略

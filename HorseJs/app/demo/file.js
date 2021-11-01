@@ -12,19 +12,6 @@ export let processor = {
     });
     console.log(result);
   },
-  isFolder: async () => {
-    let fileResult = await horse.dialog.openFile({
-      title: "请你先选择一个文件~~~",
-      defaultPath: "C:\\",
-      multiSelections: false,
-      filters: ["*"],
-      filterIndex: 0,
-    });
-    let result = await horse.file.isFolder({
-      path: fileResult.data[0],
-    });
-    console.log(result);
-  },
   getFileSize: async () => {
     let folderResult = await horse.dialog.openFile({
       title: "请你先选择一个文件~~~",

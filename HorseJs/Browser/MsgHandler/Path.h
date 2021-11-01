@@ -68,6 +68,12 @@ public:
                 result["data"] = wxStandardPaths::Get().GetTempDir().ToUTF8();
             }
         }
+        else if (filter == "isFolder")
+        {
+            auto path = Helper::convertString(configObj["path"].get<std::string>());
+            auto flag = std::filesystem::is_directory(path);
+            result["data"] = flag;
+        }
         Helper::SendMsg(frame, msgName, result);
         return true;
     };

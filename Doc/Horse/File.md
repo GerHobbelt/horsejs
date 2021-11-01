@@ -5,13 +5,6 @@ let result = await horse.file.getFileSize({ path: "c://a.zip" });
 console.log(result.data);
 ```
 
-# 判断一个路径是否为目录
-
-```javascript
-let result = await horse.file.isFolder({ path: "c://a.zip" });
-console.log(result.data);
-```
-
 # 获取文件的最后一次编辑时间
 
 ```javascript
