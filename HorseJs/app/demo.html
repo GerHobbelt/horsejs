@@ -31,6 +31,7 @@
         <div id="menuMenu">菜单</div>
         <!-- <div id="menuNet">网络</div> -->
         <div id="menuTray">托盘图标</div>
+        <div id="menuDb">数据库</div>
         <div id="menuCrashReport">崩溃报告</div>
       </div>
       <div id="demoContainer">
@@ -45,6 +46,7 @@
           <div class="demoBtn" id="closeWindow">关闭窗口</div>
           <div class="demoBtn" id="centerWindow">移动窗口到屏幕中央</div>
           <div class="demoBtn" id="openDevTool">打开调试器窗口</div>
+          <div class="demoBtn" id="closeDevTool">关闭调试器窗口</div>
         </div>
         <div id="sectionDialog" class="section">
           <div class="demoBtn" id="openFile">打开文件（只能选择一个文件）</div>
@@ -128,6 +130,9 @@
           <div class="demoBtn" id="resetIcon">更改托盘图标</div>
           <div class="demoBtn" id="destroy">销毁托盘图标</div>
         </div>
+        <div id="sectionDb" class="section">
+          目前正在设计原生插件机制，届时将推出官方sqlite插件，帮助开发者使用本地数据库；
+        </div>
         <div id="sectionCrashReport" class="section">
           目前暂时不支持崩溃报告
         </div>
@@ -145,6 +150,7 @@
       window.addEventListener("load", async () => {
         titleBarBtnLogic();
         demo.init();
+        await horse.window.openDevTool();
       });
     </script>
   </body>
