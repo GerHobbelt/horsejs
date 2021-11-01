@@ -71,4 +71,17 @@ export let processor = {
       result
     );
   },
+  create: async () => {
+    let folderResult = await horse.dialog.openFolder({
+      title: "请你先选择一个目录~~~",
+      defaultPath: "C:\\",
+      multiSelections: false,
+      filters: ["*"],
+      filterIndex: 0,
+    });
+    let name = Math.floor(Math.pow(10, 6) * Math.random());
+    let path = horse.path.join(folderResult.data[0], `newFolderName`);
+    let result = await horse.path.create({ path });
+    console.log(result);
+  },
 };

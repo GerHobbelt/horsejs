@@ -3,6 +3,7 @@
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include <wx/stdpaths.h>
+#include <wx/dir.h>
 #include "Helper.h"
 #include "../../Common/json.hpp"
 using nlohmann::json;
@@ -73,6 +74,18 @@ public:
             auto path = Helper::convertString(configObj["path"].get<std::string>());
             auto flag = std::filesystem::is_directory(path);
             result["data"] = flag;
+        }
+        else if (filter == "create")
+        {
+            auto path = wxString::FromUTF8(configObj["path"].get<std::string>());
+            if (wxDir::Exists(path)) {
+                result["data"] = "exists";
+            }
+            else
+            {
+                auto flag = wxDir::Make(path);
+                result["data"] = "created";
+            }
         }
         Helper::SendMsg(frame, msgName, result);
         return true;

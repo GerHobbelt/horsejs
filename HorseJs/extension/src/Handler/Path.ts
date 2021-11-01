@@ -28,6 +28,9 @@ export class Path extends Base {
   readDir(config: { path: string }) {
     return this.callHorse(this.readDir, config)
   }
+  create(config: { path: string }) {
+    return this.callHorse(this.create, config)
+  }
   dirName(path: string) {
     var result = this.splitPath(path),
       root = result[0],
