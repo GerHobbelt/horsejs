@@ -10,9 +10,9 @@
 
 # 说明
 
-HorseJs 是基于 cef 开发的（参考了 Electron 的代码），它没有内置 Node.js，而是直接使用 C++ 提供了类似 Electron 的能力，比如使用 JavaScript 访问文件、打开对话框、创建新窗口等。由于没有 Node.js，所以 HorseJs 运行速度更快、占用内存更少、应用也更稳定。
+HorseJs 是一个与 Electron 类似的框架，与 Electron 不同的是它没有内置 Node.js，而是直接使用 C++ 提供了大部分 Electron 的能力，比如使用 JavaScript 访问文件、打开对话框、创建新窗口等。由于没有 Node.js，所以 HorseJs 运行速度更快、占用内存更少、稳定性也更高。
 
-HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，因为这些构建工具会把依赖包构建到你的最终产物中，所以开发者可以在这类项目中使用任何 npm 包，HorseJs 并不排斥 Node.js 的生态。
+HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，由于这些构建工具会把 npm 包内的代码捆扎到你的最终产物中，所以开发者可以在这类项目中使用任何 npm 包，HorseJs 并不排斥 Node.js 的生态。
 
 使用 HorseJs 开发应用，不必考虑任何渲染进程、主进程以及这些进程之间通信的问题。因为这些工作 HorseJs 已经帮开发者做掉了。开发者只要专注自己的业务逻辑即可。
 
@@ -40,3 +40,4 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，因�
 1.  本项目基于 MIT 协议开源，大家可以放心使用；
 2.  目前此项目尚处于实验验证阶段，将来我会逐步为其添加各项功能及辅助的工具；
 3.  欢迎并感谢大家提 Issue，但暂时不接受 Pull Request；
+4.  本项目基于 cef 开发，大量参考了 Electron 和 Chromium 的源码，感谢这三个开源项目的开发者们。
