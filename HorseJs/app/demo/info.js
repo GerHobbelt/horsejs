@@ -9,4 +9,14 @@ export let processor = {
       alert("error");
     }
   },
+  getAppDataPath: async () => {
+    let result = await horse.info.getPath({
+      name: "appData",
+    });
+    if (result.success) {
+      alert(JSON.stringify(result.data));
+    } else {
+      alert("error");
+    }
+  },
 };
