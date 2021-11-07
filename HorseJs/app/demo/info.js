@@ -19,4 +19,24 @@ export let processor = {
       alert("error");
     }
   },
+  getExePath: async () => {
+    let result = await horse.info.getPath({
+      name: "exePath",
+    });
+    if (result.success) {
+      alert(JSON.stringify(result.data));
+    } else {
+      alert("error");
+    }
+  },
+  getExeFolder: async () => {
+    let result = await horse.info.getPath({
+      name: "exeFolder",
+    });
+    if (result.success) {
+      alert(JSON.stringify(result.data));
+    } else {
+      alert("error");
+    }
+  },
 };
