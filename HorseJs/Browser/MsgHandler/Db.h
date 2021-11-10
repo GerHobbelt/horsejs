@@ -90,13 +90,17 @@ public:
                 result["success"] = false;
                 const char* zErrMsg = sqlite3_errmsg(db);
                 result["error"] = std::string(zErrMsg);
+                sqlite3_finalize(stmt);
+                return;
             }
         }
-        else if (prepareResult == SQLITE_OK)
+        else
         {
             result["success"] = false;
             const char* zErrMsg = sqlite3_errmsg(db);
             result["error"] = std::string(zErrMsg);
+            sqlite3_finalize(stmt);
+            return;
         }
         sqlite3_finalize(stmt);
         if (strlen(zTail) != 0) {

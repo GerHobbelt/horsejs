@@ -375,6 +375,7 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="app\demo\db.js">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app/demo</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app/demo</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
