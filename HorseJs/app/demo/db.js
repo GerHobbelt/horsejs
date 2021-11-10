@@ -44,4 +44,13 @@ export let processor = {
     });
     console.log(result);
   },
+  selectData: async () => {
+    let result = await horse.db.execute({
+      sql: `select rowid,* from  Message where rowid = 88 or rowid = 65;`,
+      onData: (data) => {
+        console.log("dbOnData:", data);
+      },
+    });
+    console.log(result);
+  },
 };
