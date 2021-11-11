@@ -123,14 +123,6 @@
       <div id="openDocument" style="right: 98px" class="demoToolBtn">查看文档</div>
       <div id="openDevToolBtn" style="right: 180px" class="demoToolBtn">打开开发者调试工具</div>
     </div>
-    <script type="module">
-      import { titleBarBtnLogic } from './common.js'
-      import { demo } from './demo.js'
-      window.addEventListener('load', async () => {
-        titleBarBtnLogic()
-        demo.init()
-        await horse.window.openDevTool()
-      })
-    </script>
+    <script src="./demo.js"></script>
   </body>
 </html>

@@ -11,7 +11,7 @@ let build = (src, dest) => {
 }
 build(path.join(__dirname, 'src/main.ts'), path.join(__dirname, 'dist/horse.js'))
 build(path.join(__dirname, 'app/index.ts'), path.join(__dirname, 'app/index.js'))
-// build(path.join(__dirname, 'app/demo.ts'), path.join(__dirname, 'app/demo.js'))
+build(path.join(__dirname, 'app/demo.ts'), path.join(__dirname, 'app/demo.js'))
 let now = new Date()
 console.log('-------------------------------------')
 console.log(`build extension ok  ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`)
