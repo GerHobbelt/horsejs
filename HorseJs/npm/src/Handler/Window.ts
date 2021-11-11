@@ -1,6 +1,5 @@
 import { Util } from '../Util'
 import { eventer } from '../eventer'
-import { WindowConfig } from './WindowConfig'
 import { Base } from './Base'
 declare type eventType = 'maximize' | 'unMaximize' | 'show' | 'hide'
 export class Window extends Base {
@@ -25,7 +24,9 @@ export class Window extends Base {
       else eventer.emitEvent(`${this.className}_show`)
     })
   }
-  open(config: WindowConfig) {
+  open(config: { width?: number; height?: number; url: string }) {
+    if (!config.width) config.width = 1000
+    if (!config.height) config.height = 800
     return this.callHorse(this.open, config)
   }
   addEventListener(eventName: eventType, cb: Function) {
