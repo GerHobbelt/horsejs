@@ -1,5 +1,5 @@
 (() => {
-  // npm/src/eventer.ts
+  // src/eventer.ts
   var Eventer = class {
     constructor() {
       this.dic = {};
@@ -41,7 +41,7 @@
   };
   var eventer = new Eventer();
 
-  // npm/src/Util.ts
+  // src/Util.ts
   var Util = class {
     static randomNum(len = 12) {
       return Math.floor(Math.pow(10, len) * Math.random());
@@ -69,7 +69,7 @@
     }
   };
 
-  // npm/src/Handler/Base.ts
+  // src/Handler/Base.ts
   var Base = class {
     constructor() {
       this.className = "Base";
@@ -89,7 +89,7 @@
     }
   };
 
-  // npm/src/Handler/Dialog.ts
+  // src/Handler/Dialog.ts
   var Dialog = class extends Base {
     constructor() {
       super(...arguments);
@@ -103,7 +103,7 @@
     }
   };
 
-  // npm/src/Handler/Info.ts
+  // src/Handler/Info.ts
   var Info = class extends Base {
     constructor() {
       super(...arguments);
@@ -129,7 +129,7 @@
     }
   };
 
-  // npm/src/Handler/Window.ts
+  // src/Handler/Window.ts
   var Window = class extends Base {
     constructor() {
       super();
@@ -208,7 +208,7 @@
     }
   };
 
-  // npm/src/Handler/Clipboard.ts
+  // src/Handler/Clipboard.ts
   var Clipboard = class extends Base {
     constructor() {
       super(...arguments);
@@ -222,7 +222,7 @@
     }
   };
 
-  // npm/src/Handler/File.ts
+  // src/Handler/File.ts
   var File = class extends Base {
     constructor() {
       super(...arguments);
@@ -286,7 +286,7 @@
     }
   };
 
-  // npm/src/Handler/Path.ts
+  // src/Handler/Path.ts
   var Path = class extends Base {
     constructor() {
       super(...arguments);
@@ -389,7 +389,7 @@
     }
   };
 
-  // npm/src/Handler/System.ts
+  // src/Handler/System.ts
   var System = class extends Base {
     constructor() {
       super(...arguments);
@@ -418,7 +418,7 @@
     }
   };
 
-  // npm/src/Handler/Menu.ts
+  // src/Handler/Menu.ts
   var Menu = class extends Base {
     constructor() {
       super(...arguments);
@@ -441,7 +441,7 @@
     }
   };
 
-  // npm/src/Handler/Tray.ts
+  // src/Handler/Tray.ts
   var Tray = class extends Base {
     constructor() {
       super(...arguments);
@@ -486,7 +486,7 @@
     }
   };
 
-  // npm/src/Handler/Plugin.ts
+  // src/Handler/Plugin.ts
   var Plugin = class extends Base {
     constructor() {
       super(...arguments);
@@ -503,7 +503,7 @@
     }
   };
 
-  // npm/src/Handler/Db.ts
+  // src/Handler/Db.ts
   var Db = class extends Base {
     constructor() {
       super(...arguments);
@@ -520,7 +520,7 @@
     }
   };
 
-  // npm/src/main.ts
+  // src/main.ts
   var Horse = class {
     constructor() {
       this.window = new Window();
@@ -547,7 +547,7 @@
   };
   var horse = new Horse();
 
-  // npm/app/demo/Clipboard.ts
+  // app/demo/Clipboard.ts
   var ClipBoard = class {
     async getClipboardText() {
       let result = await horse.clipboard.getData({ dataType: "text" });
@@ -592,7 +592,7 @@
   };
   ClipBoard.className = "Clipboard";
 
-  // npm/app/demo/Db.ts
+  // app/demo/Db.ts
   var Db2 = class {
     async openDb() {
       let result = await horse.db.open();
@@ -657,7 +657,7 @@
   };
   Db2.className = "Db";
 
-  // npm/app/demo/Dialog.ts
+  // app/demo/Dialog.ts
   var Dialog2 = class {
     async openFile() {
       let result = await horse.dialog.openFile({
@@ -692,7 +692,7 @@
   };
   Dialog2.className = "Dialog";
 
-  // npm/app/demo/File.ts
+  // app/demo/File.ts
   var File2 = class {
     async getLastWriteTime() {
       let fileResult = await horse.dialog.openFile({
@@ -842,7 +842,7 @@
   };
   File2.className = "File";
 
-  // npm/app/demo/Info.ts
+  // app/demo/Info.ts
   var Info2 = class {
     async getAppInfo() {
       let result = await horse.info.getAppInfo();
@@ -871,7 +871,7 @@
   };
   Info2.className = "Info";
 
-  // npm/app/demo/Menu.ts
+  // app/demo/Menu.ts
   var Menu2 = class {
     async popup() {
       let data = [
@@ -912,7 +912,7 @@
   };
   Menu2.className = "Menu";
 
-  // npm/app/demo/Path.ts
+  // app/demo/Path.ts
   var Path2 = class {
     async readDir() {
       let folderResult = await horse.dialog.openFolder({
@@ -999,7 +999,7 @@
   };
   Path2.className = "Path";
 
-  // npm/app/demo/System.ts
+  // app/demo/System.ts
   var System2 = class {
     async setAutoStart() {
       let result = await horse.system.autoStart({
@@ -1049,7 +1049,7 @@
   };
   System2.className = "System";
 
-  // npm/app/demo/Tray.ts
+  // app/demo/Tray.ts
   var Tray2 = class {
     async create() {
       let menu = [{ name: "test1" }, { name: "\u6D4B\u8BD5\u6D4B\u8BD5" }, { name: "\u6D4B\u8BD5\u6D4B\u8BD5" }];
@@ -1082,7 +1082,7 @@
   };
   Tray2.className = "Tray";
 
-  // npm/app/demo/Window.ts
+  // app/demo/Window.ts
   var Window2 = class {
     async windowSizeChange() {
       let result = await horse.window.resize({ width: 800, height: 600 });
@@ -1126,7 +1126,7 @@
   };
   Window2.className = "Window";
 
-  // npm/app/common.ts
+  // app/common.ts
   var Common = class {
     titleBarEventInit() {
       let btnArr = document.querySelector(".titleTool").children;
@@ -1160,7 +1160,7 @@
   };
   var common = new Common();
 
-  // npm/app/demo.ts
+  // app/demo.ts
   var $ = (selector) => document.querySelector(selector);
   var Demo = class {
     constructor() {
@@ -1190,8 +1190,8 @@
     }
     linkBtnEventInit() {
       $("#sectionCodeLink").addEventListener("click", () => {
-        let codeFileName = $(".menuSelected").getAttribute("id").replace("menu", "").toLowerCase();
-        let target = `https://gitee.com/horsejs/horsejs/blob/master/HorseJs/app/demo/${codeFileName}.ts`;
+        let codeFileName = $(".menuSelected").getAttribute("id").replace("menu", "");
+        let target = `https://gitee.com/horsejs/horsejs/blob/master/HorseJs/npm/app/demo/${codeFileName}.ts`;
         horse.system.openExternal({ target, workingDir: "" });
       });
       $("#openDevToolBtn").addEventListener("click", async () => {

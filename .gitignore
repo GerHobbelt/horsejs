@@ -45,3 +45,6 @@
 *.out
 *.app
 
+HorseJs/npm/dist/horse.js
+HorseJs/npm/app/index.js
+HorseJs/npm/app/demo.js
