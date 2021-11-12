@@ -19,15 +19,15 @@ void Renderer::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFram
     CefRefPtr<CefV8Value> object = context->GetGlobal();
     CefRefPtr<CefV8Value> func = CefV8Value::CreateFunction("__callHorseFunc", v8Handler);
     object->SetValue("__callHorseFunc", func, V8_PROPERTY_ATTRIBUTE_NONE);
-    std::filesystem::path targetPath = std::filesystem::current_path();
-    targetPath.append("extension.js");
-    std::ifstream reader;
-    reader.open(targetPath, std::ios::in);
-    std::stringstream buffer;
-    buffer << reader.rdbuf();
-    reader.close();
-    auto jsCode = buffer.str();
-    frame->ExecuteJavaScript(jsCode,"http://horse/extension.js", 1);
+    //std::filesystem::path targetPath = std::filesystem::current_path();
+    //targetPath.append("extension.js");
+    //std::ifstream reader;
+    //reader.open(targetPath, std::ios::in);
+    //std::stringstream buffer;
+    //buffer << reader.rdbuf();
+    //reader.close();
+    //auto jsCode = buffer.str();
+    //frame->ExecuteJavaScript(jsCode,"http://horse/extension.js", 1);
 }
 void Renderer::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
 {

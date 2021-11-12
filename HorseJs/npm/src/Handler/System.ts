@@ -6,7 +6,7 @@ export class System extends Base {
   autoStart(config: { setOrRemove: 'set' | 'remove' }) {
     return this.callHorse(this.autoStart, config)
   }
-  protocolClient(config: { setOrRemove: 'set' | 'remove' }) {
+  protocolClient(config: { setOrRemove: 'set' | 'remove'; protocolName: string }) {
     return this.callHorse(this.protocolClient, config)
   }
   notify(config: { title: string; body: string; click: Function; dismiss: Function }) {

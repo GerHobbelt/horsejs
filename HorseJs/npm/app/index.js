@@ -1,26 +1,5 @@
 (() => {
-  var __async = (__this, __arguments, generator) => {
-    return new Promise((resolve, reject) => {
-      var fulfilled = (value) => {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      };
-      var rejected = (value) => {
-        try {
-          step(generator.throw(value));
-        } catch (e) {
-          reject(e);
-        }
-      };
-      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
-      step((generator = generator.apply(__this, __arguments)).next());
-    });
-  };
-
-  // src/eventer.ts
+  // npm/src/eventer.ts
   var Eventer = class {
     constructor() {
       this.dic = {};
@@ -62,7 +41,7 @@
   };
   var eventer = new Eventer();
 
-  // src/Util.ts
+  // npm/src/Util.ts
   var Util = class {
     static randomNum(len = 12) {
       return Math.floor(Math.pow(10, len) * Math.random());
@@ -90,7 +69,7 @@
     }
   };
 
-  // src/Handler/Base.ts
+  // npm/src/Handler/Base.ts
   var Base = class {
     constructor() {
       this.className = "Base";
@@ -110,7 +89,7 @@
     }
   };
 
-  // src/Handler/Dialog.ts
+  // npm/src/Handler/Dialog.ts
   var Dialog = class extends Base {
     constructor() {
       super(...arguments);
@@ -124,7 +103,7 @@
     }
   };
 
-  // src/Handler/Info.ts
+  // npm/src/Handler/Info.ts
   var Info = class extends Base {
     constructor() {
       super(...arguments);
@@ -150,7 +129,7 @@
     }
   };
 
-  // src/Handler/Window.ts
+  // npm/src/Handler/Window.ts
   var Window = class extends Base {
     constructor() {
       super();
@@ -229,7 +208,7 @@
     }
   };
 
-  // src/Handler/Clipboard.ts
+  // npm/src/Handler/Clipboard.ts
   var Clipboard = class extends Base {
     constructor() {
       super(...arguments);
@@ -243,7 +222,7 @@
     }
   };
 
-  // src/Handler/File.ts
+  // npm/src/Handler/File.ts
   var File = class extends Base {
     constructor() {
       super(...arguments);
@@ -307,7 +286,7 @@
     }
   };
 
-  // src/Handler/Path.ts
+  // npm/src/Handler/Path.ts
   var Path = class extends Base {
     constructor() {
       super(...arguments);
@@ -410,7 +389,7 @@
     }
   };
 
-  // src/Handler/System.ts
+  // npm/src/Handler/System.ts
   var System = class extends Base {
     constructor() {
       super(...arguments);
@@ -439,83 +418,75 @@
     }
   };
 
-  // src/Handler/Menu.ts
+  // npm/src/Handler/Menu.ts
   var Menu = class extends Base {
     constructor() {
       super(...arguments);
       this.className = "Menu";
     }
-    popup(config) {
-      return __async(this, null, function* () {
-        if (!config.position) {
-          config.position = { x: -1, y: -1 };
-        }
-        return new Promise((resolve, reject) => {
-          let msgName = this.createMsgName(this.popup);
-          eventer.addOnceEventListener(msgName, (result) => {
-            resolve({ success: true });
-          });
-          eventer.addOnceEventListener(msgName + "_event", (result) => {
-            config.click(result.id);
-          });
-          this.callHorseNative(msgName, JSON.stringify(config));
+    async popup(config) {
+      if (!config.position) {
+        config.position = { x: -1, y: -1 };
+      }
+      return new Promise((resolve, reject) => {
+        let msgName = this.createMsgName(this.popup);
+        eventer.addOnceEventListener(msgName, (result) => {
+          resolve({ success: true });
         });
+        eventer.addOnceEventListener(msgName + "_event", (result) => {
+          config.click(result.id);
+        });
+        this.callHorseNative(msgName, JSON.stringify(config));
       });
     }
   };
 
-  // src/Handler/Tray.ts
+  // npm/src/Handler/Tray.ts
   var Tray = class extends Base {
     constructor() {
       super(...arguments);
       this.className = "Tray";
       this.isInit = false;
     }
-    create(config) {
-      return __async(this, null, function* () {
-        if (this.isInit) {
-          throw new Error("\u5DF2\u7ECF\u521B\u5EFA\u4E86\u4E00\u4E2A\u6258\u76D8\u56FE\u6807");
-          return;
-        }
-        return new Promise((resolve, reject) => {
-          let msgName = `${this.className}_create`;
-          eventer.addOnceEventListener(msgName, (result) => {
-            resolve({ success: true });
-          });
-          eventer.removeEventListener(msgName + "_tray");
-          eventer.removeEventListener(msgName + "_menu");
-          eventer.addEventListener(msgName + "_tray", (result) => {
-            if (!config[result.clickType])
-              return;
-            config[result.clickType]();
-          });
-          eventer.addEventListener(msgName + "_menu", (result) => {
-            config.menuClick(result.index);
-          });
-          this.callHorseNative(msgName, JSON.stringify(config));
-          this.isInit = true;
+    async create(config) {
+      if (this.isInit) {
+        throw new Error("\u5DF2\u7ECF\u521B\u5EFA\u4E86\u4E00\u4E2A\u6258\u76D8\u56FE\u6807");
+        return;
+      }
+      return new Promise((resolve, reject) => {
+        let msgName = `${this.className}_create`;
+        eventer.addOnceEventListener(msgName, (result) => {
+          resolve({ success: true });
         });
+        eventer.removeEventListener(msgName + "_tray");
+        eventer.removeEventListener(msgName + "_menu");
+        eventer.addEventListener(msgName + "_tray", (result) => {
+          if (!config[result.clickType])
+            return;
+          config[result.clickType]();
+        });
+        eventer.addEventListener(msgName + "_menu", (result) => {
+          config.menuClick(result.index);
+        });
+        this.callHorseNative(msgName, JSON.stringify(config));
+        this.isInit = true;
       });
     }
-    destroy() {
-      return __async(this, null, function* () {
-        return new Promise((resolve, reject) => {
-          let msgName = `${this.className}_destroy`;
-          eventer.removeEventListener(msgName + "_tray");
-          eventer.removeEventListener(msgName + "_menu");
-          this.callHorseNative(msgName, `{}`);
-          this.isInit = false;
-        });
+    async destroy() {
+      return new Promise((resolve, reject) => {
+        let msgName = `${this.className}_destroy`;
+        eventer.removeEventListener(msgName + "_tray");
+        eventer.removeEventListener(msgName + "_menu");
+        this.callHorseNative(msgName, `{}`);
+        this.isInit = false;
       });
     }
-    resetIcon(config) {
-      return __async(this, null, function* () {
-        return this.callHorse(this.resetIcon, config);
-      });
+    async resetIcon(config) {
+      return this.callHorse(this.resetIcon, config);
     }
   };
 
-  // src/Handler/Plugin.ts
+  // npm/src/Handler/Plugin.ts
   var Plugin = class extends Base {
     constructor() {
       super(...arguments);
@@ -532,7 +503,7 @@
     }
   };
 
-  // src/Handler/Db.ts
+  // npm/src/Handler/Db.ts
   var Db = class extends Base {
     constructor() {
       super(...arguments);
@@ -549,7 +520,7 @@
     }
   };
 
-  // src/main.ts
+  // npm/src/main.ts
   var Horse = class {
     constructor() {
       this.window = new Window();
@@ -576,7 +547,7 @@
   };
   var horse = new Horse();
 
-  // app/common.ts
+  // npm/app/common.ts
   var Common = class {
     titleBarEventInit() {
       let btnArr = document.querySelector(".titleTool").children;
@@ -610,7 +581,7 @@
   };
   var common = new Common();
 
-  // app/index.ts
+  // npm/app/index.ts
   var linkLogic = () => {
     document.querySelector("#docLink").addEventListener("click", () => {
       horse.system.openExternal({
@@ -626,11 +597,11 @@
       });
     });
   };
-  var setVersion = () => __async(void 0, null, function* () {
-    let data = yield horse.info.getHorseInfo();
+  var setVersion = async () => {
+    let data = await horse.info.getHorseInfo();
     let versionNum = data.data.HorseJsVersion.join(".");
     document.querySelector(".version").innerHTML = `version\uFF1A${versionNum}`;
-  });
+  };
   window.addEventListener("load", () => {
     linkLogic();
     setVersion();
