@@ -7,11 +7,6 @@ export let processor = {
       filters: ["*"],
       lastFilterIndex: 0,
     });
-    if (folderResult.success) {
-      alert(JSON.stringify(folderResult.data));
-    } else {
-      alert("error");
-    }
     let result = await horse.file.readDir({ folderPath: folderResult.data[0] });
     if (result.success) {
       alert(JSON.stringify(result.data));
