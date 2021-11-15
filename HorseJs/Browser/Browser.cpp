@@ -19,8 +19,8 @@ void Browser::OnContextInitialized() {
     //browser_settings.javascript_close_windows = cef_state_t::STATE_ENABLED;
     //browser_settings.javascript_dom_paste = cef_state_t::STATE_ENABLED;
     auto config = Config::get();
-    auto startPath = config["startPath"].get<std::string>();
-    std::string url = "http://horse/"+ startPath;  //todo 这里不应该有app子目录
+    auto url = config["startPath"].get<std::string>();
+    if(!url._Starts_with("http")) url = "http://horse/"+ url;  //todo 这里不应该有app子目录
     CefRefPtr<CefBrowserView> browserView = CefBrowserView::CreateBrowserView(handler, url, browserSettings, nullptr, nullptr, new ViewDelegate());
     //browser_view->SetID(2);
     CefWindow::CreateTopLevelWindow(new WindowDelegate(browserView));

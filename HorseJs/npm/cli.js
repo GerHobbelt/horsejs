@@ -7,6 +7,7 @@ let build = (src, dest) => {
     minify: process.argv.includes('--minify'),
     bundle: true,
     sourcemap: false,
+    platform: 'neutral',
   })
 }
 build(path.join(__dirname, 'src/main.ts'), path.join(__dirname, 'dist/horse.js'))
