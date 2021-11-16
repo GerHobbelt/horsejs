@@ -3,98 +3,8 @@
     <title>HorseJs</title>
     <link rel="stylesheet" href="./icon/iconfont.css" />
     <link rel="stylesheet" href="./common.css" />
-    <style>
-      .content {
-        color: #333;
-        background: #fefefe;
-        flex: 1;
-        display: flex;
-      }
-      #menuContainer {
-        background: rgb(219, 237, 255);
-        width: 180px;
-        line-height: 38px;
-        font-size: 15px;
-        padding: 12px 0px;
-      }
-      #menuContainer div {
-        cursor: pointer;
-        padding-left: 16px;
-        border-left: 6px solid transparent;
-      }
-      #menuContainer div:hover {
-        background: rgb(140, 200, 255);
-        color: #fff;
-        border-left: 6px solid rgb(121, 184, 255);
-      }
-
-      #menuContainer .menuSelected {
-        background: rgb(33, 136, 255) !important;
-        color: #fff;
-        border-left: 6px solid rgb(0, 92, 197) !important;
-        position: relative;
-      }
-      #menuContainer .menuSelected::after {
-        display: block;
-        width: 0px;
-        height: 0px;
-        position: absolute;
-        right: 0px;
-        top: calc(50% - 4px);
-        border-top: solid 4px transparent;
-        border-right: solid 4px #fff;
-        border-bottom: solid 4px transparent;
-        content: "";
-      }
-      #demoContainer {
-        flex: 1;
-      }
-      .demoBtn {
-        display: inline-block;
-        margin: 8px 8px;
-        border-radius: 3px;
-        padding: 0px 12px;
-        border: 1px solid rgb(140, 200, 255);
-        cursor: pointer;
-        height: 36px;
-        line-height: 36px;
-      }
-      .demoBtn:hover {
-        background: rgb(33, 136, 255);
-        border: 1px solid rgb(33, 136, 255);
-        color: #fff;
-      }
-      .demoBtn:active {
-        background: rgb(3, 102, 214);
-        border: 1px solid rgb(3, 102, 214);
-        color: #fff;
-      }
-      .sectionSelected {
-        display: block !important;
-      }
-      .section {
-        display: none;
-        padding: 26px 26px 80px 26px;
-        overflow-y: auto;
-      }
-      .sectionCodeLink {
-        position: absolute;
-        right: 30px;
-        bottom: 30px;
-        padding: 0px 12px;
-        line-height: 36px;
-        background: rgb(33, 136, 255);
-        color: white;
-        box-shadow: 2px 2px 8px 0px #888;
-        border-radius: 3px;
-        font-size: 13px;
-        cursor: pointer;
-      }
-      .sectionCodeLink:hover {
-        box-shadow: 2px 2px 3px 0px #333;
-        background: rgb(3, 102, 214);
-      }
-    </style>
+    <link rel="stylesheet" href="./demo.css" />
+    <style></style>
   </head>
   <body>
     <div class="titleBar">
@@ -158,6 +68,10 @@
         <div id="sectionNotification" class="section"></div>
         <div id="sectionGlobalShortcut" class="section"></div>
         <div id="sectionCrashReport" class="section"></div>
+        <div class="consoleContainer">
+          <div class="drager"></div>
+          <div class="console"></div>
+        </div>
       </div>
       <div class="sectionCodeLink">查看代码</div>
     </div>
