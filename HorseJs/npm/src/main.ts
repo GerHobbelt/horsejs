@@ -30,7 +30,6 @@ class Horse {
     } else {
       this.eventer.emitEvent(msgName, otherParams[0])
     }
-    console.log(1)
   }
   constructor() {
     __callHorseFunc((...args) => this.nativeCallBack(...args))
