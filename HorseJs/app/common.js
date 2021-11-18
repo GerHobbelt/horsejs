@@ -1,4 +1,4 @@
-export let toolBtnLogic = () => {
+export let titleBarBtnLogic = () => {
   let btnArr = document.querySelector(".titleTool").children;
   btnArr[0].addEventListener("click", () => {
     horse.window.minimize();
