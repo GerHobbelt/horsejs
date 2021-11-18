@@ -2,6 +2,18 @@
 
 # Debug 编译
 
+## 准备环境
+
+确保你的电脑里安装了 Node.js
+
+首先下载源码
+
+在命令行下进入 npm 子目录，执行指令
+
+```cmd
+npm install
+```
+
 ## 准备 wxWidgets
 
 首先在[wxWidgets 官网下载页面](https://www.wxwidgets.org/downloads/)下载 wxWidgets 的源码安装包（Windows Installer）
