@@ -1,5 +1,8 @@
 # 0.0.8
 
+- 把 HorseJs 的 API 改造成 npm 包的形式，使之更便于使用
+- 为 HorseJs 的 API 提供 TypeScript 类型支持
+
 # 0.0.7
 
 - 自定义 alert 和 confirm 对话框
