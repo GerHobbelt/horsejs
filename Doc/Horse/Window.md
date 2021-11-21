@@ -64,6 +64,8 @@ horse.window.addEventListener("unMaximize", () => {
 
 - 窗口隐藏
 
+窗口最小化时也会触发窗口隐藏事件
+
 ```javascript
 horse.window.addEventListener("hide", () => {
   //your code

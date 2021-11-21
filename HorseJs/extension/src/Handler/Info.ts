@@ -16,4 +16,18 @@ export class Info {
       Util.callHorse(msgName, JSON.stringify(config))
     })
   }
+  getAppInfo() {
+    return new Promise((resolve, reject) => {
+      let msgName = this.getFirstArgument(this.getAppInfo)
+      eventer.addEventListener(msgName, (result) => resolve(result))
+      Util.callHorse(msgName)
+    })
+  }
+  getHorseInfo() {
+    return new Promise((resolve, reject) => {
+      let msgName = this.getFirstArgument(this.getHorseInfo)
+      eventer.addEventListener(msgName, (result) => resolve(result))
+      Util.callHorse(msgName)
+    })
+  }
 }

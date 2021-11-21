@@ -39,4 +39,20 @@ export let processor = {
       alert("error");
     }
   },
+  getAppInfo: async () => {
+    let result = await horse.info.getAppInfo();
+    if (result.success) {
+      alert(JSON.stringify(result.data));
+    } else {
+      alert("error");
+    }
+  },
+  getHorseInfo: async () => {
+    let result = await horse.info.getHorseInfo();
+    if (result.success) {
+      alert(JSON.stringify(result.data));
+    } else {
+      alert("error");
+    }
+  },
 };
