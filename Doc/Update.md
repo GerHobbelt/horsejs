@@ -2,6 +2,7 @@
 
 - 把 HorseJs 的 API 改造成 npm 包的形式，使之更便于使用
 - 为 HorseJs 的 API 提供 TypeScript 类型支持
+- 修改文档以适配 Horsejs npm 包
 
 # 0.0.7
 
