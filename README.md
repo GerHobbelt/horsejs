@@ -18,7 +18,7 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，由�
 
 # 起步
 
-## 一：
+## 第一步：
 
 下载 [HorseJs](https://gitee.com/horsejs/horsejs/releases) 的二进制文件（扩展名为 7z 的压缩包）解压后，启动压缩包内的 HorseJs.exe，进入 Demo 界面可以看到随 SDK 附带的各种 API 的示例；
 
@@ -26,7 +26,7 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，由�
 <img src="Doc/Demo.png" />
 </div>
 
-## 二：
+## 第二步：
 
 在你的前端工程下执行如下指令安装 HorseJs 的 npm 包
 
@@ -45,7 +45,7 @@ await horse.window.openDevTool();
 >
 > 你可以自由的使用 Vue、React、Angular 或者其他的现代前端框架构建你的前端项目
 
-## 三：
+## 第三步：
 
 修改第一步中下载的文件：HorseJs\app\horse.config.json
 
@@ -59,7 +59,7 @@ await horse.window.openDevTool();
 
 > HorseJs 内置 Chromium 浏览器核心，支持热更新，你可以把它当做一个浏览器
 
-## 四：
+## 第四步：
 
 开发完成后，把你的前端工程构建产物 ，放置到 HorseJs\app\ 目录下，（该目录下原有的文件，除 horse.config.json 外均应删除），并再次修改 horse.config.json 的 startPath 配置项，使其指向你的起始页面，比如：
 
@@ -67,7 +67,7 @@ await horse.window.openDevTool();
 "startPath": "app/index.html"
 ```
 
-## 五：
+## 第五步：
 
 你可以使用 [Resource Hacker](http://angusj.com/resourcehacker/) 之类的工具修改 HorseJs.exe 的图标或属性信息；
 
