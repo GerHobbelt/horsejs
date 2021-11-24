@@ -12,4 +12,11 @@ export class File {
       Util.callHorse(msgName, JSON.stringify(config))
     })
   }
+  stat(config: { path: string }) {
+    return new Promise((resolve, reject) => {
+      let msgName = this.getFirstArgument(this.stat)
+      eventer.addEventListener(msgName, (result) => resolve(result))
+      Util.callHorse(msgName, JSON.stringify(config))
+    })
+  }
 }

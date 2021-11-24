@@ -47,8 +47,13 @@ public:
             }
             //result["data"] = arr;
         }
-        else if (message_name._Starts_with("getHtml"))
+        else if (message_name._Starts_with("stat"))
         {
+            std::string path = configObj["path"].get<std::string>();
+            std::filesystem::file_status stat = std::filesystem::status(path);
+            json data;
+            //data["size"] = stat.
+            //result["data"] = data;
         }
         else if (message_name._Starts_with("getHtml"))
         {

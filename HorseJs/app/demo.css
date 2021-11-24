@@ -70,24 +70,23 @@
 }
 .section {
   display: none;
-  padding: 26px 26px 80px 26px;
+  padding: 26px;
   overflow-y: auto;
   flex: 1;
 }
-.sectionCodeLink {
+.demoToolBtn {
   position: absolute;
-  right: 18px;
   bottom: 18px;
-  padding: 0px 12px;
-  line-height: 36px;
+  padding: 0px 8px;
+  line-height: 30px;
   background: rgb(33, 136, 255);
   color: white;
   box-shadow: 2px 2px 8px 0px #888;
   border-radius: 3px;
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
 }
-.sectionCodeLink:hover {
+.demoToolBtn:hover {
   box-shadow: 2px 2px 3px 0px #333;
   background: rgb(3, 102, 214);
 }
@@ -98,12 +97,25 @@
   flex-direction: column;
 }
 .drager {
-  height: 4px;
+  height: 6px;
   background: #efefef;
   cursor: row-resize;
 }
 .console {
   flex: 1;
   overflow-y: auto;
-  padding: 8px;
+  padding-bottom: 68px;
 }
+.logDom {
+  font-size: 12px;
+  border-bottom: 1px solid rgb(219, 237, 255);
+  line-height: 20px;
+  padding: 6px;
+  position: relative;
+}
+/* .logDom::before {
+  content: ">";
+  color: rgb(3, 102, 214);
+  position: absolute;
+  left: 0px;
+} */
