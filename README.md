@@ -100,3 +100,11 @@ await horse.window.openDevTool();
 2.  目前此项目尚处于实验验证阶段，将来我会逐步为其添加各项功能及辅助的工具；
 3.  欢迎并感谢大家提 Issue 和 Pull Request；
 4.  本项目基于 cef 和 wxWidgets 开发，大量参考了 Electron 、Node.js、 Chromium 的源码，Thanks。
+
+# 赞助
+
+<img src="Doc/pay.jpg" style="width:158px;height:158px" />
+
+微信收款码
+
+> 如果赞助者希望把名字添加到 HorseJs 主页，可以通过 QQ （412588801）联系我
