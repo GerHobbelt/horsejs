@@ -103,7 +103,7 @@ await horse.window.openDevTool();
 
 # 赞助
 
-<img src="Doc/pay.jpg" style="width:158px;height:158px" />
+<img src="Doc/pay.png" />
 
 微信收款码
 
