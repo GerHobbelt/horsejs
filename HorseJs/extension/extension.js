@@ -231,9 +231,49 @@ var horse;
         Util.callHorse(msgName, JSON.stringify(config));
       });
     }
-    stat(config) {
+    isFolder(config) {
       return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.stat);
+        let msgName = this.getFirstArgument(this.isFolder);
+        eventer.addEventListener(msgName, (result) => resolve(result));
+        Util.callHorse(msgName, JSON.stringify(config));
+      });
+    }
+    getFileSize(config) {
+      return new Promise((resolve, reject) => {
+        let msgName = this.getFirstArgument(this.getFileSize);
+        eventer.addEventListener(msgName, (result) => resolve(result));
+        Util.callHorse(msgName, JSON.stringify(config));
+      });
+    }
+    getLastWriteTime(config) {
+      return new Promise((resolve, reject) => {
+        let msgName = this.getFirstArgument(this.getLastWriteTime);
+        eventer.addEventListener(msgName, (result) => resolve(result));
+        Util.callHorse(msgName, JSON.stringify(config));
+      });
+    }
+    readFile(config) {
+      if (!config.bufferSize)
+        config.bufferSize = 65536;
+      return new Promise((resolve, reject) => {
+        let msgName = this.getFirstArgument(this.readFile);
+        eventer.addEventListener(msgName, (result) => {
+          if (result.success) {
+            config.onData(result.data);
+          } else {
+            reject("error");
+          }
+          if (result.finished) {
+            delete result.data;
+            resolve(result);
+          }
+        });
+        Util.callHorse(msgName, JSON.stringify(config));
+      });
+    }
+    readFileFromPosition(config) {
+      return new Promise((resolve, reject) => {
+        let msgName = this.getFirstArgument(this.readFile);
         eventer.addEventListener(msgName, (result) => resolve(result));
         Util.callHorse(msgName, JSON.stringify(config));
       });

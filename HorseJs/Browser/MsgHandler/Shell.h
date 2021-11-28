@@ -6,7 +6,7 @@
 #include "include/views/cef_window.h"
 #include "include/base/cef_bind.h"
 #include "include/wrapper/cef_closure_task.h"
-class Shell :public CefRunFileDialogCallback
+class Shell
 {
 public:
     Shell() = delete;

@@ -18,6 +18,7 @@ public:
         targetPath.append("app/horse.config.json");
         std::ifstream reader;
         reader.open(targetPath, std::ios::in);
+        //todo open ß∞‹
         std::stringstream buffer;
         buffer << reader.rdbuf();
         reader.close();
