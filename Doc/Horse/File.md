@@ -14,4 +14,47 @@
 
 ```javascript
 let result = await horse.file.readDir({ path: "c://" });
+console.log(result.data);
+```
+
+- 获取某个文件的体积大小
+
+```javascript
+let result = await horse.file.getFileSize({ path: "c://a.zip" });
+console.log(result.data);
+```
+
+- 判断一个路径是否为目录
+
+```javascript
+let result = await horse.file.isFolder({ path: "c://a.zip" });
+console.log(result.data);
+```
+
+- 获取文件的最后一次编辑时间
+
+```javascript
+let result = await horse.file.getLastWriteTime({ path: "c://a.zip" });
+console.log(result.data);
+```
+
+- 读取一个文件的全部内容
+
+这个方法会分批读取目标文件，每成功读取一段数据就会触发 onData 方法。
+
+当所有数据读取完成之后，readFile 异步方法结束，返回 result。
+
+bufferSize 参数就是一次读取的字节数，
+
+如果开发者没有提供这个值，那么它的默认值为 65536（64kb）
+
+```javascript
+let result = await horse.file.readFile({
+  path: folderResult.data[0],
+  bufferSize: 65536,
+  onData: (data) => {
+    demoLog(data);
+  },
+});
+console.log(result.data);
 ```
