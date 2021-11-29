@@ -1,5 +1,6 @@
 # 代办事项
 
+- 把 DefaultConfig.json 编译的二进制文件中
 - 移除默认的右键菜单
 - TypeScript 的类型
 - 刷新整个窗口的页面

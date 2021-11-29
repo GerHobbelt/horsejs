@@ -1,3 +1,7 @@
+# 0.0.9
+
+- 把 Default.config.json 整合到二进制文件内，避免误导用户
+
 # 0.0.8
 
 - 把 HorseJs 的 API 改造成 npm 包的形式，使之更便于使用
