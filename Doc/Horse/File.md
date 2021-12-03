@@ -58,3 +58,18 @@ let result = await horse.file.readFile({
 });
 console.log(result.data);
 ```
+
+- 从指定位置读取文件的一片数据
+
+bufferSize 为数据片的大小
+
+position 为读取的起始位置
+
+```javascript
+let result = await horse.file.readFileFromPosition({
+  path: folderResult.data[0],
+  bufferSize: 65536,
+  position: 3,
+});
+console.log(result.data);
+```

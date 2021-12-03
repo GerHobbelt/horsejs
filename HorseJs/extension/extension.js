@@ -273,7 +273,7 @@ var horse;
     }
     readFileFromPosition(config) {
       return new Promise((resolve, reject) => {
-        let msgName = this.getFirstArgument(this.readFile);
+        let msgName = this.getFirstArgument(this.readFileFromPosition);
         eventer.addEventListener(msgName, (result) => resolve(result));
         Util.callHorse(msgName, JSON.stringify(config));
       });

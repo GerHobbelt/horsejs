@@ -17,6 +17,7 @@ public:
     File() = delete;
     static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
+        static std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
         std::string message_name = message->GetName();
         message_name.erase(0, message_name.find_first_of('_') + 1);
         CefRefPtr<CefListValue> args = message->GetArgumentList();
@@ -25,10 +26,8 @@ public:
         json result;
         result["success"] = true;
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());        
-        //msgArgs->SetSize(1);
         if (message_name._Starts_with("readDir"))
         {
-            static std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
             std::string folderPath = configObj["path"].get<std::string>();
             result["data"] = json::array();
             for (auto& itr : std::filesystem::directory_iterator(folderPath))
@@ -64,37 +63,26 @@ public:
             std::string path = configObj["path"].get<std::string>();
             long long position = configObj["position"].get<long long>();
             long long bufferSize = configObj["bufferSize"].get<long long>();
-            std::string from = configObj["from"].get<std::string>();
-            std::ios_base::seekdir seekFrom = 0;
-            if (from == "start") {
-                seekFrom = std::ios_base::beg;
-            }
-            else if(from == "end")
-            {
-                seekFrom = std::ios_base::end;
+            long long fileSize = std::filesystem::file_size(path);
+            result["fileSize"] = fileSize;
+            std::wifstream reader;
+            reader.open(path, std::ios::binary);
+            if (!reader.is_open()) {
+                result["success"] = false;
             }
             else
             {
-                seekFrom = std::ios_base::cur;
+                reader.seekg(position, std::ios_base::beg);
+                if (fileSize - position < bufferSize) {
+                    bufferSize = fileSize - position;
+                }
+                wchar_t* buffer = new wchar_t[bufferSize + 1];
+                buffer[bufferSize] = '\0';
+                reader.read(buffer, bufferSize);
+                std::string temp(utf8_conv.to_bytes(buffer));
+                result["data"] = temp;
+                delete[] buffer;
             }
-            std::ifstream reader;
-            reader.open(path, std::ios::in);
-            if (!reader.is_open()) {
-                result["success"] = false;
-                auto resultStr = result.dump();
-                //msgArgs->SetString(0, resultStr);
-                frame->SendProcessMessage(PID_RENDERER, msg);
-                return true;
-            }
-            reader.seekg(position, seekFrom);
-            char* buf = new char[bufferSize]; //64k
-            //while (true)
-            //{
-            //    reader.read(buf, bufferSize);
-            //    if(reader.eof)
-            //}
-            //reader.re
-            //result["data"] = systemTime;
         }
         else if(message_name._Starts_with("readFile"))
         {

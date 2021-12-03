@@ -62,7 +62,21 @@ export let processor = {
         demoLog(data);
       },
     });
-
     demoLog("文件读取完成", result);
+  },
+  readFileFromPosition: async () => {
+    let folderResult = await horse.dialog.openFile({
+      title: "请你先选择一个文件~~~",
+      defaultFilePath: "C:\\",
+      multiSelections: false,
+      filters: ["*"],
+      lastFilterIndex: 0,
+    });
+    let result = await horse.file.readFileFromPosition({
+      path: folderResult.data[0],
+      bufferSize: 65536,
+      position: 3,
+    });
+    demoLog(result);
   },
 };
