@@ -51,6 +51,15 @@ export class File {
       Util.callHorse(msgName, JSON.stringify(config))
     })
   }
+  writeFile(config: { path: string; data: string; existThen?: 'append' | 'cover' | 'error'; notExistThen?: 'create' | 'error' }) {
+    if (!config.existThen) config.existThen = 'error'
+    if (!config.notExistThen) config.notExistThen = 'create'
+    return new Promise((resolve, reject) => {
+      let msgName = this.getFirstArgument(this.writeFile)
+      eventer.addEventListener(msgName, (result) => resolve(result))
+      Util.callHorse(msgName, JSON.stringify(config))
+    })
+  }
   readFileFromPosition(config: { path: string; position: number; bufferSize: number }) {
     return new Promise((resolve, reject) => {
       let msgName = this.getFirstArgument(this.readFileFromPosition)

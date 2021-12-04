@@ -91,6 +91,47 @@ public:
             CefPostTask(TID_UI, base::Bind(&readFile, path,bufferSize, frame,msg));
             return true;
         }
+        else if (message_name._Starts_with("writeFile"))
+        {
+            std::string path = configObj["path"].get<std::string>();
+            std::string existThen = configObj["existThen"].get<std::string>();
+            std::string notExistThen = configObj["notExistThen"].get<std::string>();
+            std::string data = configObj["data"].get<std::string>();
+            bool isExist = std::filesystem::exists(path);
+            if (isExist) {
+                if (existThen == "error") {
+                    result["success"] = false;
+                    result["error"] = "文件已存在";
+                }
+                else if (existThen == "cover")
+                {
+                    std::ofstream writer;
+                    writer.open(path, std::ios::out); //todo
+                    writer.write(data.c_str(),data.length());
+                    writer.close();
+                }
+                else if (existThen == "append") {
+                    std::ofstream writer;
+                    writer.open(path, std::ios::app); //todo
+                    writer.write(data.c_str(), data.length());
+                    writer.close();
+                }
+            }
+            else
+            {
+                if (notExistThen == "error") {
+                    result["success"] = false;
+                    result["error"] = "文件不存在";
+                }
+                else if (notExistThen == "create")
+                {
+                    std::ofstream writer;
+                    writer.open(path, std::ios::out); //todo
+                    writer.write(data.c_str(), data.length());
+                    writer.close();
+                }
+            }
+        }
         auto resultStr = result.dump();
         CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
         msgArgs->SetString(0, resultStr);
