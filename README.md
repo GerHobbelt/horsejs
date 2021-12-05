@@ -41,5 +41,5 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，由�
 
 1.  本项目基于 MIT 协议开源，大家可以放心使用；
 2.  目前此项目尚处于实验验证阶段，将来我会逐步为其添加各项功能及辅助的工具；
-3.  欢迎并感谢大家提 Issue，但暂时不接受 Pull Request；
-4.  本项目基于 cef 开发，大量参考了 Electron 和 Chromium 的源码，感谢这三个开源项目的开发者们。
+3.  欢迎并感谢大家提 Issue 和 Pull Request；
+4.  本项目基于 cef 开发，大量参考了 Electron 、Node.js、 Chromium 的源码，Thanks。
