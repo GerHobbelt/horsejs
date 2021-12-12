@@ -88,7 +88,7 @@ public:
         {
             std::string path = configObj["path"].get<std::string>();
             long long bufferSize = configObj["bufferSize"].get<int>();
-            CefPostTask(TID_UI, base::Bind(&readFile, path,bufferSize, frame,msg));
+            //CefPostTask(TID_UI, base::Bind(&readFile, path,bufferSize, frame,msg));
             return true;
         }
         else if (message_name._Starts_with("writeFile"))

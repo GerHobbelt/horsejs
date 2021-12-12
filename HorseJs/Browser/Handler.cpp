@@ -131,7 +131,7 @@ void Handler::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> fra
 }
 void Handler::CloseAllBrowsers(bool force_close) {
     if (!CefCurrentlyOn(TID_UI)) {
-        CefPostTask(TID_UI, base::Bind(&Handler::CloseAllBrowsers, this, force_close));
+        //CefPostTask(TID_UI, base::Bind(&Handler::CloseAllBrowsers, this, force_close));
         return;
     }
     if (browser_list_.empty())

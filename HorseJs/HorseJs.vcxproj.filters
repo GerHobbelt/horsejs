@@ -2,15 +2,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Browser\Browser.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\Renderer.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser\Handler.cpp">
-      <Filter>Browser</Filter>
-    </ClCompile>
+    <ClCompile Include="Browser\Browser.cpp" />
+    <ClCompile Include="Browser\Handler.cpp" />
+    <ClCompile Include="Renderer\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Main">
@@ -24,38 +18,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Browser\Browser.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Other\Other.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Renderer.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\WindowDelegate.h">
-      <Filter>Browser</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\ViewDelegate.h">
-      <Filter>Browser</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\Handler.h">
-      <Filter>Browser</Filter>
-    </ClInclude>
-    <ClInclude Include="Scheme\SchemeHandlerFactory.h">
-      <Filter>Scheme</Filter>
-    </ClInclude>
-    <ClInclude Include="Common\json.hpp" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Renderer\V8Handler.h" />
-    <ClInclude Include="Browser\MsgHandler\Window.h" />
-    <ClInclude Include="Browser\MsgHandler\Dialog.h" />
-    <ClInclude Include="Common\Config.h" />
-    <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
-    <ClInclude Include="Browser\MsgHandler\Shell.h" />
-    <ClInclude Include="Browser\MsgHandler\Info.h" />
     <ClInclude Include="Browser\MsgHandler\Clipboard.h" />
+    <ClInclude Include="Browser\MsgHandler\Dialog.h" />
+    <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
     <ClInclude Include="Browser\MsgHandler\File.h" />
+    <ClInclude Include="Browser\MsgHandler\Info.h" />
+    <ClInclude Include="Browser\MsgHandler\Shell.h" />
+    <ClInclude Include="Browser\MsgHandler\Window.h" />
+    <ClInclude Include="Browser\Browser.h" />
+    <ClInclude Include="Browser\Handler.h" />
+    <ClInclude Include="Browser\ViewDelegate.h" />
+    <ClInclude Include="Browser\WindowDelegate.h" />
+    <ClInclude Include="Common\Config.h" />
+    <ClInclude Include="Common\json.hpp" />
+    <ClInclude Include="Other\Other.h" />
+    <ClInclude Include="Renderer\Renderer.h" />
+    <ClInclude Include="Renderer\V8Handler.h" />
+    <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
@@ -83,5 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Resource\cef.manifest" />
   </ItemGroup>
 </Project>

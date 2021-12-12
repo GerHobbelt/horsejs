@@ -32,7 +32,7 @@ public:
             CefString workingDirTemp = configObj["workingDir"].get<std::string>();
             const std::wstring target = L"\"" + targetTemp.ToWString() + L"\"";
             const std::wstring workingDir = workingDirTemp.ToWString();
-            CefPostTask(TID_UI, base::Bind(&open, target,workingDir));
+            //CefPostTask(TID_UI, base::Bind(&open, target,workingDir));
         }
         else if (message_name._Starts_with("openFolder"))
         {

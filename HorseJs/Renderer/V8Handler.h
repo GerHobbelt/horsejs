@@ -7,7 +7,7 @@ class V8Handler :
 {
 public:
     V8Handler() = default;
-    virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) OVERRIDE
+    virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) override
     {
         if (name == "__callHorseFunc") {
             auto msgName = arguments[0]->GetStringValue();
@@ -21,23 +21,6 @@ public:
             context.get()->GetFrame()->SendProcessMessage(PID_BROWSER, msg);
             return true;
         }
-
-        //if (name == "__callHorseFunc") {
-        //    CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(arguments[0]->GetStringValue());
-        //    CefRefPtr<CefListValue> args = msg->GetArgumentList();
-        //    auto str = arguments[1]->GetStringValue().ToString();
-        //    for (size_t i = 1; i < arguments.size(); i++)
-        //    {
-        //        setListValue(args, i - 1, arguments[i]);
-        //    }
-        //    CefRefPtr<CefV8Context> context = CefV8Context::GetCurrentContext();
-        //    context.get()->GetFrame()->SendProcessMessage(PID_BROWSER, msg);
-        //    return true;
-        //}
-        //else if (name == "__listenHorseFunc") {
-        //    arguments[0]->GetStringValue()
-        //}
-
     };
 private:
     IMPLEMENT_REFCOUNTING(V8Handler);

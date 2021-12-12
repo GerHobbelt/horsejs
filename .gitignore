@@ -3,8 +3,14 @@
 /HorseJs/cef/**
 /HorseJs/GPUCache/**
 /HorseJs/x64/**
+/Horse/x64/**
+/Horse/x64/**
 /x64/**
 /HorseJs/extension/node_modules/**
+/wxWidgetsRelease/**
+/wxWidgetsDebug/**
+/cefRelease/**
+/cefDebug/**
 # Prerequisites
 *.d
 
