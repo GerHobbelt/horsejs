@@ -13,12 +13,16 @@ using nlohmann::json;
 class WindowDelegate : public CefWindowDelegate
 {
 public:
-    explicit WindowDelegate(CefRefPtr<CefBrowserView> browser_view,bool isDevtools = false) : browser_view_(browser_view),isDevWindow(isDevtools) {}
+    explicit WindowDelegate(CefRefPtr<CefBrowserView> browser_view,bool isFrameless = false, bool isDevWindow = false) : 
+        browser_view_(browser_view), 
+        isFrameless(isFrameless) ,
+        isDevWindow(isDevWindow)
+    {}
 
     void OnWindowCreated(CefRefPtr<CefWindow> window) override;
     bool IsFrameless(CefRefPtr<CefWindow> window) override
     {
-        return !isDevWindow;
+        return isFrameless;
     };
     void OnWindowDestroyed(CefRefPtr<CefWindow> window) override
     {
@@ -33,6 +37,7 @@ public:
 private:
     void PrepareIcon(CefRefPtr<CefImage> image, double scale_factor, const std::string& name);
     CefSize getSizeConfig(std::string_view configName);
+    bool isFrameless;
     bool isDevWindow;
     IMPLEMENT_REFCOUNTING(WindowDelegate);
     DISALLOW_COPY_AND_ASSIGN(WindowDelegate);

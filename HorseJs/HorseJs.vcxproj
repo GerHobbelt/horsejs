@@ -170,7 +170,7 @@
       <AdditionalManifestFiles>$(ProjectDir)Resource\cef.manifest</AdditionalManifestFiles>
     </Manifest>
     <PreBuildEvent>
-      <Command>node $(projectDir)npm\cli.js --minify</Command>
+      <Command>node $(projectDir)npm\cli.js</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
