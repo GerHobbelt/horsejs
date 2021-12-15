@@ -3,9 +3,10 @@
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "DialogCallback.h"
+#include <wx/clipbrd.h>
 #include "../../Common/json.hpp"
 using nlohmann::json;
-class Clipboard 
+class Clipboard
 {
 public:
     Clipboard() = delete;
@@ -18,55 +19,51 @@ public:
         result["success"] = true;
         if (message_name._Starts_with("getData"))
         {
-            
+            if (!wxTheClipboard->Open())
+            {
+
+                result["success"] = false;
+                result["error"] = "OpenClipboard Error";
+                wxTheClipboard->SetData(new wxTextDataObject("Some text"));
+                wxTheClipboard->Close();
+            }
             auto configStr = args->GetString(0).ToString();
             auto configObj = json::parse(configStr);
             CefString dataTypeStr = configObj["dataType"].get<std::string>();
-            if (!OpenClipboard(NULL)) {
+            if (!wxTheClipboard->Open()) {
                 result["success"] = false;
                 result["error"] = "OpenClipboard Error";
             }
             else if (dataTypeStr == "text")
             {
-                if (!IsClipboardFormatAvailable(CF_TEXT)) {
+                if (!wxTheClipboard->IsSupported(wxDataFormat(wxDF_TEXT))) {
                     result["success"] = false;
-                    result["error"] = "IsClipboardFormatAvailable CF_TEXT Error";
-                } else {
-                    HANDLE hClip = GetClipboardData(CF_TEXT);
-                    char* pBuf = (char*)GlobalLock(hClip);
-                    GlobalUnlock(hClip);
-                    CloseClipboard();
-                    result["data"] = pBuf;
+                    result["error"] = "剪切板内没有文本数据";
+                }
+                else
+                {
+                    wxTextDataObject data;
+                    wxTheClipboard->GetData(data);
+                    std::string text = data.GetText().utf8_string();
+                    result["data"] = text;
                 }
             }
-            else if(dataTypeStr == "file")
+            else if (dataTypeStr == "file")
             {
-                if (!IsClipboardFormatAvailable(CF_HDROP)) {
+                if (!wxTheClipboard->IsSupported(wxDataFormat(wxDF_FILENAME))) {
                     result["success"] = false;
-                    result["error"] = "IsClipboardFormatAvailable CF_TEXT Error";
+                    result["error"] = "剪切板内没有文件数据";
                 }
-                else {
-                    HDROP hDrop = HDROP(GetClipboardData(CF_HDROP));
-                    if (hDrop != NULL)
+                else
+                {
+                    wxFileDataObject data;
+                    wxTheClipboard->GetData(data);
+                    auto files = data.GetFilenames();
+                    result["data"] = {};
+                    for (wxString& file : files)
                     {
-                        //WCHAR szFilePathName[MAX_PATH + 1] = { 0 };
-
-                        //UINT nNumOfFiles = DragQueryFile(hDrop, 0xFFFFFFFF, NULL, 0);
-                        //for (UINT nIndex = 0; nIndex < nNumOfFiles; ++nIndex)
-                        //{
-                        //    memset(szFilePathName, 0, MAX_PATH + 1);
-                        //    DragQueryFile(hDrop, nIndex, szFilePathName, MAX_PATH);  // 得到文件名
-
-                        //    _bstr_t path(szFilePathName);
-                        //    std::string ss = (LPCSTR)path;
-
-                        //    path_list.push_back(ss);
-                        //}
+                        result["data"].push_back(file.utf8_string());
                     }
-                    //std::string data = (char*)GlobalLock(hClip);
-                    //GlobalUnlock(hClip);
-                    //CloseClipboard();
-                    //result["data"] = data;
                 }
             }
             //CF_BITMAP    
