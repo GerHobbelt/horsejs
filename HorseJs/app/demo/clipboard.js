@@ -7,4 +7,8 @@ export let processor = {
     let result = await horse.clipboard.getData({ dataType: "file" });
     demoLog(result);
   },
+  getClipboardHTML: async () => {
+    let result = await horse.clipboard.getData({ dataType: "html" });
+    demoLog(result);
+  },
 };
