@@ -1,7 +1,7 @@
 import { eventer } from '../eventer'
 import { Base } from './Base'
 
-type menuDataType = { name: string; id: number; subMenu?: menuDataType[] }
+type menuDataType = { name?: string; id: number; type?: 'text' | 'check' | 'separator'; checked?: boolean; enable: boolean; subMenu?: menuDataType[] }
 export class Menu extends Base {
   className = 'Menu'
   async popup(config: { data: menuDataType[]; click: (index: number) => void; position?: { x: number; y: number } }) {
