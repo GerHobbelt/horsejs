@@ -26,9 +26,9 @@ bool WindowDelegate::CanClose(CefRefPtr<CefWindow> window)
 {
     CefRefPtr<CefBrowser> browser = browser_view_->GetBrowser();
     if (browser) {
-        browser->GetHost()->TryCloseBrowser();
         if(!isDevWindow) nativeWindow->parent->Close();
-    }        
+        browser->GetHost()->TryCloseBrowser();
+    }
     return true;
 }
 

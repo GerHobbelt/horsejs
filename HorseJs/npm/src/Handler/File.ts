@@ -9,18 +9,18 @@ export class File extends Base {
   getLastWriteTime(config: { path: string }) {
     return this.callHorse(this.getLastWriteTime, config)
   }
-  readFile(config: { path: string; bufferSize?: number; onData: (data) => void; onDataFinish: (data) => void }) {
+  readFile(config: { path: string; bufferSize?: number; onData: (data: any) => void; onDataFinish: (data: any) => void }) {
     if (!config.bufferSize) config.bufferSize = 65536
     return new Promise((resolve, reject) => {
       let msgName = this.createMsgName(this.readFile)
       let dataMsgName = msgName + '_data'
-      eventer.addEventListener(dataMsgName, (chunk) => {
+      eventer.addEventListener(dataMsgName, (chunk: any) => {
         config.onData(chunk)
       })
-      eventer.addOnceEventListener(msgName, (result) => {
+      eventer.addOnceEventListener(msgName, (result: any) => {
         resolve(result)
       })
-      eventer.addOnceEventListener(dataMsgName + '_finish', (result) => {
+      eventer.addOnceEventListener(dataMsgName + '_finish', (result: any) => {
         eventer.removeEventListener(dataMsgName)
         config.onDataFinish(result)
         if (!result.success) {
@@ -35,19 +35,19 @@ export class File extends Base {
     if (!config.notExistThen) config.notExistThen = 'create'
     return this.callHorse(this.writeFile, config)
   }
-  readFileFromPosition(config: { path: string; position: number; bufferSize: number; onData: (data) => void; onDataFinish: (data) => void }) {
+  readFileFromPosition(config: { path: string; position: number; bufferSize: number; onData: (data: any) => void; onDataFinish: (data: any) => void }) {
     return new Promise((resolve, reject) => {
       let msgName = this.createMsgName(this.readFileFromPosition)
-      eventer.addOnceEventListener(msgName + '_data', (chunk) => {
+      eventer.addOnceEventListener(msgName + '_data', (chunk: any) => {
         config.onData(chunk)
       })
-      eventer.addOnceEventListener(msgName + '_data_finish', (result) => {
+      eventer.addOnceEventListener(msgName + '_data_finish', (result: any) => {
         config.onDataFinish(result)
         if (!result.success) {
           throw new Error(result.info)
         }
       })
-      eventer.addOnceEventListener(msgName, (result) => {
+      eventer.addOnceEventListener(msgName, (result: any) => {
         resolve(result)
       })
       this.callHorseNative(msgName, JSON.stringify(config))
