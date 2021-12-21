@@ -217,6 +217,13 @@ var horse;
         Util.callHorse(msgName, JSON.stringify(config));
       });
     }
+    setData(config) {
+      return new Promise((resolve, reject) => {
+        let msgName = this.getFirstArgument(this.setData);
+        eventer.addEventListener(msgName, (result) => resolve(result));
+        Util.callHorse(msgName, JSON.stringify(config));
+      });
+    }
   };
 
   // extension/src/Handler/File.ts
