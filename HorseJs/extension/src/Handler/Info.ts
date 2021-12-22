@@ -1,10 +1,8 @@
 import { eventer } from '../eventer'
 import { Util } from '../Util'
+import { Base } from './Base'
 
-export class Info {
-  private getFirstArgument(method: Function) {
-    return `${Info.name}_${method.name}_${Util.randomNum()}`
-  }
+export class Info extends Base {
   horseVersion: string = '0.0.1'
   appVersion: string = '0.0.1'
   osName: string = 'win'

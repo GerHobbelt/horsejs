@@ -1,12 +1,10 @@
 import { Util } from '../Util'
 import { eventer } from '../eventer'
 import { WindowConfig } from './WindowConfig'
+import { Base } from './Base'
 declare type eventType = 'maximize' | 'unMaximize' | 'show' | 'hide'
-export class Window {
+export class Window extends Base {
   isMaximized = false
-  private getFirstArgument(method: Function) {
-    return `${Window.name}_${method.name}_${Util.randomNum()}`
-  }
   private processMaximizeEvent() {
     this.isMaximized = this.getIsMaximized()
     window.addEventListener(
@@ -71,6 +69,7 @@ export class Window {
     Util.callHorse(msgName, JSON.stringify(size))
   }
   constructor() {
+    super()
     this.processMaximizeEvent()
     this.processShowEvent()
   }

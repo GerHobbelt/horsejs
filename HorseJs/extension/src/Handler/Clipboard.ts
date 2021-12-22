@@ -1,10 +1,8 @@
 import { eventer } from '../eventer'
 import { Util } from '../Util'
+import { Base } from './Base'
 
-export class Clipboard {
-  private getFirstArgument(method: Function) {
-    return `${Clipboard.name}_${method.name}_${Util.randomNum()}`
-  }
+export class Clipboard extends Base {
   getData(config: { dataType: string }) {
     return new Promise((resolve, reject) => {
       let msgName = this.getFirstArgument(this.getData)
