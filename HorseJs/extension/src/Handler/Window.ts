@@ -25,11 +25,7 @@ export class Window extends Base {
     })
   }
   open(config: WindowConfig) {
-    return new Promise((resolve, reject) => {
-      let msgName = this.getFirstArgument(this.open)
-      eventer.addEventListener(msgName, (result) => resolve(result))
-      Util.callHorse(msgName, JSON.stringify(config))
-    })
+    return this.callHorse(this.open, config)
   }
   addEventListener(eventName: eventType, cb: Function) {
     eventer.addEventListener(`${Window.name}_${eventName}`, cb)
@@ -41,32 +37,25 @@ export class Window extends Base {
     return window.outerHeight === screen.availHeight && window.outerWidth === screen.availWidth
   }
   maximize() {
-    let msgName = this.getFirstArgument(this.maximize)
-    Util.callHorse(msgName)
+    return this.callHorse(this.maximize, {})
   }
   minimize() {
-    let msgName = this.getFirstArgument(this.minimize)
-    Util.callHorse(msgName)
+    return this.callHorse(this.minimize, {})
   }
   close() {
-    let msgName = this.getFirstArgument(this.close)
-    Util.callHorse(msgName)
+    return this.callHorse(this.close, {})
   }
   restore() {
-    let msgName = this.getFirstArgument(this.restore)
-    Util.callHorse(msgName)
+    return this.callHorse(this.restore, {})
   }
   hide() {
-    let msgName = this.getFirstArgument(this.hide)
-    Util.callHorse(msgName)
+    return this.callHorse(this.hide, {})
   }
   show() {
-    let msgName = this.getFirstArgument(this.show)
-    Util.callHorse(msgName)
+    return this.callHorse(this.show, {})
   }
-  resize(size: { width; height }) {
-    let msgName = this.getFirstArgument(this.resize)
-    Util.callHorse(msgName, JSON.stringify(size))
+  resize(config: { width; height }) {
+    return this.callHorse(this.resize, config)
   }
   constructor() {
     super()

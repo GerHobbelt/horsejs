@@ -1,4 +1,3 @@
-declare let __callHorseFunc: (msgName: string, ...otherParams) => {}
 export class Util {
   static randomNum(len = 12) {
     return Math.floor(Math.pow(10, len) * Math.random())
@@ -24,8 +23,5 @@ export class Util {
         timer = null
       }, span)
     }
-  }
-  static callHorse(msgName: string, ...otherParams) {
-    __callHorseFunc(msgName, ...otherParams)
   }
 }

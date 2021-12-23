@@ -8,24 +8,12 @@ export class Info extends Base {
   osName: string = 'win'
   osArch: string = 'x64'
   getPath(config: { name }) {
-    return new Promise((resolve, reject) => {
-      let msgName = this.getFirstArgument(this.getPath)
-      eventer.addEventListener(msgName, (result) => resolve(result))
-      Util.callHorse(msgName, JSON.stringify(config))
-    })
+    return this.callHorse(this.getPath, config)
   }
   getAppInfo() {
-    return new Promise((resolve, reject) => {
-      let msgName = this.getFirstArgument(this.getAppInfo)
-      eventer.addEventListener(msgName, (result) => resolve(result))
-      Util.callHorse(msgName)
-    })
+    return this.callHorse(this.getAppInfo, {})
   }
   getHorseInfo() {
-    return new Promise((resolve, reject) => {
-      let msgName = this.getFirstArgument(this.getHorseInfo)
-      eventer.addEventListener(msgName, (result) => resolve(result))
-      Util.callHorse(msgName)
-    })
+    return this.callHorse(this.getHorseInfo, {})
   }
 }

@@ -8,6 +8,15 @@ class Eventer {
     if (!this.dic[msgName]) this.dic[msgName] = [cb]
     else this.dic[msgName].push(cb)
   }
+  public addOnceEventListener(msgName: string, cb: Function) {
+    let cbWrap = (result) => {
+      let index = this.dic[msgName].findIndex((v) => v == cbWrap)
+      if (index >= 0) this.dic[msgName].splice(index, 1)
+      cb(result)
+    }
+    if (!this.dic[msgName]) this.dic[msgName] = [cbWrap]
+    else this.dic[msgName].push(cbWrap)
+  }
   public removeEventListener(msgName: string, cb: Function) {
     if (!this.dic[msgName] || this.dic[msgName].length < 1) return
     if (!cb) {
