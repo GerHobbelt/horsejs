@@ -11,6 +11,7 @@
 #include "include/wrapper/cef_closure_task.h"
 #include "include/wrapper/cef_helpers.h"
 #include "include/base/cef_callback.h"
+#include "wx/filefn.h"
 
 
 #include "../../Common/json.hpp"
@@ -135,6 +136,12 @@ public:
                     writer.close();
                 }
             }
+        } else if (message_name._Starts_with("copy")) {
+            std::string src = configObj["src"].get<std::string>();
+            std::string dest = configObj["dest"].get<std::string>();
+            wxString src1 = wxString::FromUTF8(src);
+            wxString dest1 = wxString::FromUTF8(dest);
+            wxCopyFile(src1, dest1);
         }
         auto resultStr = result.dump();
         CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
