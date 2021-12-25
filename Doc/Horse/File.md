@@ -1,6 +1,6 @@
 # 文件
 
-使用默认应用程序管理文件和 url
+操作文件
 
 ## 方法
 
@@ -95,4 +95,16 @@ let result = await horse.file.writeFile({
   existThen: "append",
   notExistThen: "create",
 });
+```
+
+- 拷贝文件
+
+src 为目标文件路径
+
+dest 为被拷贝到的路径
+
+如果 dest 路径文件已经存在，则会被覆盖
+
+```javascript
+await horse.file.copy({ src, dest });
 ```
