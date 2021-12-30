@@ -261,6 +261,15 @@ var horse;
       let ext = result2[3];
       return [device, dir, basename, ext];
     }
+    win32StatPath(path) {
+      var result = this.splitDeviceRe.exec(path), device = result[1] || "", isUnc = !!device && device[1] !== ":";
+      return {
+        device,
+        isUnc,
+        isAbsolute: isUnc || !!result[2],
+        tail: result[3]
+      };
+    }
     dirName(path) {
       var result = this.splitPath(path), root = result[0], dir = result[1];
       if (!root && !dir) {
@@ -280,6 +289,8 @@ var horse;
     }
     extName(path) {
       return this.splitPath(path)[3];
+    }
+    resolve(path) {
     }
   };
 
