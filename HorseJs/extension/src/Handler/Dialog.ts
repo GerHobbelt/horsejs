@@ -1,5 +1,3 @@
-import { Util } from '../Util'
-import { eventer } from '../eventer'
 import { DialogConfig } from './DialogConfig'
 import { Base } from './Base'
 export class Dialog extends Base {

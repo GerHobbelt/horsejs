@@ -155,7 +155,9 @@ var horse;
       eventer.removeEventListener(`${Window.name}_${eventName}`, cb);
     }
     getIsMaximized() {
-      return window.outerHeight === screen.availHeight && window.outerWidth === screen.availWidth;
+      let hSpan = window.outerHeight - screen.availHeight;
+      let wSpan = window.outerWidth - screen.availWidth;
+      return Math.abs(hSpan) < 2 && Math.abs(wSpan) < 2;
     }
     maximize() {
       return this.callHorse(this.maximize, {});
@@ -295,6 +297,7 @@ var horse;
   };
 
   // extension/src/main.ts
+  console.log("excute");
   var Horse = class {
     constructor() {
       this.window = new Window();

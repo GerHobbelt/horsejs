@@ -1,6 +1,5 @@
 #include <windows.h>
 #include <wx/wx.h>
-#include <wx/clipbrd.h>
 #include "include/cef_app.h"
 #include "include/base/cef_scoped_refptr.h"
 #include "include/cef_command_line.h"
@@ -10,6 +9,7 @@
 #include "Scheme/SchemeHandlerFactory.h"
 
 
+// --renderer-startup-dialog 
 int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInstance, [[maybe_unused]] LPTSTR lpCmdLine, int nCmdShow)
 {
     CefEnableHighDPISupport();
@@ -40,11 +40,6 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
     CefRegisterSchemeHandlerFactory("http", "horse", new SchemeHandlerFactory());
     wxCmdLineArgType cmdLine = (char*)lpCmdLine;
     wxEntryStart(hInstance, hPrevInstance, cmdLine, nCmdShow);
-    if (wxTheClipboard->Open())
-    {
-        wxTheClipboard->SetData(new wxTextDataObject("测试测试"));
-        wxTheClipboard->Close();
-    }
     CefRunMessageLoop();
     CefShutdown();
     wxEntryCleanup();
@@ -83,4 +78,4 @@ MAC下使用CEF的办法
 */
 
 
-// --renderer-startup-dialog  
+ 
