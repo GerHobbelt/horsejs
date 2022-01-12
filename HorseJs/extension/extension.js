@@ -297,7 +297,6 @@ var horse;
   };
 
   // extension/src/main.ts
-  console.log("excute");
   var Horse = class {
     constructor() {
       this.window = new Window();
