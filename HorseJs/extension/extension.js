@@ -106,9 +106,6 @@ var horse;
       this.osName = "win";
       this.osArch = "x64";
     }
-    getPath(config) {
-      return this.callHorse(this.getPath, config);
-    }
     getAppInfo() {
       return this.callHorse(this.getAppInfo, {});
     }
@@ -201,9 +198,6 @@ var horse;
 
   // extension/src/Handler/File.ts
   var File = class extends Base {
-    readDir(config) {
-      return this.callHorse(this.readDir, config);
-    }
     isFolder(config) {
       return this.callHorse(this.isFolder, config);
     }
@@ -248,8 +242,9 @@ var horse;
   };
 
   // extension/src/Handler/Path.ts
-  var Path = class {
+  var Path = class extends Base {
     constructor() {
+      super(...arguments);
       this.splitDeviceRe = /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?([\\\/])?([\s\S]*?)$/;
       this.splitTailRe = /^([\s\S]*?)((?:\.{1,2}|[^\\\/]+?|)(\.[^.\/\\]*|))(?:[\\\/]*)$/;
     }
@@ -272,6 +267,9 @@ var horse;
         tail: result[3]
       };
     }
+    readDir(config) {
+      return this.callHorse(this.readDir, config);
+    }
     dirName(path) {
       var result = this.splitPath(path), root = result[0], dir = result[1];
       if (!root && !dir) {
@@ -292,7 +290,8 @@ var horse;
     extName(path) {
       return this.splitPath(path)[3];
     }
-    resolve(path) {
+    getPath(config) {
+      return this.callHorse(this.getPath, config);
     }
   };
 

@@ -31,17 +31,7 @@ public:
         json result;
         result["success"] = true;
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());        
-        if (message_name._Starts_with("readDir"))
-        {
-            std::string folderPath = configObj["path"].get<std::string>();
-            result["data"] = json::array();
-            for (auto& itr : std::filesystem::directory_iterator(folderPath))
-            {
-                auto pathStr = itr.path().wstring();
-                result["data"].push_back(utf8_conv.to_bytes(pathStr));
-            }
-        }
-        else if (message_name._Starts_with("getFileSize"))
+        if (message_name._Starts_with("getFileSize"))
         {
             std::string path = configObj["path"].get<std::string>();
             long long size = std::filesystem::file_size(path);
