@@ -16,6 +16,7 @@
 #include "MsgHandler/Clipboard.h"
 #include "MsgHandler/File.h"
 #include "MsgHandler/Path.h"
+#include "MsgHandler/System.h"
 
 namespace {
     Handler* g_instance = nullptr;
@@ -199,6 +200,10 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     else if (message_name._Starts_with("Path"))
     {
         return Path::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("System"))
+    {
+        return System::ProcessMsg(browser, frame, source_process, message);
     }
     return false;
 }
