@@ -297,8 +297,11 @@ var horse;
 
   // extension/src/Handler/System.ts
   var System = class extends Base {
-    setAutoStart(config) {
-      return this.callHorse(this.setAutoStart, config);
+    autoStart(config) {
+      return this.callHorse(this.autoStart, config);
+    }
+    protocolClient(config) {
+      return this.callHorse(this.protocolClient, config);
     }
   };
 
