@@ -28,10 +28,24 @@ export let processor = {
     });
     demoLog(result);
   },
-  getExeFolder: async () => {
+  getTempPath: async () => {
     let result = await horse.path.getPath({
-      name: "exeFolder",
+      name: "temp",
     });
     demoLog(result);
+  },
+  getDirName: async () => {
+    let result = await horse.path.getPath({
+      name: "exePath",
+    });
+    let data = horse.path.dirName(result.data);
+    demoLog(data);
+  },
+  getExtName: async () => {
+    let result = await horse.path.getPath({
+      name: "exePath",
+    });
+    let data = horse.path.extName(result.data);
+    demoLog(data);
   },
 };
