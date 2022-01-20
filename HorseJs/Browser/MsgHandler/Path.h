@@ -3,12 +3,8 @@
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "DialogCallback.h"
-#include <fstream>
-#include <filesystem>
-#include <codecvt>
-#include <windows.h>
-#include <KnownFolders.h>
-#include <shlobj.h>
+#include <wx/stdpaths.h>
+
 #include "../../Common/json.hpp"
 using nlohmann::json;
 class Path
@@ -41,25 +37,39 @@ public:
             auto config = json::parse(configStr);
             auto pathName = config["name"].get<std::string>();
             if (pathName == "desktop") {
-                wchar_t pathBuffer[MAX_PATH];
-                SHGetFolderPath(NULL, CSIDL_DESKTOPDIRECTORY, NULL, SHGFP_TYPE_CURRENT, pathBuffer);
-                result["data"] = getSystemPath(pathBuffer);
+                result["data"] = wxStandardPaths::Get().GetUserDir(wxStandardPaths::Dir_Desktop).ToUTF8();
+            }
+            else if (pathName == "music")
+            {
+                result["data"] = wxStandardPaths::Get().GetUserDir(wxStandardPaths::Dir_Music).ToUTF8();
+            }
+            else if (pathName == "documents")
+            {
+                result["data"] = wxStandardPaths::Get().GetUserDir(wxStandardPaths::Dir_Documents).ToUTF8();
+            }
+            else if (pathName == "videos")
+            {
+                result["data"] = wxStandardPaths::Get().GetUserDir(wxStandardPaths::Dir_Videos).ToUTF8();
+            }
+            else if (pathName == "downloads")
+            {
+                result["data"] = wxStandardPaths::Get().GetUserDir(wxStandardPaths::Dir_Downloads).ToUTF8();
+            }
+            else if (pathName == "pictures")
+            {
+                result["data"] = wxStandardPaths::Get().GetUserDir(wxStandardPaths::Dir_Pictures).ToUTF8();
             }
             else if (pathName == "appData")
             {
-                wchar_t pathBuffer[MAX_PATH];
-                SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, pathBuffer);
-                result["data"] = getSystemPath(pathBuffer);
+                result["data"] = wxStandardPaths::Get().GetUserConfigDir().ToUTF8();
             }
             else if (pathName == "exePath")
             {
-                wchar_t pathBuffer[MAX_PATH];
-                GetModuleFileName(NULL, pathBuffer, MAX_PATH);
-                result["data"] = getSystemPath(pathBuffer);
+                result["data"] = wxStandardPaths::Get().GetExecutablePath().ToUTF8();
             }
-            else if (pathName == "exeFolder")
+            else if (pathName == "temp")
             {
-                result["data"] = std::filesystem::current_path().generic_string();
+                result["data"] = wxStandardPaths::Get().GetTempDir().ToUTF8();
             }
         }
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
@@ -68,13 +78,5 @@ public:
         msgArgs->SetString(0, resultStr);
         frame->SendProcessMessage(PID_RENDERER, msg);
         return true;
-    };
-
-    static char* getSystemPath(const wchar_t* pathBuffer) {
-        int pSize = WideCharToMultiByte(CP_OEMCP, 0, pathBuffer, wcslen(pathBuffer), NULL, 0, NULL, NULL);
-        char* pCStrKey = new char[pSize + 1];
-        WideCharToMultiByte(CP_OEMCP, 0, pathBuffer, wcslen(pathBuffer), pCStrKey, pSize, NULL, NULL);
-        pCStrKey[pSize] = '\0';
-        return pCStrKey;
     };
 };
