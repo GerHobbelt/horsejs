@@ -38,6 +38,7 @@
     <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
     <ClInclude Include="Browser\MsgHandler\System.h" />
     <ClInclude Include="Browser\MsgHandler\Path.h" />
+    <ClInclude Include="Browser\MsgHandler\Menu.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
@@ -65,6 +66,7 @@
     <CopyFileToFolders Include="app\demo\shell.js" />
     <CopyFileToFolders Include="app\demo\system.js" />
     <CopyFileToFolders Include="app\demo\path.js" />
+    <CopyFileToFolders Include="app\demo\menu.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
