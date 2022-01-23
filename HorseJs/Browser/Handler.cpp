@@ -48,17 +48,6 @@ bool Handler::OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> f
     CefRefPtr<CefDictionaryValue>& extra_info,
     bool* no_javascript_access)
 {
-    //MainContext::Get()->GetRootWindowManager()->CreateRootWindowAsPopup(!is_devtools, is_osr(), popupFeatures, windowInfo, client, settings);
-    //switch (target_disposition)
-    //{
-    //case WOD_NEW_FOREGROUND_TAB:
-    //case WOD_NEW_BACKGROUND_TAB:
-    //case WOD_NEW_POPUP:
-    //case WOD_NEW_WINDOW:
-    //    browser->GetMainFrame()->LoadURL(target_url);
-    //    return true; //停止创建
-    //}
-
     return false;
 }
 // static
@@ -107,13 +96,7 @@ void Handler::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         }
     }
     if (browser_list_.empty()) {
-        //auto it = message_handler_set_.begin();
-        //for (; it != message_handler_set_.end(); ++it) {
-        //    message_router_->RemoveHandler(*(it));
-        //    delete *(it);
-        //}
-        //message_handler_set_.clear();
-        //message_router_ = nullptr;
+        //todo 关闭窗口不退出应用
         CefQuitMessageLoop();
     }
 }
@@ -127,7 +110,7 @@ void Handler::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> fra
         return;
     std::stringstream ss;
     ss << "<html><body bgcolor=\"white\">"
-        "<h2>Failed to load URL "
+        "<h2>加载页面失败："
         << std::string(failedUrl) << " with error " << std::string(errorText)
         << " (" << errorCode << ").</h2></body></html>";
     frame->LoadURL(GetDataURI(ss.str(), "text/html"));
@@ -169,6 +152,14 @@ bool Handler::IsChromeRuntimeEnabled() {
         value = command_line->HasSwitch("enable-chrome-runtime") ? 1 : 0;
     }
     return value == 1;
+}
+void Handler::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
+{
+    model->Clear();
+}
+bool Handler::OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, int command_id, EventFlags event_flags)
+{
+    return true;
 }
 bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) 
 {
