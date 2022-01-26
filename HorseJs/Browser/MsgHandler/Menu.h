@@ -13,7 +13,7 @@ class Menu
 public:
     Menu() = delete;
     
-    static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
+    static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message,Handler* instance)
     {
         std::string message_name = message->GetName();
         message_name.erase(0, message_name.find_first_of('_') + 1);
@@ -21,21 +21,17 @@ public:
         result["success"] = true;
         CefRefPtr<CefListValue> args = message->GetArgumentList();
         auto configStr = args->GetString(0).ToString();
-        auto config = json::parse(configStr);
+        json config = json::parse(configStr);
         wxMenu* menu = new wxMenu();         
         if (message_name._Starts_with("popup"))
         {
             int menuId = 666;
-            for (auto& menuItem : config["data"])
-            {
-                //todo 不支持子菜单
-                menu->Append(menuId, menuItem["name"].get<std::string>(), menuItem["tip"].get<std::string>());
-                wxTheApp->Bind(wxEVT_MENU, &onMenuClicked, menuId);
-                menuId += 1;
-            }
-            wxTheApp->GetTopWindow()->PopupMenu(menu);
-
-
+            instance->menuData = config["data"];
+            CefMouseEvent event;
+            //event.modifiers = cef_event_flags_t::EVENTFLAG_RIGHT_MOUSE_BUTTON;
+            //event.x = 300;
+            //event.y = 200;
+            browser->GetHost()->SendMouseClickEvent(event, CefBrowserHost::MouseButtonType::MBT_RIGHT, true,1);
             /*var element = document.getElementById("yourElement");
             var ev1 = new MouseEvent("mousedown", {
                 bubbles: true,
