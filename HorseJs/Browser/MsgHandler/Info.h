@@ -23,7 +23,7 @@ public:
         else if (message_name._Starts_with("getHorseInfo"))
         {
             json data;
-            data["HorseJsVersion"] = "0.0.1";
+            data["HorseJsVersion"] = "0.0.2";
             result["data"] = data;
         }
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
