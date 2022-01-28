@@ -2,5 +2,19 @@
   "appName": "HorseJs",
   "startPath": "app/index.html",
   "autoShowFirstWindow": true,
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "sizeConfig": {
+    "miniSize": {
+      "width": 400,
+      "height": 300
+    },
+    "maxSize": {
+      "width": 1024,
+      "height": 768
+    },
+    "startSize": {
+      "width": 800,
+      "height": 600
+    }
+  }
 }

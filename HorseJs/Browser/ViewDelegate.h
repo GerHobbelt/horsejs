@@ -6,11 +6,7 @@ class ViewDelegate : public CefBrowserViewDelegate
 {
 public:
     ViewDelegate() = default;
-    bool OnPopupBrowserViewCreated(CefRefPtr<CefBrowserView> browser_view, CefRefPtr<CefBrowserView> popup_browser_view, bool is_devtools) override
-    {
-        CefWindow::CreateTopLevelWindow(new WindowDelegate(popup_browser_view));
-        return true;
-    }
+    bool OnPopupBrowserViewCreated(CefRefPtr<CefBrowserView> browser_view, CefRefPtr<CefBrowserView> popup_browser_view, bool is_devtools) override; 
 private:
     IMPLEMENT_REFCOUNTING(ViewDelegate);
     DISALLOW_COPY_AND_ASSIGN(ViewDelegate);

@@ -136,6 +136,7 @@
     </ProjectReference>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)Resource/cef.manifest</AdditionalManifestFiles>
+      <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
     <PreBuildEvent>
       <Command>node $(projectDir)extension\src\cli.js</Command>
@@ -172,6 +173,7 @@
   <ItemGroup>
     <ClCompile Include="Browser\Browser.cpp" />
     <ClCompile Include="Browser\Handler.cpp" />
+    <ClCompile Include="Browser\ViewDelegate.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
   </ItemGroup>
