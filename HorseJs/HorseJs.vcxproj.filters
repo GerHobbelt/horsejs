@@ -69,6 +69,7 @@
     <CopyFileToFolders Include="app\demo\system.js" />
     <CopyFileToFolders Include="app\demo\path.js" />
     <CopyFileToFolders Include="app\demo\menu.js" />
+    <CopyFileToFolders Include="Common\DefaultConfig.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

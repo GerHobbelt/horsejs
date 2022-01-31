@@ -348,6 +348,9 @@
     <CopyFileToFolders Include="app\demo\menu.js">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="Common\DefaultConfig.json">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="Resource\cef.manifest" />
