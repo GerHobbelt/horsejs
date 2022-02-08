@@ -7,9 +7,12 @@
 #include "Other/Other.h"
 #include "Renderer/Renderer.h"
 #include "Scheme/SchemeHandlerFactory.h"
+#include "Browser/TheWxApp.h"
 
 
 // --renderer-startup-dialog 
+IMPLEMENT_APP_NO_MAIN(TheWxApp);
+IMPLEMENT_WX_THEME_SUPPORT;
 int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInstance, [[maybe_unused]] LPTSTR lpCmdLine, int nCmdShow)
 {
     CefEnableHighDPISupport();
@@ -31,6 +34,11 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
     }
     int exit_code = CefExecuteProcess(main_args, app, nullptr);
     if (exit_code >= 0) return exit_code;
+
+    wxCmdLineArgType cmdLine = (char*)lpCmdLine;
+    wxEntryStart(hInstance, hPrevInstance, cmdLine, nCmdShow);
+    wxTheApp->CallOnInit();
+
     CefSettings settings;
     if (command_line->HasSwitch("enable-chrome-runtime"))
     {
@@ -38,8 +46,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
     }
     CefInitialize(main_args, settings, app.get(), nullptr);
     CefRegisterSchemeHandlerFactory("http", "horse", new SchemeHandlerFactory());
-    wxCmdLineArgType cmdLine = (char*)lpCmdLine;
-    wxEntryStart(hInstance, hPrevInstance, cmdLine, nCmdShow);
+
+
     CefRunMessageLoop();
     CefShutdown();
     wxEntryCleanup();

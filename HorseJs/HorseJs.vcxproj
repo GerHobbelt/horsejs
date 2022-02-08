@@ -191,6 +191,9 @@
     <ClInclude Include="Browser\MsgHandler\Shell.h" />
     <ClInclude Include="Browser\MsgHandler\System.h" />
     <ClInclude Include="Browser\MsgHandler\Window.h" />
+    <ClInclude Include="Browser\NativeWindow.h" />
+    <ClInclude Include="Browser\TheWxApp.h" />
+    <ClInclude Include="Browser\TopWindow.h" />
     <ClInclude Include="Browser\ViewDelegate.h" />
     <ClInclude Include="Browser\WindowDelegate.h" />
     <ClInclude Include="Common\Config.h" />

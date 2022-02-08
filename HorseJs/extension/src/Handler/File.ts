@@ -16,6 +16,7 @@ export class File extends Base {
     return new Promise((resolve, reject) => {
       let msgName = this.createMsgName(this.readFile)
       eventer.addEventListener(msgName, (result) => {
+        //这个事件不会被清除
         if (result.success) {
           config.onData(result.data)
         } else {

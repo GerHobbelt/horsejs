@@ -9,6 +9,7 @@
 #include <wx/wx.h>
 #include <wx/msw/registry.h>
 #include <wx/stdpaths.h>
+#include <wx/notifmsg.h>
 
 #include "../../Common/json.hpp"
 #include "../../Common/Config.h"
@@ -70,8 +71,14 @@ public:
             auto appName = "horse.app." + Config::get()["appName"].get<std::string>();
             wxRegKey regKey(wxRegKey::HKCU, "Software\\Classes\\"+appName+"\\shell\\open\\command");
             auto setOrRemove = configObj["setOrRemove"].get<std::string>();
-
             #endif
+        }
+        else if (message_name._Starts_with("notify"))
+        {
+            auto title = configObj["title"].get<std::string>();
+            auto body = configObj["body"].get<std::string>();
+            auto notification = wxNotificationMessage(title, body);
+            notification.Show();
         }
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
         CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();

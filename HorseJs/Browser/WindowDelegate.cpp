@@ -1,4 +1,6 @@
 #include "WindowDelegate.h"
+
+
 void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window)
 {
     window->AddChildView(browser_view_);
@@ -6,6 +8,8 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window)
     auto autoShowFirstWindow = config["autoShowFirstWindow"].get<bool>();
     if (autoShowFirstWindow) {
         window->Show();
+        HWND hwnd = window->GetWindowHandle();
+        nativeWindow = new NativeWindow(hwnd);
     }
     //CefSize size{ 800,600 };
     //window->CenterWindow(size);

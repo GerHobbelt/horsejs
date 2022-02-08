@@ -41,6 +41,9 @@
     <ClInclude Include="Browser\MsgHandler\System.h" />
     <ClInclude Include="Browser\MsgHandler\Path.h" />
     <ClInclude Include="Browser\MsgHandler\Menu.h" />
+    <ClInclude Include="Browser\TheWxApp.h" />
+    <ClInclude Include="Browser\NativeWindow.h" />
+    <ClInclude Include="Browser\TopWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
