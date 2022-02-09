@@ -77,7 +77,7 @@ public:
         {
             auto title = configObj["title"].get<std::string>();
             auto body = configObj["body"].get<std::string>();
-            auto notification = wxNotificationMessage(title, body);
+            auto notification = wxNotificationMessage(wxString::FromUTF8(title), wxString::FromUTF8(body));
             notification.Show();
         }
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
