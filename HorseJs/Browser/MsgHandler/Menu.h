@@ -9,6 +9,7 @@
 #include <wx/event.h>
 #include <wx/utils.h>
 #include "../../Common/json.hpp"
+#include "ClientData.h"
 using nlohmann::json;
 class Menu
 {
@@ -36,11 +37,15 @@ public:
             }
             int menuId = 666;
             wxMenu* menu = new wxMenu();
+            ClientData* userData = new ClientData();
+            userData->browser = browser;
+            userData->frame = frame;
+            menu->SetClientObject(userData);
             for (auto& menuItem : config["data"])
             {
                 auto name = menuItem["name"].get<std::string>();
                 menu->Append(menuId, wxString::FromUTF8(name));
-                //wxTheApp->Bind(wxEVT_MENU, &onMenuClicked, menuId);
+                wxTheApp->Bind(wxEVT_MENU, &onMenuClicked, menuId);
                 menuId += 1;
             }
             auto win = wxWindow::FindFocus();
@@ -60,6 +65,9 @@ public:
         return true;
     }
     static void onMenuClicked(wxCommandEvent& e) {
-
+        auto id = e.GetId();
+        auto target = wxDynamicCast(e.GetEventObject(),wxMenu);
+        auto clientObj = static_cast<ClientData*>(target->GetClientObject());
+        //auto data = clientObj->GetData();
     }
 };

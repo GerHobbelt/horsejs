@@ -44,6 +44,7 @@
     <ClInclude Include="Browser\TheWxApp.h" />
     <ClInclude Include="Browser\NativeWindow.h" />
     <ClInclude Include="Browser\TopWindow.h" />
+    <ClInclude Include="Browser\MsgHandler\ClientData.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
