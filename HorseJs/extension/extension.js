@@ -338,7 +338,16 @@ var horse;
         if (!config.position) {
           config.position = { x: -1, y: -1 };
         }
-        yield this.callHorse(this.popup, config);
+        return new Promise((resolve, reject) => {
+          let msgName = this.createMsgName(this.popup);
+          eventer.addOnceEventListener(msgName, (result) => {
+            resolve({ success: true });
+          });
+          eventer.addOnceEventListener(msgName + "_event", (result) => {
+            config.click(result.index);
+          });
+          this.callHorseNative(msgName, JSON.stringify(config));
+        });
       });
     }
   };

@@ -7,7 +7,7 @@ class ClientData : public wxClientData,public wxObject
 {
 public:
 	ClientData() = default;
-	CefRefPtr<CefBrowser> browser;
 	CefRefPtr<CefFrame> frame;
 	std::string msgName;
+	bool isUsed = false;
 };

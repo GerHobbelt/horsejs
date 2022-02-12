@@ -80,11 +80,10 @@ public:
             auto body = configObj["body"].get<std::string>();
             wxNotificationMessage* notification = new wxNotificationMessage(wxString::FromUTF8(title), wxString::FromUTF8(body));
             ClientData* clientData = new ClientData();
-            clientData->browser = browser;
             clientData->frame = frame;
             clientData->msgName = message->GetName().ToString()+"_event";
             notification->Bind(wxEVT_NOTIFICATION_MESSAGE_CLICK, &System::notifyClick,-1,-1,clientData);
-            //notification->Bind(wxEVT_NOTIFICATION_MESSAGE_DISMISSED, &System::notifyClick, -1, -1, clientData);   //显示之前也会触发这个事件，奇怪
+            notification->Bind(wxEVT_NOTIFICATION_MESSAGE_DISMISSED, &System::notifyClick, -1, -1, clientData);   //显示之前也会触发这个事件，奇怪
             notification->Show();
         }
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
@@ -94,24 +93,22 @@ public:
         frame->SendProcessMessage(PID_RENDERER, msg);
         return true;
     };
-    //static bool firstDismiss;
     static void notifyClick(wxCommandEvent& event) {
         auto type = event.GetEventType();
-        //if (firstDismiss && type == wxEVT_NOTIFICATION_MESSAGE_DISMISSED) {
-        //    firstDismiss = false;
-        //    return;
-        //}
-        auto obj = static_cast<ClientData*>(event.GetEventUserData());   
+        auto obj = static_cast<ClientData*>(event.GetEventUserData());
+        if (!obj->isUsed && type == wxEVT_NOTIFICATION_MESSAGE_DISMISSED) {
+            obj->isUsed = true;
+            return;
+        }     
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(obj->msgName);
         CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
         json result;
         if (type == wxEVT_NOTIFICATION_MESSAGE_CLICK) {
-
             result["type"] = "click";
         }
-        //else if (type == wxEVT_NOTIFICATION_MESSAGE_DISMISSED) {
-        //    result["type"] = "dismiss";
-        //}
+        else if (type == wxEVT_NOTIFICATION_MESSAGE_DISMISSED) {
+            result["type"] = "dismiss";
+        }
         msgArgs->SetSize(1);
         msgArgs->SetString(0, result.dump());
         obj->frame->SendProcessMessage(PID_RENDERER, msg);

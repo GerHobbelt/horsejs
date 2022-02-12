@@ -33,7 +33,7 @@ export let processor = {
         demoLog("用户点击了系统消息");
       },
       dismiss: () => {
-        demoLog("系统通知小时了");
+        demoLog("系统通知消失了");
       },
     });
     demoLog(result);
