@@ -126,6 +126,9 @@ var horse;
     getHorseInfo() {
       return this.callHorse(this.getHorseInfo, {});
     }
+    getOSInfo() {
+      return this.callHorse(this.getOSInfo, {});
+    }
   };
 
   // extension/src/Handler/Window.ts

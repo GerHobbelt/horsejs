@@ -1,6 +1,7 @@
 #pragma once
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
+#include <wx/platinfo.h>
 #include "../Handler.h"
 #include "../ViewDelegate.h"
 
@@ -23,7 +24,16 @@ public:
         else if (message_name._Starts_with("getHorseInfo"))
         {
             json data;
-            data["HorseJsVersion"] = "0.0.2";
+            data["HorseJsVersion"] = "0.0.3";
+            result["data"] = data;
+        }
+        else if (message_name._Starts_with("getOSInfo"))
+        {
+            wxPlatformInfo platformInfo = wxPlatformInfo::Get();
+            json data;
+            data["arch"] = platformInfo.GetArchName();
+            data["name"] = platformInfo.GetOperatingSystemFamilyName();
+            data["version"] = { platformInfo.GetOSMajorVersion(), platformInfo.GetToolkitMinorVersion() ,platformInfo.GetOSMicroVersion() };
             result["data"] = data;
         }
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());

@@ -7,4 +7,7 @@ export class Info extends Base {
   getHorseInfo() {
     return this.callHorse(this.getHorseInfo, {})
   }
+  getOSInfo() {
+    return this.callHorse(this.getOSInfo, {})
+  }
 }
