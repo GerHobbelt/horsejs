@@ -1,52 +1,46 @@
-# 窗口控制
-
-## 方法
-
-- 最大化当前窗口
+# 最大化当前窗口
 
 ```javascript
 horse.window.maximize();
 ```
 
-- 最小化当前窗口
+# 最小化当前窗口
 
 ```javascript
 horse.window.minimize();
 ```
 
-- 还原窗口
+# 还原窗口
 
 ```javascript
 horse.window.restore();
 ```
 
-- 关闭窗口
+# 关闭窗口
 
 ```javascript
 horse.window.close();
 ```
 
-- 隐藏窗口
+# 隐藏窗口
 
 ```javascript
 horse.window.hide();
 ```
 
-- 显示窗口
+# 显示窗口
 
 ```javascript
 horse.window.show();
 ```
 
-- 改变窗口大小
+# 改变窗口大小
 
 ```javascript
 horse.window.resize(width, height);
 ```
 
-## 事件
-
-- 窗口最大化
+# 窗口最大化事件
 
 ```javascript
 horse.window.addEventListener("maximize", () => {
@@ -54,7 +48,7 @@ horse.window.addEventListener("maximize", () => {
 });
 ```
 
-- 取消窗口最大化
+# 取消窗口最大化事件
 
 ```javascript
 horse.window.addEventListener("unMaximize", () => {
@@ -62,7 +56,7 @@ horse.window.addEventListener("unMaximize", () => {
 });
 ```
 
-- 窗口隐藏
+# 窗口隐藏事件
 
 窗口最小化时也会触发窗口隐藏事件
 
@@ -72,7 +66,7 @@ horse.window.addEventListener("hide", () => {
 });
 ```
 
-- 窗口显示
+# 窗口显示事件
 
 ```javascript
 horse.window.addEventListener("show", () => {
@@ -80,7 +74,7 @@ horse.window.addEventListener("show", () => {
 });
 ```
 
-- 移除事件监听
+# 移除事件监听
 
 如果开发者没有提供第二个参数，将会移除所有关于 eventName 的事件监听
 

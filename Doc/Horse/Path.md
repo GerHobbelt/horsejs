@@ -1,6 +1,4 @@
-# 方法
-
-## 获取某个目录下的所有路径
+# 获取某个目录下的所有路径
 
 如果目标目录下包含文件和子目录，那么这些文件和子目录的路径都会被获取到
 
@@ -12,7 +10,7 @@
 let result = await horse.path.readDir({ path: "c://" });
 ```
 
-## 获取系统路径
+# 获取系统路径
 
 name 可能的值为：
 
@@ -29,7 +27,7 @@ name 可能的值为：
 let result = await horse.path.getPath({ name: "exePath" });
 ```
 
-## 获取目录名
+# 获取目录名
 
 类似于 Unix dirname 命令。 尾随的目录分隔符被忽略，
 
@@ -38,7 +36,7 @@ horse.path.dirname("/foo/bar/baz/asdf/quux");
 // 返回: '/foo/bar/baz/asdf'
 ```
 
-## 获取路径中的文件名
+# 获取路径中的文件名
 
 获取路径的最后一部分，类似于 Unix basename 命令。 尾随的目录分隔符被忽略
 
@@ -58,7 +56,7 @@ horse.path.basename("C:\\foo.HTML", ".html");
 // 返回: 'foo.HTML'
 ```
 
-## 获取一个路径的扩展名
+# 获取一个路径的扩展名
 
 ```js
 horse.path.extname("index.html");
