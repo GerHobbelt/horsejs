@@ -8,6 +8,7 @@ import { File } from './Handler/File'
 import { Path } from './Handler/Path'
 import { System } from './Handler/System'
 import { Menu } from './Handler/Menu'
+import { Tray } from './Handler/Tray'
 export class Horse {
   window = new Window()
   dialog = new Dialog()
@@ -19,6 +20,7 @@ export class Horse {
   path = new Path()
   system = new System()
   menu = new Menu()
+  tray = new Tray()
 }
 declare let horse: Horse
 horse = new Horse()
