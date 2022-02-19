@@ -97,7 +97,8 @@ void Handler::OnBeforeClose(CefRefPtr<CefBrowser> browser)
     }
     if (browser_list_.empty()) {
         //todo 关闭窗口不退出应用
-        CefQuitMessageLoop();
+        wxTheApp->Exit();
+        //CefQuitMessageLoop();
     }
 }
 

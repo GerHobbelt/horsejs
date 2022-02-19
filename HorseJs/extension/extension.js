@@ -355,6 +355,10 @@ var horse;
     }
   };
 
+  // extension/src/Handler/Tray.ts
+  var Tray = class extends Base {
+  };
+
   // extension/src/main.ts
   var Horse = class {
     constructor() {
@@ -368,6 +372,7 @@ var horse;
       this.path = new Path();
       this.system = new System();
       this.menu = new Menu();
+      this.tray = new Tray();
     }
   };
   horse = new Horse();

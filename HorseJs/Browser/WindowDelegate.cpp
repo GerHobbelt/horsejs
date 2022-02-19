@@ -1,4 +1,5 @@
 #include "WindowDelegate.h"
+#include "TopWindow.h"
 
 
 void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window)
@@ -8,11 +9,11 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window)
     auto autoShowFirstWindow = config["autoShowFirstWindow"].get<bool>();
     if (autoShowFirstWindow) {
         window->Show();
-        HWND hwnd = window->GetWindowHandle();
-        nativeWindow = new NativeWindow(hwnd);
+        //TopWindow* win = new TopWindow();
+        //win->Show();
+        //HWND hwnd = window->GetWindowHandle();
+        //nativeWindow = new NativeWindow(hwnd);
     }
-    //CefSize size{ 800,600 };
-    //window->CenterWindow(size);
     window->CenterWindow(window->GetSize());
     CefRefPtr<CefImage> image = CefImage::CreateImage();
     PrepareIcon(image, 1.0f, "icon1.png");
@@ -20,13 +21,14 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window)
     window->SetWindowAppIcon(image);
     browser_view_->RequestFocus();
 }
-bool WindowDelegate::CanClose(CefRefPtr<CefWindow> window)
-{
-    CefRefPtr<CefBrowser> browser = browser_view_->GetBrowser();
-    if (browser)
-        return browser->GetHost()->TryCloseBrowser();
-    return true;
-}
+//bool WindowDelegate::CanClose(CefRefPtr<CefWindow> window)
+//{
+//    CefRefPtr<CefBrowser> browser = browser_view_->GetBrowser();
+//    if (browser) {
+//        return browser->GetHost()->TryCloseBrowser();
+//    }        
+//    return true;
+//}
 
 CefSize WindowDelegate::GetPreferredSize(CefRefPtr<CefView> view){
     return getSizeConfig("startSize");

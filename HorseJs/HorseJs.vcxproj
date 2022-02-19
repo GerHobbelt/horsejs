@@ -176,7 +176,10 @@
     <ClCompile Include="Browser\ViewDelegate.cpp" />
     <ClCompile Include="Browser\WindowDelegate.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="main_message_loop.cc" />
+    <ClCompile Include="main_message_loop_multithreaded_win.cc" />
     <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="util_win.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Browser\Browser.h" />
@@ -199,11 +202,14 @@
     <ClInclude Include="Browser\WindowDelegate.h" />
     <ClInclude Include="Common\Config.h" />
     <ClInclude Include="Common\json.hpp" />
+    <ClInclude Include="main_message_loop.h" />
+    <ClInclude Include="main_message_loop_multithreaded_win.h" />
     <ClInclude Include="Other\Other.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\V8Handler.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
+    <ClInclude Include="util_win.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
