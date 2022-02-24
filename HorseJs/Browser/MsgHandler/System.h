@@ -86,6 +86,11 @@ public:
             notification->Bind(wxEVT_NOTIFICATION_MESSAGE_DISMISSED, &System::notifyClick, -1, -1, clientData);   //显示之前也会触发这个事件，奇怪
             notification->Show();
         }
+        if (message_name._Starts_with("openExternal"))
+        {
+            std::string targetTemp = configObj["target"].get<std::string>();
+            wxLaunchDefaultApplication(wxString::FromUTF8(targetTemp));
+        }
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
         CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
         msgArgs->SetSize(1);

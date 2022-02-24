@@ -1,6 +1,7 @@
 import { Base } from './Base'
 
 export class Path extends Base {
+  className = 'Path'
   private splitDeviceRe = /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?([\\\/])?([\s\S]*?)$/
   private splitTailRe = /^([\s\S]*?)((?:\.{1,2}|[^\\\/]+?|)(\.[^.\/\\]*|))(?:[\\\/]*)$/
   private splitPath(fileName: string) {

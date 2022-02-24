@@ -71,11 +71,11 @@
     <CopyFileToFolders Include="app\demo\file.js" />
     <CopyFileToFolders Include="app\demo.css" />
     <CopyFileToFolders Include="app\demo.js" />
-    <CopyFileToFolders Include="app\demo\shell.js" />
     <CopyFileToFolders Include="app\demo\system.js" />
     <CopyFileToFolders Include="app\demo\path.js" />
     <CopyFileToFolders Include="app\demo\menu.js" />
     <CopyFileToFolders Include="Common\DefaultConfig.json" />
+    <CopyFileToFolders Include="app\demo\tray.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

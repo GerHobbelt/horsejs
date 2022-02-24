@@ -15,7 +15,7 @@ export let demo = {
         .replace("menu", "")
         .toLowerCase();
       let target = `https://gitee.com/horsejs/horsejs/blob/master/HorseJs/app/demo/${codeFileName}.js`;
-      horse.shell.openExternal({ target, workingDir: "" });
+      horse.system.openExternal({ target, workingDir: "" });
     });
     $("#demoContainer").addEventListener("click", async (e) => {
       if (!e.target.classList.contains("demoBtn")) return;

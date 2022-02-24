@@ -2,6 +2,7 @@ import { eventer } from '../eventer'
 import { Base } from './Base'
 
 export class System extends Base {
+  className = 'System'
   autoStart(config: { setOrRemove: 'set' | 'remove' }) {
     return this.callHorse(this.autoStart, config)
   }
@@ -19,5 +20,8 @@ export class System extends Base {
       })
       this.callHorseNative(msgName, JSON.stringify(config))
     })
+  }
+  openExternal(config: { target; workingDir }) {
+    return this.callHorse(this.openExternal, config)
   }
 }

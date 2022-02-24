@@ -38,4 +38,10 @@ export let processor = {
     });
     demoLog(result);
   },
+  openUrlWithDefaultBrowser() {
+    horse.system.openExternal({
+      target: "https://gitee.com/horsejs/horsejs",
+      workingDir: "",
+    });
+  },
 };
