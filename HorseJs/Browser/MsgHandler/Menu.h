@@ -42,8 +42,7 @@ public:
             for (auto& menuItem : config["data"])
             {
                 auto name = menuItem["name"].get<std::string>();
-                auto tip = menuItem["tip"].get<std::string>();
-                menu->Append(menuId, wxString::FromUTF8(name), wxString::FromUTF8(tip));
+                menu->Append(menuId, wxString::FromUTF8(name));
                 wxTheApp->Bind(wxEVT_MENU, &onMenuClicked, menuId);
                 menuId += 1;
             }
