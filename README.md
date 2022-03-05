@@ -1,5 +1,3 @@
-# HorseJs
-
 <div align=center>
 使用 HTML/JS/CSS 创建更快速、更稳定的桌面应用。
 <br />
