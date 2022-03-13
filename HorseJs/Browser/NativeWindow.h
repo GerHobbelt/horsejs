@@ -42,3 +42,5 @@ public:
 private:
     wxWindow* parent;
 };
+
+//C:\wxWidgets-3.1.5\src\msw\window.cpp   2460ÐÐ
