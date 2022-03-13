@@ -67,12 +67,7 @@ void Handler::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& titl
 
 void Handler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
     CEF_REQUIRE_UI_THREAD();
-    browser_list_.push_back(browser);
-    //if (!message_router_) {
-    //    CefMessageRouterConfig config;
-    //    message_router_ = CefMessageRouterBrowserSide::Create(config);
-    //    message_router_->AddHandler(*(it), false);
-    //}
+    browser_list_.push_back(browser);    
 }
 
 bool Handler::DoClose(CefRefPtr<CefBrowser> browser) {
@@ -86,11 +81,11 @@ bool Handler::DoClose(CefRefPtr<CefBrowser> browser) {
 
 void Handler::OnBeforeClose(CefRefPtr<CefBrowser> browser) 
 {
-    CEF_REQUIRE_UI_THREAD();
+    CEF_REQUIRE_UI_THREAD();    
     BrowserList::iterator bit = browser_list_.begin();
     for (; bit != browser_list_.end(); ++bit) {
         if ((*bit)->IsSame(browser)) {
-            browser_list_.erase(bit);
+            browser_list_.erase(bit);  
             break;
         }
     }

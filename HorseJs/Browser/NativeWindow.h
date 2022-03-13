@@ -20,7 +20,7 @@ public:
         SubclassWin(hwnd);
         SetId(id);
         InheritAttributes();
-        //Bind(wxEVT_CLOSE_WINDOW, &NativeWindow::OnClose, this);
+        Bind(wxEVT_CLOSE_WINDOW, &NativeWindow::OnClose, this);
     };
     void OnClose(wxCloseEvent& event) {
         //if (event.CanVeto() && m_bFileNotSaved)
