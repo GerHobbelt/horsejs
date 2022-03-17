@@ -50,8 +50,7 @@ protected:
             rc = ::DefWindowProc(GetHwnd(), nMsg, wParam, lParam);
         //WM_WINDOWPOSCHANGING        
         if (nMsg != WM_SYSCOMMAND) return rc;
-        if (wParam != SC_CLOSE) return rc;
-        
+        if (wParam != SC_CLOSE) return rc;        
         //this->parent->Destroy();
         return rc;
     }
