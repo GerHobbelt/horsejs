@@ -193,7 +193,6 @@
     <ClInclude Include="Browser\MsgHandler\Info.h" />
     <ClInclude Include="Browser\MsgHandler\Menu.h" />
     <ClInclude Include="Browser\MsgHandler\Path.h" />
-    <ClInclude Include="Browser\MsgHandler\Shell.h" />
     <ClInclude Include="Browser\MsgHandler\System.h" />
     <ClInclude Include="Browser\MsgHandler\Window.h" />
     <ClInclude Include="Browser\NativeWindow.h" />
