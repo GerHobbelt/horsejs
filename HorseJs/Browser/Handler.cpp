@@ -17,6 +17,7 @@
 #include "MsgHandler/Path.h"
 #include "MsgHandler/System.h"
 #include "MsgHandler/Menu.h"
+#include "MsgHandler/Tray.h"
 
 namespace {
     Handler* g_instance = nullptr;
@@ -212,6 +213,10 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     else if (message_name._Starts_with("Menu"))
     {        
         return Menu::ProcessMsg(browser, frame, source_process, message,this);
+    }
+    else if (message_name._Starts_with("Tray"))
+    {
+        return Tray::ProcessMsg(browser, frame, source_process, message, this);
     }
     return false;
 }

@@ -46,6 +46,7 @@
     <ClInclude Include="Browser\TopWindow.h" />
     <ClInclude Include="Browser\MsgHandler\ClientData.h" />
     <ClInclude Include="util_win.h" />
+    <ClInclude Include="Browser\MsgHandler\Tray.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
