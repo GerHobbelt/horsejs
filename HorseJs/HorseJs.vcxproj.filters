@@ -76,11 +76,15 @@
     <CopyFileToFolders Include="app\demo\menu.js" />
     <CopyFileToFolders Include="Common\DefaultConfig.json" />
     <CopyFileToFolders Include="app\demo\tray.js" />
+    <CopyFileToFolders Include="Resource\icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="Resource\cef.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
 </Project>

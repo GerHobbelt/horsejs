@@ -368,6 +368,14 @@
   <ItemGroup>
     <Manifest Include="Resource\cef.manifest" />
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Resource\icon.ico">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
