@@ -8,12 +8,15 @@ export let processor = {
       menuClick: (index) => {
         demoLog(`你点击了第${index}个菜单`);
       },
+      trayClick: (clickType) => {
+        demoLog("托盘图标事件：", clickType);
+      },
     });
     demoLog(result);
   },
   reset: async () => {
     let data = [{ name: "test1" }, { name: "测试测试" }, { name: "测试测试" }];
-    let result = await horse.menu.popup({
+    let result = await horse.tray.popup({
       data,
       click: (index) => {
         demoLog(`你点击了第${index}个菜单`);
