@@ -1,6 +1,8 @@
 <div align=center>
 <img src="Doc/horseApp.png" />
 <br />
+健壮 | 优雅 | 迅捷
+<br />
 使用 HTML/JS/CSS 创建更快速、更稳定的桌面应用。
 <br />
 QQ交流群：650631559；微信公众号：桌面软件
