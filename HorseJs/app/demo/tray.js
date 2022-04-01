@@ -14,7 +14,7 @@ export let processor = {
     });
     demoLog(result);
   },
-  reset: async () => {
+  resetIcon: async () => {
     let data = [{ name: "test1" }, { name: "测试测试" }, { name: "测试测试" }];
     let result = await horse.tray.popup({
       data,
