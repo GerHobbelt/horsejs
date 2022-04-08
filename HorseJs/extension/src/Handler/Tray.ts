@@ -36,7 +36,7 @@ export class Tray extends Base {
       this.isInit = false
     })
   }
-  async resetIcon(config: { iconPath: string }) {
+  async resetIcon(config: { iconPath: string; tip: string }) {
     return this.callHorse(this.resetIcon, config)
   }
 }

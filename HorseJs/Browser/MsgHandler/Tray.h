@@ -31,7 +31,11 @@ public:
         if (message_name._Starts_with("create"))
         {
             auto iconPath = config["iconPath"].get<std::string>();
-            auto tip = config["tip"].get<std::string>();
+            wxString tip = wxEmptyString;
+            if (!config["tip"].is_null()) {
+                std::string temp = config["tip"].get<std::string>();
+                tip = wxString::FromUTF8(temp);
+            }
             Tray::taskBarIcon = new wxTaskBarIcon();
             ClientData* userData = new ClientData();
             userData->frame = frame;
@@ -40,7 +44,7 @@ public:
             wxIconLocation location;
             location.SetFileName(wxString::FromUTF8(iconPath));
             wxIcon icon(location);
-            Tray::taskBarIcon->SetIcon(icon, wxString::FromUTF8(tip));
+            Tray::taskBarIcon->SetIcon(icon, tip);
             Tray::taskBarIcon->Bind(wxEVT_TASKBAR_MOVE, &onTrayEvent);
             Tray::taskBarIcon->Bind(wxEVT_TASKBAR_LEFT_DOWN, &onTrayEvent);
             Tray::taskBarIcon->Bind(wxEVT_TASKBAR_LEFT_DCLICK, &onTrayEvent);
@@ -61,8 +65,17 @@ public:
                 }
             }
         }
-        else if (message_name._Starts_with("reset")) {
-
+        else if (message_name._Starts_with("resetIcon")) {
+            auto iconPath = config["iconPath"].get<std::string>();
+            wxString tip = wxEmptyString;
+            if (!config["tip"].is_null()) {
+                std::string temp = config["tip"].get<std::string>();
+                tip = wxString::FromUTF8(temp);
+            }
+            wxIconLocation location;
+            location.SetFileName(wxString::FromUTF8(iconPath));
+            wxIcon icon(location);
+            Tray::taskBarIcon->SetIcon(icon, tip);
         }
         else if (message_name._Starts_with("destroy")) {
             if (Tray::menu != nullptr) {

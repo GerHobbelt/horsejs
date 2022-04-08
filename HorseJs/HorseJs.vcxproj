@@ -375,6 +375,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon1.ico" />
+    <CopyFileToFolders Include="Resource\icon2.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
