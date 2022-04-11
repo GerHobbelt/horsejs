@@ -20,6 +20,7 @@ class File
 {
 public:
     File() = delete;
+    // convert string to wstring
     static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
         static std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
@@ -30,24 +31,23 @@ public:
         auto configObj = json::parse(configStr);
         json result;
         result["success"] = true;
-        CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());        
+        CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
         if (message_name._Starts_with("getFileSize"))
         {
             std::string path = configObj["path"].get<std::string>();
-            long long size = std::filesystem::file_size(path);
-            result["data"] = size;
-           
+            long long size = std::filesystem::file_size(utf8_conv.from_bytes(path));
+            result["data"] = size;           
         }
         else if (message_name._Starts_with("isFolder"))
         {
             std::string path = configObj["path"].get<std::string>();
-            auto flag = std::filesystem::is_directory(path);
+            auto flag = std::filesystem::is_directory(utf8_conv.from_bytes(path));
             result["data"] = flag;
         }
         else if (message_name._Starts_with("getLastWriteTime"))
         {
             std::string path = configObj["path"].get<std::string>();
-            auto lstTime = std::filesystem::last_write_time(path);
+            auto lstTime = std::filesystem::last_write_time(utf8_conv.from_bytes(path));
             auto span = std::filesystem::file_time_type::clock::now().time_since_epoch() - std::chrono::system_clock::now().time_since_epoch();
             auto elapse = std::chrono::duration_cast<std::chrono::milliseconds>(span).count();
             auto systemTime = std::chrono::duration_cast<std::chrono::milliseconds>(lstTime.time_since_epoch()).count() - elapse;
@@ -55,7 +55,8 @@ public:
         }
         else if (message_name._Starts_with("readFileFromPosition"))
         {
-            std::string path = configObj["path"].get<std::string>();
+            std::string tempPath = configObj["path"].get<std::string>();
+            auto path = utf8_conv.from_bytes(tempPath);
             long long position = configObj["position"].get<long long>();
             long long bufferSize = configObj["bufferSize"].get<long long>();
             long long fileSize = std::filesystem::file_size(path);
@@ -81,14 +82,16 @@ public:
         }
         else if(message_name._Starts_with("readFile"))
         {
-            std::string path = configObj["path"].get<std::string>();
+            std::string tempPath = configObj["path"].get<std::string>();
+            auto path = utf8_conv.from_bytes(tempPath);
             long long bufferSize = configObj["bufferSize"].get<int>();
             CefPostTask(TID_UI, base::BindOnce(&readFile, path,bufferSize, frame,msg));
             return true;
         }
         else if (message_name._Starts_with("writeFile"))
         {
-            std::string path = configObj["path"].get<std::string>();
+            std::string tempPath = configObj["path"].get<std::string>();
+            auto path = utf8_conv.from_bytes(tempPath);
             std::string existThen = configObj["existThen"].get<std::string>();
             std::string notExistThen = configObj["notExistThen"].get<std::string>();
             std::string data = configObj["data"].get<std::string>();
@@ -140,8 +143,44 @@ public:
         return true;
     }
 private:
-    static void readFile(const std::string& path, long long bufferSize,CefRefPtr<CefFrame> frame, CefRefPtr<CefProcessMessage> msg)
+    static void readFile(const std::wstring& path, long long bufferSize,CefRefPtr<CefFrame> frame, CefRefPtr<CefProcessMessage> msg)
     {
+        //wxFile file;
+        //file.Open(path);
+        //wxFileOffset fileSize = file.Length();
+        //CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
+        //json result;
+        //result["success"] = true;
+        //result["fileSize"] = fileSize;
+        //static std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8_conv;
+        //auto size = bufferSize;
+        //while (!file.Eof())
+        //{
+        //    wxFileOffset position = file.Tell();
+        //    wxFileOffset leftSize = fileSize - position;
+        //    if (leftSize < size) {
+        //        size = leftSize;
+        //    }
+        //    wchar_t* data = new wchar_t[size];
+        //    file.Read(data, size); 
+        //    std::string temp(utf8_conv.to_bytes(data));
+        //    result["data"] = temp;
+        //    if (!file.Eof()) {
+        //        result["finished"] = false;  //todo 这里应该先返回，其他接口的风格也是如此
+        //        std::string dataStr = result.dump();
+        //        msgArgs->SetString(0, dataStr);
+        //        frame->SendProcessMessage(PID_RENDERER, msg);
+        //    }
+        //    delete[] data;
+        //}
+        //file.Close();
+        //result["finished"] = true;  //todo 这里应该先返回，其他接口的风格也是如此
+        //auto resultStr = result.dump();
+        //msgArgs->SetString(0, resultStr);
+        //frame->SendProcessMessage(PID_RENDERER, msg);
+        // 
+        // 
+        
         json result;
         result["success"] = true;
         long long fileSize = std::filesystem::file_size(path);
@@ -172,7 +211,6 @@ private:
             result["data"] = temp;
             delete[] buffer;
             if (reader.tellg() < fileSize) {
-
                 auto resultStr = result.dump();
                 msgArgs->SetString(0, resultStr);
                 frame->SendProcessMessage(PID_RENDERER, msg);
