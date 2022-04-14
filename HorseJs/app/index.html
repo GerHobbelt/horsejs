@@ -68,7 +68,6 @@
       };
       let setVersion = async () => {
         let data = await horse.info.getHorseInfo();
-        console.log(JSON.stringify(data));
         let versionNum = data.data.HorseJsVersion.join(".");
         document.querySelector(".version").innerHTML = `version：${versionNum}`;
       };

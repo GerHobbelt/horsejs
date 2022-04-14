@@ -28,7 +28,11 @@ export class File extends Base {
           resolve(result)
         }
       })
-      this.callHorseNative(msgName, JSON.stringify(config))
+      this.callHorseNative(msgName, JSON.stringify(config), (chunk: ArrayBuffer) => {
+        alert(123123)
+        debugger
+        console.log(chunk)
+      })
     })
   }
   writeFile(config: { path: string; data: string; existThen?: 'append' | 'cover' | 'error'; notExistThen?: 'create' | 'error' }) {
