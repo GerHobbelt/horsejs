@@ -12,18 +12,15 @@ public:
     virtual bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) override
     {
         if (name != "__callHorseFunc") return true;
-        if (arguments.size() < 2) return true;
+        if (arguments[0]->IsFunction()) {
+            this->callBack = arguments[0];
+            return true;
+        }
         auto msgName = arguments[0]->GetStringValue();
         CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(msgName);
-        if (arguments[1]->IsString()) {
-            auto str = arguments[1]->GetStringValue();
-            CefRefPtr<CefListValue> args = msg->GetArgumentList();
-            args->SetString(0, str);
-        }
-        if (arguments.size() > 2 && arguments[2]->IsFunction()) {
-            //context = CefV8Context::GetCurrentContext();
-            this->callBack = arguments[2];
-        }
+        auto str = arguments[1]->GetStringValue();
+        CefRefPtr<CefListValue> args = msg->GetArgumentList();
+        args->SetString(0, str);
         CefRefPtr<CefV8Context> context = CefV8Context::GetCurrentContext();
         context.get()->GetFrame()->SendProcessMessage(PID_BROWSER, msg);
         return true;

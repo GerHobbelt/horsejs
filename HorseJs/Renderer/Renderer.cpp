@@ -48,28 +48,28 @@ void Renderer::OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<Cef
 }
 bool Renderer::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
 {
-    //CEF_REQUIRE_UI_THREAD();
-    
-    std::string message_name = message->GetName();
     auto args = message->GetArgumentList();
+    CefRefPtr<CefV8Context> context = frame->GetV8Context();    
+    context->Enter();
+    CefString messageName = message->GetName();
+    CefRefPtr<CefV8Value> messageNameV8 = CefV8Value::CreateString(messageName);
+    CefV8ValueList argsForJs;
+    argsForJs.push_back(messageNameV8);
     if (args->GetType(0) == CefValueType::VTYPE_STRING) {
-        std::string script = "horse.eventer.emitEvent('" + message_name + "'," + args->GetString(0).ToString() + ");";
-        frame->ExecuteJavaScript(script, frame->GetURL(), 0);
+        CefString result = args->GetString(0);
+        CefRefPtr<CefV8Value> resultV8 = CefV8Value::CreateString(result);
+        argsForJs.push_back(resultV8);    
     } else if(args->GetType(0) == CefValueType::VTYPE_BINARY){
         CefRefPtr<CefBinaryValue> data = args->GetBinary(0);
         size_t size = data->GetSize();
-        unsigned char* buffer = new unsigned char[size];
-        data->GetData(buffer, size, 0);
-        CefRefPtr<CefV8Context> context = frame->GetV8Context();
-        context->Enter();
+        unsigned char* result = new unsigned char[size];
+        data->GetData(result, size, 0);
         CefRefPtr<CefV8ArrayBufferReleaseCallback> cb = new ReleaseCallback();
-        CefRefPtr<CefV8Value> bufferArr = CefV8Value::CreateArrayBuffer(buffer, size, cb);
-        //CefRefPtr<CefV8Value> bufferArr = frame->GetV8Context()->GetGlobal()->CreateArrayBuffer(buffer,size,cb);
-        CefV8ValueList args;
-        args.push_back(bufferArr);
-        v8Handler->callBack->ExecuteFunction(nullptr, args);
-        context->Exit();
+        CefRefPtr<CefV8Value> resultV8 = CefV8Value::CreateArrayBuffer(result, size, cb);
+        argsForJs.push_back(resultV8);
         //delete[] buffer;
     }
+    v8Handler->callBack->ExecuteFunction(nullptr, argsForJs);
+    context->Exit();
     return true;
 }
