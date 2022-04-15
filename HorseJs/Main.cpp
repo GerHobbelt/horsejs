@@ -14,6 +14,8 @@
 
 
 // --renderer-startup-dialog 
+// http://localhost:10086/json
+// devtools://devtools/bundled/inspector.html?ws=localhost:10086/devtools/page/3DEDA81C103D19CDDB8BCC7B53BBC563
 IMPLEMENT_APP_NO_MAIN(TheWxApp);
 IMPLEMENT_WX_THEME_SUPPORT;
 int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInstance, [[maybe_unused]] LPTSTR lpCmdLine, int nCmdShow)

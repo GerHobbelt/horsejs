@@ -44,11 +44,13 @@ export let processor = {
       filters: ["*"],
       lastFilterIndex: 0,
     });
+    let decoder = new TextDecoder("utf-8");
     let result = await horse.file.readFile({
       path: folderResult.data[0],
       bufferSize: 65536,
-      onData: (data) => {
-        demoLog(data);
+      onData: (chunk) => {
+        let fileData = decoder.decode(chunk);
+        demoLog(fileData);
       },
     });
     demoLog("文件读取完成", result);
