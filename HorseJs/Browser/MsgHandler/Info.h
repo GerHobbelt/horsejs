@@ -6,6 +6,7 @@
 #include <wx/version.h> 
 #include "../Handler.h"
 #include "../ViewDelegate.h"
+#include "Helper.h"
 
 #include "../../Common/json.hpp"
 using nlohmann::json;
@@ -15,24 +16,24 @@ public:
     Info() = delete;
     static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
-        std::string message_name = message->GetName();
-        message_name.erase(0, message_name.find_first_of('_') + 1);
+        std::string msgName = message->GetName();
+        std::string filter = Helper::getFilter(message);
         json result;
         result["success"] = true;
-        if (message_name._Starts_with("getAppInfo"))
+        if (filter._Starts_with("getAppInfo"))
         {
             result["data"] = Config::get();
         }
-        else if (message_name._Starts_with("getHorseInfo"))
+        else if (filter._Starts_with("getHorseInfo"))
         {
             json data;
-            data["HorseJsVersion"] = {0,0,4};
+            data["HorseJsVersion"] = {0,0,6};
             data["wxWidgetsVersion"] = { wxMAJOR_VERSION ,wxMINOR_VERSION ,wxRELEASE_NUMBER };
             data["cefVersion"] = { CEF_VERSION_MAJOR ,CEF_VERSION_MINOR ,CEF_VERSION_PATCH ,CEF_COMMIT_NUMBER };
             data["chromeVersion"] = { CHROME_VERSION_MAJOR ,CHROME_VERSION_MINOR ,CHROME_VERSION_BUILD ,CHROME_VERSION_PATCH };
             result["data"] = data;
         }
-        else if (message_name._Starts_with("getOSInfo"))
+        else if (filter._Starts_with("getOSInfo"))
         {
             wxPlatformInfo platformInfo = wxPlatformInfo::Get();
             json data;
@@ -42,18 +43,14 @@ public:
             data["version"] = { platformInfo.GetOSMajorVersion(), platformInfo.GetToolkitMinorVersion() ,platformInfo.GetOSMicroVersion() };
             result["data"] = data;
         }
-        else if (message_name._Starts_with("getHardwareInfo"))
+        else if (filter._Starts_with("getHardwareInfo"))
         {
             wxPlatformInfo platformInfo = wxPlatformInfo::Get();
             json data;
             data["arch"] = platformInfo.GetArchName();
             result["data"] = data;
         }
-        CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
-        CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
-        msgArgs->SetSize(1);
-        msgArgs->SetString(0, result.dump());
-        frame->SendProcessMessage(PID_RENDERER, msg);
+        Helper::SendMsg(frame, msgName, result);
         return true;
     }
 };

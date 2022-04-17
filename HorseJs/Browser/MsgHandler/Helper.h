@@ -1,4 +1,6 @@
 #pragma once
+#include <codecvt> // codecvt_utf8
+#include <locale>  // wstring_convert
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "../../Common/json.hpp"
