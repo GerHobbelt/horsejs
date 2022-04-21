@@ -17,8 +17,8 @@ class Menu
 {
 public:
     Menu() = delete;
-    
-    static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message,Handler* instance)
+
+    static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message, Handler* instance)
     {
         std::string msgName = message->GetName();
         std::string filter = Helper::getFilter(message);
@@ -39,16 +39,16 @@ public:
             userData->frame = frame;
             userData->msgName = msgName + "_event";
             menu->SetClientObject(userData);
+            auto win = wxWindow::FindFocus();
             for (auto& menuItem : configObj["data"])
             {
                 auto name = menuItem["name"].get<std::string>();
                 menu->Append(menuId, wxString::FromUTF8(name));
-                wxTheApp->Bind(wxEVT_MENU, &onMenuClicked, menuId);
+                win->Bind(wxEVT_MENU, &onMenuClicked, menuId);
                 menuId += 1;
             }
-            auto win = wxWindow::FindFocus();
             Helper::SendMsg(frame, msgName, result);
-            win->PopupMenu(menu,point);  //这里会阻塞，所以提前返回消息
+            win->PopupMenu(menu, point);  //这里会阻塞，所以提前返回消息
             return true;
         }
         Helper::SendMsg(frame, msgName, result);
@@ -56,7 +56,7 @@ public:
     }
     static void onMenuClicked(wxCommandEvent& e) {
         auto id = e.GetId();
-        auto target = wxDynamicCast(e.GetEventObject(),wxMenu);
+        auto target = wxDynamicCast(e.GetEventObject(), wxMenu);
         auto obj = static_cast<ClientData*>(target->GetClientObject());
         json result;
         result["index"] = id;
