@@ -2,10 +2,10 @@ export let processor = {
   getLastWriteTime: async () => {
     let fileResult = await horse.dialog.openFile({
       title: "请你先选择一个文件~~~",
-      defaultFilePath: "C:\\",
+      defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
     let result = await horse.file.getLastWriteTime({
       path: fileResult.data[0],
@@ -15,10 +15,10 @@ export let processor = {
   isFolder: async () => {
     let fileResult = await horse.dialog.openFile({
       title: "请你先选择一个文件~~~",
-      defaultFilePath: "C:\\",
+      defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
     let result = await horse.file.isFolder({
       path: fileResult.data[0],
@@ -28,10 +28,10 @@ export let processor = {
   getFileSize: async () => {
     let folderResult = await horse.dialog.openFile({
       title: "请你先选择一个文件~~~",
-      defaultFilePath: "C:\\",
+      defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
     let result = await horse.file.getFileSize({ path: folderResult.data[0] });
     demoLog(result);
@@ -39,10 +39,10 @@ export let processor = {
   readFile: async () => {
     let folderResult = await horse.dialog.openFile({
       title: "请你先选择一个文件~~~",
-      defaultFilePath: "C:\\",
+      defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
     let decoder = new TextDecoder("utf-8");
     let result = await horse.file.readFile({
@@ -61,10 +61,10 @@ export let processor = {
   readFileFromPosition: async () => {
     let folderResult = await horse.dialog.openFile({
       title: "请你先选择一个文件~~~",
-      defaultFilePath: "C:\\",
+      defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
     let decoder = new TextDecoder("utf-8");
     let result = await horse.file.readFileFromPosition({
@@ -84,10 +84,10 @@ export let processor = {
   writeFile: async () => {
     let folderResult = await horse.dialog.openFile({
       title: "请你先选择一个文件~~~",
-      defaultFilePath: "C:\\",
+      defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
     let result = await horse.file.writeFile({
       path: folderResult.data[0],
@@ -103,10 +103,10 @@ export let processor = {
   writeFileCreate: async () => {
     let folderResult = await horse.dialog.openFolder({
       title: "请你先选择一个目录~~~",
-      defaultFilePath: "C:\\",
+      defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
     let name = Math.floor(Math.pow(10, 6) * Math.random());
     let path = folderResult.data[0] + `/${name}.txt`;
@@ -125,17 +125,17 @@ export let processor = {
   copyFile: async () => {
     let srcResult = await horse.dialog.openFile({
       title: "请选择待拷贝的文件",
-      defaultFilePath: "C:\\",
+      defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
     let destResult = await horse.dialog.openFolder({
       title: "请选择拷贝目标目录",
-      defaultFilePath: "C:\\",
+      defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
     let src = srcResult.data[0];
     let baseName = horse.path.baseName(src);
