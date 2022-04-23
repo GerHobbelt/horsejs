@@ -44,7 +44,7 @@ public:
             {
                 auto name = menuItem["name"].get<std::string>();
                 menu->Append(menuId, wxString::FromUTF8(name));
-                win->Bind(wxEVT_MENU, &onMenuClicked, menuId);
+                win->Bind(wxEVT_MENU, &Menu::onMenuClicked, menuId);
                 menuId += 1;
             }
             Helper::SendMsg(frame, msgName, result);

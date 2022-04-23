@@ -9,8 +9,6 @@
 #include "Scheme/SchemeHandlerFactory.h"
 #include "Browser/TheWxApp.h"
 #include "Browser/TopWindow.h"
-//#include "main_message_loop.h"
-//#include "main_message_loop_multithreaded_win.h"
 
 
 // --renderer-startup-dialog 
@@ -18,7 +16,7 @@
 // devtools://devtools/bundled/inspector.html?ws=localhost:10086/devtools/page/3DEDA81C103D19CDDB8BCC7B53BBC563
 IMPLEMENT_APP_NO_MAIN(TheWxApp);
 IMPLEMENT_WX_THEME_SUPPORT;
-int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInstance, [[maybe_unused]] LPTSTR lpCmdLine, int nCmdShow)
+int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
     CefEnableHighDPISupport();
     CefMainArgs main_args(hInstance);
@@ -39,8 +37,6 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
     }
     int exit_code = CefExecuteProcess(main_args, app, nullptr);
     if (exit_code >= 0) return exit_code;
-    //std::unique_ptr<MainMessageLoop> message_loop;
-    //message_loop.reset(new MainMessageLoopMultithreadedWin);
     
     wxCmdLineArgType cmdLine = (char*)lpCmdLine;
     wxEntryStart(hInstance, hPrevInstance, cmdLine, nCmdShow);
