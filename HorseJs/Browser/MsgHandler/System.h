@@ -10,7 +10,7 @@
 #include <wx/msw/registry.h>
 #include <wx/stdpaths.h>
 #include <wx/notifmsg.h>
-
+#include "Helper.h"
 #include "../../Common/json.hpp"
 #include "../../Common/Config.h"
 #include "ClientData.h"
