@@ -17,7 +17,7 @@ public:
         json result;
         result["success"] = true;
         json configObj = Helper::getConfig(message);
-        if (filter._Starts_with("readDir"))
+        if (filter == "readDir")
         {
             auto folderPath = Helper::convertString(configObj["path"].get<std::string>());
             result["data"] = json::array();
@@ -26,7 +26,7 @@ public:
                 auto pathStr = itr.path().wstring();
                 result["data"].push_back(Helper::convertString(pathStr));
             }
-        }else if (filter._Starts_with("getPath"))
+        }else if (filter == "getPath")
         {
             CefRefPtr<CefListValue> args = message->GetArgumentList();
             auto configStr = args->GetString(0).ToString();

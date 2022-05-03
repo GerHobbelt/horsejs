@@ -15,4 +15,12 @@ export let processor = {
     let result = await horse.info.getHardwareInfo();
     demoLog(result);
   },
+  getNetInfo: async () => {
+    let result = await horse.info.getNetInfo();
+    demoLog(result);
+  },
+  getUserInfo: async () => {
+    let result = await horse.info.getUserInfo();
+    demoLog(result);
+  },
 };

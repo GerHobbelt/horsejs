@@ -24,19 +24,19 @@ public:
         json configObj = Helper::getConfig(message);
         json result;
         result["success"] = true;
-        if (filter._Starts_with("getFileSize"))
+        if (filter == "getFileSize")
         {
             auto path = Helper::convertString(configObj["path"].get<std::string>());
             long long size = std::filesystem::file_size(path);
             result["data"] = size;           
         }
-        else if (filter._Starts_with("isFolder"))
+        else if (filter == "isFolder")
         {
             auto path = Helper::convertString(configObj["path"].get<std::string>());
             auto flag = std::filesystem::is_directory(path);
             result["data"] = flag;
         }
-        else if (filter._Starts_with("getLastWriteTime"))
+        else if (filter == "getLastWriteTime")
         {
             auto path = Helper::convertString(configObj["path"].get<std::string>());
             auto lstTime = std::filesystem::last_write_time(path);
@@ -45,7 +45,7 @@ public:
             auto systemTime = std::chrono::duration_cast<std::chrono::milliseconds>(lstTime.time_since_epoch()).count() - elapse;
             result["data"] = systemTime;
         }
-        else if (filter._Starts_with("readFileFromPosition"))
+        else if (filter == "readFileFromPosition")
         {
             auto path = Helper::convertString(configObj["path"].get<std::string>());
             long long position = configObj["position"].get<long long>();
@@ -81,13 +81,13 @@ public:
                 }
             }            
         }
-        else if(filter._Starts_with("readFile"))
+        else if(filter == "readFile")
         {
             auto path = Helper::convertString(configObj["path"].get<std::string>());
             long long bufferSize = configObj["bufferSize"].get<int>();
             CefPostTask(TID_UI, base::BindOnce(&readFile, path,bufferSize, frame, msgName));
         }
-        else if (filter._Starts_with("writeFile"))
+        else if (filter == "writeFile")
         {
             auto path = Helper::convertString(configObj["path"].get<std::string>());
             std::string existThen = configObj["existThen"].get<std::string>();
@@ -127,7 +127,7 @@ public:
                     writer.close();
                 }
             }
-        } else if (filter._Starts_with("copy")) {
+        } else if (filter == "copy") {
             std::string src = configObj["src"].get<std::string>();
             std::string dest = configObj["dest"].get<std::string>();
             wxString src1 = wxString::FromUTF8(src);

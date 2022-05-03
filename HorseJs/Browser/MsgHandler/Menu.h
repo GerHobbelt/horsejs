@@ -25,7 +25,7 @@ public:
         json result;
         result["success"] = true;
         json configObj = Helper::getConfig(message);
-        if (filter._Starts_with("popup"))
+        if (filter == "popup")
         {
             instance->menuData = configObj["data"];
             wxPoint point = wxDefaultPosition;

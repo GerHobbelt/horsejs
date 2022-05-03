@@ -13,7 +13,7 @@
 void Browser::OnContextInitialized() {
     CEF_REQUIRE_UI_THREAD();
     CefRefPtr<Handler> handler(new Handler());
-    CefBrowserSettings browser_settings;
+    CefBrowserSettings browserSettings;
     //todo 考虑一下怎么做
     //browser_settings.javascript_access_clipboard = cef_state_t::STATE_ENABLED;
     //browser_settings.javascript_close_windows = cef_state_t::STATE_ENABLED;
@@ -21,9 +21,9 @@ void Browser::OnContextInitialized() {
     auto config = Config::get();
     auto startPath = config["startPath"].get<std::string>();
     std::string url = "http://horse/"+ startPath;  //todo 这里不应该有app子目录
-    CefRefPtr<CefBrowserView> browser_view = CefBrowserView::CreateBrowserView(handler, url, browser_settings, nullptr, nullptr, new ViewDelegate());
-    browser_view->SetID(2);
-    CefWindow::CreateTopLevelWindow(new WindowDelegate(browser_view));
+    CefRefPtr<CefBrowserView> browserView = CefBrowserView::CreateBrowserView(handler, url, browserSettings, nullptr, nullptr, new ViewDelegate());
+    //browser_view->SetID(2);
+    CefWindow::CreateTopLevelWindow(new WindowDelegate(browserView));
 }
 
 CefRefPtr<CefClient> Browser::GetDefaultClient() {

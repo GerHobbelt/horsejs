@@ -26,7 +26,7 @@ public:
             Helper::SendMsg(frame, msgName, result);
             return true;
         }
-        if (filter._Starts_with("getData"))
+        if (filter == "getData")
         {
             if (dataTypeStr == "text")
             {
@@ -68,7 +68,7 @@ public:
                 result["data"] = html.utf8_string();
             }
         }
-        else if (filter._Starts_with("setData"))
+        else if (filter == "setData")
         {
             if (dataTypeStr == "text")
             {
