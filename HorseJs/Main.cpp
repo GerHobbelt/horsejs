@@ -47,10 +47,10 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
     settings.multi_threaded_message_loop = true;
 #if defined(_DEBUG)
     settings.log_severity = cef_log_severity_t::LOGSEVERITY_INFO;
-    settings.remote_debugging_port = 10086;
+    //settings.remote_debugging_port = 10086;
 #else
     settings.log_severity = cef_log_severity_t::LOGSEVERITY_ERROR;
-    settings.remote_debugging_port = 10086;
+    //settings.remote_debugging_port = 10086;
 #endif
     
     CefInitialize(main_args, settings, app.get(), nullptr);
