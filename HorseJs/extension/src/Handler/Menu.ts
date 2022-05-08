@@ -13,7 +13,7 @@ export class Menu extends Base {
         resolve({ success: true })
       })
       eventer.addOnceEventListener(msgName + '_event', (result) => {
-        config.click(result.index)
+        config.click(result.id)
       })
       this.callHorseNative(msgName, JSON.stringify(config))
     })
