@@ -49,7 +49,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
     settings.log_severity = cef_log_severity_t::LOGSEVERITY_INFO;
     //settings.remote_debugging_port = 10086;
 #else
-    settings.log_severity = cef_log_severity_t::LOGSEVERITY_ERROR;
+    settings.log_severity = cef_log_severity_t::LOGSEVERITY_ERROR;  //LOGSEVERITY_ERROR
     //settings.remote_debugging_port = 10086;
 #endif
     
@@ -58,9 +58,10 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
     //int result = message_loop->Run();
     //CefRunMessageLoop();
     //CefDoMessageLoopWork();
+
     wxTheApp->OnRun();
+    CefShutdown();
     wxEntryCleanup();
-    CefShutdown();    
     return 0;
 }
 

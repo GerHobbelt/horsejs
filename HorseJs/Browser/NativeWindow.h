@@ -38,6 +38,7 @@ public:
     };
     virtual ~NativeWindow()
     {
+        window = nullptr;
         //Disown();
     };
     wxWindow* parent;
