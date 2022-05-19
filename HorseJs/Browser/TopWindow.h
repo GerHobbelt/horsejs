@@ -4,8 +4,10 @@
 class TopWindow : public wxFrame
 {
 public:
-    TopWindow() : wxFrame(NULL, wxID_ANY, "") {
+    TopWindow() : wxFrame(NULL, wxID_ANY, "",wxDefaultPosition,wxSize(0,0), wxFRAME_NO_TASKBAR) {
         Bind(wxEVT_CLOSE_WINDOW, &TopWindow::OnClose,this);
+        this->SetTransparent(0);
+        this->Center();
     };
     void OnClose(wxCloseEvent& event) {
         //if (event.CanVeto() && m_bFileNotSaved)

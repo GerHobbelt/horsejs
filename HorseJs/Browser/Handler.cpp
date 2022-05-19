@@ -1,7 +1,7 @@
 #include "Handler.h"
 #include <sstream>
 #include <string>
-
+#include <wx/msgdlg.h>
 #include "include/base/cef_bind.h"
 #include "include/cef_app.h"
 #include "include/cef_parser.h"
@@ -64,6 +64,30 @@ void Handler::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& titl
         CefRefPtr<CefWindow> window = browser_view->GetWindow();
         if (window) window->SetTitle(title);
     }
+}
+
+bool Handler::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, JSDialogType dialog_type, const CefString& message_text, const CefString& default_prompt_text, CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message)
+{
+    if (dialog_type == JSDIALOGTYPE_ALERT) {
+        auto win = wxTheApp->GetTopWindow();
+        wxMessageDialog dialog(win, message_text.ToWString(),"HorseJs", wxOK | wxCENTRE,wxPoint(800,600));
+        dialog.ShowModal();
+        //int answer = wxMessageBox(message_text.ToWString(), "ÌבÊ¾", wxYES_NO | wxCANCEL);
+        //if (answer == wxYES) {
+        //}
+        //else
+        //{
+        //}
+        suppress_message = true;
+    }
+    else if (dialog_type == JSDIALOGTYPE_CONFIRM) {
+
+    }
+    else if (dialog_type == JSDIALOGTYPE_PROMPT) {
+
+    }
+    return false;
+
 }
 
 void Handler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
