@@ -77,6 +77,7 @@
     <CopyFileToFolders Include="app\demo\tray.js" />
     <CopyFileToFolders Include="Resource\icon.ico" />
     <CopyFileToFolders Include="Resource\icon2.ico" />
+    <CopyFileToFolders Include="app\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

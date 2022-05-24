@@ -373,6 +373,10 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="app\logo.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
+    </CopyFileToFolders>
     <Image Include="icon1.ico" />
     <CopyFileToFolders Include="Resource\icon2.ico" />
   </ItemGroup>

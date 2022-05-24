@@ -44,12 +44,18 @@ body {
   background-color: rgb(60, 60, 60);
   display: flex;
 }
+.titleLogo {
+  padding: 10px;
+}
+.titleLogo img {
+  width: 18px;
+  height: 18px;
+}
 .titleText {
   height: 38px;
   line-height: 38px;
   font-size: 13px;
   color: rgb(206, 206, 206);
-  padding-left: 12px;
   flex: 1;
 }
 .titleTool {
