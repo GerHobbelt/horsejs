@@ -2,6 +2,8 @@
 #include <sstream>
 #include <string>
 #include <wx/msgdlg.h>
+#include <wx/windowptr.h>
+
 #include "include/base/cef_bind.h"
 #include "include/cef_app.h"
 #include "include/cef_parser.h"
@@ -107,10 +109,12 @@ bool Handler::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_
         }
     }
     else if (dialog_type == JSDIALOGTYPE_PROMPT) {
-        suppress_message = false;
-        // todo 这里有问题，不知道怎么把用户输入的东西返回给js
-        //wxTextEntryDialog dialog(parent, msg, appName, wxEmptyString);
-        //dialog.Show();
+        //CEF_REQUIRE_UI_THREAD();
+        //wxGetTextFromUser(msg, appName, wxEmptyString, parent);
+        //suppress_message = false;
+        dlg = new wxTextEntryDialog(parent, msg, appName, wxEmptyString,wxOK | wxCANCEL);
+        dlg->Show();
+
     }
     return false;
 }
