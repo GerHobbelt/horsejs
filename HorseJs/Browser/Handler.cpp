@@ -3,6 +3,10 @@
 #include <string>
 #include <wx/msgdlg.h>
 #include <wx/windowptr.h>
+#include <wx/event.h>
+#include <wx/thread.h>
+
+
 
 #include "include/base/cef_bind.h"
 #include "include/cef_app.h"
@@ -111,10 +115,38 @@ bool Handler::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_
     else if (dialog_type == JSDIALOGTYPE_PROMPT) {
         //CEF_REQUIRE_UI_THREAD();
         //wxGetTextFromUser(msg, appName, wxEmptyString, parent);
-        //suppress_message = false;
-        dlg = new wxTextEntryDialog(parent, msg, appName, wxEmptyString,wxOK | wxCANCEL);
-        dlg->Show();
-
+        //suppress_message = false;        
+        //CefPostTask(TID_UI, base::BindOnce(&readFile, path, bufferSize, frame, msgName));
+        //dlg = new wxTextEntryDialog(parent, msg, appName, wxEmptyString);
+        //dlg->Show();
+        //dlg->Bind()
+        //wxMutex mutex;
+        //wxCondition condition(mutex);
+        //int i = 0;
+        //parent->GetEventHandler()->CallAfter([&]()
+        //    {
+                //wxTextEntryDialog dlg(parent, msg, appName, wxEmptyString);
+                //auto result = wxGetTextFromUser(msg, appName, wxEmptyString, parent);
+                //callback->Continue(true, result.ToStdString());
+                //if (dlg.ShowModal() == wxID_OK)
+                //{
+                //    auto result = dlg.GetValue();
+                //    callback->Continue(true, result.ToStdString());
+                //}
+                //else
+                //{
+                //    CefString result;
+                //    callback->Continue(false,result);
+                //}
+                //i = 1;
+                //condition.Broadcast();
+            //});
+        //condition.Wait();
+        //condition.Broadcast();
+        //condition.Wait([&] {return i == 1; });
+        //todo 这里有问题
+        auto result = wxGetTextFromUser(msg, appName, wxEmptyString, parent);
+        callback->Continue(true, result.ToStdString());
     }
     return false;
 }
