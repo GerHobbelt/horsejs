@@ -10,7 +10,7 @@ export let processor = {
     let result = await horse.file.getLastWriteTime({
       path: fileResult.data[0],
     });
-    demoLog(result);
+    console.log(result);
   },
   isFolder: async () => {
     let fileResult = await horse.dialog.openFile({
@@ -23,7 +23,7 @@ export let processor = {
     let result = await horse.file.isFolder({
       path: fileResult.data[0],
     });
-    demoLog(result);
+    console.log(result);
   },
   getFileSize: async () => {
     let folderResult = await horse.dialog.openFile({
@@ -34,7 +34,7 @@ export let processor = {
       filterIndex: 0,
     });
     let result = await horse.file.getFileSize({ path: folderResult.data[0] });
-    demoLog(result);
+    console.log(result);
   },
   readFile: async () => {
     let folderResult = await horse.dialog.openFile({
@@ -50,13 +50,13 @@ export let processor = {
       bufferSize: 65536,
       onData: (chunk) => {
         let fileData = decoder.decode(chunk);
-        demoLog("文件数据片：", fileData);
+        console.log("文件数据片：", fileData);
       },
       onDataFinish: (result) => {
-        demoLog("读取文件完成：", result);
+        console.log("读取文件完成：", result);
       },
     });
-    demoLog("请求读取文件：", result);
+    console.log("请求读取文件：", result);
   },
   readFileFromPosition: async () => {
     let folderResult = await horse.dialog.openFile({
@@ -73,13 +73,13 @@ export let processor = {
       position: 6,
       onData: (chunk) => {
         let fileData = decoder.decode(chunk);
-        demoLog("文件数据片：", fileData);
+        console.log("文件数据片：", fileData);
       },
       onDataFinish: (result) => {
-        demoLog("读取文件完成：", result);
+        console.log("读取文件完成：", result);
       },
     });
-    demoLog(result);
+    console.log(result);
   },
   writeFile: async () => {
     let folderResult = await horse.dialog.openFile({
@@ -98,7 +98,7 @@ export let processor = {
       `,
       existThen: "append",
     });
-    demoLog(result);
+    console.log(result);
   },
   writeFileCreate: async () => {
     let folderResult = await horse.dialog.openFolder({
@@ -120,7 +120,7 @@ export let processor = {
       existThen: "append",
       notExistThen: "create",
     });
-    demoLog(result);
+    console.log(result);
   },
   copyFile: async () => {
     let srcResult = await horse.dialog.openFile({
@@ -141,6 +141,6 @@ export let processor = {
     let baseName = horse.path.baseName(src);
     let dest = destResult.data[0] + baseName;
     await horse.file.copy({ src, dest });
-    demoLog(result);
+    console.log(result);
   },
 };
