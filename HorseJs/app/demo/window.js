@@ -34,4 +34,8 @@ export let processor = {
     let result = await horse.window.openDevTool();
     console.log(result);
   },
+  closeDevTool: async () => {
+    let result = await horse.window.closeDevTool();
+    console.log(result);
+  },
 };
