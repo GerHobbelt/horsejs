@@ -20,6 +20,13 @@ export let demo = {
     $("#openDevToolBtn").addEventListener("click", async () => {
       await horse.window.openDevTool();
     });
+    $("#openDocument").addEventListener("click", async () => {
+      let codeFileName = $(".menuSelected")
+        .getAttribute("id")
+        .replace("menu", "");
+      let target = `https://gitee.com/horsejs/horsejs/blob/master/Doc/Horse/${codeFileName}.md`;
+      horse.system.openExternal({ target, workingDir: "" });
+    });
     $("#demoContainer").addEventListener("click", async (e) => {
       if (!e.target.classList.contains("demoBtn")) return;
       let id = e.target.getAttribute("id");

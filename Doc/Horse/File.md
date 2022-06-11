@@ -57,7 +57,7 @@ let result = await horse.file.readFileFromPosition({
 console.log(result.data);
 ```
 
-## 写入文件
+# 写入文件
 
 - path 为目标文件
 
@@ -80,7 +80,7 @@ let result = await horse.file.writeFile({
 });
 ```
 
-## 拷贝文件
+# 拷贝文件
 
 - src 为目标文件路径
 
