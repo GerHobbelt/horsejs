@@ -26,6 +26,7 @@
 #include "MsgHandler/System.h"
 #include "MsgHandler/Menu.h"
 #include "MsgHandler/Tray.h"
+#include "MsgHandler/Plugin.h"
 
 namespace {
     Handler* g_instance = nullptr;
@@ -291,10 +292,6 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     }
     else if (message_name._Starts_with("System"))
     {
-        //wxNotificationMessage* notification = new wxNotificationMessage(L"²âÊÔ²âÊÔ", L"ÄÚÈÝÄÚÈÝ");
-        //notification->Bind(wxEVT_NOTIFICATION_MESSAGE_CLICK, &Handler::notifyClick,-1,-1,);
-        //notification->Show();
-        //return false;
         return System::ProcessMsg(browser, frame, source_process, message);
     }
     else if (message_name._Starts_with("Menu"))
@@ -305,19 +302,9 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     {
         return Tray::ProcessMsg(browser, frame, source_process, message);
     }
+    else if (message_name._Starts_with("Plugin"))
+    {
+        return Plugin::ProcessMsg(browser, frame, source_process, message);
+    }
     return false;
 }
-void Handler::notifyClick(wxCommandEvent& event) {
-
-    auto target = wxDynamicCast(event.GetEventObject(), wxNotificationMessage);
-
-    //ClientData* clientData = static_cast<ClientData*>();
-    //auto type = event.GetEventType();
-    //if (type == wxEVT_NOTIFICATION_MESSAGE_CLICK) {
-    //    auto pr = clientData->browser;
-    //    bool flag = type == wxEVT_NOTIFICATION_MESSAGE_CLICK;
-    //}
-    //else if (type == wxEVT_NOTIFICATION_MESSAGE_DISMISSED) {
-    //    bool flag = type == wxEVT_NOTIFICATION_MESSAGE_CLICK;
-    //}
-};
