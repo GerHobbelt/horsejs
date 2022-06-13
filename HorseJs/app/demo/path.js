@@ -48,4 +48,17 @@ export let processor = {
     let data = horse.path.extName(result.data);
     console.log(data);
   },
+  isFolder: async () => {
+    let fileResult = await horse.dialog.openFile({
+      title: "请你先选择一个文件~~~",
+      defaultPath: "C:\\",
+      multiSelections: false,
+      filters: ["*"],
+      filterIndex: 0,
+    });
+    let result = await horse.path.isFolder({
+      path: fileResult.data[0],
+    });
+    console.log(result);
+  },
 };

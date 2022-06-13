@@ -53,6 +53,9 @@ export class Path extends Base {
   getPath(config: { name }) {
     return this.callHorse(this.getPath, config)
   }
+  isFolder(config: { path: string }) {
+    return this.callHorse(this.isFolder, config)
+  }
 }
 // todo 目前只支持windows
 // https://github.com/jinder/path/blob/master/path.js
