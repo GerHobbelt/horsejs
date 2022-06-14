@@ -61,4 +61,14 @@ export let processor = {
     });
     console.log(result);
   },
+  join: async () => {
+    let result = horse.path.join(
+      `C:\\Windows\\System32`,
+      "..\\SysWOW64\\apds.dll"
+    );
+    console.log(
+      `C:\\Windows\\System32与..\\SysWOW64\\apds.dll合并结果：`,
+      result
+    );
+  },
 };
