@@ -79,3 +79,18 @@ horse.path.extname(".index");
 horse.path.extname(".index.md");
 // 返回: '.md'
 ```
+
+# 合并两个路径
+
+```js
+let result = horse.path.join(`C:\\Windows\\System32`, "..\\SysWOW64\\apds.dll");
+// 输出结果C:\Windows\SysWOW64\apds.dll
+```
+
+# 创建文件夹
+
+如果文件夹已经存在，则什么也不做，如果不存在，则创建文件夹
+
+```js
+let result = await horse.path.create({ path });
+```
