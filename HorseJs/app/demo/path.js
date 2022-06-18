@@ -7,6 +7,7 @@ export let processor = {
       filters: ["*"],
       filterIndex: 0,
     });
+    if (!folderResult.data) return;
     let result = await horse.path.readDir({ path: folderResult.data[0] });
     console.log(result);
   },
@@ -79,7 +80,7 @@ export let processor = {
       filters: ["*"],
       filterIndex: 0,
     });
-    let name = Math.floor(Math.pow(10, 6) * Math.random());
+    if (!folderResult.data) return;
     let path = horse.path.join(folderResult.data[0], `newFolderName`);
     let result = await horse.path.create({ path });
     console.log(result);
