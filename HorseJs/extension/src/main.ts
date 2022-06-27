@@ -9,6 +9,7 @@ import { System } from './Handler/System'
 import { Menu } from './Handler/Menu'
 import { Tray } from './Handler/Tray'
 import { Plugin } from './Handler/Plugin'
+import { Db } from './Handler/Db'
 declare let horse: Horse
 declare let __callHorseFunc: (arg: (msgName: string, ...otherParams) => void) => void
 export class Horse {
@@ -23,6 +24,7 @@ export class Horse {
   menu = new Menu()
   tray = new Tray()
   plugin = new Plugin()
+  db = new Db()
   nativeCallBack(msgName: string, ...otherParams) {
     if (typeof otherParams[0] === 'string') {
       this.eventer.emitEvent(msgName, JSON.parse(otherParams[0]))

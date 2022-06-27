@@ -178,6 +178,8 @@
     <ClCompile Include="Browser\Handler.cpp" />
     <ClCompile Include="Browser\ViewDelegate.cpp" />
     <ClCompile Include="Browser\WindowDelegate.cpp" />
+    <ClCompile Include="Common\SQLite\shell.c" />
+    <ClCompile Include="Common\SQLite\sqlite3.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
   </ItemGroup>
@@ -194,6 +196,7 @@
     <ClInclude Include="Browser\MsgHandler\Menu.h" />
     <ClInclude Include="Browser\MsgHandler\Path.h" />
     <ClInclude Include="Browser\MsgHandler\Plugin.h" />
+    <ClInclude Include="Browser\MsgHandler\Db.h" />
     <ClInclude Include="Browser\MsgHandler\System.h" />
     <ClInclude Include="Browser\MsgHandler\Tray.h" />
     <ClInclude Include="Browser\MsgHandler\Window.h" />
@@ -204,6 +207,8 @@
     <ClInclude Include="Browser\WindowDelegate.h" />
     <ClInclude Include="Common\Config.h" />
     <ClInclude Include="Common\json.hpp" />
+    <ClInclude Include="Common\SQLite\sqlite3.h" />
+    <ClInclude Include="Common\SQLite\sqlite3ext.h" />
     <ClInclude Include="Other\Other.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\V8Handler.h" />
@@ -367,6 +372,9 @@
     <CopyFileToFolders Include="app\demo\plugin.js">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\demo\db.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app/demo</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
