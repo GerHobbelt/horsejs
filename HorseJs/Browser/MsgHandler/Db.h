@@ -15,6 +15,19 @@
 #include "../../Common/json.hpp"
 using nlohmann::json;
 
+static int callback(void* userDataPtr, int argc, char** argv, char** azColName) {
+    int i;
+    for (i = 0; i < argc; i++) {
+        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    }
+    printf("\n");
+    auto userData = (ClientData*)userDataPtr;
+    json result;
+    result["success"] = true;
+    Helper::SendMsg(userData->frame, userData->msgName + "_data", result);
+    return 0;
+}
+
 class Db
 {
 public:
@@ -37,7 +50,7 @@ public:
                 auto dbFolderPath = appDataPath + L"/" + wxString::FromUTF8(appName);
                 bool flag = wxDir::Exists(dbFolderPath);
                 if(!flag) wxDir::Make(dbFolderPath);
-                dbPath = appDataPath + L"/db.db";
+                dbPath = dbFolderPath + L"/db.db";
             }
             else
             {
@@ -59,6 +72,7 @@ public:
             userData->msgName = msgName;
             char* zErrMsg = 0;
             int rc;
+            //todo 不需要回调
             rc = sqlite3_exec(db, sql, callback, (void*)userData, &zErrMsg);
             if (rc != SQLITE_OK) {
                 result["success"] = false;
@@ -68,18 +82,6 @@ public:
         }
         Helper::SendMsg(frame, msgName, result);
         return true;
-    }
-    static int callback(void* userDataPtr, int argc, char** argv, char** azColName) {
-        int i;
-        for (i = 0; i < argc; i++) {
-            printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-        }
-        printf("\n");
-        auto userData = (ClientData*)userDataPtr;
-        json result;
-        result["success"] = true;
-        Helper::SendMsg(userData->frame, userData->msgName + "_data_finish", result);
-        return 0;
     }
 };
 sqlite3* Db::db;
