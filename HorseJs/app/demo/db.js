@@ -10,9 +10,6 @@ export let processor = {
   createTable: async () => {
     let result = await horse.db.execute({
       sql: `CREATE TABLE Message(Message TEXT NOT NULL, fromUser CHAR(60) NOT NULL, toUser CHAR(60)  NOT NULL, sendTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP);`,
-      onData: (data) => {
-        console.log("dbOnData:", data);
-      },
     });
     console.log(result);
   },
@@ -38,18 +35,30 @@ export let processor = {
     }
     let result = await horse.db.execute({
       sql: sqls.join(""),
-      onData: (data) => {
-        console.log("dbOnData:", data);
-      },
     });
     console.log(result);
   },
   selectData: async () => {
     let result = await horse.db.execute({
       sql: `select rowid,* from  Message where rowid = 88 or rowid = 65;`,
-      onData: (data) => {
-        console.log("dbOnData:", data);
-      },
+    });
+    console.log(result);
+  },
+  deleteData: async () => {
+    let result = await horse.db.execute({
+      sql: `delete from  Message where rowid = 14;`,
+    });
+    console.log(result);
+  },
+  updateData: async () => {
+    let obj = {
+      message:
+        "怒发冲冠，凭栏处、潇潇雨歇。抬望眼、仰天长啸，壮怀激烈。三十功名尘与土，八千里路云和月。莫等闲、白了少年头，空悲切。 靖康耻，犹未雪。臣子恨，何时灭。驾长车，踏破贺兰山缺。壮志饥餐胡虏肉，笑谈渴饮匈奴血。待从头、收拾旧山河，朝天阙。",
+      fromUser: "岳飞",
+      toUser: "辛弃疾",
+    };
+    let result = await horse.db.execute({
+      sql: `update Message set Message = '${obj.message}',fromUser = '${obj.fromUser}',toUser='${obj.toUser}' where rowid = 16;`,
     });
     console.log(result);
   },
