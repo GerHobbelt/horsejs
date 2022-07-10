@@ -11,10 +11,12 @@ let result = await horse.db.open();
 # 关闭数据库
 
 ```js
-await horse.db.close();
+let result = await horse.db.close();
 ```
 
 # 执行 SQL 指令
+
+可以一次性执行多条 sql 语句，sql 语句之间用分号隔开
 
 ```js
 let result = await horse.db.execute({
