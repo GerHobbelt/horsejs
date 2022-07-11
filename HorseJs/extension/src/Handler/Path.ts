@@ -25,41 +25,6 @@ export class Path extends Base {
       tail: result[3],
     }
   }
-  readDir(config: { path: string }) {
-    return this.callHorse(this.readDir, config)
-  }
-  create(config: { path: string }) {
-    return this.callHorse(this.create, config)
-  }
-  dirName(path: string) {
-    var result = this.splitPath(path),
-      root = result[0],
-      dir = result[1]
-    if (!root && !dir) {
-      return '.'
-    }
-    if (dir) {
-      dir = dir.substr(0, dir.length - 1)
-    }
-    return root + dir
-  }
-  baseName(path: string, ext?: string) {
-    var f = this.splitPath(path)[2]
-    if (ext && f.substr(-1 * ext.length) === ext) {
-      f = f.substr(0, f.length - ext.length)
-    }
-    return f
-  }
-  extName(path: string) {
-    return this.splitPath(path)[3]
-  }
-  getPath(config: { name }) {
-    return this.callHorse(this.getPath, config)
-  }
-  isFolder(config: { path: string }) {
-    return this.callHorse(this.isFolder, config)
-  }
-
   private normalizeArray(parts, allowAboveRoot) {
     var res = []
     for (var i = 0; i < parts.length; i++) {
@@ -99,8 +64,41 @@ export class Path extends Base {
     if (isUnc) {
       device = this.normalizeUNCRoot(device)
     }
-
     return device + (isAbsolute ? '\\' : '') + tail
+  }
+  readDir(config: { path: string }) {
+    return this.callHorse(this.readDir, config)
+  }
+  create(config: { path: string }) {
+    return this.callHorse(this.create, config)
+  }
+  dirName(path: string) {
+    var result = this.splitPath(path),
+      root = result[0],
+      dir = result[1]
+    if (!root && !dir) {
+      return '.'
+    }
+    if (dir) {
+      dir = dir.substr(0, dir.length - 1)
+    }
+    return root + dir
+  }
+  baseName(path: string, ext?: string) {
+    var f = this.splitPath(path)[2]
+    if (ext && f.substr(-1 * ext.length) === ext) {
+      f = f.substr(0, f.length - ext.length)
+    }
+    return f
+  }
+  extName(path: string) {
+    return this.splitPath(path)[3]
+  }
+  getPath(config: { name }) {
+    return this.callHorse(this.getPath, config)
+  }
+  isFolder(config: { path: string }) {
+    return this.callHorse(this.isFolder, config)
   }
   join(...args: [string]) {
     var joined = args.join('\\')
