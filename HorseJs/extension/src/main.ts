@@ -37,3 +37,4 @@ export class Horse {
   }
 }
 horse = new Horse()
+export let horse = horse

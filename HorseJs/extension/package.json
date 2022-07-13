@@ -1,8 +1,9 @@
 {
   "scripts": {
-    "build":"node src/cli"
+    "build": "node src/cli"
   },
   "dependencies": {
-    "esbuild": "^0.12.25"
+    "esbuild": "^0.12.25",
+    "tern": "^0.24.3"
   }
 }
