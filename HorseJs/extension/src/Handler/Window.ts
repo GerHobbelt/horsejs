@@ -14,25 +14,25 @@ export class Window extends Base {
         let curState = this.getIsMaximized()
         let oldState = this.isMaximized
         this.isMaximized = curState
-        if (oldState && !curState) eventer.emitEvent(`${Window.name}_unMaximize`)
-        else if (!oldState && curState) eventer.emitEvent(`${Window.name}_maximize`)
+        if (oldState && !curState) eventer.emitEvent(`${this.className}_unMaximize`)
+        else if (!oldState && curState) eventer.emitEvent(`${this.className}_maximize`)
       })
     )
   }
   private processShowEvent() {
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) eventer.emitEvent(`${Window.name}_hide`)
-      else eventer.emitEvent(`${Window.name}_show`)
+      if (document.hidden) eventer.emitEvent(`${this.className}_hide`)
+      else eventer.emitEvent(`${this.className}_show`)
     })
   }
   open(config: WindowConfig) {
     return this.callHorse(this.open, config)
   }
   addEventListener(eventName: eventType, cb: Function) {
-    eventer.addEventListener(`${Window.name}_${eventName}`, cb)
+    eventer.addEventListener(`${this.className}_${eventName}`, cb)
   }
   removeEventListener(eventName: eventType, cb: Function) {
-    eventer.removeEventListener(`${Window.name}_${eventName}`, cb)
+    eventer.removeEventListener(`${this.className}_${eventName}`, cb)
   }
   getIsMaximized() {
     let hSpan = window.outerHeight - screen.availHeight

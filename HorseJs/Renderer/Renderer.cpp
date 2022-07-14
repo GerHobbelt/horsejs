@@ -21,22 +21,13 @@ void Renderer::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFram
     object->SetValue("__callHorseFunc", func, V8_PROPERTY_ATTRIBUTE_NONE);
     std::filesystem::path targetPath = std::filesystem::current_path();
     targetPath.append("extension.js");
-    //LOG(ERROR) << targetPath;
     std::ifstream reader;
     reader.open(targetPath, std::ios::in);
     std::stringstream buffer;
     buffer << reader.rdbuf();
     reader.close();
     auto jsCode = buffer.str();
-    //LOG(ERROR) << jsCode;
     frame->ExecuteJavaScript(jsCode,"http://horse/extension.js", 1);
-
-
-    //std::string testData = "test";
-    //char* buffer2 = testData.data();
-    //size_t size = testData.length();
-    //CefRefPtr<CefV8ArrayBufferReleaseCallback> cb = new ReleaseCallback();
-    //CefRefPtr<CefV8Value> bufferArr = CefV8Value::CreateArrayBuffer(buffer2, size, cb);
 }
 void Renderer::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
 {
