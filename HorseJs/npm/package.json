@@ -1,0 +1,13 @@
+{
+  "name": "horsejs.org",
+  "version": "0.0.8",
+  "description": "HorseJs's JavaScript Interface",
+  "main": "index.js",
+  "types": "src/main.ts",
+  "scripts": {
+    "build": "node cli.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.12.25"
+  }
+}

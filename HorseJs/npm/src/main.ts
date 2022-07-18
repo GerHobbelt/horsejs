@@ -10,7 +10,6 @@ import { Menu } from './Handler/Menu'
 import { Tray } from './Handler/Tray'
 import { Plugin } from './Handler/Plugin'
 import { Db } from './Handler/Db'
-declare let horse: Horse
 declare let __callHorseFunc: (arg: (msgName: string, ...otherParams) => void) => void
 export class Horse {
   window = new Window()
@@ -36,4 +35,4 @@ export class Horse {
     __callHorseFunc((...args) => this.nativeCallBack(...args))
   }
 }
-horse = new Horse()
+export let horse = new Horse()
