@@ -1,31 +1,33 @@
-export let processor = {
-  setAutoStart: async () => {
+import { horse } from '../../src/main'
+export class System {
+  static className = 'System'
+  async setAutoStart() {
     let result = await horse.system.autoStart({
       setOrRemove: 'set',
     })
     console.log(result)
-  },
-  removeAutoStart: async () => {
+  }
+  async removeAutoStart() {
     let result = await horse.system.autoStart({
       setOrRemove: 'remove',
     })
     console.log(result)
-  },
-  setProtocol: async () => {
+  }
+  async setProtocol() {
     let result = await horse.system.protocolClient({
       protocolName: 'horse',
       setOrRemove: 'set',
     })
     console.log(result)
-  },
-  removeProtocol: async () => {
+  }
+  async removeProtocol() {
     let result = await horse.system.protocolClient({
       protocolName: 'horse',
       setOrRemove: 'remove',
     })
     console.log(result)
-  },
-  sendNotify: async () => {
+  }
+  async sendNotify() {
     let result = await horse.system.notify({
       title: '您收到新的消息',
       body: '此为消息的正文',
@@ -37,11 +39,11 @@ export let processor = {
       },
     })
     console.log(result)
-  },
-  openUrlWithDefaultBrowser() {
+  }
+  async openUrlWithDefaultBrowser() {
     horse.system.openExternal({
       target: 'https://gitee.com/horsejs/horsejs',
       workingDir: '',
     })
-  },
+  }
 }

@@ -100,7 +100,7 @@ export class Path extends Base {
   isFolder(config: { path: string }) {
     return this.callHorse(this.isFolder, config)
   }
-  join(...args: [string]) {
+  join(...args: string[]) {
     var joined = args.join('\\')
     if (!/^[\\\/]{2}[^\\\/]/.test(args[0])) {
       joined = joined.replace(/^[\\\/]{2,}/, '\\')

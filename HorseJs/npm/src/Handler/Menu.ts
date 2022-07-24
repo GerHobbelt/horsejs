@@ -1,9 +1,10 @@
 import { eventer } from '../eventer'
 import { Base } from './Base'
 
+type menuDataType = { name: string; id: number; subMenu?: menuDataType[] }
 export class Menu extends Base {
   className = 'Menu'
-  async popup(config: { data: [{}]; position?: { x: number; y: number }; click: (index) => {} }) {
+  async popup(config: { data: menuDataType[]; click: (index) => void; position?: { x: number; y: number } }) {
     if (!config.position) {
       config.position = { x: -1, y: -1 }
     }
