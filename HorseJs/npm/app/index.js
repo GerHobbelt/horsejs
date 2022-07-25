@@ -1,5 +1,5 @@
 (() => {
-  // npm/src/eventer.ts
+  // src/eventer.ts
   var Eventer = class {
     constructor() {
       this.dic = {};
@@ -41,7 +41,7 @@
   };
   var eventer = new Eventer();
 
-  // npm/src/Util.ts
+  // src/Util.ts
   var Util = class {
     static randomNum(len = 12) {
       return Math.floor(Math.pow(10, len) * Math.random());
@@ -69,7 +69,7 @@
     }
   };
 
-  // npm/src/Handler/Base.ts
+  // src/Handler/Base.ts
   var Base = class {
     constructor() {
       this.className = "Base";
@@ -89,7 +89,7 @@
     }
   };
 
-  // npm/src/Handler/Dialog.ts
+  // src/Handler/Dialog.ts
   var Dialog = class extends Base {
     constructor() {
       super(...arguments);
@@ -103,7 +103,7 @@
     }
   };
 
-  // npm/src/Handler/Info.ts
+  // src/Handler/Info.ts
   var Info = class extends Base {
     constructor() {
       super(...arguments);
@@ -129,7 +129,7 @@
     }
   };
 
-  // npm/src/Handler/Window.ts
+  // src/Handler/Window.ts
   var Window = class extends Base {
     constructor() {
       super();
@@ -208,7 +208,7 @@
     }
   };
 
-  // npm/src/Handler/Clipboard.ts
+  // src/Handler/Clipboard.ts
   var Clipboard = class extends Base {
     constructor() {
       super(...arguments);
@@ -222,7 +222,7 @@
     }
   };
 
-  // npm/src/Handler/File.ts
+  // src/Handler/File.ts
   var File = class extends Base {
     constructor() {
       super(...arguments);
@@ -286,7 +286,7 @@
     }
   };
 
-  // npm/src/Handler/Path.ts
+  // src/Handler/Path.ts
   var Path = class extends Base {
     constructor() {
       super(...arguments);
@@ -389,7 +389,7 @@
     }
   };
 
-  // npm/src/Handler/System.ts
+  // src/Handler/System.ts
   var System = class extends Base {
     constructor() {
       super(...arguments);
@@ -418,7 +418,7 @@
     }
   };
 
-  // npm/src/Handler/Menu.ts
+  // src/Handler/Menu.ts
   var Menu = class extends Base {
     constructor() {
       super(...arguments);
@@ -441,7 +441,7 @@
     }
   };
 
-  // npm/src/Handler/Tray.ts
+  // src/Handler/Tray.ts
   var Tray = class extends Base {
     constructor() {
       super(...arguments);
@@ -486,7 +486,7 @@
     }
   };
 
-  // npm/src/Handler/Plugin.ts
+  // src/Handler/Plugin.ts
   var Plugin = class extends Base {
     constructor() {
       super(...arguments);
@@ -503,7 +503,7 @@
     }
   };
 
-  // npm/src/Handler/Db.ts
+  // src/Handler/Db.ts
   var Db = class extends Base {
     constructor() {
       super(...arguments);
@@ -520,7 +520,7 @@
     }
   };
 
-  // npm/src/main.ts
+  // src/main.ts
   var Horse = class {
     constructor() {
       this.window = new Window();
@@ -547,7 +547,7 @@
   };
   var horse = new Horse();
 
-  // npm/app/common.ts
+  // app/common.ts
   var Common = class {
     titleBarEventInit() {
       let btnArr = document.querySelector(".titleTool").children;
@@ -581,7 +581,7 @@
   };
   var common = new Common();
 
-  // npm/app/index.ts
+  // app/index.ts
   var linkLogic = () => {
     document.querySelector("#docLink").addEventListener("click", () => {
       horse.system.openExternal({

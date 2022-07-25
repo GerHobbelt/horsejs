@@ -24,6 +24,8 @@ public:
         //return new SchemeHandler();
         std::string url = request->GetURL();
         url.erase(0, 13); //ÒÆ³ý£ºhttp://horse/
+        auto paramIndex = url.find_first_of('?');
+        if (paramIndex != std::string::npos) url.erase(paramIndex);
         std::filesystem::path targetPath = std::filesystem::current_path();
         targetPath.append(url);
         //LOG(ERROR) << targetPath.generic_u8string();

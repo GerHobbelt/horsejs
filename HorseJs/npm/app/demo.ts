@@ -36,8 +36,8 @@ class Demo {
   }
   private linkBtnEventInit() {
     $('#sectionCodeLink').addEventListener('click', () => {
-      let codeFileName = $('.menuSelected').getAttribute('id').replace('menu', '').toLowerCase()
-      let target = `https://gitee.com/horsejs/horsejs/blob/master/HorseJs/app/demo/${codeFileName}.ts`
+      let codeFileName = $('.menuSelected').getAttribute('id').replace('menu', '')
+      let target = `https://gitee.com/horsejs/horsejs/blob/master/HorseJs/npm/app/demo/${codeFileName}.ts`
       horse.system.openExternal({ target, workingDir: '' })
     })
     $('#openDevToolBtn').addEventListener('click', async () => {
