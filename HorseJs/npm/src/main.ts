@@ -11,7 +11,7 @@ import { Tray } from './Handler/Tray'
 import { Plugin } from './Handler/Plugin'
 import { Db } from './Handler/Db'
 declare let __callHorseFunc: (arg: (msgName: string, ...otherParams) => void) => void
-export class Horse {
+class Horse {
   window = new Window()
   dialog = new Dialog()
   info = new Info()
@@ -30,6 +30,7 @@ export class Horse {
     } else {
       this.eventer.emitEvent(msgName, otherParams[0])
     }
+    console.log(1)
   }
   constructor() {
     __callHorseFunc((...args) => this.nativeCallBack(...args))
