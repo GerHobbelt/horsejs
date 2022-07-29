@@ -542,7 +542,6 @@ var Horse = class {
     } else {
       this.eventer.emitEvent(msgName, otherParams[0]);
     }
-    console.log(1);
   }
 };
 var horse = new Horse();
