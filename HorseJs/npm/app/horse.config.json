@@ -1,6 +1,6 @@
 {
   "appName": "HorseJs",
-  "startPath": "http://localhost:3000/?a=app/index.html",
+  "startPath": "app/index.html",
   "autoShowFirstWindow": true,
   "version": "0.0.1",
   "sizeConfig": {
