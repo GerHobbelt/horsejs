@@ -41,7 +41,7 @@ import { horse } from "horsejs.org";
 await horse.window.openDevTool();
 ```
 
-> HorseJs 的 npm 包并非原生模块，无需本地编译
+> HorseJs 的 npm 包并非原生模块，无需本地编译；支持 TypeScirpt 类型
 >
 > 你可以自由的使用 Vue、React、Angular 或者其他的现代前端框架构建你的前端项目
 
