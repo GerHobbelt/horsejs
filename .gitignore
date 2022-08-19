@@ -48,3 +48,7 @@
 HorseJs/npm/dist/horse.js
 HorseJs/npm/app/index.js
 HorseJs/npm/app/demo.js
+
+HorseJs/backend/node_modules/
+HorseJs/backend/debug/
+HorseJs/backend/release/

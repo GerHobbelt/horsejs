@@ -1,0 +1,18 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "debug": "node ./scripts/debug.js",
+    "release": "node ./scripts/release.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.14.49",
+    "koa": "^2.13.4",
+    "koa-static": "^5.0.0"
+  }
+}
