@@ -9,6 +9,6 @@ app.use((ctx) => {
 });
 let server = app.listen(0, "localhost");
 server.on("listening", () => {
-  let msg = { name: "backendPort", value: server.address().port, time: 0 };
+  let msg = { name: "backendPort", value: server.address().port.toString(), time: 0 };
   console.log(JSON.stringify(msg));
 });

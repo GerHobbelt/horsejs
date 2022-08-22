@@ -144,12 +144,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <CopyFileToFolders Include="config.json">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <FileType>Document</FileType>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </CopyFileToFolders>
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PageHandler.cpp" />
+    <ClCompile Include="ViewDelegate.cpp" />
     <ClCompile Include="WindowDelegate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="json\json.hpp" />
+    <ClInclude Include="PageHandler.h" />
+    <ClInclude Include="ViewDelegate.h" />
     <ClInclude Include="WindowDelegate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

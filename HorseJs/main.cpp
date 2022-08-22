@@ -3,10 +3,10 @@
 #include <iostream>
 #include "App.h"
 #include "json/json.hpp"
+#include "Config.h"
 namespace bp = boost::process;
 
 
-int backendPort = -1;
 
 /// <summary>
 /// 启动Node进程
@@ -20,16 +20,13 @@ void startNodeProcess() {
     bp::child c("D:\\sdk\\node\\Debug\\node.exe", "index.js", dir, g, bp::std_out > std_stream);
     std::string line;
     while (std_stream && std::getline(std_stream, line) && !line.empty()) {
-        // 最好把这玩意儿封装成一个对象
-        // 消费者可以向这个对象注册回调函数
-        // 回调函数被放置在这个对象一个map里面
-        // 收到的msg.name就是map里面的key
-        // 这样收到一个msg，就可以调用消费者注册来的回调函数了
-        // 而且msg的value可以作为参数传递给回调函数
+        // 只有这么一个数据时通过这种形式返回的，这个数据返回之后意味着Node的HTTP服务和WebSocket服务已经成功启动了
         nlohmann::json msg = nlohmann::json::parse(line);
         auto msgName = msg["name"].get<std::string>();
         if (msgName == "backendPort") {
-            backendPort = msg["value"].get<int>();
+            // 开发者可以指定端口，但如果开发者指定的端口被占用，那么还是会随机搞一个端口
+            Config::get()["backendPort"] = msg["name"];
+            break;
         }
     }
     //应用重启，或者重启Node进程
@@ -45,16 +42,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     if (exit_code >= 0) {
         return exit_code;
     }
-    std::thread th1;
-    th1 = std::thread(startNodeProcess);
-    while (backendPort == -1)
-    {
-        //wait
-    }
+    std::thread nodeThread = std::thread(startNodeProcess);
+    nodeThread.join();
     CefRefPtr<App> app(new App());
     CefInitialize(main_args, settings, app.get(), nullptr);
     CefRunMessageLoop();
-    th1.detach();
     CefShutdown();
     return 0;
 }

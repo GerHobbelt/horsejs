@@ -1,0 +1,9 @@
+{
+	"version": "0.0.1",
+	"productName": "HorseJs",
+	"productClass": "horsejs.com",
+	"clientUseStaticFileOrHttpService": "httpService",
+	"clientHttpService": "http://127.0.0.1:5173/",
+	"backendPort": "auto",
+	"framelessWindow": true
+}
