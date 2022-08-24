@@ -45,6 +45,9 @@
     <ClCompile Include="WebSocketClient.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="NodeProcess.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -75,6 +78,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="WebSocketClient.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeProcess.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

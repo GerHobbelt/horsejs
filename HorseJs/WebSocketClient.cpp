@@ -5,9 +5,6 @@ using websocketpp::lib::placeholders::_1;
 using websocketpp::lib::placeholders::_2;
 using websocketpp::lib::bind;
 
-WebSocketClient::WebSocketClient() {
-
-}
 void WebSocketClient::listen() {
     std::string uri = "ws://localhost:5916";
     client c;
@@ -32,15 +29,15 @@ void WebSocketClient::listen() {
     c.run();
 }
 void WebSocketClient::run() {
-    std::unique_lock<std::mutex> lck(mtx_syn);
+    std::unique_lock<std::mutex> lck(mtx);
     wsThread = new std::thread(&WebSocketClient::listen, this);
-    cv_syn.wait(lck);
+    cv.wait(lck);
 }
 void WebSocketClient::onMessage(client* c, websocketpp::connection_hdl hdl, message_ptr msg) {
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     std::wstring msgStr = converter.from_bytes(msg->get_payload());
     LOG(INFO) << "websocket msg" << msgStr;
-    cv_syn.notify_one();
+    cv.notify_one();
     websocketpp::lib::error_code ec;
     c->send(hdl, msg->get_payload(), msg->get_opcode(), ec);
     if (ec) {
