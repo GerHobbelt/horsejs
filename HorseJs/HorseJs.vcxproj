@@ -102,16 +102,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;_WIN32;UNICODE;_UNICODE;WINVER=0x0601;_WIN32_WINNT=0x601;NOMINMAX;WIN32_LEAN_AND_MEAN;_HAS_EXCEPTIONS=0;PSAPI_VERSION=1;CEF_USE_SANDBOX;CEF_USE_ATL;_HAS_ITERATOR_DEBUGGING=0;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;_WIN32;UNICODE;_UNICODE;WINVER=0x0601;_WIN32_WINNT=0x601;NOMINMAX;WIN32_LEAN_AND_MEAN;_HAS_EXCEPTIONS=0;PSAPI_VERSION=1;CEF_USE_SANDBOX;CEF_USE_ATL;_HAS_ITERATOR_DEBUGGING=0;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;_WEBSOCKETPP_CPP11_FUNCTIONAL_;_WEBSOCKETPP_CPP11_SYSTEM_ERROR_;_WEBSOCKETPP_CPP11_RANDOM_DEVICE_;_WEBSOCKETPP_CPP11_MEMORY_;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>D:\sdk\node\deps\uv\include;D:\sdk\node\deps\v8\include;C:\local\boost_1_80_0;D:\sdk\cef_binary_104.4.19;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\sdk\websocketpp;C:\local\boost_1_80_0;D:\sdk\cef_binary_104.4.19;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>comctl32.lib;gdi32.lib;rpcrt4.lib;shlwapi.lib;ws2_32.lib;Advapi32.lib;dbghelp.lib;Delayimp.lib;OleAut32.lib;PowrProf.lib;Propsys.lib;psapi.lib;D:\sdk\cef_binary_104.4.19\build\libcef_dll_wrapper\$(Configuration)\libcef_dll_wrapper.lib;D:\sdk\cef_binary_104.4.19\$(Configuration)\libcef.lib;D:\sdk\cef_binary_104.4.19\$(Configuration)\cef_sandbox.lib;boost_filesystem-vc143-mt-gd-x64-1_80.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;gdi32.lib;rpcrt4.lib;shlwapi.lib;ws2_32.lib;Advapi32.lib;dbghelp.lib;Delayimp.lib;OleAut32.lib;PowrProf.lib;Propsys.lib;psapi.lib;D:\sdk\cef_binary_104.4.19\build\libcef_dll_wrapper\$(Configuration)\libcef_dll_wrapper.lib;D:\sdk\cef_binary_104.4.19\$(Configuration)\libcef.lib;D:\sdk\cef_binary_104.4.19\$(Configuration)\cef_sandbox.lib;boost_filesystem-vc143-mt-gd-x64-1_80.lib;libboost_random-vc143-mt-gd-x64-1_80.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\local\boost_1_80_0\lib64-msvc-14.3;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
@@ -127,7 +127,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;_WIN32;UNICODE;_UNICODE;WINVER=0x0601;_WIN32_WINNT=0x601;NOMINMAX;WIN32_LEAN_AND_MEAN;_HAS_EXCEPTIONS=0;PSAPI_VERSION=1;CEF_USE_SANDBOX;CEF_USE_ATL;_HAS_ITERATOR_DEBUGGING=0;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>D:\sdk\node\deps\uv\include;D:\sdk\node\deps\v8\include;C:\local\boost_1_80_0;D:\sdk\cef_binary_104.4.19;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\sdk\websocketpp;C:\local\boost_1_80_0;D:\sdk\cef_binary_104.4.19;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -151,16 +151,24 @@
     </CopyFileToFolders>
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Other.cpp" />
     <ClCompile Include="PageHandler.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="V8Handler.cpp" />
     <ClCompile Include="ViewDelegate.cpp" />
+    <ClCompile Include="WebSocketClient.cpp" />
     <ClCompile Include="WindowDelegate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="json\json.hpp" />
+    <ClInclude Include="Other.h" />
     <ClInclude Include="PageHandler.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="V8Handler.h" />
     <ClInclude Include="ViewDelegate.h" />
+    <ClInclude Include="WebSocketClient.h" />
     <ClInclude Include="WindowDelegate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

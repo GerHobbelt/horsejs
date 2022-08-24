@@ -2,7 +2,7 @@ let esbuild = require("esbuild");
 esbuild
   .build({
     entryPoints: ["./src/index.ts"],
-    outfile: "./debug/index.js",
+    outfile: "../../x64/debug/backend/index.js",
     bundle: true,
     watch: true,
     platform: "node",
@@ -11,5 +11,5 @@ esbuild
     inject: ["./scripts/debug.env.js"],
   })
   .then((result) => {
-    require("../debug/index.js");
+    require("../../../x64/debug/backend/index.js");
   });

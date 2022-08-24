@@ -1,14 +1,5 @@
-import Koa from "koa";
-import serve from "koa-static";
-const app = new Koa();
-// process.env.envName
-// app.use(serve())
-// response
+import { horse } from "../../jslib/src/backend";
+let app = horse.init();
 app.use((ctx) => {
   ctx.body = "Hello Koa";
-});
-let server = app.listen(0, "localhost");
-server.on("listening", () => {
-  let msg = { name: "backendPort", value: server.address().port.toString(), time: 0 };
-  console.log(JSON.stringify(msg));
 });

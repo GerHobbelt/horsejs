@@ -29,5 +29,5 @@ bool WindowDelegate::IsFrameless(CefRefPtr<CefWindow> window) {
     if (isDevTool) {
         return false;
     }
-    return Config::get()["framelessWindow"].get<bool>();
+    return config["framelessWindow"].get<bool>();
 }

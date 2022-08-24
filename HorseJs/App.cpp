@@ -10,16 +10,15 @@
 //CEF主进程上下文环境初始化成功
 void App::OnContextInitialized() {
     CEF_REQUIRE_UI_THREAD();
-    auto configJson = Config::get();
-    auto clientUseStaticFileOrHttpService = configJson["clientUseStaticFileOrHttpService"].get<std::string>();
+    auto clientUseBackendServiceOrCustomService = config["clientUseBackendServiceOrCustomService"].get<std::string>();
     std::string url;
-    if (clientUseStaticFileOrHttpService == "httpService") {
-        url = configJson["clientHttpService"].get<std::string>();
+    if (clientUseBackendServiceOrCustomService == "customService") {
+        url = config["clientCustomService"].get<std::string>();
     }
     else
     {
-        url = "http://localhost:"+ configJson["backendPort"].get<std::string>();
-    }    
+        url = config["backendHttpService"].get<std::string>();
+    }
     CefBrowserSettings settings;
     CefRefPtr<PageHandler> pageHandler(new PageHandler());
     CefRefPtr<ViewDelegate> viewDelegate(new ViewDelegate());

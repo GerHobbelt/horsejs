@@ -24,13 +24,25 @@
     <ClCompile Include="WindowDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Config.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ViewDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PageHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Other.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="V8Handler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WebSocketClient.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -51,6 +63,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PageHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Other.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="V8Handler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WebSocketClient.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
