@@ -1,14 +1,19 @@
 class MessageChannel {
+  onWebSocketMessage(msg: string) {
+    console.log(msg);
+  }
   init() {
-    let ws = new WebSocket("ws://localhost:5916");
+    let url = new URL(location.href);
+    let wsAddress = url.searchParams.get("ws") as string;
+    url = new URL(wsAddress);
+    url.searchParams.set("client", "client");
+    let ws = new WebSocket(url.toString());
     ws.onopen = () => {
-      ws.send("something");
+      console.log("websocket connected", url.toString());
     };
-    ws.onmessage = (e) => {
-      console.log("received: %s", e.data);
-    };
+    ws.onmessage = (e) => this.onWebSocketMessage(e.data.toString());
     ws.onclose = () => {
-      console.log("closed");
+      console.log("websocket closed");
     };
   }
 }

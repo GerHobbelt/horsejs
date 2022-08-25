@@ -19,6 +19,12 @@ void App::OnContextInitialized() {
     {
         url = config["backendHttpServer"].get<std::string>();
     }
+    if (url.find("?") == std::string::npos) {
+        url += "?ws="+ config["backendWebSocketServer"].get<std::string>();
+    }
+    else {
+        url += "&ws="+ config["backendWebSocketServer"].get<std::string>();
+    }
     CefBrowserSettings settings;
     CefRefPtr<PageHandler> pageHandler(new PageHandler());
     CefRefPtr<ViewDelegate> viewDelegate(new ViewDelegate());

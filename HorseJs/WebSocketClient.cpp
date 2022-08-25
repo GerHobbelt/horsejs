@@ -5,7 +5,13 @@
 using websocketpp::lib::bind;
 
 void WebSocketClient::listen() {
-    std::string uri = config["backendWebSocketServer"].get<std::string>();    
+    std::string uri = config["backendWebSocketServer"].get<std::string>();
+    if (uri.find("?") == std::string::npos) {
+        uri += "?client=browser";
+    }
+    else {
+        uri += "&client=browser";
+    }
     //c.set_access_channels(websocketpp::log::alevel::all);
     //c.clear_access_channels(websocketpp::log::alevel::frame_payload);
     c.init_asio();
@@ -35,9 +41,9 @@ void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg
         //收到服务端发来的第一条消息后，主线程的阻塞才终止
         cv.notify_one();
     }
-    std::wstring testMsg = L"这是我的消息";
-    std::string narrow = converter.to_bytes(testMsg);
-    sendMessage(narrow);
+    //std::wstring testMsg = L"这是我的消息";
+    //std::string narrow = converter.to_bytes(testMsg);
+    //sendMessage(narrow);
     //todo 接下去就要路由消息到具体的业务处理单元了
     
 

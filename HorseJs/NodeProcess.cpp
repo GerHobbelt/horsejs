@@ -15,8 +15,8 @@ void NodeProcess::run() {
     auto cmd = nodePath.append("node\\horseNode.exe").wstring() + L" index.js " + std::to_wstring(port);
     auto workingDir = boost::process::start_dir(backendPath.append("backend").wstring());
     nodeProcess = new bp::child(cmd, workingDir);
-    config["backendHttpServer"] = "http://localhost:" + std::to_string(port);
-    config["backendWebSocketServer"] = "ws://localhost:" + std::to_string(port)+"/browser";
+    config["backendHttpServer"] = "http://localhost:" + std::to_string(port)+"/";
+    config["backendWebSocketServer"] = "ws://localhost:" + std::to_string(port)+"/";
 }
 fs::path NodeProcess::getExeDir() {
     //todo mac

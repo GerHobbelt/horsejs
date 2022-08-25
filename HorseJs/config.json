@@ -5,7 +5,7 @@
 	"clientUseBackendServerOrCustomServer": "customServer",
 	"clientCustomServer": "http://127.0.0.1:5173/",
 	"backendUseRemoteServerOrLocalServer": "remoteServer",
-	"backendHttpServer": "http://localhost:5916",
-	"backendWebSocketServer": "ws://localhost:5916/browser",
+	"backendHttpServer": "http://localhost:5916/",
+	"backendWebSocketServer": "ws://localhost:5916/",
 	"framelessWindow": true
 }

@@ -6,6 +6,7 @@ class MessageChannel {
   private browser: Browser;
   private client: Client;
   setChannel(ws: WebSocket, req: IncomingMessage) {
+    console.log("websocket connected:", req.url);
     if (req.url?.endsWith("browser")) {
       this.browser = new Browser(ws);
     } else {
