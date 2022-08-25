@@ -4,8 +4,8 @@
 	"productClass": "horsejs.com",
 	"clientUseBackendServerOrCustomServer": "backendServer",
 	"clientCustomServer": "http://127.0.0.1:5173/",
-	"backendUseRemoteServerOrLocalServer": "localServer",
+	"backendUseRemoteServerOrLocalServer": "remoteServer",
 	"backendHttpServer": "http://localhost:5916",
-	"backendWebSocketServer": "ws://localhost:5916",
+	"backendWebSocketServer": "ws://localhost:5916/browser",
 	"framelessWindow": true
 }

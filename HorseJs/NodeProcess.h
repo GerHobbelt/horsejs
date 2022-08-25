@@ -19,6 +19,6 @@ public:
 	void terminate();
 private:
 	fs::path getExeDir();
-	bp::child* nodeProcess;
+	bp::child* nodeProcess = nullptr;
 };
 

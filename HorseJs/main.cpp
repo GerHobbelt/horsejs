@@ -43,8 +43,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     CefSettings settings;
     CefInitialize(main_args, settings, app.get(), nullptr);
     CefRunMessageLoop();
-    nodeProcess.terminate();
     wsClient.terminate();
+    nodeProcess.terminate();
     CefShutdown();
     return 0;
 }

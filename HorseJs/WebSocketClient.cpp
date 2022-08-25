@@ -50,5 +50,7 @@ void WebSocketClient::sendMessage(std::string& message) {
     }
 }
 void WebSocketClient::terminate() {
-    wsThread->detach();
+    //关闭连接，等待线程退出
+    c.close(conn->get_handle(), 0, "app exit");
+    wsThread->join();
 }

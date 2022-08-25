@@ -1,3 +1,4 @@
+import { messageChannel } from "./backend/messageChannel";
 import http from "http";
 import serve from "koa-static";
 import path from "path";
@@ -5,9 +6,6 @@ import Koa from "koa";
 import { WebSocketServer } from "ws";
 import { AddressInfo } from "net";
 class Horse {
-  private onWebSocketMessage(msg) {
-    console.log("on websocket message: ", msg.toString("utf8"));
-  }
   private initStaticService(app: any) {
     let staticPath = path.join(__dirname, "../client");
     app.use(
@@ -27,10 +25,7 @@ class Horse {
       perMessageDeflate: { threshold: 1024 },
     });
 
-    wss.on("connection", (ws) => {
-      ws.send("hi");
-      ws.on("message", (message) => this.onWebSocketMessage(message));
-    });
+    wss.on("connection", (ws, req) => messageChannel.setChannel(ws, req));
 
     server.listen(port, "localhost");
     server.addListener("listening", () => {
