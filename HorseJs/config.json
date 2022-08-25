@@ -2,10 +2,10 @@
 	"version": "0.0.1",
 	"productName": "HorseJs",
 	"productClass": "horsejs.com",
-	"clientUseBackendServiceOrCustomService": "backendService",
-	"clientCustomService": "http://127.0.0.1:5173/",
-	"backendUseRemoteServerOrLocalServer": "LocalServer",
-	"backendHttpService": "http://localhost:5916",
-	"backendWebSocketService": "ws://localhost:5916",
+	"clientUseBackendServerOrCustomServer": "backendServer",
+	"clientCustomServer": "http://127.0.0.1:5173/",
+	"backendUseRemoteServerOrLocalServer": "localServer",
+	"backendHttpServer": "http://localhost:5916",
+	"backendWebSocketServer": "ws://localhost:5916",
 	"framelessWindow": true
 }

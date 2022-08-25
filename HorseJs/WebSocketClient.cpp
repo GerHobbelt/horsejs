@@ -1,46 +1,54 @@
 #include "WebSocketClient.h"
 #include "include/base/cef_logging.h"
+#include "Config.h"
 
-using websocketpp::lib::placeholders::_1;
-using websocketpp::lib::placeholders::_2;
 using websocketpp::lib::bind;
 
 void WebSocketClient::listen() {
-    std::string uri = "ws://localhost:5916";
-    client c;
+    std::string uri = config["backendWebSocketServer"].get<std::string>();    
     //c.set_access_channels(websocketpp::log::alevel::all);
     //c.clear_access_channels(websocketpp::log::alevel::frame_payload);
-    // Initialize ASIO
     c.init_asio();
-    // Register our message handler
-    c.set_message_handler(bind(&WebSocketClient::onMessage, this, &c, ::_1, ::_2));
+    c.set_message_handler(bind(&WebSocketClient::onMessage, this, websocketpp::lib::placeholders::_1, websocketpp::lib::placeholders::_2));
     websocketpp::lib::error_code ec;
-    client::connection_ptr con = c.get_connection(uri, ec);
+    conn = c.get_connection(uri, ec);
     if (ec) {
-        std::cout << "could not create connection because: " << ec.message() << std::endl;
+        LOG(0) << "websocket connect error" << ec.message();
         return;
     }
-    // Note that connect here only requests a connection. No network messages are
-    // exchanged until the event loop starts running in the next line.
-    c.connect(con);
-    // Start the ASIO io_service run loop
-    // this will cause a single connection to be made to the server. c.run()
-    // will exit when this connection is closed.
+    // 这里只是请求建立连接，服务端收不到任何消息
+    c.connect(conn);
+    // 这里是阻塞的，当连接断开后，阻塞终止
     c.run();
 }
 void WebSocketClient::run() {
     std::unique_lock<std::mutex> lck(mtx);
     wsThread = new std::thread(&WebSocketClient::listen, this);
+    //开始阻塞，只有收到第一条消息后，阻塞才终止
     cv.wait(lck);
 }
-void WebSocketClient::onMessage(client* c, websocketpp::connection_hdl hdl, message_ptr msg) {
+void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg) {
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     std::wstring msgStr = converter.from_bytes(msg->get_payload());
     LOG(INFO) << "websocket msg" << msgStr;
-    cv.notify_one();
+    if (msgStr == L"hi") {
+        //收到服务端发来的第一条消息后，主线程的阻塞才终止
+        cv.notify_one();
+    }
+    std::wstring testMsg = L"这是我的消息";
+    std::string narrow = converter.to_bytes(testMsg);
+    sendMessage(narrow);
+    //todo 接下去就要路由消息到具体的业务处理单元了
+    
+
+}
+void WebSocketClient::sendMessage(std::string& message) {
     websocketpp::lib::error_code ec;
-    c->send(hdl, msg->get_payload(), msg->get_opcode(), ec);
+    c.send(conn->get_handle(), message, websocketpp::frame::opcode::text, ec);
     if (ec) {
         std::cout << "Echo failed because: " << ec.message() << std::endl;
     }
+}
+void WebSocketClient::terminate() {
+    wsThread->detach();
 }

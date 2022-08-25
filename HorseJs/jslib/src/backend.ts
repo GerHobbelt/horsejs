@@ -5,6 +5,9 @@ import Koa from "koa";
 import { WebSocketServer } from "ws";
 import { AddressInfo } from "net";
 class Horse {
+  private onWebSocketMessage(msg) {
+    console.log("on websocket message: ", msg.toString("utf8"));
+  }
   private initStaticService(app: any) {
     let staticPath = path.join(__dirname, "../client");
     app.use(
@@ -18,20 +21,15 @@ class Horse {
   private initHttpAndWebSocketService(app: any) {
     let cmdPort = process.argv[2];
     let port = cmdPort ? parseInt(cmdPort) : 5916;
-    const server = http.createServer(app.callback());
-    const wss = new WebSocketServer({
+    let server = http.createServer(app.callback());
+    let wss = new WebSocketServer({
       server,
-      perMessageDeflate: {
-        threshold: 1024,
-      },
+      perMessageDeflate: { threshold: 1024 },
     });
 
     wss.on("connection", (ws) => {
-      console.log("ccc");
-      ws.on("message", (message) => {
-        console.log("received: %s", message);
-      });
-      ws.send("测试中文");
+      ws.send("hi");
+      ws.on("message", (message) => this.onWebSocketMessage(message));
     });
 
     server.listen(port, "localhost");

@@ -30,5 +30,8 @@ fs::path NodeProcess::getExeDir() {
     return exePath.remove_filename();
 }
 void NodeProcess::terminate() {
-    nodeProcess->terminate();
+    if (nodeProcess->running()) {
+        nodeProcess->terminate();
+    }
+    
 }
