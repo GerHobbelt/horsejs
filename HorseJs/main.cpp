@@ -15,21 +15,18 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     CefMainArgs main_args(hInstance);
     CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
     command_line->InitFromString(::GetCommandLineW());
-    //启动子进程
-    int exit_code = CefExecuteProcess(main_args, nullptr, nullptr);
-    if (exit_code >= 0) {
-        return exit_code;
-    }
     //为不同进程创建不同的处理对象
     CefRefPtr<CefApp> app;
     WebSocketClient wsClient;
     NodeProcess nodeProcess;
     if (!command_line->HasSwitch("type")) {
         Config::init();
+        //启动Node进程
         auto backendServerType = config["backendUseRemoteServerOrLocalServer"].get<std::string>();
-        if (backendServerType == "localServer") {
+        if (backendServerType == "localServer") {            
             nodeProcess.run();
         }
+        //启动websocket客户端
         wsClient.run();
         app = new App();
     }
@@ -38,6 +35,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     }
     else {
         app = new Other();
+    }
+    //启动子进程
+    int exit_code = CefExecuteProcess(main_args, app, nullptr);
+    if (exit_code >= 0) {
+        return exit_code;
     }
     //CEF消息循环
     CefSettings settings;

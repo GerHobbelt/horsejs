@@ -8,7 +8,6 @@ public:
 	Renderer(const Renderer&) = delete;
 	Renderer& operator=(const Renderer&) = delete;
 	CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override { return this; }
-	// 这个成员方法是public类型的
 	void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) override;
 	
 private:

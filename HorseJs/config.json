@@ -2,7 +2,7 @@
 	"version": "0.0.1",
 	"productName": "HorseJs",
 	"productClass": "horsejs.com",
-	"clientUseBackendServerOrCustomServer": "backendServer",
+	"clientUseBackendServerOrCustomServer": "customServer",
 	"clientCustomServer": "http://127.0.0.1:5173/",
 	"backendUseRemoteServerOrLocalServer": "remoteServer",
 	"backendHttpServer": "http://localhost:5916",

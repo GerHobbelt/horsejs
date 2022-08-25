@@ -1,7 +1,7 @@
 #pragma once
 #include "include/cef_app.h"
 #include <list>
-class PageHandler :public CefClient, public CefLifeSpanHandler, public CefJSDialogHandler
+class PageHandler :public CefClient, public CefLifeSpanHandler, public CefJSDialogHandler, public CefContextMenuHandler
 {
 public:
     PageHandler() = default;
@@ -11,6 +11,10 @@ public:
     void OnAfterCreated(CefRefPtr<CefBrowser> browser) override;
     //Ò³Ãæ¼´½«¹Ø±Õ
     void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
+
+    CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override { return this; }
+    virtual void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) override;
+    virtual bool OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, int command_id, EventFlags event_flags) override;
 
     CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() override { return this; }
     bool OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload, CefRefPtr<CefJSDialogCallback> callback) override;

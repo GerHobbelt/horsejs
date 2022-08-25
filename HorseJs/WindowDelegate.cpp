@@ -13,7 +13,6 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
 //窗口销毁成功
 void WindowDelegate::OnWindowDestroyed(CefRefPtr<CefWindow> window) {
     browserView = nullptr;
-    CefQuitMessageLoop();
 }
 //设置窗口位置和大小
 CefRect WindowDelegate::GetInitialBounds(CefRefPtr<CefWindow> window) {
@@ -30,4 +29,12 @@ bool WindowDelegate::IsFrameless(CefRefPtr<CefWindow> window) {
         return false;
     }
     return config["framelessWindow"].get<bool>();
+}
+bool WindowDelegate::CanClose(CefRefPtr<CefWindow> window) {
+    bool result = true;
+    CefRefPtr<CefBrowser> browser = browserView->GetBrowser();
+    if (browser) {
+        result = browser->GetHost()->TryCloseBrowser();
+    }
+    return result;
 }
