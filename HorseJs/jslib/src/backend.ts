@@ -1,3 +1,4 @@
+import { browserMessageChannel } from './backend/messageChannel/browserMessageChannel'
 import { WebSocket } from 'ws'
 import { IncomingMessage } from 'http'
 import http from 'http'
@@ -7,6 +8,7 @@ import Koa from 'koa'
 import { WebSocketServer } from 'ws'
 import { AddressInfo } from 'net'
 import { config } from './backend/config'
+import { Window } from './backend/controller/window'
 import { spawn } from 'child_process'
 import fs from 'fs'
 class Horse {
@@ -25,7 +27,7 @@ class Horse {
   onClientReady?: (webSocketClient: WebSocket, reqest: IncomingMessage) => void
 
   config = config
-
+  window: Window = new Window()
   private initStaticService(app: any) {
     let staticPath = path.join(__dirname, '../client')
     app.use(
@@ -45,6 +47,7 @@ class Horse {
 
     wss.on('connection', (ws, req) => {
       if (req.url?.endsWith('browser')) {
+        browserMessageChannel.init(ws)
         if (this.onBrowserReady) this.onBrowserReady(ws, req)
       } else {
         if (this.onClientReady) this.onClientReady(ws, req)

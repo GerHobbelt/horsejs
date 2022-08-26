@@ -5,5 +5,12 @@ horse.onServiceReady = (app) => {
     ctx.body = "Hello Koa";
   });
 };
-horse.onBrowserReady = () => {};
+horse.onBrowserReady = () => {
+  horse.window.createWindow({
+    with: 800,
+    height: 600,
+    x: 100,
+    y: 100,
+  });
+};
 horse.init(config);

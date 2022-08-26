@@ -146,6 +146,7 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MessageRouter.cpp" />
     <ClCompile Include="Other.cpp" />
     <ClCompile Include="PageHandler.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="json\json.hpp" />
+    <ClInclude Include="MessageRouter.h" />
     <ClInclude Include="Other.h" />
     <ClInclude Include="PageHandler.h" />
     <ClInclude Include="ReleaseCallback.h" />
