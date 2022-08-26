@@ -1,5 +1,7 @@
 #include "PageHandler.h"
 #include "include/wrapper/cef_helpers.h"
+#include "include/views/cef_browser_view.h"
+#include "include/views/cef_window.h"
 //页面创建成功
 void PageHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
     CEF_REQUIRE_UI_THREAD();
@@ -19,6 +21,17 @@ void PageHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
         CefQuitMessageLoop();
     }
 }
+
+void PageHandler::OnDraggableRegionsChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const std::vector<CefDraggableRegion>& regions)
+{
+    CefRefPtr<CefBrowserView> browser_view = CefBrowserView::GetForBrowser(browser);
+    if (browser_view)
+    {
+        CefRefPtr<CefWindow> window = browser_view->GetWindow();
+        if (window) window->SetDraggableRegions(regions);
+    }
+}
+
 bool PageHandler::OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload, CefRefPtr<CefJSDialogCallback> callback) {
     HWND hwnd = browser->GetHost()->GetWindowHandle();
     int msgboxID = MessageBox(hwnd, L"您编辑的内容尚未保存.\n确定要关闭窗口吗?", L"系统提示", MB_ICONEXCLAMATION | MB_OKCANCEL);
@@ -48,7 +61,7 @@ bool PageHandler::OnJSDialog(CefRefPtr<CefBrowser> browser,
         callback->Continue(msgboxID == IDYES, CefString());
     }
     else if (dialog_type == JSDialogType::JSDIALOGTYPE_PROMPT) {
-        //这部分逻辑稍后讲解
+        //todo
     }
     return true;
 }

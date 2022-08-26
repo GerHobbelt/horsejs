@@ -167,6 +167,7 @@
     <ClInclude Include="NodeProcess.h" />
     <ClInclude Include="Other.h" />
     <ClInclude Include="PageHandler.h" />
+    <ClInclude Include="ReleaseCallback.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="V8Handler.h" />
     <ClInclude Include="ViewDelegate.h" />

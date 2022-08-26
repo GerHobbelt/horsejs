@@ -2,6 +2,9 @@
 #include "include/cef_app.h"
 #include "include/views/cef_display.h"
 #include "Config.h"
+#include "include/views/cef_box_layout.h"
+#include "include/views/cef_fill_layout.h"
+#include "include/views/cef_layout.h"
 //窗口创建成功
 void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
     window->AddChildView(browserView);
