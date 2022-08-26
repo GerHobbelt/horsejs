@@ -154,6 +154,7 @@
     <ClCompile Include="ViewDelegate.cpp" />
     <ClCompile Include="WebSocketClient.cpp" />
     <ClCompile Include="WindowDelegate.cpp" />
+    <ClCompile Include="MessageProcessor\WindowProcessor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="ViewDelegate.h" />
     <ClInclude Include="WebSocketClient.h" />
     <ClInclude Include="WindowDelegate.h" />
+    <ClInclude Include="MessageProcessor\WindowProcessor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

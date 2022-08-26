@@ -48,6 +48,9 @@
     <ClCompile Include="MessageRouter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MessageProcessor\WindowProcessor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -84,6 +87,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MessageRouter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageProcessor\WindowProcessor.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
