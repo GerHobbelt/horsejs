@@ -5,7 +5,6 @@
 #include "Renderer.h"
 #include "Other.h"
 #include "WebSocketClient.h"
-#include "NodeProcess.h"
 
 //整个应用的入口函数
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)
@@ -18,19 +17,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     //为不同进程创建不同的处理对象
     CefRefPtr<CefApp> app;
     WebSocketClient wsClient;
-    NodeProcess nodeProcess;
     if (!command_line->HasSwitch("type")) {
         Config::init();
-        //启动Node进程
-        auto backendServerType = config["backendUseRemoteServerOrLocalServer"].get<std::string>();
-        if (backendServerType == "localServer") {            
-            nodeProcess.run();
-        }
+        if (command_line->HasSwitch("horse-port")) {
+            config["httpAndWebSocketServicePort"] = command_line->GetSwitchValue("horse-port").ToString();
+        }        
         //启动websocket客户端
         wsClient.run();
         app = new App();
     }
     else if (command_line->GetSwitchValue("type").ToString() == "renderer") {
+        //--renderer-startup-dialog
         app = new Renderer();
     }
     else {
@@ -46,7 +43,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     CefInitialize(main_args, settings, app.get(), nullptr);
     CefRunMessageLoop();
     wsClient.terminate();
-    nodeProcess.terminate();
     CefShutdown();
     return 0;
 }

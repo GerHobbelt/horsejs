@@ -5,13 +5,8 @@
 using websocketpp::lib::bind;
 
 void WebSocketClient::listen() {
-    std::string uri = config["backendWebSocketServer"].get<std::string>();
-    if (uri.find("?") == std::string::npos) {
-        uri += "?client=browser";
-    }
-    else {
-        uri += "&client=browser";
-    }
+    std::string port = config["httpAndWebSocketServicePort"].get<std::string>();
+    auto uri = "ws://localhost:" + port + "/?client=browser";
     //c.set_access_channels(websocketpp::log::alevel::all);
     //c.clear_access_channels(websocketpp::log::alevel::frame_payload);
     c.init_asio();
@@ -57,6 +52,10 @@ void WebSocketClient::sendMessage(std::string& message) {
 }
 void WebSocketClient::terminate() {
     //关闭连接，等待线程退出
-    c.close(conn->get_handle(), 0, "app exit");
-    wsThread->join();
+    if (c.is_listening()) {
+        c.close(conn->get_handle(), 0, "app exit");
+    }
+    if (wsThread != nullptr) {        
+        wsThread->join();
+    }
 }

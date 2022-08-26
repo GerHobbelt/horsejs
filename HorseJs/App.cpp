@@ -10,24 +10,24 @@
 //CEF主进程上下文环境初始化成功
 void App::OnContextInitialized() {
     CEF_REQUIRE_UI_THREAD();
-    auto clientUseBackendServiceOrCustomService = config["clientUseBackendServerOrCustomServer"].get<std::string>();
-    std::string url;
-    if (clientUseBackendServiceOrCustomService == "customServer") {
-        url = config["clientCustomServer"].get<std::string>();
-    }
-    else
-    {
-        url = config["backendHttpServer"].get<std::string>();
-    }
-    if (url.find("?") == std::string::npos) {
-        url += "?ws="+ config["backendWebSocketServer"].get<std::string>();
-    }
-    else {
-        url += "&ws="+ config["backendWebSocketServer"].get<std::string>();
-    }
-    CefBrowserSettings settings;
-    CefRefPtr<PageHandler> pageHandler(new PageHandler());
-    CefRefPtr<ViewDelegate> viewDelegate(new ViewDelegate());
-    CefRefPtr<CefBrowserView> browserView = CefBrowserView::CreateBrowserView(pageHandler, url, settings, nullptr, nullptr, viewDelegate);
-    CefWindow::CreateTopLevelWindow(new WindowDelegate(browserView,false));
+    //auto clientUseBackendServiceOrCustomService = config["clientUseBackendServerOrCustomServer"].get<std::string>();
+    //std::string url;
+    //if (clientUseBackendServiceOrCustomService == "customServer") {
+    //    url = config["clientCustomServer"].get<std::string>();
+    //}
+    //else
+    //{
+    //    url = config["backendHttpServer"].get<std::string>();
+    //}
+    //if (url.find("?") == std::string::npos) {
+    //    url += "?ws="+ config["backendWebSocketServer"].get<std::string>();
+    //}
+    //else {
+    //    url += "&ws="+ config["backendWebSocketServer"].get<std::string>();
+    //}
+    //CefBrowserSettings settings;
+    //CefRefPtr<PageHandler> pageHandler(new PageHandler());
+    //CefRefPtr<ViewDelegate> viewDelegate(new ViewDelegate());
+    //CefRefPtr<CefBrowserView> browserView = CefBrowserView::CreateBrowserView(pageHandler, url, settings, nullptr, nullptr, viewDelegate);
+    //CefWindow::CreateTopLevelWindow(new WindowDelegate(browserView,false));
 }

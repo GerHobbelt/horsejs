@@ -23,7 +23,7 @@ private:
     void listen();
     client c;
     client::connection_ptr conn;
-    std::thread* wsThread;
+    std::thread* wsThread = nullptr;
     std::mutex mtx;
     std::condition_variable cv;
 };
