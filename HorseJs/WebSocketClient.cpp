@@ -23,25 +23,18 @@ void WebSocketClient::listen() {
     c.run();
 }
 void WebSocketClient::run() {
-    std::unique_lock<std::mutex> lck(mtx);
     wsThread = new std::thread(&WebSocketClient::listen, this);
-    //开始阻塞，只有收到第一条消息后，阻塞才终止
-    cv.wait(lck);
 }
 void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg) {
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     std::wstring msgStr = converter.from_bytes(msg->get_payload());
     LOG(INFO) << "websocket msg" << msgStr;
-    if (msgStr == L"hi") {
-        //收到服务端发来的第一条消息后，主线程的阻塞才终止
-        cv.notify_one();
-    }
-    //std::wstring testMsg = L"这是我的消息";
-    //std::string narrow = converter.to_bytes(testMsg);
-    //sendMessage(narrow);
     //todo 接下去就要路由消息到具体的业务处理单元了
     
 
+    //std::wstring testMsg = L"这是我的消息";
+    //std::string narrow = converter.to_bytes(testMsg);
+    //sendMessage(narrow);
 }
 void WebSocketClient::sendMessage(std::string& message) {
     websocketpp::lib::error_code ec;

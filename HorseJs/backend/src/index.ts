@@ -5,4 +5,5 @@ horse.onServiceReady = (app) => {
     ctx.body = "Hello Koa";
   });
 };
+horse.onBrowserReady = () => {};
 horse.init(config);
