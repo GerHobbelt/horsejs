@@ -36,6 +36,13 @@ horse.path.dirname("/foo/bar/baz/asdf/quux");
 // 返回: '/foo/bar/baz/asdf'
 ```
 
+# 判断一个路径是否为目录
+
+```javascript
+let result = await horse.path.isFolder({ path: "c://a.zip" });
+console.log(result.data);
+```
+
 # 获取路径中的文件名
 
 获取路径的最后一部分，类似于 Unix basename 命令。 尾随的目录分隔符被忽略
@@ -71,4 +78,19 @@ horse.path.extname(".index");
 // 返回: ''
 horse.path.extname(".index.md");
 // 返回: '.md'
+```
+
+# 合并两个路径
+
+```js
+let result = horse.path.join(`C:\\Windows\\System32`, "..\\SysWOW64\\apds.dll");
+// 输出结果C:\Windows\SysWOW64\apds.dll
+```
+
+# 创建文件夹
+
+如果文件夹已经存在，则什么也不做，如果不存在，则创建文件夹
+
+```js
+let result = await horse.path.create({ path });
 ```

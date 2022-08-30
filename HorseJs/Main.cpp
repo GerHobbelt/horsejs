@@ -9,14 +9,14 @@
 #include "Scheme/SchemeHandlerFactory.h"
 #include "Browser/TheWxApp.h"
 #include "Browser/TopWindow.h"
-//#include "main_message_loop.h"
-//#include "main_message_loop_multithreaded_win.h"
 
 
 // --renderer-startup-dialog 
+// http://localhost:10086/json
+// devtools://devtools/bundled/inspector.html?ws=localhost:10086/devtools/page/3DEDA81C103D19CDDB8BCC7B53BBC563
 IMPLEMENT_APP_NO_MAIN(TheWxApp);
 IMPLEMENT_WX_THEME_SUPPORT;
-int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInstance, [[maybe_unused]] LPTSTR lpCmdLine, int nCmdShow)
+int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
     CefEnableHighDPISupport();
     CefMainArgs main_args(hInstance);
@@ -37,8 +37,6 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
     }
     int exit_code = CefExecuteProcess(main_args, app, nullptr);
     if (exit_code >= 0) return exit_code;
-    //std::unique_ptr<MainMessageLoop> message_loop;
-    //message_loop.reset(new MainMessageLoopMultithreadedWin);
     
     wxCmdLineArgType cmdLine = (char*)lpCmdLine;
     wxEntryStart(hInstance, hPrevInstance, cmdLine, nCmdShow);
@@ -47,14 +45,23 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
     //win->Show();
     CefSettings settings;
     settings.multi_threaded_message_loop = true;
+#if defined(_DEBUG)
+    settings.log_severity = cef_log_severity_t::LOGSEVERITY_INFO;
+    //settings.remote_debugging_port = 10086;
+#else
+    settings.log_severity = cef_log_severity_t::LOGSEVERITY_ERROR;  //LOGSEVERITY_ERROR
+    //settings.remote_debugging_port = 10086;
+#endif
+    
     CefInitialize(main_args, settings, app.get(), nullptr);
     CefRegisterSchemeHandlerFactory("http", "horse", new SchemeHandlerFactory());
     //int result = message_loop->Run();
     //CefRunMessageLoop();
     //CefDoMessageLoopWork();
+
     wxTheApp->OnRun();
+    CefShutdown();
     wxEntryCleanup();
-    CefShutdown();    
     return 0;
 }
 

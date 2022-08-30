@@ -1,43 +1,65 @@
 # 最大化当前窗口
 
 ```javascript
-horse.window.maximize();
+await horse.window.maximize();
 ```
 
 # 最小化当前窗口
 
 ```javascript
-horse.window.minimize();
+await horse.window.minimize();
 ```
 
 # 还原窗口
 
 ```javascript
-horse.window.restore();
+await horse.window.restore();
 ```
 
 # 关闭窗口
 
 ```javascript
-horse.window.close();
+await horse.window.close();
 ```
 
 # 隐藏窗口
 
 ```javascript
-horse.window.hide();
+await horse.window.hide();
 ```
 
 # 显示窗口
 
 ```javascript
-horse.window.show();
+await horse.window.show();
 ```
 
 # 改变窗口大小
 
 ```javascript
-horse.window.resize(width, height);
+await horse.window.resize({ width: 800, height: 600 });
+```
+
+# 移动窗口到屏幕中央
+
+```javascript
+await horse.window.center();
+```
+
+# 打开当前窗口的开发者调试工具
+
+多次调用并不会打开多个开发者调试工具
+
+```javascript
+let result = await horse.window.openDevTool();
+```
+
+# 关闭当前窗口的开发者调试工具
+
+即使从没打开过开发者调试工具，调用该方法也不会产生任何异常
+
+```javascript
+let result = await horse.window.openDevTool();
 ```
 
 # 窗口最大化事件

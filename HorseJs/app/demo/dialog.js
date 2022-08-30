@@ -2,31 +2,31 @@ export let processor = {
   openFile: async () => {
     let result = await horse.dialog.openFile({
       title: "test",
-      defaultFilePath: "C:\\AMD",
+      defaultPath: "C:\\Windows",
       multiSelections: false,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
-    demoLog(result);
+    console.log(result);
   },
   openMultiFile: async () => {
     let result = await horse.dialog.openFile({
       title: "test",
-      defaultFilePath: "C:\\AMD",
+      defaultPath: "C:\\Windows",
       multiSelections: true,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
-    demoLog(result);
+    console.log(result);
   },
   openFolder: async () => {
     let result = await horse.dialog.openFolder({
       title: "test",
-      defaultFilePath: "C:\\AMD",
+      defaultPath: "C:\\Windows",
       multiSelections: true,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
-    demoLog(result);
+    console.log(result);
   },
 };

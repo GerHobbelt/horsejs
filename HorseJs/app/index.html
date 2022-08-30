@@ -34,6 +34,9 @@
   </head>
   <body>
     <div class="titleBar">
+      <div class="titleLogo">
+        <img src="logo.png" />
+      </div>
       <div class="titleText">HorseJs</div>
       <div class="titleTool">
         <div class="iconfont horse-minimize"></div>
@@ -68,7 +71,6 @@
       };
       let setVersion = async () => {
         let data = await horse.info.getHorseInfo();
-        console.log(JSON.stringify(data));
         let versionNum = data.data.HorseJsVersion.join(".");
         document.querySelector(".version").innerHTML = `version：${versionNum}`;
       };

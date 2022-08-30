@@ -19,21 +19,19 @@ class Tray
 public:
     Tray() = delete;
 
-    static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message, Handler* instance)
+    static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
-        std::string message_name = message->GetName();
-        message_name.erase(0, message_name.find_first_of('_') + 1);
+        std::string msgName = message->GetName();
+        std::string filter = Helper::getFilter(message);
         json result;
         result["success"] = true;
-        CefRefPtr<CefListValue> args = message->GetArgumentList();
-        auto configStr = args->GetString(0).ToString();
-        json config = json::parse(configStr);
-        if (message_name._Starts_with("create"))
+        json configObj = Helper::getConfig(message);
+        if (filter == "create")
         {
-            auto iconPath = config["iconPath"].get<std::string>();
+            auto iconPath = configObj["iconPath"].get<std::string>();
             wxString tip = wxEmptyString;
-            if (!config["tip"].is_null()) {
-                std::string temp = config["tip"].get<std::string>();
+            if (!configObj["tip"].is_null()) {
+                std::string temp = configObj["tip"].get<std::string>();
                 tip = wxString::FromUTF8(temp);
             }
             Tray::taskBarIcon = new wxTaskBarIcon();
@@ -52,11 +50,11 @@ public:
             Tray::taskBarIcon->Bind(wxEVT_TASKBAR_RIGHT_DOWN, &onTrayEvent);
             Tray::taskBarIcon->Bind(wxEVT_TASKBAR_RIGHT_DCLICK, &onTrayEvent);
             Tray::taskBarIcon->Bind(wxEVT_TASKBAR_RIGHT_UP, &onTrayEvent);
-            if (!config["menu"].is_null()){
+            if (!configObj["menu"].is_null()){
                 Tray::menu = new wxMenu();
                 Tray::menu->SetClientObject(userData);
                 int menuId = 0;
-                for (auto& menuItem : config["menu"])
+                for (auto& menuItem : configObj["menu"])
                 {
                     auto name = menuItem["name"].get<std::string>();
                     Tray::menu->Append(menuId, wxString::FromUTF8(name));
@@ -65,11 +63,11 @@ public:
                 }
             }
         }
-        else if (message_name._Starts_with("resetIcon")) {
-            auto iconPath = config["iconPath"].get<std::string>();
+        else if (filter == "resetIcon") {
+            auto iconPath = configObj["iconPath"].get<std::string>();
             wxString tip = wxEmptyString;
-            if (!config["tip"].is_null()) {
-                std::string temp = config["tip"].get<std::string>();
+            if (!configObj["tip"].is_null()) {
+                std::string temp = configObj["tip"].get<std::string>();
                 tip = wxString::FromUTF8(temp);
             }
             wxIconLocation location;
@@ -77,7 +75,7 @@ public:
             wxIcon icon(location);
             Tray::taskBarIcon->SetIcon(icon, tip);
         }
-        else if (message_name._Starts_with("destroy")) {
+        else if (filter == "destroy") {
             if (Tray::menu != nullptr) {
                 delete Tray::menu;
                 Tray::menu = nullptr;

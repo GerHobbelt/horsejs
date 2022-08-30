@@ -28,6 +28,9 @@ export class Path extends Base {
   readDir(config: { path: string }) {
     return this.callHorse(this.readDir, config)
   }
+  create(config: { path: string }) {
+    return this.callHorse(this.create, config)
+  }
   dirName(path: string) {
     var result = this.splitPath(path),
       root = result[0],
@@ -52,6 +55,59 @@ export class Path extends Base {
   }
   getPath(config: { name }) {
     return this.callHorse(this.getPath, config)
+  }
+  isFolder(config: { path: string }) {
+    return this.callHorse(this.isFolder, config)
+  }
+
+  private normalizeArray(parts, allowAboveRoot) {
+    var res = []
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i]
+      // ignore empty parts
+      if (!p || p === '.') continue
+      if (p === '..') {
+        if (res.length && res[res.length - 1] !== '..') {
+          res.pop()
+        } else if (allowAboveRoot) {
+          res.push('..')
+        }
+      } else {
+        res.push(p)
+      }
+    }
+    return res
+  }
+  private normalizeUNCRoot(device: string) {
+    return '\\\\' + device.replace(/^[\\\/]+/, '').replace(/[\\\/]+/g, '\\')
+  }
+  private normalize(path: string) {
+    var result = this.win32StatPath(path),
+      device = result.device,
+      isUnc = result.isUnc,
+      isAbsolute = result.isAbsolute,
+      tail = result.tail,
+      trailingSlash = /[\\\/]$/.test(tail)
+    tail = this.normalizeArray(tail.split(/[\\\/]+/), !isAbsolute).join('\\')
+
+    if (!tail && !isAbsolute) {
+      tail = '.'
+    }
+    if (tail && trailingSlash) {
+      tail += '\\'
+    }
+    if (isUnc) {
+      device = this.normalizeUNCRoot(device)
+    }
+
+    return device + (isAbsolute ? '\\' : '') + tail
+  }
+  join(...args: [string]) {
+    var joined = args.join('\\')
+    if (!/^[\\\/]{2}[^\\\/]/.test(args[0])) {
+      joined = joined.replace(/^[\\\/]{2,}/, '\\')
+    }
+    return this.normalize(joined)
   }
 }
 // todo 目前只支持windows

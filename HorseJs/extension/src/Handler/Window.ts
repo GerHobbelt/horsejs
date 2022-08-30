@@ -60,6 +60,15 @@ export class Window extends Base {
   resize(config: { width; height }) {
     return this.callHorse(this.resize, config)
   }
+  center() {
+    return this.callHorse(this.center, {})
+  }
+  openDevTool() {
+    return this.callHorse(this.openDevTool, {})
+  }
+  closeDevTool() {
+    return this.callHorse(this.closeDevTool, {})
+  }
   constructor() {
     super()
     this.processMaximizeEvent()

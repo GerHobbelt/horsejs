@@ -14,17 +14,23 @@ class Handler :
     public CefLifeSpanHandler,
     public CefLoadHandler,
     public CefDragHandler,
+    public CefJSDialogHandler,
     public CefContextMenuHandler
 {
 public:
     explicit Handler();
     ~Handler();
     static Handler* GetInstance();
-    json menuData;
+
+    //json menuData;
     //CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override { return this; }
     //virtual void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) override;
     //virtual bool OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, int command_id, EventFlags event_flags) override;
     //virtual void OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) override;
+
+
+    virtual CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() override { return this; }
+    virtual bool OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, JSDialogType dialog_type, const CefString& message_text, const CefString& default_prompt_text, CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message) override;
 
     CefRefPtr<CefDragHandler> GetDragHandler() override { return this; }
     virtual bool OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, CefDragHandler::DragOperationsMask mask) override;
@@ -57,10 +63,10 @@ public:
     std::set<CefMessageRouterBrowserSide::Handler*> message_handler_set_;
 private:
     const bool use_views_;
+    wxTextEntryDialog* dlg;
     typedef std::list<CefRefPtr<CefBrowser>> BrowserList;
     BrowserList browser_list_;
     bool is_closing_;
-    void notifyClick(wxCommandEvent& event);
     IMPLEMENT_REFCOUNTING(Handler);
 };
 
