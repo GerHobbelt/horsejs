@@ -11,6 +11,10 @@
 #include "include/wrapper/cef_helpers.h"
 #include "MsgHandler/Window.h"
 #include "MsgHandler/Dialog.h"
+#include "MsgHandler/Shell.h"
+#include "MsgHandler/Info.h"
+#include "MsgHandler/Clipboard.h"
+#include "MsgHandler/File.h"
 
 namespace {
     Handler* g_instance = nullptr;
@@ -20,6 +24,8 @@ namespace {
     }
 }
 
+
+
 Handler::Handler() : use_views_(true), is_closing_(false) {
     DCHECK(!g_instance);
     g_instance = this;
@@ -27,6 +33,30 @@ Handler::Handler() : use_views_(true), is_closing_(false) {
 
 Handler::~Handler() {
     g_instance = nullptr;
+}
+
+bool Handler::OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& target_url, const CefString& target_frame_name,
+    WindowOpenDisposition target_disposition,
+    bool user_gesture,
+    const CefPopupFeatures& popupFeatures,
+    CefWindowInfo& windowInfo,
+    CefRefPtr<CefClient>& client,
+    CefBrowserSettings& settings,
+    CefRefPtr<CefDictionaryValue>& extra_info,
+    bool* no_javascript_access)
+{
+    //MainContext::Get()->GetRootWindowManager()->CreateRootWindowAsPopup(!is_devtools, is_osr(), popupFeatures, windowInfo, client, settings);
+    //switch (target_disposition)
+    //{
+    //case WOD_NEW_FOREGROUND_TAB:
+    //case WOD_NEW_BACKGROUND_TAB:
+    //case WOD_NEW_POPUP:
+    //case WOD_NEW_WINDOW:
+    //    browser->GetMainFrame()->LoadURL(target_url);
+    //    return true; //Í£Ö¹´´½¨
+    //}
+
+    return false;
 }
 // static
 Handler* Handler::GetInstance() {
@@ -101,7 +131,7 @@ void Handler::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> fra
 }
 void Handler::CloseAllBrowsers(bool force_close) {
     if (!CefCurrentlyOn(TID_UI)) {
-        CefPostTask(TID_UI, base::Bind(&Handler::CloseAllBrowsers, this, force_close));
+        //CefPostTask(TID_UI, base::Bind(&Handler::CloseAllBrowsers, this, force_close));
         return;
     }
     if (browser_list_.empty())
@@ -114,6 +144,11 @@ bool Handler::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> 
 {
     CEF_REQUIRE_UI_THREAD();
     return false;
+}
+
+void Handler::OnStatusMessage(CefRefPtr<CefBrowser> browser, const CefString& value)
+{
+    return;
 }
 void Handler::OnDraggableRegionsChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const std::vector<CefDraggableRegion>& regions)
 {
@@ -136,13 +171,29 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
 {
     CEF_REQUIRE_UI_THREAD();
     std::string message_name = message->GetName();
-    if (message_name._Starts_with("window"))
+    if (message_name._Starts_with("Window"))
     {
         return Window::ProcessMsg(browser, frame, source_process, message);
     }
-    else if(message_name._Starts_with("dialog"))
+    else if(message_name._Starts_with("Dialog"))
     {
         return Dialog::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("Shell"))
+    {
+        return Shell::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("Info"))
+    {
+        return Info::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("Clipboard"))
+    {
+        return Clipboard::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("File"))
+    {
+        return File::ProcessMsg(browser, frame, source_process, message);
     }
     return false;
 }

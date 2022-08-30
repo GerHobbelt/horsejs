@@ -2,47 +2,36 @@
 #include "include/wrapper/cef_message_router.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
+#include "DialogCallback.h"
+#include "../../Common/json.hpp"
+using nlohmann::json;
 class Dialog
 {
 public:
     Dialog() = delete;
     static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
-        CefRefPtr<CefBrowserView> browser_view = CefBrowserView::GetForBrowser(browser);
-        if (!browser_view) return false;
-        CefRefPtr<CefWindow> window = browser_view->GetWindow();
-        if (!window) return false;
         std::string message_name = message->GetName();
         message_name.erase(0, message_name.find_first_of('_') + 1);
-        if (message_name == "maximize")
+        CefRefPtr<CefListValue> args = message->GetArgumentList();
+        auto configStr = args->GetString(0).ToString();
+        auto config = json::parse(configStr);
+        std::vector<CefString> filter;
+        for (const std::string & var : config["filters"])
         {
-            window->Maximize();            
+            filter.push_back(var);
         }
-        else if (message_name == "minimize")
+        CefRefPtr<CefRunFileDialogCallback> dcb = new DialogCallback(message, frame);
+        CefBrowserHost::FileDialogMode mode;
+        if (message_name._Starts_with("openFile"))
         {
-            window->Minimize();
+            mode = config["multiSelections"].get<bool>() ? FILE_DIALOG_OPEN_MULTIPLE : FILE_DIALOG_OPEN;            
+            browser->GetHost()->RunFileDialog(mode, config["title"].get<std::string>(), config["defaultFilePath"].get<std::string>(),filter, args->GetInt(3), dcb);
         }
-        else if (message_name == "restore")
+        else if (message_name._Starts_with("openFolder"))
         {
-            window->Restore();
-        }
-        else if (message_name == "close")
-        {
-            window->Close();
-        }
-        else if (message_name == "hide")
-        {
-            window->Hide();
-        }
-        else if (message_name == "show")
-        {
-            window->Show();
-        }
-        else if (message_name == "resize")
-        {
-            CefRefPtr<CefListValue> args = message->GetArgumentList();
-            CefSize size(args->GetInt(0), args->GetInt(1));
-            window->SetSize(size);
+            mode = FILE_DIALOG_OPEN_FOLDER;
+            browser->GetHost()->RunFileDialog(mode, config["title"].get<std::string>(), config["defaultFilePath"].get<std::string>(), filter, args->GetInt(3), dcb);
         }
         return true;
     }

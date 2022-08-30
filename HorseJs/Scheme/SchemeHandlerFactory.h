@@ -8,17 +8,54 @@
 #include "include/cef_response.h"
 #include "include/cef_scheme.h"
 #include "include/wrapper/cef_helpers.h"
-#include "SchemeHandler.h"
+#include "include/wrapper/cef_stream_resource_handler.h"
+#include <fstream>
+#include <filesystem>
+#include <iostream>
 
 class SchemeHandlerFactory :
     public CefSchemeHandlerFactory
 {
 public:
     SchemeHandlerFactory() = default;
-    CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request) OVERRIDE
+    CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request) override
     {
         CEF_REQUIRE_IO_THREAD();
-        return new SchemeHandler();
+        //return new SchemeHandler();
+        std::string url = request->GetURL();
+        url.erase(0, 13); //移除：http://horse/
+        std::filesystem::path targetPath = std::filesystem::current_path();
+        targetPath.append(url);
+        if (!std::filesystem::exists(targetPath)) {
+            std::cout << "试图加载" << targetPath << "，但找不到这个文件";
+        }
+        auto ext = targetPath.extension().generic_string();
+        std::string mime_type_;
+        if (ext == ".html") {
+            mime_type_ = "text/html";
+        }
+        else if (ext == ".js")
+        {
+            mime_type_ = "text/javascript";
+        }
+        else if (ext == ".css")
+        {
+            mime_type_ = "text/css";
+        }
+        else if (ext == ".json")
+        {
+            mime_type_ = "application/json";
+        }
+        else if (ext == ".svg")
+        {
+            mime_type_ = "image/svg+xml";
+        }
+        else
+        {
+            mime_type_ = "application/*";
+        }
+        auto stream = CefStreamReader::CreateForFile(targetPath.generic_string());
+        return new CefStreamResourceHandler(mime_type_, stream);
     };
     IMPLEMENT_REFCOUNTING(SchemeHandlerFactory);
     DISALLOW_COPY_AND_ASSIGN(SchemeHandlerFactory);

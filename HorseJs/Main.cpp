@@ -1,14 +1,15 @@
 #include <windows.h>
+#include <wx/wx.h>
 #include "include/cef_app.h"
-#include "include/base/cef_scoped_ptr.h"
+#include "include/base/cef_scoped_refptr.h"
 #include "include/cef_command_line.h"
-#include "Main/Browser.h"
-#include "Main/Other.h"
-#include "Main/Renderer.h"
+#include "Browser/Browser.h"
+#include "Other/Other.h"
+#include "Renderer/Renderer.h"
 #include "Scheme/SchemeHandlerFactory.h"
-#include "Common/json.hpp"
 
 
+// --renderer-startup-dialog 
 int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInstance, [[maybe_unused]] LPTSTR lpCmdLine, int nCmdShow)
 {
     CefEnableHighDPISupport();
@@ -36,11 +37,16 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
         settings.chrome_runtime = true;
     }
     CefInitialize(main_args, settings, app.get(), nullptr);
-    CefRegisterSchemeHandlerFactory("horse", "app", new SchemeHandlerFactory());
+    CefRegisterSchemeHandlerFactory("http", "horse", new SchemeHandlerFactory());
+    wxCmdLineArgType cmdLine = (char*)lpCmdLine;
+    wxEntryStart(hInstance, hPrevInstance, cmdLine, nCmdShow);
     CefRunMessageLoop();
     CefShutdown();
+    wxEntryCleanup();
     return 0;
 }
+
+
 
 /*
 * 
@@ -70,3 +76,6 @@ MAC下使用CEF的办法
 > appDir：你的静态文件的目录，必须为相对路径，也就是说你的 HTML/CSS/JS 等文件必须放置在 yourAppName 子目录内，该子目录下必须包含一个 index.html 的文件，HorseJs 加载的第一个页面就是它；
 
 */
+
+
+ 
