@@ -46,10 +46,10 @@ export let demo = {
       logDom.classList.add("logDom");
       let outPut = "";
       info.forEach((element) => {
-        if (outPut.length > 0) outPut += "<br />";
+        if (outPut.length > 0) outPut += "&nbsp;&nbsp;";
         outPut += JSON.stringify(element, 4);
       });
-      logDom.innerText = outPut;
+      logDom.innerHTML = outPut;
       $(".console").appendChild(logDom);
       logDom.scrollIntoView();
     };

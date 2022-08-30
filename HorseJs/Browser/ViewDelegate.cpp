@@ -1,6 +1,6 @@
 #include "ViewDelegate.h"
-bool ViewDelegate::OnPopupBrowserViewCreated(CefRefPtr<CefBrowserView> browser_view, CefRefPtr<CefBrowserView> popup_browser_view, bool is_devtools)
+bool ViewDelegate::OnPopupBrowserViewCreated(CefRefPtr<CefBrowserView> browserView, CefRefPtr<CefBrowserView> popupBrowserView, bool isDevtools)
 {
-    CefWindow::CreateTopLevelWindow(new WindowDelegate(popup_browser_view));
+    CefWindow::CreateTopLevelWindow(new WindowDelegate(popupBrowserView, isDevtools));
     return true;
 }

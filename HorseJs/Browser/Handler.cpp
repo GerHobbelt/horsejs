@@ -212,11 +212,11 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     }
     else if (message_name._Starts_with("Menu"))
     {        
-        return Menu::ProcessMsg(browser, frame, source_process, message,this);
+        return Menu::ProcessMsg(browser, frame, source_process, message);
     }
     else if (message_name._Starts_with("Tray"))
     {
-        return Tray::ProcessMsg(browser, frame, source_process, message, this);
+        return Tray::ProcessMsg(browser, frame, source_process, message);
     }
     return false;
 }

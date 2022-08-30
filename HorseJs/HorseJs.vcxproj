@@ -180,7 +180,6 @@
     <ClCompile Include="Browser\WindowDelegate.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
-    <ClCompile Include="util_win.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Browser\Browser.h" />
@@ -190,6 +189,7 @@
     <ClInclude Include="Browser\MsgHandler\Dialog.h" />
     <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
     <ClInclude Include="Browser\MsgHandler\File.h" />
+    <ClInclude Include="Browser\MsgHandler\Helper.h" />
     <ClInclude Include="Browser\MsgHandler\Info.h" />
     <ClInclude Include="Browser\MsgHandler\Menu.h" />
     <ClInclude Include="Browser\MsgHandler\Path.h" />
@@ -208,7 +208,6 @@
     <ClInclude Include="Renderer\V8Handler.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
-    <ClInclude Include="util_win.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
@@ -370,7 +369,7 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Resource\icon.ico">
-      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>

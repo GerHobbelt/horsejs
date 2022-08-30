@@ -10,7 +10,7 @@
 #include <wx/msw/registry.h>
 #include <wx/stdpaths.h>
 #include <wx/notifmsg.h>
-
+#include "Helper.h"
 #include "../../Common/json.hpp"
 #include "../../Common/Config.h"
 #include "ClientData.h"
@@ -21,14 +21,12 @@ public:
     System() = delete;
     static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
-        std::string message_name = message->GetName();
-        message_name.erase(0, message_name.find_first_of('_') + 1);
+        std::string msgName = message->GetName();
+        std::string filter = Helper::getFilter(message);
         json result;
         result["success"] = true;
-        CefRefPtr<CefListValue> args = message->GetArgumentList();
-        auto configStr = args->GetString(0).ToString();
-        auto configObj = json::parse(configStr);
-        if (message_name._Starts_with("autoStart"))
+        json configObj = Helper::getConfig(message);
+        if (filter == "autoStart")
         {
 #if defined(OS_WIN)
             wxRegKey regKey(wxRegKey::HKCU, "Software\\Microsoft\\Windows\\CurrentVersion\\Run");
@@ -44,7 +42,7 @@ public:
             }
 #endif
         }
-        else if (message_name._Starts_with("protocolClient"))
+        else if (filter == "protocolClient")
         {
 #if defined(OS_WIN)
             auto setOrRemove = configObj["setOrRemove"].get<std::string>();
@@ -66,7 +64,7 @@ public:
             }
 #endif
         }
-        else if (message_name._Starts_with("notify"))
+        else if (filter == "notify")
         {
             auto title = configObj["title"].get<std::string>();
             auto body = configObj["body"].get<std::string>();
@@ -78,16 +76,12 @@ public:
             notification->Bind(wxEVT_NOTIFICATION_MESSAGE_DISMISSED, &System::notifyClick, -1, -1, clientData);   //显示之前也会触发这个事件，奇怪
             notification->Show();
         }
-        if (message_name._Starts_with("openExternal"))
+        else if (filter == "openExternal")
         {
             std::string targetTemp = configObj["target"].get<std::string>();
             wxLaunchDefaultApplication(wxString::FromUTF8(targetTemp));
         }
-        CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(message->GetName());
-        CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
-        msgArgs->SetSize(1);
-        msgArgs->SetString(0, result.dump());
-        frame->SendProcessMessage(PID_RENDERER, msg);
+        Helper::SendMsg(frame, msgName, result);
         return true;
     };
     static void notifyClick(wxCommandEvent& event) {
@@ -96,9 +90,7 @@ public:
         if (!obj->isUsed && type == wxEVT_NOTIFICATION_MESSAGE_DISMISSED) {
             obj->isUsed = true;
             return;
-        }     
-        CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(obj->msgName);
-        CefRefPtr<CefListValue> msgArgs = msg->GetArgumentList();
+        }
         json result;
         if (type == wxEVT_NOTIFICATION_MESSAGE_CLICK) {
             result["type"] = "click";
@@ -106,8 +98,6 @@ public:
         else if (type == wxEVT_NOTIFICATION_MESSAGE_DISMISSED) {
             result["type"] = "dismiss";
         }
-        msgArgs->SetSize(1);
-        msgArgs->SetString(0, result.dump());
-        obj->frame->SendProcessMessage(PID_RENDERER, msg);
+        Helper::SendMsg(obj->frame, obj->msgName, result);
     };
 };

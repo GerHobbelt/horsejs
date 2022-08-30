@@ -7,6 +7,7 @@ class Renderer :
 {
 public:
     Renderer();
+    ~Renderer();
     CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override { return this; }
     void OnWebKitInitialized() override;
     void OnBrowserDestroyed(CefRefPtr<CefBrowser> browser) override;
@@ -16,5 +17,10 @@ public:
 private:
     IMPLEMENT_REFCOUNTING(Renderer);
     DISALLOW_COPY_AND_ASSIGN(Renderer);
-    CefRefPtr<CefV8Handler> v8Handler;
+    V8Handler* v8Handler;
+};
+class ReleaseCallback : public CefV8ArrayBufferReleaseCallback {
+public:
+    void ReleaseBuffer(void* buffer) override { std::free(buffer); }
+    IMPLEMENT_REFCOUNTING(ReleaseCallback);
 };

@@ -2,10 +2,10 @@ export let processor = {
   readDir: async () => {
     let folderResult = await horse.dialog.openFolder({
       title: "请你先选择一个目录~~~",
-      defaultFilePath: "C:\\",
+      defaultPath: "C:\\",
       multiSelections: false,
       filters: ["*"],
-      lastFilterIndex: 0,
+      filterIndex: 0,
     });
     let result = await horse.path.readDir({ path: folderResult.data[0] });
     demoLog(result);

@@ -44,6 +44,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .demoBtn {
   display: inline-block;
@@ -105,6 +106,7 @@
   flex: 1;
   overflow-y: auto;
   padding-bottom: 68px;
+  overflow-x: hidden;
 }
 .logDom {
   font-size: 12px;
