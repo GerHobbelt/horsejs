@@ -136,6 +136,7 @@
     </ProjectReference>
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)Resource/cef.manifest</AdditionalManifestFiles>
+      <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
     <PreBuildEvent>
       <Command>node $(projectDir)extension\src\cli.js</Command>
@@ -168,23 +169,36 @@
     <Manifest>
       <AdditionalManifestFiles>$(ProjectDir)Resource\cef.manifest</AdditionalManifestFiles>
     </Manifest>
+    <PreBuildEvent>
+      <Command>node $(projectDir)extension\src\cli.js --minify</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Browser\Browser.cpp" />
     <ClCompile Include="Browser\Handler.cpp" />
+    <ClCompile Include="Browser\ViewDelegate.cpp" />
+    <ClCompile Include="Browser\WindowDelegate.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="util_win.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Browser\Browser.h" />
     <ClInclude Include="Browser\Handler.h" />
+    <ClInclude Include="Browser\MsgHandler\ClientData.h" />
     <ClInclude Include="Browser\MsgHandler\Clipboard.h" />
     <ClInclude Include="Browser\MsgHandler\Dialog.h" />
     <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
     <ClInclude Include="Browser\MsgHandler\File.h" />
     <ClInclude Include="Browser\MsgHandler\Info.h" />
-    <ClInclude Include="Browser\MsgHandler\Shell.h" />
+    <ClInclude Include="Browser\MsgHandler\Menu.h" />
+    <ClInclude Include="Browser\MsgHandler\Path.h" />
+    <ClInclude Include="Browser\MsgHandler\System.h" />
+    <ClInclude Include="Browser\MsgHandler\Tray.h" />
     <ClInclude Include="Browser\MsgHandler\Window.h" />
+    <ClInclude Include="Browser\NativeWindow.h" />
+    <ClInclude Include="Browser\TheWxApp.h" />
+    <ClInclude Include="Browser\TopWindow.h" />
     <ClInclude Include="Browser\ViewDelegate.h" />
     <ClInclude Include="Browser\WindowDelegate.h" />
     <ClInclude Include="Common\Config.h" />
@@ -194,6 +208,7 @@
     <ClInclude Include="Renderer\V8Handler.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
+    <ClInclude Include="util_win.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
@@ -330,9 +345,37 @@
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app</DestinationFolders>
     </CopyFileToFolders>
+    <CopyFileToFolders Include="app\demo\path.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\demo\system.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\demo\menu.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Common\DefaultConfig.json">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\demo\tray.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="Resource\cef.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="Resource\icon.ico">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\demo</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+    <CopyFileToFolders Include="Resource\icon2.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

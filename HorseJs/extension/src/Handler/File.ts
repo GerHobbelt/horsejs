@@ -2,9 +2,7 @@ import { eventer } from '../eventer'
 import { Base } from './Base'
 
 export class File extends Base {
-  readDir(config: { path: string }) {
-    return this.callHorse(this.readDir, config)
-  }
+  className = 'File'
   isFolder(config: { path: string }) {
     return this.callHorse(this.isFolder, config)
   }
@@ -19,6 +17,7 @@ export class File extends Base {
     return new Promise((resolve, reject) => {
       let msgName = this.createMsgName(this.readFile)
       eventer.addEventListener(msgName, (result) => {
+        //这个事件不会被清除
         if (result.success) {
           config.onData(result.data)
         } else {

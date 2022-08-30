@@ -2,7 +2,9 @@
 #include "include/cef_app.h"
 class Browser :
     public CefApp, 
-    public CefBrowserProcessHandler {
+    public CefBrowserProcessHandler,
+    public CefContextMenuHandler
+{
 public:
     Browser() = default;
     virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override { return this; }

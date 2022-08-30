@@ -4,6 +4,7 @@ import { WindowConfig } from './WindowConfig'
 import { Base } from './Base'
 declare type eventType = 'maximize' | 'unMaximize' | 'show' | 'hide'
 export class Window extends Base {
+  className = 'Window'
   isMaximized = false
   private processMaximizeEvent() {
     this.isMaximized = this.getIsMaximized()

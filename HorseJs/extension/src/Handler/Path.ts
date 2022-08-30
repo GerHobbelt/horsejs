@@ -1,4 +1,7 @@
-export class Path {
+import { Base } from './Base'
+
+export class Path extends Base {
+  className = 'Path'
   private splitDeviceRe = /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?([\\\/])?([\s\S]*?)$/
   private splitTailRe = /^([\s\S]*?)((?:\.{1,2}|[^\\\/]+?|)(\.[^.\/\\]*|))(?:[\\\/]*)$/
   private splitPath(fileName: string) {
@@ -22,6 +25,9 @@ export class Path {
       tail: result[3],
     }
   }
+  readDir(config: { path: string }) {
+    return this.callHorse(this.readDir, config)
+  }
   dirName(path: string) {
     var result = this.splitPath(path),
       root = result[0],
@@ -44,7 +50,9 @@ export class Path {
   extName(path: string) {
     return this.splitPath(path)[3]
   }
-  resolve(path: string) {}
+  getPath(config: { name }) {
+    return this.callHorse(this.getPath, config)
+  }
 }
 // todo 目前只支持windows
 // https://github.com/jinder/path/blob/master/path.js

@@ -11,10 +11,13 @@
 #include "include/wrapper/cef_helpers.h"
 #include "MsgHandler/Window.h"
 #include "MsgHandler/Dialog.h"
-#include "MsgHandler/Shell.h"
 #include "MsgHandler/Info.h"
 #include "MsgHandler/Clipboard.h"
 #include "MsgHandler/File.h"
+#include "MsgHandler/Path.h"
+#include "MsgHandler/System.h"
+#include "MsgHandler/Menu.h"
+#include "MsgHandler/Tray.h"
 
 namespace {
     Handler* g_instance = nullptr;
@@ -45,17 +48,6 @@ bool Handler::OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> f
     CefRefPtr<CefDictionaryValue>& extra_info,
     bool* no_javascript_access)
 {
-    //MainContext::Get()->GetRootWindowManager()->CreateRootWindowAsPopup(!is_devtools, is_osr(), popupFeatures, windowInfo, client, settings);
-    //switch (target_disposition)
-    //{
-    //case WOD_NEW_FOREGROUND_TAB:
-    //case WOD_NEW_BACKGROUND_TAB:
-    //case WOD_NEW_POPUP:
-    //case WOD_NEW_WINDOW:
-    //    browser->GetMainFrame()->LoadURL(target_url);
-    //    return true; //停止创建
-    //}
-
     return false;
 }
 // static
@@ -76,12 +68,7 @@ void Handler::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& titl
 
 void Handler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
     CEF_REQUIRE_UI_THREAD();
-    browser_list_.push_back(browser);
-    //if (!message_router_) {
-    //    CefMessageRouterConfig config;
-    //    message_router_ = CefMessageRouterBrowserSide::Create(config);
-    //    message_router_->AddHandler(*(it), false);
-    //}
+    browser_list_.push_back(browser);    
 }
 
 bool Handler::DoClose(CefRefPtr<CefBrowser> browser) {
@@ -95,23 +82,18 @@ bool Handler::DoClose(CefRefPtr<CefBrowser> browser) {
 
 void Handler::OnBeforeClose(CefRefPtr<CefBrowser> browser) 
 {
-    CEF_REQUIRE_UI_THREAD();
+    CEF_REQUIRE_UI_THREAD();    
     BrowserList::iterator bit = browser_list_.begin();
     for (; bit != browser_list_.end(); ++bit) {
         if ((*bit)->IsSame(browser)) {
-            browser_list_.erase(bit);
+            browser_list_.erase(bit);  
             break;
         }
     }
     if (browser_list_.empty()) {
-        //auto it = message_handler_set_.begin();
-        //for (; it != message_handler_set_.end(); ++it) {
-        //    message_router_->RemoveHandler(*(it));
-        //    delete *(it);
-        //}
-        //message_handler_set_.clear();
-        //message_router_ = nullptr;
-        CefQuitMessageLoop();
+        //todo 关闭窗口不退出应用
+        wxTheApp->Exit();
+        //CefQuitMessageLoop();
     }
 }
 
@@ -124,7 +106,7 @@ void Handler::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> fra
         return;
     std::stringstream ss;
     ss << "<html><body bgcolor=\"white\">"
-        "<h2>Failed to load URL "
+        "<h2>加载页面失败："
         << std::string(failedUrl) << " with error " << std::string(errorText)
         << " (" << errorCode << ").</h2></body></html>";
     frame->LoadURL(GetDataURI(ss.str(), "text/html"));
@@ -167,6 +149,31 @@ bool Handler::IsChromeRuntimeEnabled() {
     }
     return value == 1;
 }
+//void Handler::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
+//{
+//    model->Clear();
+//    if (menuData.is_null()) return;
+//    int menuIdStartIndex = 666;
+//    for (auto& menuItem : menuData)
+//    {
+//        //todo 不支持子菜单
+//        model->AddItem(menuIdStartIndex, menuItem["name"].get<std::string>());
+//        menuIdStartIndex += 1;
+//    }
+//}
+//bool Handler::OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, int command_id, EventFlags event_flags)
+//{
+//    switch (command_id)
+//    {
+//    default:
+//        break;
+//    }
+//    return true;
+//}
+//void Handler::OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
+//{
+//    menuData.clear();
+//}
 bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) 
 {
     CEF_REQUIRE_UI_THREAD();
@@ -178,10 +185,6 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     else if(message_name._Starts_with("Dialog"))
     {
         return Dialog::ProcessMsg(browser, frame, source_process, message);
-    }
-    else if (message_name._Starts_with("Shell"))
-    {
-        return Shell::ProcessMsg(browser, frame, source_process, message);
     }
     else if (message_name._Starts_with("Info"))
     {
@@ -195,5 +198,39 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     {
         return File::ProcessMsg(browser, frame, source_process, message);
     }
+    else if (message_name._Starts_with("Path"))
+    {
+        return Path::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("System"))
+    {
+        //wxNotificationMessage* notification = new wxNotificationMessage(L"测试测试", L"内容内容");
+        //notification->Bind(wxEVT_NOTIFICATION_MESSAGE_CLICK, &Handler::notifyClick,-1,-1,);
+        //notification->Show();
+        //return false;
+        return System::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("Menu"))
+    {        
+        return Menu::ProcessMsg(browser, frame, source_process, message,this);
+    }
+    else if (message_name._Starts_with("Tray"))
+    {
+        return Tray::ProcessMsg(browser, frame, source_process, message, this);
+    }
     return false;
 }
+void Handler::notifyClick(wxCommandEvent& event) {
+
+    auto target = wxDynamicCast(event.GetEventObject(), wxNotificationMessage);
+
+    //ClientData* clientData = static_cast<ClientData*>();
+    //auto type = event.GetEventType();
+    //if (type == wxEVT_NOTIFICATION_MESSAGE_CLICK) {
+    //    auto pr = clientData->browser;
+    //    bool flag = type == wxEVT_NOTIFICATION_MESSAGE_CLICK;
+    //}
+    //else if (type == wxEVT_NOTIFICATION_MESSAGE_DISMISSED) {
+    //    bool flag = type == wxEVT_NOTIFICATION_MESSAGE_CLICK;
+    //}
+};

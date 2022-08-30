@@ -34,6 +34,7 @@
   </head>
   <body>
     <div class="titleBar">
+      <div class="titleText">HorseJs</div>
       <div class="titleTool">
         <div class="iconfont horse-minimize"></div>
         <div class="iconfont horse-maximize"></div>
@@ -42,7 +43,7 @@
     </div>
     <div class="content">
       <div class="title">HorseJs</div>
-      <div class="version">version：0.0.1</div>
+      <div class="version"></div>
       <div class="link">
         <div id="demoLink">demo</div>
         <div id="docLink">doc</div>
@@ -52,7 +53,7 @@
       import { titleBarBtnLogic } from "./common.js";
       let linkLogic = () => {
         document.querySelector("#docLink").addEventListener("click", () => {
-          horse.shell.openExternal({
+          horse.system.openExternal({
             target: "https://gitee.com/horsejs/horsejs#%E6%96%87%E6%A1%A3",
             workingDir: "",
           });
@@ -65,12 +66,16 @@
           });
         });
       };
+      let setVersion = async () => {
+        let data = await horse.info.getHorseInfo();
+        console.log(JSON.stringify(data));
+        let versionNum = data.data.HorseJsVersion.join(".");
+        document.querySelector(".version").innerHTML = `version：${versionNum}`;
+      };
       window.addEventListener("load", async () => {
         titleBarBtnLogic();
         linkLogic();
-        horse.window.addEventListener("show", () => {
-          console.log("show");
-        });
+        setVersion();
       });
     </script>
   </body>
