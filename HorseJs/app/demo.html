@@ -8,6 +8,7 @@
   </head>
   <body>
     <div class="titleBar">
+      <div class="titleText">HorseJs Demo</div>
       <div class="titleTool">
         <div class="iconfont horse-minimize"></div>
         <div class="iconfont horse-maximize"></div>
@@ -16,18 +17,17 @@
     </div>
     <div class="content">
       <div id="menuContainer">
+        <!-- todo 这里可以做成动态的吗 -->
         <div id="menuWindow" class="menuSelected">窗口</div>
         <div id="menuDialog">对话框</div>
-        <div id="menuInfo">系统信息</div>
+        <div id="menuInfo">基础信息</div>
         <div id="menuClipboard">剪切板</div>
-        <div id="menuShell">shell</div>
         <div id="menuSystem">系统</div>
         <div id="menuFile">文件</div>
         <div id="menuPath">路径</div>
         <div id="menuMenu">菜单</div>
         <div id="menuNet">网络</div>
-        <div id="menuNotification">系统通知</div>
-        <div id="menuGlobalShortcut">托盘图标</div>
+        <div id="menuTray">托盘图标</div>
         <div id="menuCrashReport">崩溃报告</div>
       </div>
       <div id="demoContainer">
@@ -49,9 +49,9 @@
           <div class="demoBtn" id="openFolder">打开一个目录</div>
         </div>
         <div id="sectionInfo" class="section">
-          
           <div class="demoBtn" id="getAppInfo">获取应用的基本信息</div>
           <div class="demoBtn" id="getHorseInfo">获取框架的基本信息</div>
+          <div class="demoBtn" id="getOSInfo">获取操作系统的基本信息</div>
         </div>
         <div id="sectionClipboard" class="section">
           <div class="demoBtn" id="getClipboardText">
@@ -86,45 +86,40 @@
           </div>
           <div class="demoBtn" id="copyFile">拷贝文件</div>
         </div>
-        <div id="sectionPath" class="section">          
+        <div id="sectionPath" class="section">
           <div class="demoBtn" id="readDir">
             获取一个文件夹下的所有路径（包括文件路径和子目录路径）
           </div>
           <div class="demoBtn" id="getDesktopPath">获取桌面路径</div>
           <div class="demoBtn" id="getAppDataPath">获取数据目录路径</div>
           <div class="demoBtn" id="getExePath">获取可执行文件路径</div>
-          <div class="demoBtn" id="getTempPath">获取缓存目录</div>          
+          <div class="demoBtn" id="getTempPath">获取缓存目录</div>
           <div class="demoBtn" id="getDirName">获取一个文件所在的目录</div>
           <div class="demoBtn" id="getExtName">获取一个文件的扩展名</div>
         </div>
-        <div id="sectionShell" class="section">          
+        <div id="sectionSystem" class="section">
+          <div class="demoBtn" id="setAutoStart">设置开机自启动</div>
+          <div class="demoBtn" id="removeAutoStart">取消开机自启动</div>
+          <div class="demoBtn" id="setProtocol">设置默认协议(horse://)</div>
+          <div class="demoBtn" id="removeProtocol">删除默认协议(horse://)</div>
+          <div class="demoBtn" id="sendNotify">发送系统通知</div>
           <div class="demoBtn" id="openUrlWithDefaultBrowser">
             使用默认浏览器打开网页链接
           </div>
         </div>
-        <div id="sectionSystem" class="section">
-          <div class="demoBtn" id="setAutoStart">
-            设置开机自启动
-          </div>
-          <div class="demoBtn" id="removeAutoStart">
-            取消开机自启动
-          </div>          
-          <div class="demoBtn" id="setProtocol">
-            设置默认协议(horse://)
-          </div>          
-          <div class="demoBtn" id="removeProtocol">
-            删除默认协议(horse://)
+        <div id="sectionMenu" class="section">
+          <div class="demoBtn" id="popup">显示菜单</div>
+          <div class="demoBtn" id="popupAtPoint">
+            在窗口(200,300)位置显示菜单
           </div>
         </div>
-        <div id="sectionMenu" class="section">                 
-          <!--<div class="demoBtn" id="popup">
-            显示菜单
-          </div>-->
+        <div id="sectionNet" class="section">
+          你可以直接使用http或者websocket协议访问网络；但目前还不支持直接使用本地socket访问网络
         </div>
-        <div id="sectionNet" class="section"></div>
-        <div id="sectionNotification" class="section"></div>
-        <div id="sectionGlobalShortcut" class="section"></div>
-        <div id="sectionCrashReport" class="section"></div>
+        <div id="sectionTray" class="section">下个版本支持托盘图标</div>
+        <div id="sectionCrashReport" class="section">
+          目前暂时不支持崩溃报告
+        </div>
         <div class="consoleContainer">
           <div class="drager"></div>
           <div class="console"></div>
@@ -144,10 +139,6 @@
         titleBarBtnLogic();
         demo.init();
       });
-      
-      document.body.addEventListener("contextmenu",(e)=>{
-        console.log(e)
-      })
     </script>
   </body>
 </html>

@@ -5,6 +5,9 @@
     <ClCompile Include="Browser\Browser.cpp" />
     <ClCompile Include="Browser\Handler.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="Browser\ViewDelegate.cpp" />
+    <ClCompile Include="Browser\WindowDelegate.cpp" />
+    <ClCompile Include="util_win.cc" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Main">
@@ -39,6 +42,11 @@
     <ClInclude Include="Browser\MsgHandler\System.h" />
     <ClInclude Include="Browser\MsgHandler\Path.h" />
     <ClInclude Include="Browser\MsgHandler\Menu.h" />
+    <ClInclude Include="Browser\TheWxApp.h" />
+    <ClInclude Include="Browser\NativeWindow.h" />
+    <ClInclude Include="Browser\TopWindow.h" />
+    <ClInclude Include="Browser\MsgHandler\ClientData.h" />
+    <ClInclude Include="util_win.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
@@ -63,10 +71,11 @@
     <CopyFileToFolders Include="app\demo\file.js" />
     <CopyFileToFolders Include="app\demo.css" />
     <CopyFileToFolders Include="app\demo.js" />
-    <CopyFileToFolders Include="app\demo\shell.js" />
     <CopyFileToFolders Include="app\demo\system.js" />
     <CopyFileToFolders Include="app\demo\path.js" />
     <CopyFileToFolders Include="app\demo\menu.js" />
+    <CopyFileToFolders Include="Common\DefaultConfig.json" />
+    <CopyFileToFolders Include="app\demo\tray.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

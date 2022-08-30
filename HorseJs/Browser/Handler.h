@@ -3,7 +3,10 @@
 #include <list>
 #include <set>
 #include "include/wrapper/cef_message_router.h"
-#include "../../Common/json.hpp"
+#include "../Common/json.hpp"
+#include <wx/wx.h>
+#include <wx/event.h>
+#include <wx/notifmsg.h>
 using nlohmann::json;
 class Handler :
     public CefClient,
@@ -18,10 +21,10 @@ public:
     ~Handler();
     static Handler* GetInstance();
     json menuData;
-    CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override { return this; }
-    virtual void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) override;
-    virtual bool OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, int command_id, EventFlags event_flags) override;
-    virtual void OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) override;
+    //CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override { return this; }
+    //virtual void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) override;
+    //virtual bool OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, int command_id, EventFlags event_flags) override;
+    //virtual void OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame) override;
 
     CefRefPtr<CefDragHandler> GetDragHandler() override { return this; }
     virtual bool OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData, CefDragHandler::DragOperationsMask mask) override;
@@ -57,6 +60,7 @@ private:
     typedef std::list<CefRefPtr<CefBrowser>> BrowserList;
     BrowserList browser_list_;
     bool is_closing_;
+    void notifyClick(wxCommandEvent& event);
     IMPLEMENT_REFCOUNTING(Handler);
 };
 

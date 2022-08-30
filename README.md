@@ -34,7 +34,6 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，由�
   - [基础信息](Doc/Horse/Info.md)
   - [窗口控制](Doc/Horse/Window.md)
   - [对话框](Doc/Horse/Dialog.md)
-  - [shell](Doc/Horse/Shell.md)
   - [剪切板](Doc/Horse/Clipboard.md)
   - [文件](Doc/Horse/File.md)
   - [路径](Doc/Horse/Path.md)
@@ -42,10 +41,11 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，由�
   - [菜单](Doc/Horse/Menu.md)
 - [可拖拽区域](Doc/AppRegion.md)
 - [源码构建指南](Doc/HorseJsBuild.md)
+- [升级记录](Doc/Update.md)
 
 # 其他
 
 1.  本项目基于 MIT 协议开源，大家可以放心使用；
 2.  目前此项目尚处于实验验证阶段，将来我会逐步为其添加各项功能及辅助的工具；
 3.  欢迎并感谢大家提 Issue 和 Pull Request；
-4.  本项目基于 cef 开发，大量参考了 Electron 、Node.js、 Chromium 的源码，Thanks。
+4.  本项目基于 cef 和 wxWidgets 开发，大量参考了 Electron 、Node.js、 Chromium 的源码，Thanks。

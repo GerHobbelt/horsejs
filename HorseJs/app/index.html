@@ -34,6 +34,7 @@
   </head>
   <body>
     <div class="titleBar">
+      <div class="titleText">HorseJs</div>
       <div class="titleTool">
         <div class="iconfont horse-minimize"></div>
         <div class="iconfont horse-maximize"></div>
@@ -52,7 +53,7 @@
       import { titleBarBtnLogic } from "./common.js";
       let linkLogic = () => {
         document.querySelector("#docLink").addEventListener("click", () => {
-          horse.shell.openExternal({
+          horse.system.openExternal({
             target: "https://gitee.com/horsejs/horsejs#%E6%96%87%E6%A1%A3",
             workingDir: "",
           });
@@ -68,9 +69,6 @@
       window.addEventListener("load", async () => {
         titleBarBtnLogic();
         linkLogic();
-        horse.window.addEventListener("show", () => {
-          console.log("show");
-        });
       });
     </script>
   </body>

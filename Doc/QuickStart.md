@@ -1,14 +1,12 @@
-# 快速入门
-
-## 环境搭建
+# 环境搭建
 
 1.  下载 HorseJs 的二进制文件并解压到目录 yourAppName 中，这个目录的名字你可以随便取
 2.  在 yourAppName 的目录下新建 app 子目录，并把你的静态文件（HTML,JS 与 CSS）放置到该目录下，而且 app 目录下必须包含一个名为 index.html 的文件，应用的第一个窗口将加载这个文件。
 3.  启动 HorseJs.exe 你将会看到你的第一个应用；
 
-## 应用配置
+# 应用配置
 
-你可以在 yourAppName 目录下创建一个 horse.json 的文件，
+你可以在 yourAppName 目录下创建一个 horse.config.json 的文件，
 
 这是整个应用程序的配置文件，
 
@@ -24,7 +22,7 @@
 
 _你可以通过在你的静态页面中使用-webkit-app-region 样式来实现自己的标题栏，详见：[可拖拽区域](AppRegion.md)_
 
-## 全局对象
+# 全局对象
 
 在每个窗口创建之初我们就为开发者准备了一个全局对象：horse
 
@@ -36,7 +34,7 @@ horse.window.maximize();
 
 更详细的配置说明，请参见：[全局对象](Horse.md)
 
-## 应用分发
+# 应用分发
 
 目前来看，你可以使用如下方式分发你的产品：
 

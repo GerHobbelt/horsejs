@@ -25,4 +25,23 @@ export let processor = {
     });
     demoLog(result);
   },
+  sendNotify: async () => {
+    let result = await horse.system.notify({
+      title: "您收到新的消息",
+      body: "此为消息的正文",
+      click: () => {
+        demoLog("用户点击了系统消息");
+      },
+      dismiss: () => {
+        demoLog("系统通知消失了");
+      },
+    });
+    demoLog(result);
+  },
+  openUrlWithDefaultBrowser() {
+    horse.system.openExternal({
+      target: "https://gitee.com/horsejs/horsejs",
+      workingDir: "",
+    });
+  },
 };

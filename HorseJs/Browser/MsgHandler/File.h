@@ -179,7 +179,7 @@ private:
             }
         }
         reader.close();
-        result["finished"] = true;
+        result["finished"] = true;  //todo 这里应该先返回，其他接口的风格也是如此
         auto resultStr = result.dump();
         msgArgs->SetString(0, resultStr);
         frame->SendProcessMessage(PID_RENDERER, msg);
