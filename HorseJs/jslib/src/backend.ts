@@ -80,4 +80,6 @@ class Horse {
   }
 }
 export let horse = new Horse()
-export { WindowConfig } from './backend/controller/windowConfig'
+export { WindowConfig } from './backend/controller/windowConfig/WindowConfig'
+export { WindowMultiViewsConfig } from './backend/controller/windowConfig/WindowMultiViewsConfig'
+export { WindowOverlayViewConfig } from './backend/controller/windowConfig/WindowOverlayViewConfig'

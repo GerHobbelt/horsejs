@@ -1,4 +1,4 @@
-#include "WindowDelegate.h"
+#include "WindowMultiViewDelegate.h"
 #include "include/cef_app.h"
 #include "include/views/cef_display.h"
 #include "include/views/cef_box_layout.h"
@@ -6,24 +6,35 @@
 #include "include/views/cef_layout.h"
 #include "../PageHandler.h"
 #include "../ViewDelegate.h"
-#include "../../WebSocketClient.h"
+//#include "../../WebSocketClient.h"
 
 
-WindowDelegate::WindowDelegate(const nlohmann::json& config):config(config) {
+WindowMultiViewDelegate::WindowMultiViewDelegate(const nlohmann::json& config):config(config) {
     CefBrowserSettings settings;
     auto pageHandler = PageHandler::getInstance();
     auto viewDelegate = ViewDelegate::getInstance();
-    auto url = config["url"].get<std::string>();
-    view = CefBrowserView::CreateBrowserView(pageHandler, url, settings, nullptr, nullptr, viewDelegate);
-    
+    for (auto& viewConfig : config["views"]) {
+        auto url = viewConfig["url"].get<std::string>();
+        auto view = CefBrowserView::CreateBrowserView(pageHandler, url, settings, nullptr, nullptr, viewDelegate);
+        views.push_back(view);
+    }
 }
 
 /// <summary>
 /// 窗口创建成功
 /// </summary>
 /// <param name="window"></param>
-void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
-    window->AddChildView(view);
+void WindowMultiViewDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
+    auto layoutDirection = config["layoutDirection"].get<std::string>();
+    CefBoxLayoutSettings layoutSettings;
+    layoutSettings.horizontal = layoutDirection == "horizontal";
+    auto layout = window->SetToBoxLayout(layoutSettings);
+    for (int i = 0; i < views.size();i++) {
+        auto v = views.at(i);
+        window->AddChildView(v);
+        auto flex = config["views"][i]["flex"].get<int>();
+        layout->SetFlexForView(v, flex);
+    }
     if (config["show"].get<bool>()) {
         window->Show();
     }    
@@ -33,15 +44,17 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
 /// 窗口销毁成功
 /// </summary>
 /// <param name="window"></param>
-void WindowDelegate::OnWindowDestroyed(CefRefPtr<CefWindow> window) {
-    view = nullptr;
+void WindowMultiViewDelegate::OnWindowDestroyed(CefRefPtr<CefWindow> window) {
+    for (auto view : views) {
+        view = nullptr;
+    }
 }
 /// <summary>
 /// 设置窗口位置和大小
 /// </summary>
 /// <param name="window"></param>
 /// <returns></returns>
-CefRect WindowDelegate::GetInitialBounds(CefRefPtr<CefWindow> window) {
+CefRect WindowMultiViewDelegate::GetInitialBounds(CefRefPtr<CefWindow> window) {
     auto position = config["position"].get<std::string>();
     CefRect rect;
     auto width = config["width"].get<unsigned int>();
@@ -69,7 +82,7 @@ CefRect WindowDelegate::GetInitialBounds(CefRefPtr<CefWindow> window) {
 /// </summary>
 /// <param name="window"></param>
 /// <returns></returns>
-bool WindowDelegate::IsFrameless(CefRefPtr<CefWindow> window) {
+bool WindowMultiViewDelegate::IsFrameless(CefRefPtr<CefWindow> window) {
     //todo 
     if (isDevTool) {
         return false;
@@ -82,8 +95,16 @@ bool WindowDelegate::IsFrameless(CefRefPtr<CefWindow> window) {
 /// </summary>
 /// <param name="window"></param>
 /// <returns></returns>
-bool WindowDelegate::CanClose(CefRefPtr<CefWindow> window) {
-    CefRefPtr<CefBrowser> browser = view->GetBrowser();
-    bool result = browser->GetHost()->TryCloseBrowser();
-    return result;
+bool WindowMultiViewDelegate::CanClose(CefRefPtr<CefWindow> window) {
+    bool result = true;
+    for (auto view : views) {
+        CefRefPtr<CefBrowser> browser = view->GetBrowser();
+        if (browser) {
+            result = browser->GetHost()->TryCloseBrowser();
+            if (!result) {
+                return false;
+            }
+        }
+    }
+    return true;
 }

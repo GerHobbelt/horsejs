@@ -1,4 +1,4 @@
-export class WindowConfig {
+export class BaseWindowConfig {
   /**
    * 是否显示窗口
    */
@@ -35,23 +35,4 @@ export class WindowConfig {
    * 是否为无边框窗口，默认值false
    */
   frameless = false
-  /**
-   * 窗口布局，默认值fill
-   * 当窗口布局为fill时，一个窗口只能添加一个view
-   */
-  layout: 'fill' | 'box' = 'fill'
-  /**
-   * 窗口布局为box时，此参数确定布局方向，默认值horizontal
-   */
-  layoutDirection: 'horizontal' | 'vertical' = 'horizontal'
-  /**
-   * 页面数组
-   * url为页面地址
-   * flex弹性值，当layout为box时，此值有效，必须是正整数
-   */
-  views: {
-    url: string
-    flex: number
-  }[]
-  constructor() {}
 }

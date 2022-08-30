@@ -18,13 +18,13 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Browser\MessageProcessor\Window\WindowDelegate.cpp">
+    <ClCompile Include="Browser\MessageProcessor\Window\WindowMultiViewDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Browser\MessageProcessor\Window\ViewDelegate.cpp">
+    <ClCompile Include="Browser\MessageProcessor\ViewDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Browser\MessageProcessor\Window\PageHandler.cpp">
+    <ClCompile Include="Browser\MessageProcessor\PageHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Render\V8Handler.cpp">
@@ -51,9 +51,12 @@
     <ClCompile Include="Browser\MessageProcessor\Window\WindowPopupDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Browser\MessageProcessor\Window\WindowDelegate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Browser\MessageProcessor\Window\WindowDelegate.h">
+    <ClInclude Include="Browser\MessageProcessor\Window\WindowMultiViewDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="json\json.hpp">
@@ -62,10 +65,10 @@
     <ClInclude Include="Config.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Browser\MessageProcessor\Window\ViewDelegate.h">
+    <ClInclude Include="Browser\MessageProcessor\ViewDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Browser\MessageProcessor\Window\PageHandler.h">
+    <ClInclude Include="Browser\MessageProcessor\PageHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Render\V8Handler.h">
@@ -90,6 +93,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Browser\MessageProcessor\Window\WindowPopupDelegate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\MessageProcessor\Window\WindowDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

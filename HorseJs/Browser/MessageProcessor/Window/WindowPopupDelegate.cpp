@@ -41,8 +41,7 @@ void WindowPopupDelegate::OnWindowDestroyed(CefRefPtr<CefWindow> window) {
 /// <param name="window"></param>
 /// <returns></returns>
 bool WindowPopupDelegate::CanClose(CefRefPtr<CefWindow> window) {
-    bool result = true;
     CefRefPtr<CefBrowser> browser = view->GetBrowser();
-    result = browser->GetHost()->TryCloseBrowser();
-    return true;
+    bool result = browser->GetHost()->TryCloseBrowser();
+    return result;
 }

@@ -2,22 +2,21 @@
 #include "include/views/cef_window.h"
 #include "include/views/cef_browser_view.h"
 #include "../../json/json.hpp"
-#include <list>
-class WindowDelegate : public CefWindowDelegate
+class WindowMultiViewDelegate : public CefWindowDelegate
 {
 public:
-    explicit WindowDelegate(const nlohmann::json& config);
+    explicit WindowMultiViewDelegate(const nlohmann::json& config);
     bool IsFrameless(CefRefPtr<CefWindow> window) override;
     void OnWindowCreated(CefRefPtr<CefWindow> window) override;
     void OnWindowDestroyed(CefRefPtr<CefWindow> window) override;
     CefRect GetInitialBounds(CefRefPtr<CefWindow> window) override;
     bool CanClose(CefRefPtr<CefWindow> window) override;
-    WindowDelegate(const WindowDelegate&) = delete;
-    WindowDelegate& operator=(const WindowDelegate&) = delete;
+    WindowMultiViewDelegate(const WindowMultiViewDelegate&) = delete;
+    WindowMultiViewDelegate& operator=(const WindowMultiViewDelegate&) = delete;
 private:
     nlohmann::json config;
     bool isDevTool = false;
-    CefRefPtr<CefBrowserView> view;
-    IMPLEMENT_REFCOUNTING(WindowDelegate);
+    std::vector<CefRefPtr<CefBrowserView>> views;
+    IMPLEMENT_REFCOUNTING(WindowMultiViewDelegate);
 };
 
