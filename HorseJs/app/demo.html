@@ -1,0 +1,120 @@
+﻿<html>
+  <head>
+    <title>HorseJs</title>
+    <link rel="stylesheet" href="./icon/iconfont.css" />
+    <link rel="stylesheet" href="./common.css" />
+    <link rel="stylesheet" href="./demo.css" />
+    <style></style>
+  </head>
+  <body>
+    <div class="titleBar">
+      <div class="titleTool">
+        <div class="iconfont horse-minimize"></div>
+        <div class="iconfont horse-maximize"></div>
+        <div class="iconfont horse-close closeBtn"></div>
+      </div>
+    </div>
+    <div class="content">
+      <div id="menuContainer">
+        <div id="menuWindow" class="menuSelected">窗口</div>
+        <div id="menuDialog">对话框</div>
+        <div id="menuInfo">系统信息</div>
+        <div id="menuClipboard">剪切板</div>
+        <div id="menuShell">shell</div>
+        <div id="menuFile">文件</div>
+        <div id="menuNet">网络</div>
+        <div id="menuMenu">系统菜单</div>
+        <div id="menuNotification">系统通知</div>
+        <div id="menuGlobalShortcut">托盘图标</div>
+        <div id="menuCrashReport">崩溃报告</div>
+      </div>
+      <div id="demoContainer">
+        <div id="sectionWindow" class="section sectionSelected">
+          <div class="demoBtn" id="windowSizeChange">改变窗口大小到800*600</div>
+          <div class="demoBtn" id="hideShowWindow">
+            窗口隐藏，3秒钟之后窗口再显示
+          </div>
+          <div class="demoBtn" id="maximizeWindow">最大化窗口</div>
+          <div class="demoBtn" id="restoreWindow">还原窗口</div>
+          <div class="demoBtn" id="minimizeWindow">最小化窗口</div>
+          <div class="demoBtn" id="closeWindow">关闭窗口</div>
+        </div>
+        <div id="sectionDialog" class="section">
+          <div class="demoBtn" id="openFile">打开文件（只能选择一个文件）</div>
+          <div class="demoBtn" id="openMultiFile">
+            打开文件（允许选择多个文件）
+          </div>
+          <div class="demoBtn" id="openFolder">打开一个目录</div>
+        </div>
+        <div id="sectionInfo" class="section">
+          <div class="demoBtn" id="getDesktopPath">获取桌面路径</div>
+          <div class="demoBtn" id="getAppDataPath">获取数据目录路径</div>
+          <div class="demoBtn" id="getExePath">获取可执行文件路径</div>
+          <div class="demoBtn" id="getExeFolder">获取可执行文件所在目录</div>
+          <div class="demoBtn" id="getAppInfo">获取应用的基本信息</div>
+          <div class="demoBtn" id="getHorseInfo">获取框架的基本信息</div>
+        </div>
+        <div id="sectionClipboard" class="section">
+          <div class="demoBtn" id="getClipboardText">
+            获取剪切板内的文本信息
+          </div>
+          <div class="demoBtn" id="getClipboardFile">
+            获取剪切板内的文件路径
+          </div>
+          <div class="demoBtn" id="getClipboardHTML">获取剪切板内的HTML</div>
+          <div class="demoBtn" id="setClipboardText">向剪切板写入字符串</div>
+          <div class="demoBtn" id="setClipboardFile">向剪切板写入文件</div>
+          <div class="demoBtn" id="setClipboardHTML">向剪切板写入HTML</div>
+        </div>
+        <div id="sectionFile" class="section">
+          <div class="demoBtn" id="readDir">
+            获取一个文件夹下的所有路径（包括文件路径和子目录路径）
+          </div>
+          <div class="demoBtn" id="stat">
+            获取一个路径的属性信息（路径可以是文件夹也可以是文件）
+          </div>
+          <div class="demoBtn" id="getLastWriteTime">
+            获取文件的最后修改事件
+          </div>
+          <div class="demoBtn" id="isFolder">判断路径是否为一个文件夹</div>
+          <div class="demoBtn" id="getFileSize">获取文件大小</div>
+          <div class="demoBtn" id="readFile">读取文件</div>
+          <div class="demoBtn" id="readFileFromPosition">
+            从指定位置读取文件的一片数据
+          </div>
+          <div class="demoBtn" id="writeFile">
+            写文件（如果文件存在则追加内容）
+          </div>
+          <div class="demoBtn" id="writeFileCreate">
+            写文件（如果文件不存在则创建文件）
+          </div>
+          <div class="demoBtn" id="copyFile">拷贝文件</div>
+        </div>
+        <div id="sectionShell" class="section"></div>
+        <div id="sectionNet" class="section"></div>
+        <div id="sectionMenu" class="section"></div>
+        <div id="sectionNotification" class="section"></div>
+        <div id="sectionGlobalShortcut" class="section"></div>
+        <div id="sectionCrashReport" class="section"></div>
+        <div class="consoleContainer">
+          <div class="drager"></div>
+          <div class="console"></div>
+        </div>
+      </div>
+      <div id="sectionCodeLink" style="right: 18px" class="demoToolBtn">
+        查看代码
+      </div>
+      <div id="cleanLogBtn" style="right: 98px" class="demoToolBtn">
+        清空输出
+      </div>
+    </div>
+    <script type="module">
+      import { titleBarBtnLogic } from "./common.js";
+      import { demo } from "./demo.js";
+      window.addEventListener("load", async () => {
+        titleBarBtnLogic();
+        demo.init();
+      });
+    </script>
+  </body>
+</html>
