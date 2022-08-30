@@ -5,7 +5,8 @@
 /HorseJs/x64/**
 /Horse/x64/**
 /HorseJs/npm/node_modules/**
-/x64/**
+/x64/Debug/
+/x64/Release/
 /wxWidgetsRelease/**
 /wxWidgetsDebug/**
 /cefRelease/**
@@ -48,3 +49,8 @@
 HorseJs/npm/dist/horse.js
 HorseJs/npm/app/index.js
 HorseJs/npm/app/demo.js
+
+HorseJs/jslib/node_modules/
+HorseJs/backend/node_modules/
+HorseJs/backend/debug/
+HorseJs/backend/release/
