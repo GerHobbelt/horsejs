@@ -48,7 +48,7 @@ public:
             bool flag = file.Open(path);
             if (!flag) {
                 result["success"] = false;
-                result["error"] = "无法打开文件";
+                result["error"] = u8"无法打开文件";
             }
             else
             {
@@ -57,7 +57,7 @@ public:
                     file.Close();
                     result["success"] = false;
                     result["fileSize"] = fileSize;
-                    result["error"] = "读取位置超出文件大小";
+                    result["error"] = u8"读取位置超出文件大小";
                 }
                 else
                 {
@@ -91,7 +91,7 @@ public:
             if (isExist) {
                 if (existThen == "error") {
                     result["success"] = false;
-                    result["error"] = "文件已存在";
+                    result["error"] = u8"文件已存在";
                 }
                 else if (existThen == "cover")
                 {
@@ -111,7 +111,7 @@ public:
             {
                 if (notExistThen == "error") {
                     result["success"] = false;
-                    result["error"] = "文件不存在";
+                    result["error"] = u8"文件不存在";
                 }
                 else if (notExistThen == "create")
                 {
@@ -176,7 +176,7 @@ private:
         if (!flag) {
             json result;
             result["success"] = false;
-            result["error"] = "无法打开文件";
+            result["error"] = u8"无法打开文件";
             Helper::SendMsg(frame, msgName + "_data_finish", result);
             return;
         }

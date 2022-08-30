@@ -22,7 +22,7 @@ public:
         if (!wxTheClipboard->Open())
         {
             result["success"] = false;
-            result["error"] = "¼ôÇÐ°å´ò¿ªÊ§°Ü";
+            result["error"] = u8"¼ôÇÐ°å´ò¿ªÊ§°Ü";
             Helper::SendMsg(frame, msgName, result);
             return true;
         }
