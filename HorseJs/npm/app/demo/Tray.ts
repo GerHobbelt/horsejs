@@ -4,7 +4,8 @@ export class Tray {
   async create() {
     let menu = [{ name: 'test1' }, { name: '测试测试' }, { name: '测试测试' }]
     let exePath = await horse.path.getPath({ name: 'exePath' })
-    let iconPath = horse.path.dirName(exePath.data) + '\\icon.ico' //todo
+    let iconPath = horse.path.dirName(exePath.data)
+    iconPath = horse.path.join(iconPath, 'app/icon/icon.ico')
     let result = await horse.tray.create({
       iconPath,
       tip: '这是图标提示',
@@ -20,7 +21,8 @@ export class Tray {
   }
   async resetIcon() {
     let exePath = await horse.path.getPath({ name: 'exePath' })
-    let iconPath = horse.path.dirName(exePath.data) + '\\icon2.ico' //todo
+    let iconPath = horse.path.dirName(exePath.data)
+    iconPath = horse.path.join(iconPath, 'app/icon/icon2.ico')
     let tip = `这是图标提示`
     let result = await horse.tray.resetIcon({ iconPath, tip })
     console.log(result)

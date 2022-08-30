@@ -57,17 +57,56 @@ public:
     static void prepareMenu(wxMenu* menu,json& data) {
         for (auto& menuItem : data)
         {
-            auto name = menuItem["name"].get<std::string>();
+            wxString name;
+            if (menuItem["name"].is_string()) {
+                name = wxString::FromUTF8(menuItem["name"].get<std::string>());
+            }
+            else
+            {
+                name = wxEmptyString;
+            }
             auto menuId = menuItem["id"].get<int>();
             if (menuItem["subMenu"].is_array() && menuItem["subMenu"].size()>0) {
                 wxMenu* subMenu = new wxMenu();
                 subMenu->SetClientObject(menu->GetClientObject());
-                menu->Append(menuId, wxString::FromUTF8(name),subMenu);
+                menu->Append(menuId, name,subMenu);
                 prepareMenu(subMenu, menuItem["subMenu"]);
             }
             else
-            {
-                menu->Append(menuId, wxString::FromUTF8(name));
+            {                
+                auto kind = wxITEM_NORMAL;
+                if (menuItem["type"].is_string()) {
+                    auto type = menuItem["type"].get<std::string>();
+                    auto checkFunc = [&]() {
+                        auto flag = false;
+                        if (menuItem["checked"].is_boolean()) { 
+                            flag = menuItem["checked"].get<bool>(); 
+                        }
+                        menu->Check(menuId, flag);
+                    };
+                    if (type == "check") {
+                        menu->AppendCheckItem(menuId, name);
+                        checkFunc();
+                    }
+                    else if (type == "radio") {
+                        menu->AppendRadioItem(menuId, name);
+                        checkFunc();
+                    }
+                    else if (type == "separator") {
+                        menu->AppendSeparator();
+                    }
+                    else
+                    {
+                        menu->Append(menuId, name);
+                    }
+                }
+                else
+                {
+                    menu->Append(menuId, name);
+                }
+                if (menuItem["enable"].is_boolean()) {
+                    menu->Enable(menuId, menuItem["enable"].get<bool>());
+                }
                 wxTheApp->Bind(wxEVT_MENU, &Menu::onMenuClicked, menuId);
             }
         }
