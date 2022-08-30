@@ -15,6 +15,9 @@
 #include "MsgHandler/Info.h"
 #include "MsgHandler/Clipboard.h"
 #include "MsgHandler/File.h"
+#include "MsgHandler/Path.h"
+#include "MsgHandler/System.h"
+#include "MsgHandler/Menu.h"
 
 namespace {
     Handler* g_instance = nullptr;
@@ -45,17 +48,6 @@ bool Handler::OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> f
     CefRefPtr<CefDictionaryValue>& extra_info,
     bool* no_javascript_access)
 {
-    //MainContext::Get()->GetRootWindowManager()->CreateRootWindowAsPopup(!is_devtools, is_osr(), popupFeatures, windowInfo, client, settings);
-    //switch (target_disposition)
-    //{
-    //case WOD_NEW_FOREGROUND_TAB:
-    //case WOD_NEW_BACKGROUND_TAB:
-    //case WOD_NEW_POPUP:
-    //case WOD_NEW_WINDOW:
-    //    browser->GetMainFrame()->LoadURL(target_url);
-    //    return true; //停止创建
-    //}
-
     return false;
 }
 // static
@@ -104,13 +96,7 @@ void Handler::OnBeforeClose(CefRefPtr<CefBrowser> browser)
         }
     }
     if (browser_list_.empty()) {
-        //auto it = message_handler_set_.begin();
-        //for (; it != message_handler_set_.end(); ++it) {
-        //    message_router_->RemoveHandler(*(it));
-        //    delete *(it);
-        //}
-        //message_handler_set_.clear();
-        //message_router_ = nullptr;
+        //todo 关闭窗口不退出应用
         CefQuitMessageLoop();
     }
 }
@@ -124,7 +110,7 @@ void Handler::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> fra
         return;
     std::stringstream ss;
     ss << "<html><body bgcolor=\"white\">"
-        "<h2>Failed to load URL "
+        "<h2>加载页面失败："
         << std::string(failedUrl) << " with error " << std::string(errorText)
         << " (" << errorCode << ").</h2></body></html>";
     frame->LoadURL(GetDataURI(ss.str(), "text/html"));
@@ -167,6 +153,31 @@ bool Handler::IsChromeRuntimeEnabled() {
     }
     return value == 1;
 }
+void Handler::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
+{
+    model->Clear();
+    if (menuData.is_null()) return;
+    int menuIdStartIndex = 666;
+    for (auto& menuItem : menuData)
+    {
+        //todo 不支持子菜单
+        model->AddItem(menuIdStartIndex, menuItem["name"].get<std::string>());
+        menuIdStartIndex += 1;
+    }
+}
+bool Handler::OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, int command_id, EventFlags event_flags)
+{
+    switch (command_id)
+    {
+    default:
+        break;
+    }
+    return true;
+}
+void Handler::OnContextMenuDismissed(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame)
+{
+    menuData.clear();
+}
 bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) 
 {
     CEF_REQUIRE_UI_THREAD();
@@ -194,6 +205,18 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     else if (message_name._Starts_with("File"))
     {
         return File::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("Path"))
+    {
+        return Path::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("System"))
+    {
+        return System::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("Menu"))
+    {        
+        return Menu::ProcessMsg(browser, frame, source_process, message,this);
     }
     return false;
 }

@@ -2,9 +2,6 @@ import { eventer } from '../eventer'
 import { Base } from './Base'
 
 export class File extends Base {
-  readDir(config: { path: string }) {
-    return this.callHorse(this.readDir, config)
-  }
   isFolder(config: { path: string }) {
     return this.callHorse(this.isFolder, config)
   }

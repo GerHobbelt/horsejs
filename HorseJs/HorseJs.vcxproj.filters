@@ -36,6 +36,9 @@
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\V8Handler.h" />
     <ClInclude Include="Scheme\SchemeHandlerFactory.h" />
+    <ClInclude Include="Browser\MsgHandler\System.h" />
+    <ClInclude Include="Browser\MsgHandler\Path.h" />
+    <ClInclude Include="Browser\MsgHandler\Menu.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HorseJs.rc" />
@@ -60,6 +63,10 @@
     <CopyFileToFolders Include="app\demo\file.js" />
     <CopyFileToFolders Include="app\demo.css" />
     <CopyFileToFolders Include="app\demo.js" />
+    <CopyFileToFolders Include="app\demo\shell.js" />
+    <CopyFileToFolders Include="app\demo\system.js" />
+    <CopyFileToFolders Include="app\demo\path.js" />
+    <CopyFileToFolders Include="app\demo\menu.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

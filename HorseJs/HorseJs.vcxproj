@@ -183,7 +183,10 @@
     <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
     <ClInclude Include="Browser\MsgHandler\File.h" />
     <ClInclude Include="Browser\MsgHandler\Info.h" />
+    <ClInclude Include="Browser\MsgHandler\Menu.h" />
+    <ClInclude Include="Browser\MsgHandler\Path.h" />
     <ClInclude Include="Browser\MsgHandler\Shell.h" />
+    <ClInclude Include="Browser\MsgHandler\System.h" />
     <ClInclude Include="Browser\MsgHandler\Window.h" />
     <ClInclude Include="Browser\ViewDelegate.h" />
     <ClInclude Include="Browser\WindowDelegate.h" />
@@ -329,6 +332,18 @@
     <CopyFileToFolders Include="app\demo.js">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\demo\shell.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\demo\path.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\demo\system.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\demo\menu.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\demo</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>

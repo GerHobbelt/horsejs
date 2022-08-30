@@ -1,44 +1,27 @@
-# 文件
+# 方法
 
-操作文件
-
-## 方法
-
-- 获取某个目录下的所有路径
-
-如果目标目录下包含文件和子目录，那么这些文件和子目录的路径都会被获取到
-
-此方法并不会递归的获取目标路径下的子目录里的内容
-
-如下代码中 result.data 为一个数组，数组里包含获取到的结果
-
-```javascript
-let result = await horse.file.readDir({ path: "c://" });
-console.log(result.data);
-```
-
-- 获取某个文件的体积大小
+## 获取某个文件的体积大小
 
 ```javascript
 let result = await horse.file.getFileSize({ path: "c://a.zip" });
 console.log(result.data);
 ```
 
-- 判断一个路径是否为目录
+## 判断一个路径是否为目录
 
 ```javascript
 let result = await horse.file.isFolder({ path: "c://a.zip" });
 console.log(result.data);
 ```
 
-- 获取文件的最后一次编辑时间
+## 获取文件的最后一次编辑时间
 
 ```javascript
 let result = await horse.file.getLastWriteTime({ path: "c://a.zip" });
 console.log(result.data);
 ```
 
-- 读取一个文件的全部内容
+## 读取一个文件的全部内容
 
 这个方法会分批读取目标文件，每成功读取一段数据就会触发 onData 方法。
 
@@ -59,7 +42,7 @@ let result = await horse.file.readFile({
 console.log(result.data);
 ```
 
-- 从指定位置读取文件的一片数据
+## 从指定位置读取文件的一片数据
 
 bufferSize 为数据片的大小
 
@@ -74,7 +57,7 @@ let result = await horse.file.readFileFromPosition({
 console.log(result.data);
 ```
 
-- 写入文件
+## 写入文件
 
 path 为目标文件
 
@@ -97,7 +80,7 @@ let result = await horse.file.writeFile({
 });
 ```
 
-- 拷贝文件
+## 拷贝文件
 
 src 为目标文件路径
 

@@ -1,5 +1,26 @@
 var horse;
 (() => {
+  var __async = (__this, __arguments, generator) => {
+    return new Promise((resolve, reject) => {
+      var fulfilled = (value) => {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var rejected = (value) => {
+        try {
+          step(generator.throw(value));
+        } catch (e) {
+          reject(e);
+        }
+      };
+      var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+      step((generator = generator.apply(__this, __arguments)).next());
+    });
+  };
+
   // extension/src/eventer.ts
   var Eventer = class {
     constructor() {
@@ -99,16 +120,6 @@ var horse;
 
   // extension/src/Handler/Info.ts
   var Info = class extends Base {
-    constructor() {
-      super(...arguments);
-      this.horseVersion = "0.0.1";
-      this.appVersion = "0.0.1";
-      this.osName = "win";
-      this.osArch = "x64";
-    }
-    getPath(config) {
-      return this.callHorse(this.getPath, config);
-    }
     getAppInfo() {
       return this.callHorse(this.getAppInfo, {});
     }
@@ -201,9 +212,6 @@ var horse;
 
   // extension/src/Handler/File.ts
   var File = class extends Base {
-    readDir(config) {
-      return this.callHorse(this.readDir, config);
-    }
     isFolder(config) {
       return this.callHorse(this.isFolder, config);
     }
@@ -248,8 +256,9 @@ var horse;
   };
 
   // extension/src/Handler/Path.ts
-  var Path = class {
+  var Path = class extends Base {
     constructor() {
+      super(...arguments);
       this.splitDeviceRe = /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?([\\\/])?([\s\S]*?)$/;
       this.splitTailRe = /^([\s\S]*?)((?:\.{1,2}|[^\\\/]+?|)(\.[^.\/\\]*|))(?:[\\\/]*)$/;
     }
@@ -272,6 +281,9 @@ var horse;
         tail: result[3]
       };
     }
+    readDir(config) {
+      return this.callHorse(this.readDir, config);
+    }
     dirName(path) {
       var result = this.splitPath(path), root = result[0], dir = result[1];
       if (!root && !dir) {
@@ -292,12 +304,32 @@ var horse;
     extName(path) {
       return this.splitPath(path)[3];
     }
-    resolve(path) {
+    getPath(config) {
+      return this.callHorse(this.getPath, config);
+    }
+  };
+
+  // extension/src/Handler/System.ts
+  var System = class extends Base {
+    autoStart(config) {
+      return this.callHorse(this.autoStart, config);
+    }
+    protocolClient(config) {
+      return this.callHorse(this.protocolClient, config);
+    }
+  };
+
+  // extension/src/Handler/Menu.ts
+  var Menu = class extends Base {
+    popup(config) {
+      return __async(this, null, function* () {
+        console.log(window.event);
+        yield this.callHorse(this.popup, config);
+      });
     }
   };
 
   // extension/src/main.ts
-  console.log("excute");
   var Horse = class {
     constructor() {
       this.window = new Window();
@@ -308,6 +340,8 @@ var horse;
       this.clipboard = new Clipboard();
       this.file = new File();
       this.path = new Path();
+      this.system = new System();
+      this.menu = new Menu();
     }
   };
   horse = new Horse();
