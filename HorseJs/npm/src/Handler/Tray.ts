@@ -4,23 +4,23 @@ type menuDataType = { name: string; id?: number; subMenu?: menuDataType[] }
 export class Tray extends Base {
   className = 'Tray'
   isInit = false
-  async create(config: { iconPath: string; tip?: string; menu: menuDataType[]; menuClick: (index) => void; [propName: string]: any }) {
+  async create(config: { iconPath: string; tip?: string; menu: menuDataType[]; menuClick: (index: number) => void; [propName: string]: any }) {
     if (this.isInit) {
       throw new Error('已经创建了一个托盘图标')
       return
     }
     return new Promise((resolve, reject) => {
       let msgName = `${this.className}_create`
-      eventer.addOnceEventListener(msgName, (result) => {
+      eventer.addOnceEventListener(msgName, (result: any) => {
         resolve({ success: true })
       })
       eventer.removeEventListener(msgName + '_tray')
       eventer.removeEventListener(msgName + '_menu')
-      eventer.addEventListener(msgName + '_tray', (result) => {
+      eventer.addEventListener(msgName + '_tray', (result: any) => {
         if (!config[result.clickType]) return
         config[result.clickType]()
       })
-      eventer.addEventListener(msgName + '_menu', (result) => {
+      eventer.addEventListener(msgName + '_menu', (result: any) => {
         config.menuClick(result.index)
       })
       this.callHorseNative(msgName, JSON.stringify(config))

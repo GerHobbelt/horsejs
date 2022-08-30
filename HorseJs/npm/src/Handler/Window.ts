@@ -60,7 +60,7 @@ export class Window extends Base {
   show() {
     return this.callHorse(this.show, {})
   }
-  resize(config: { width; height }) {
+  resize(config: { width: number; height: number }) {
     return this.callHorse(this.resize, config)
   }
   center() {

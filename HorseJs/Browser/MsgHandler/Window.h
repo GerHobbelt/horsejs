@@ -67,7 +67,6 @@ public:
             CefBrowserSettings browserSettings;
             CefWindowInfo windowInfo;
             browser->GetHost()->ShowDevTools(windowInfo, Handler::GetInstance(), browserSettings, CefPoint());
-            //CreatePopupWindow(browser, true, CefPopupFeatures(), windowInfo, client, settings);
         }
         else if (filter == "closeDevTool")
         {

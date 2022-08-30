@@ -68,6 +68,8 @@
     <CopyFileToFolders Include="npm\app\icon\iconfont.css" />
     <CopyFileToFolders Include="npm\app\icon\iconfont.ttf" />
     <CopyFileToFolders Include="npm\app\logo.png" />
+    <CopyFileToFolders Include="npm\app\icon\icon.ico" />
+    <CopyFileToFolders Include="npm\app\icon\icon2.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
