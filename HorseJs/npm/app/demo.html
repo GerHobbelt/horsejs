@@ -1,0 +1,128 @@
+﻿<html>
+  <head>
+    <title>HorseJs</title>
+    <link rel="stylesheet" href="./icon/iconfont.css" />
+    <link rel="stylesheet" href="./common.css" />
+    <link rel="stylesheet" href="./demo.css" />
+    <style></style>
+  </head>
+  <body>
+    <div class="titleBar">
+      <div class="titleLogo">
+        <img src="logo.png" />
+      </div>
+      <div class="titleText">HorseJs Demo</div>
+      <div class="titleTool">
+        <div class="iconfont horse-minimize"></div>
+        <div class="iconfont horse-maximize"></div>
+        <div class="iconfont horse-close closeBtn"></div>
+      </div>
+    </div>
+    <div class="content">
+      <div id="menuContainer">
+        <!-- todo 这里可以做成动态的吗 -->
+        <div id="menuWindow" class="menuSelected">窗口</div>
+        <div id="menuDialog">对话框</div>
+        <div id="menuInfo">信息</div>
+        <div id="menuClipboard">剪切板</div>
+        <div id="menuSystem">系统</div>
+        <div id="menuFile">文件</div>
+        <div id="menuPath">路径</div>
+        <div id="menuMenu">菜单</div>
+        <!-- <div id="menuNet">网络</div> -->
+        <div id="menuTray">托盘图标</div>
+        <div id="menuDb">数据库</div>
+        <div id="menuPlugin">原生插件</div>
+        <!-- <div id="menuCrashReport">崩溃报告</div> -->
+      </div>
+      <div id="demoContainer">
+        <div id="sectionWindow" class="section sectionSelected">
+          <div class="demoBtn" id="windowSizeChange">改变窗口大小到800*600</div>
+          <div class="demoBtn" id="hideShowWindow">窗口隐藏，3秒钟之后窗口再显示</div>
+          <div class="demoBtn" id="maximizeWindow">最大化窗口</div>
+          <div class="demoBtn" id="restoreWindow">还原窗口</div>
+          <div class="demoBtn" id="minimizeWindow">最小化窗口</div>
+          <div class="demoBtn" id="closeWindow">关闭窗口</div>
+          <div class="demoBtn" id="centerWindow">移动窗口到屏幕中央</div>
+          <div class="demoBtn" id="openDevTool">打开调试器窗口</div>
+          <div class="demoBtn" id="closeDevTool">关闭调试器窗口</div>
+        </div>
+        <div id="sectionDialog" class="section">
+          <div class="demoBtn" id="openFile">打开文件（只能选择一个文件）</div>
+          <div class="demoBtn" id="openMultiFile">打开文件（允许选择多个文件）</div>
+          <div class="demoBtn" id="openFolder">打开一个目录</div>
+        </div>
+        <div id="sectionInfo" class="section">
+          <div class="demoBtn" id="getAppInfo">获取应用的配置信息</div>
+          <div class="demoBtn" id="getHorseInfo">获取框架的版本信息</div>
+          <div class="demoBtn" id="getOSInfo">获取操作系统的基本信息</div>
+          <div class="demoBtn" id="getUserInfo">获取用户的基本信息</div>
+          <div class="demoBtn" id="getNetInfo">获取网络的基本信息</div>
+        </div>
+        <div id="sectionClipboard" class="section">
+          <div class="demoBtn" id="getClipboardText">获取剪切板内的文本信息</div>
+          <div class="demoBtn" id="getClipboardFile">获取剪切板内的文件路径</div>
+          <div class="demoBtn" id="getClipboardHTML">获取剪切板内的HTML</div>
+          <div class="demoBtn" id="setClipboardText">向剪切板写入字符串</div>
+          <div class="demoBtn" id="setClipboardFile">向剪切板写入文件</div>
+          <div class="demoBtn" id="setClipboardHTML">向剪切板写入HTML</div>
+        </div>
+        <div id="sectionFile" class="section">
+          <div class="demoBtn" id="getLastWriteTime">获取文件的最后修改时间</div>
+          <div class="demoBtn" id="getFileSize">获取文件大小</div>
+          <div class="demoBtn" id="readFile">读取文件</div>
+          <div class="demoBtn" id="readFileFromPosition">从指定位置读取文件的一片数据</div>
+          <div class="demoBtn" id="writeFile">写文件（如果文件存在则追加内容）</div>
+          <div class="demoBtn" id="writeFileCreate">写文件（如果文件不存在则创建文件）</div>
+          <div class="demoBtn" id="copyFile">拷贝文件</div>
+        </div>
+        <div id="sectionPath" class="section">
+          <div class="demoBtn" id="readDir">获取一个文件夹下的所有路径（包括文件路径和子目录路径）</div>
+          <div class="demoBtn" id="getDesktopPath">获取桌面路径</div>
+          <div class="demoBtn" id="getAppDataPath">获取数据目录路径</div>
+          <div class="demoBtn" id="getExePath">获取可执行文件路径</div>
+          <div class="demoBtn" id="getTempPath">获取缓存目录</div>
+          <div class="demoBtn" id="getDirName">获取一个文件所在的目录</div>
+          <div class="demoBtn" id="getExtName">获取一个文件的扩展名</div>
+          <div class="demoBtn" id="isFolder">判断路径是否为一个文件夹</div>
+          <div class="demoBtn" id="join">合并两个路径</div>
+          <div class="demoBtn" id="create">创建一个目录</div>
+        </div>
+        <div id="sectionSystem" class="section">
+          <div class="demoBtn" id="setAutoStart">设置开机自启动</div>
+          <div class="demoBtn" id="removeAutoStart">取消开机自启动</div>
+          <div class="demoBtn" id="setProtocol">设置默认协议(horse://)</div>
+          <div class="demoBtn" id="removeProtocol">删除默认协议(horse://)</div>
+          <div class="demoBtn" id="sendNotify">发送系统通知</div>
+          <div class="demoBtn" id="openUrlWithDefaultBrowser">使用默认浏览器打开网页链接</div>
+        </div>
+        <div id="sectionMenu" class="section">
+          <div class="demoBtn" id="popup">显示菜单</div>
+          <div class="demoBtn" id="popupAtPoint">在窗口(200,300)位置显示菜单</div>
+        </div>
+        <div id="sectionNet" class="section">你可以直接使用http或者websocket协议访问网络；但目前还不支持直接使用本地socket访问网络</div>
+        <div id="sectionTray" class="section">
+          <div class="demoBtn" id="create">创建托盘图标</div>
+          <div class="demoBtn" id="resetIcon">更改托盘图标</div>
+          <div class="demoBtn" id="destroy">销毁托盘图标</div>
+        </div>
+        <div id="sectionDb" class="section">
+          请按顺序执行如下操作：<br />
+          <div class="demoBtn" id="openDb">（1）打开数据库</div>
+          <div class="demoBtn" id="createTable">（2）创建一个表</div>
+          <div class="demoBtn" id="insertData">（3）向这个表中插入一组数据</div>
+          <div class="demoBtn" id="selectData">（4）查找表内的数据</div>
+          <div class="demoBtn" id="deleteData">（5）删除一行数据</div>
+          <div class="demoBtn" id="updateData">（6）修改一行数据</div>
+          <div class="demoBtn" id="closeDb">（7）关闭数据库</div>
+        </div>
+        <div id="sectionPlugin" class="section">目前正在研发这个模块</div>
+        <div id="sectionCrashReport" class="section">目前暂时不支持崩溃报告</div>
+      </div>
+      <div id="sectionCodeLink" style="right: 18px" class="demoToolBtn">查看代码</div>
+      <div id="openDocument" style="right: 98px" class="demoToolBtn">查看文档</div>
+      <div id="openDevToolBtn" style="right: 180px" class="demoToolBtn">打开开发者调试工具</div>
+    </div>
+    <script src="./demo.js"></script>
+  </body>
+</html>

@@ -57,43 +57,23 @@
     <ResourceCompile Include="HorseJs.rc" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="app\horse.config.json" />
-    <CopyFileToFolders Include="app\index.html" />
-    <CopyFileToFolders Include="app\icon\iconfont.css" />
-    <CopyFileToFolders Include="app\icon\iconfont.ttf" />
-    <CopyFileToFolders Include="app\icon\iconfont.woff" />
-    <CopyFileToFolders Include="app\icon\iconfont.woff2" />
-    <CopyFileToFolders Include="Resource\icon1.png" />
-    <CopyFileToFolders Include="Resource\icon2.png" />
-    <CopyFileToFolders Include="extension\extension.js" />
-    <CopyFileToFolders Include="app\common.css" />
-    <CopyFileToFolders Include="app\demo.html" />
-    <CopyFileToFolders Include="app\common.js" />
-    <CopyFileToFolders Include="app\demo\window.js" />
-    <CopyFileToFolders Include="app\demo\dialog.js" />
-    <CopyFileToFolders Include="app\demo\info.js" />
-    <CopyFileToFolders Include="app\demo\clipboard.js" />
-    <CopyFileToFolders Include="app\demo\file.js" />
-    <CopyFileToFolders Include="app\demo.css" />
-    <CopyFileToFolders Include="app\demo.js" />
-    <CopyFileToFolders Include="app\demo\system.js" />
-    <CopyFileToFolders Include="app\demo\path.js" />
-    <CopyFileToFolders Include="app\demo\menu.js" />
     <CopyFileToFolders Include="Common\DefaultConfig.json" />
-    <CopyFileToFolders Include="app\demo\tray.js" />
-    <CopyFileToFolders Include="Resource\icon.ico" />
-    <CopyFileToFolders Include="Resource\icon2.ico" />
-    <CopyFileToFolders Include="app\logo.png" />
-    <CopyFileToFolders Include="app\demo\plugin.js" />
-    <CopyFileToFolders Include="app\demo\db.js" />
+    <CopyFileToFolders Include="npm\app\demo.js" />
+    <CopyFileToFolders Include="npm\app\demo.html" />
+    <CopyFileToFolders Include="npm\app\demo.css" />
+    <CopyFileToFolders Include="npm\app\common.css" />
+    <CopyFileToFolders Include="npm\app\index.css" />
+    <CopyFileToFolders Include="npm\app\horse.config.json" />
+    <CopyFileToFolders Include="npm\app\index.html" />
+    <CopyFileToFolders Include="npm\app\index.js" />
+    <CopyFileToFolders Include="npm\app\icon\iconfont.css" />
+    <CopyFileToFolders Include="npm\app\icon\iconfont.ttf" />
+    <CopyFileToFolders Include="npm\app\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="Resource\cef.manifest" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="icon1.ico" />
   </ItemGroup>
 </Project>
