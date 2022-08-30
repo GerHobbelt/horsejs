@@ -1,6 +1,6 @@
 {
   "name": "horsejs.org",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "description": "HorseJs's JavaScript Interface",
   "main": "dist/horse.js",
   "types": "src/main.ts",
