@@ -1,37 +1,83 @@
-# horsejs
+# HorseJs
 
-#### 介绍
-使用HTML/JS/CSS创建更快速、更稳定的桌面应用
+# 介绍
 
-#### 软件架构
-软件架构说明
+使用 HTML/JS/CSS 创建更快速、更稳定的桌面应用
 
+# 说明
 
-#### 安装教程
+HorseJs 是基于 cef 开发的，没有内置 Node.js，它直接使用 C++提供了类似 Electron 或 NW.js 的能力，比如使用 JavaScript 访问文件（或目录）、打开对话框、访问剪切板、创建托盘图标等。
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+由于没有 Node.js，所以 HorseJs 运行速度更快，Electron 创建一个新的 BrowserWindow 是非常低效的，HorseJs 就没有这个问题，同样的，少了了很多 Node.js 的干扰，HorseJs 应用也会变得更稳定。
 
-#### 使用说明
+HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，开发者可以在这类项目中使用任何 npm 包，因为构建工具会把你的依赖包构建到你的最终产物中，但 HorseJs 并不支持在生产环境中加载 Node.js 的原生组件。
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+# 起步
 
-#### 参与贡献
+1.  下载 HorseJs 的二进制文件并解压到目录 yourAppName 中，这个目录的名字你可以随便取
+2.  在 yourAppName 的目录下新建 app 子目录，并把你的静态文件（HTML,JS 与 CSS）放置到该目录下，而且 app 目录下必须包含一个名为 index.html 的文件，应用的第一个窗口将加载的就是这个文件。
+3.  启动 HorseJs.exe 你将会看到你的第一个应用；
+4.  你可以使用 Resource Hacker 之类的工具修改 HorseJs.exe 的图标或属性信息；
+5.  你可以使用 NSIS 或 InnoSetup 之类的工具把 yourAppName 目录下的内容制作成一个安装文件，分发给你的用户；
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+# 使用
 
+- (可拖拽区域)[Doc/AppRegion.md]
 
-#### 特技
+## 窗口控制
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+- 最大化当前窗口
+
+```javascript
+horse.window.maximize();
+```
+
+- 最小化当前窗口
+
+```javascript
+horse.window.maximize();
+```
+
+- 还原窗口
+
+```javascript
+horse.window.restore();
+```
+
+- 关闭窗口
+
+```javascript
+horse.window.close();
+```
+
+- 隐藏窗口
+
+```javascript
+horse.window.hide();
+```
+
+- 显示窗口
+
+```javascript
+horse.window.show();
+```
+
+- 改变窗口大小
+
+```javascript
+horse.window.resize(width, height);
+```
+
+## 对话框
+
+- 改变窗口大小
+
+```javascript
+horse.window.resize(width, height);
+```
+
+# 其他
+
+1.  本项目基于 MIT 协议开源，大家可以放心使用；
+2.  目前此项目尚处于实验验证阶段，将来我会逐步为其添加各项功能及辅助的工具；
+3.  欢迎并感谢大家提 Issue，但暂时不接受 Pull Request；

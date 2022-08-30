@@ -1,3 +1,9 @@
+/.vs/**
+/HorseJs/.vs/**
+/HorseJs/cef/**
+/HorseJs/GPUCache/**
+/HorseJs/x64/**
+/x64/**
 # Prerequisites
 *.d
 
