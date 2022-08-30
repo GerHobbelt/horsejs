@@ -11,7 +11,7 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window)
 
     HICON hIcon = (HICON)LoadImage(GetModuleHandle(0), MAKEINTRESOURCE(102), IMAGE_ICON, 32, 32, 0);
     LRESULT res = SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-    auto autoShowFirstWindow = config["autoShowFirstWindow"].get<bool>();
+    auto autoShowFirstWindow = config["firstWindow"]["autoShow"].get<bool>();
     if (autoShowFirstWindow || isDevWindow) {
         window->Show();
         window->CenterWindow(window->GetSize());
@@ -42,7 +42,7 @@ CefSize WindowDelegate::GetMaximumSize(CefRefPtr<CefView> view) {
     return getSizeConfig("maxSize");
 }
 CefSize WindowDelegate::getSizeConfig(std::string_view configName) {
-    json miniSize = Config::get()["sizeConfig"][std::string(configName)];
+    json miniSize = Config::get()["firstWindow"]["sizeConfig"][std::string(configName)];
     int width = miniSize["width"].get<int>();
     int height = miniSize["height"].get<int>();
     return CefSize(width, height);

@@ -28,7 +28,7 @@ public:
         }
         else if (filter == "getHorseInfo")
         {
-            data["HorseJsVersion"] = {0,0,8};
+            data["HorseJsVersion"] = {0,0,10};
             data["wxWidgetsVersion"] = { wxMAJOR_VERSION ,wxMINOR_VERSION ,wxRELEASE_NUMBER };
             data["cefVersion"] = { CEF_VERSION_MAJOR ,CEF_VERSION_MINOR ,CEF_VERSION_PATCH ,CEF_COMMIT_NUMBER };
             data["chromeVersion"] = { CHROME_VERSION_MAJOR ,CHROME_VERSION_MINOR ,CHROME_VERSION_BUILD ,CHROME_VERSION_PATCH };

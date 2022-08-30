@@ -1,20 +1,23 @@
 {
   "appName": "HorseJs",
-  "startPath": "app/index.html",
-  "autoShowFirstWindow": true,
-  "version": "0.0.1",
-  "sizeConfig": {
-    "miniSize": {
-      "width": 400,
-      "height": 300
-    },
-    "maxSize": {
-      "width": -1,
-      "height": -1
-    },
-    "startSize": {
-      "width": 800,
-      "height": 600
+  "firstWindow": {
+    "autoShow": true,
+    "frame": false,
+    "startPath": "app/index.html?a=",
+    "sizeConfig": {
+      "miniSize": {
+        "width": 400,
+        "height": 300
+      },
+      "maxSize": {
+        "width": -1,
+        "height": -1
+      },
+      "startSize": {
+        "width": 800,
+        "height": 600
+      }
     }
-  }
+  },
+  "version": "0.0.1"
 }

@@ -170,7 +170,7 @@
       <AdditionalManifestFiles>$(ProjectDir)Resource\cef.manifest</AdditionalManifestFiles>
     </Manifest>
     <PreBuildEvent>
-      <Command>node $(projectDir)npm\cli.js --minify</Command>
+      <Command>node $(projectDir)npm\cli.js</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -220,9 +220,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
-    <CopyFileToFolders Include="Common\DefaultConfig.json">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="npm\app\common.css">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app</DestinationFolders>
