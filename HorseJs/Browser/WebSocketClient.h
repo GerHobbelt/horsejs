@@ -13,15 +13,16 @@ class WebSocketClient
 {
 public:
     WebSocketClient() = default;
+    void terminate();
     WebSocketClient(const WebSocketClient&) = delete;
     WebSocketClient& operator=(const WebSocketClient&) = delete;
     void run();
     void sendMessage(std::string& message);
-    void terminate();
+    static WebSocketClient* getInstance();
 private:
     void onMessage(websocketpp::connection_hdl hdl, message_ptr msg);
     void listen();
-    client c;
+    client client;
     client::connection_ptr conn;
     std::thread* wsThread = nullptr;
 };

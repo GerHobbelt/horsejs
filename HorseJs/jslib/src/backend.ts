@@ -80,3 +80,4 @@ class Horse {
   }
 }
 export let horse = new Horse()
+export { WindowConfig } from './backend/controller/windowConfig'

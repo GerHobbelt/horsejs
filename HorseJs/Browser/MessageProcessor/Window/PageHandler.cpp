@@ -2,6 +2,19 @@
 #include "include/wrapper/cef_helpers.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
+#include "ViewDelegate.h"
+
+namespace {
+    CefRefPtr<PageHandler> instance = nullptr;
+}
+
+CefRefPtr<PageHandler> PageHandler::getInstance() {
+    if (!instance) {
+        instance = new PageHandler();
+    }
+    return instance;
+}
+
 //页面创建成功
 void PageHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
     CEF_REQUIRE_UI_THREAD();
@@ -18,6 +31,8 @@ void PageHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
         }
     }
     if (browsers.empty()) {
+        instance = nullptr;
+        ViewDelegate::getInstance() = nullptr;
         CefQuitMessageLoop();
     }
 }

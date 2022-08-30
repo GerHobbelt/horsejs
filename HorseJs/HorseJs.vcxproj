@@ -143,33 +143,33 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp" />
+    <ClCompile Include="Browser\BrowserProcessHandler.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MessageRouter.cpp" />
-    <ClCompile Include="Other.cpp" />
-    <ClCompile Include="PageHandler.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="V8Handler.cpp" />
-    <ClCompile Include="ViewDelegate.cpp" />
-    <ClCompile Include="WebSocketClient.cpp" />
-    <ClCompile Include="WindowDelegate.cpp" />
-    <ClCompile Include="MessageProcessor\WindowProcessor.cpp" />
+    <ClCompile Include="Browser\MessageRouter.cpp" />
+    <ClCompile Include="Other\OtherProcessHandler.cpp" />
+    <ClCompile Include="Browser\MessageProcessor\Window\PageHandler.cpp" />
+    <ClCompile Include="Render\RenderProcessHandler.cpp" />
+    <ClCompile Include="Render\V8Handler.cpp" />
+    <ClCompile Include="Browser\MessageProcessor\Window\ViewDelegate.cpp" />
+    <ClCompile Include="Browser\WebSocketClient.cpp" />
+    <ClCompile Include="Browser\MessageProcessor\Window\WindowDelegate.cpp" />
+    <ClCompile Include="Browser\MessageProcessor\Window\WindowPopupDelegate.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h" />
+    <ClInclude Include="Browser\BrowserProcessHandler.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="json\json.hpp" />
-    <ClInclude Include="MessageRouter.h" />
-    <ClInclude Include="Other.h" />
-    <ClInclude Include="PageHandler.h" />
-    <ClInclude Include="ReleaseCallback.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="V8Handler.h" />
-    <ClInclude Include="ViewDelegate.h" />
-    <ClInclude Include="WebSocketClient.h" />
-    <ClInclude Include="WindowDelegate.h" />
-    <ClInclude Include="MessageProcessor\WindowProcessor.h" />
+    <ClInclude Include="Browser\MessageRouter.h" />
+    <ClInclude Include="Other\OtherProcessHandler.h" />
+    <ClInclude Include="Browser\MessageProcessor\Window\PageHandler.h" />
+    <ClInclude Include="Render\ReleaseCallback.h" />
+    <ClInclude Include="Render\RenderProcessHandler.h" />
+    <ClInclude Include="Render\V8Handler.h" />
+    <ClInclude Include="Browser\MessageProcessor\Window\ViewDelegate.h" />
+    <ClInclude Include="Browser\WebSocketClient.h" />
+    <ClInclude Include="Browser\MessageProcessor\Window\WindowDelegate.h" />
+    <ClInclude Include="Browser\MessageProcessor\Window\WindowPopupDelegate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

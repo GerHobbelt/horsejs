@@ -18,45 +18,42 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="App.cpp">
+    <ClCompile Include="Browser\MessageProcessor\Window\WindowDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="WindowDelegate.cpp">
+    <ClCompile Include="Browser\MessageProcessor\Window\ViewDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ViewDelegate.cpp">
+    <ClCompile Include="Browser\MessageProcessor\Window\PageHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PageHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Other.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="V8Handler.cpp">
+    <ClCompile Include="Render\V8Handler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Config.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="WebSocketClient.cpp">
+    <ClCompile Include="Browser\WebSocketClient.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="MessageRouter.cpp">
+    <ClCompile Include="Browser\MessageRouter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="MessageProcessor\WindowProcessor.cpp">
+    <ClCompile Include="Browser\BrowserProcessHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\RenderProcessHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Other\OtherProcessHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Browser\MessageProcessor\Window\WindowPopupDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowDelegate.h">
+    <ClInclude Include="Browser\MessageProcessor\Window\WindowDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="json\json.hpp">
@@ -65,31 +62,34 @@
     <ClInclude Include="Config.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ViewDelegate.h">
+    <ClInclude Include="Browser\MessageProcessor\Window\ViewDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PageHandler.h">
+    <ClInclude Include="Browser\MessageProcessor\Window\PageHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
+    <ClInclude Include="Render\V8Handler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Other.h">
+    <ClInclude Include="Browser\WebSocketClient.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="V8Handler.h">
+    <ClInclude Include="Render\ReleaseCallback.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="WebSocketClient.h">
+    <ClInclude Include="Browser\MessageRouter.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ReleaseCallback.h">
+    <ClInclude Include="Browser\BrowserProcessHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MessageRouter.h">
+    <ClInclude Include="Render\RenderProcessHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MessageProcessor\WindowProcessor.h">
+    <ClInclude Include="Other\OtherProcessHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\MessageProcessor\Window\WindowPopupDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
