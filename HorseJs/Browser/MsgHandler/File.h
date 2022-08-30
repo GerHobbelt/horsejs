@@ -30,12 +30,6 @@ public:
             long long size = std::filesystem::file_size(path);
             result["data"] = size;           
         }
-        else if (filter == "isFolder")
-        {
-            auto path = Helper::convertString(configObj["path"].get<std::string>());
-            auto flag = std::filesystem::is_directory(path);
-            result["data"] = flag;
-        }
         else if (filter == "getLastWriteTime")
         {
             auto path = Helper::convertString(configObj["path"].get<std::string>());

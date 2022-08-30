@@ -1,6 +1,12 @@
 #include "Handler.h"
 #include <sstream>
 #include <string>
+#include <wx/msgdlg.h>
+#include <wx/windowptr.h>
+#include <wx/event.h>
+#include <wx/thread.h>
+
+
 
 #include "include/base/cef_bind.h"
 #include "include/cef_app.h"
@@ -9,6 +15,8 @@
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_closure_task.h"
 #include "include/wrapper/cef_helpers.h"
+#include "../Common/Config.h"
+
 #include "MsgHandler/Window.h"
 #include "MsgHandler/Dialog.h"
 #include "MsgHandler/Info.h"
@@ -18,6 +26,8 @@
 #include "MsgHandler/System.h"
 #include "MsgHandler/Menu.h"
 #include "MsgHandler/Tray.h"
+#include "MsgHandler/Plugin.h"
+#include "MsgHandler/Db.h"
 
 namespace {
     Handler* g_instance = nullptr;
@@ -64,6 +74,85 @@ void Handler::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& titl
         CefRefPtr<CefWindow> window = browser_view->GetWindow();
         if (window) window->SetTitle(title);
     }
+}
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="browser"></param>
+/// <param name="origin_url"></param>
+/// <param name="dialog_type"></param>
+/// <param name="message_text"></param>
+/// <param name="default_prompt_text"></param>
+/// <param name="callback"></param>
+/// <param name="suppress_message">
+/// 如果这个参数被设置为true，并且函数返回值为false，将阻止页面打开JS的弹出窗口。 
+/// 如果这个参数被设置为false，并且函数返回值也是false，页面将会打开这个JS弹出窗口。
+/// </param>
+/// <returns></returns>
+bool Handler::OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, JSDialogType dialog_type, const CefString& message_text, const CefString& default_prompt_text, CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message)
+{
+    HWND winHandle = browser->GetHost()->GetWindowHandle();
+    auto parent = wxFindWinFromHandle(winHandle);
+    auto config = Config::get();
+    auto appName = wxString::FromUTF8(config["appName"].get<std::string>());
+    auto msg = message_text.ToWString();
+    suppress_message = true;
+    if (dialog_type == JSDIALOGTYPE_ALERT) {
+        wxMessageDialog dialog(parent, msg, appName, wxOK | wxCENTRE);
+        dialog.ShowModal();
+    }
+    else if (dialog_type == JSDIALOGTYPE_CONFIRM) {
+        wxMessageDialog dialog(parent, msg, appName, wxOK | wxCANCEL);
+        auto result = dialog.ShowModal();  //(()=>{var a = confirm('测试');console.log(a)})();
+        if (result == wxID_OK)
+        {
+            callback->Continue(true, "");
+        }
+        else
+        {
+            callback->Continue(false, "");
+        }
+    }
+    else if (dialog_type == JSDIALOGTYPE_PROMPT) {
+        wxMessageDialog dialog(parent, "抱歉，目前暂时不支持prompt弹窗", appName, wxOK | wxCENTRE);
+        dialog.ShowModal();
+        //CEF_REQUIRE_UI_THREAD();
+        //wxGetTextFromUser(msg, appName, wxEmptyString, parent);
+        //suppress_message = false;        
+        //CefPostTask(TID_UI, base::BindOnce(&readFile, path, bufferSize, frame, msgName));
+        //dlg = new wxTextEntryDialog(parent, msg, appName, wxEmptyString);
+        //dlg->Show();
+        //dlg->Bind()
+        //wxMutex mutex;
+        //wxCondition condition(mutex);
+        //int i = 0;
+        //parent->GetEventHandler()->CallAfter([&]()
+        //    {
+                //wxTextEntryDialog dlg(parent, msg, appName, wxEmptyString);
+                //auto result = wxGetTextFromUser(msg, appName, wxEmptyString, parent);
+                //callback->Continue(true, result.ToStdString());
+                //if (dlg.ShowModal() == wxID_OK)
+                //{
+                //    auto result = dlg.GetValue();
+                //    callback->Continue(true, result.ToStdString());
+                //}
+                //else
+                //{
+                //    CefString result;
+                //    callback->Continue(false,result);
+                //}
+                //i = 1;
+                //condition.Broadcast();
+            //});
+        //condition.Wait();
+        //condition.Broadcast();
+        //condition.Wait([&] {return i == 1; });
+        //todo 这里有问题
+        //auto result = wxGetTextFromUser(msg, appName, wxEmptyString, parent);
+        //callback->Continue(true, result.ToStdString());
+    }
+    return false;
 }
 
 void Handler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
@@ -204,10 +293,6 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     }
     else if (message_name._Starts_with("System"))
     {
-        //wxNotificationMessage* notification = new wxNotificationMessage(L"测试测试", L"内容内容");
-        //notification->Bind(wxEVT_NOTIFICATION_MESSAGE_CLICK, &Handler::notifyClick,-1,-1,);
-        //notification->Show();
-        //return false;
         return System::ProcessMsg(browser, frame, source_process, message);
     }
     else if (message_name._Starts_with("Menu"))
@@ -218,19 +303,13 @@ bool Handler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<
     {
         return Tray::ProcessMsg(browser, frame, source_process, message);
     }
+    else if (message_name._Starts_with("Plugin"))
+    {
+        return Plugin::ProcessMsg(browser, frame, source_process, message);
+    }
+    else if (message_name._Starts_with("Db"))
+    {
+        return Db::ProcessMsg(browser, frame, source_process, message);
+    }
     return false;
 }
-void Handler::notifyClick(wxCommandEvent& event) {
-
-    auto target = wxDynamicCast(event.GetEventObject(), wxNotificationMessage);
-
-    //ClientData* clientData = static_cast<ClientData*>();
-    //auto type = event.GetEventType();
-    //if (type == wxEVT_NOTIFICATION_MESSAGE_CLICK) {
-    //    auto pr = clientData->browser;
-    //    bool flag = type == wxEVT_NOTIFICATION_MESSAGE_CLICK;
-    //}
-    //else if (type == wxEVT_NOTIFICATION_MESSAGE_DISMISSED) {
-    //    bool flag = type == wxEVT_NOTIFICATION_MESSAGE_CLICK;
-    //}
-};

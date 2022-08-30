@@ -13,6 +13,7 @@ public:
     static bool ProcessMsg(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
     {
         std::string msgName = message->GetName();
+        json configObj = Helper::getConfig(message);
         json result;
         result["success"] = true;
         CefRefPtr<CefBrowserView> browserView = CefBrowserView::GetForBrowser(browser);
@@ -48,18 +49,11 @@ public:
         }
         else if (filter == "resize")
         {
-            CefRefPtr<CefListValue> args = message->GetArgumentList();
-            auto sizeStr = args->GetString(0).ToString();
-            auto sizeObj = json::parse(sizeStr);
-            CefSize size(sizeObj["width"], sizeObj["height"]);
+            CefSize size(configObj["width"], configObj["height"]);
             window->SetSize(size);
         }
         else if (filter == "open")
         {
-            CEF_REQUIRE_UI_THREAD();
-            CefRefPtr<CefListValue> args = message->GetArgumentList();
-            auto configStr = args->GetString(0).ToString();
-            auto configObj = json::parse(configStr);
             CefSize size(configObj["width"], configObj["height"]);            
             CefBrowserSettings browserSettings;
             std::string url = configObj["url"];
@@ -73,6 +67,10 @@ public:
             CefWindowInfo windowInfo;
             browser->GetHost()->ShowDevTools(windowInfo, Handler::GetInstance(), browserSettings, CefPoint());
             //CreatePopupWindow(browser, true, CefPopupFeatures(), windowInfo, client, settings);
+        }
+        else if (filter == "closeDevTool")
+        {
+            browser->GetHost()->CloseDevTools();
         }
         Helper::SendMsg(frame, msgName, result);
         return true;

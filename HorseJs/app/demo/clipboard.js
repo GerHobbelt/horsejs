@@ -1,22 +1,22 @@
 export let processor = {
   getClipboardText: async () => {
     let result = await horse.clipboard.getData({ dataType: "text" });
-    demoLog(result);
+    console.log(result);
   },
   getClipboardFile: async () => {
     let result = await horse.clipboard.getData({ dataType: "file" });
-    demoLog(result);
+    console.log(result);
   },
   getClipboardHTML: async () => {
     let result = await horse.clipboard.getData({ dataType: "html" });
-    demoLog(result);
+    console.log(result);
   },
   setClipboardText: async () => {
     let result = await horse.clipboard.setData({
       dataType: "text",
       data: "此文本被写入剪切板",
     });
-    demoLog(result);
+    console.log(result);
   },
   setClipboardFile: async () => {
     let fileResult = await horse.dialog.openFile({
@@ -30,13 +30,13 @@ export let processor = {
       dataType: "file",
       data: fileResult.data,
     });
-    demoLog(result);
+    console.log(result);
   },
   setClipboardHTML: async () => {
     let result = await horse.clipboard.setData({
       dataType: "html",
       data: `<span style="color:red">此HTML被写入剪切板</span>`,
     });
-    demoLog(result);
+    console.log(result);
   },
 };

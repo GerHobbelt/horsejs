@@ -1,37 +1,41 @@
 export let processor = {
   windowSizeChange: async () => {
     let result = await horse.window.resize({ width: 800, height: 600 });
-    demoLog(result);
+    console.log(result);
   },
   hideShowWindow: async () => {
     let result = await horse.window.hide();
     setTimeout(() => {
       horse.window.show();
     }, 3000);
-    demoLog(result);
+    console.log(result);
   },
   maximizeWindow: async () => {
     let result = await horse.window.maximize();
-    demoLog(result);
+    console.log(result);
   },
   restoreWindow: async () => {
     let result = await horse.window.restore();
-    demoLog(result);
+    console.log(result);
   },
   minimizeWindow: async () => {
     let result = await horse.window.minimize();
-    demoLog(result);
+    console.log(result);
   },
   closeWindow: async () => {
     let result = await horse.window.close();
-    demoLog(result);
+    console.log(result);
   },
   centerWindow: async () => {
     let result = await horse.window.center();
-    demoLog(result);
+    console.log(result);
   },
   openDevTool: async () => {
     let result = await horse.window.openDevTool();
-    demoLog(result);
+    console.log(result);
+  },
+  closeDevTool: async () => {
+    let result = await horse.window.closeDevTool();
+    console.log(result);
   },
 };
