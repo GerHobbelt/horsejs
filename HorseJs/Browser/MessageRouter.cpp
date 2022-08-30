@@ -6,6 +6,7 @@
 #include "include/wrapper/cef_closure_task.h"
 #include "MessageProcessor/Window/WindowDelegate.h"
 #include "MessageProcessor/Window/WindowMultiViewDelegate.h"
+#include "MessageProcessor/Window/WindowOverlayViewDelegate.h"
 namespace MessageRouter {
 	void route(const nlohmann::json& message) {
 		auto className = message["className"].get<std::string>();
@@ -18,6 +19,9 @@ namespace MessageRouter {
 			else if (actionName == "createWindowMultiView") {
 				CefPostTask(TID_UI, base::BindOnce(&MessageRouter::createWindowMultiView, message["params"]));
 			}
+			else if (actionName == "createWindowOverlayView") {
+				CefPostTask(TID_UI, base::BindOnce(&MessageRouter::createWindowOverlayView, message["params"]));
+			}
 			else if (actionName == "contextMenu") {
 
 			}			
@@ -29,6 +33,10 @@ namespace MessageRouter {
 	}
 	void createWindowMultiView(const nlohmann::json& params) {
 		auto windowDelegate = new WindowMultiViewDelegate(params);
+		CefWindow::CreateTopLevelWindow(windowDelegate);
+	}
+	void createWindowOverlayView(const nlohmann::json& params) {
+		auto windowDelegate = new WindowOverlayViewDelegate(params);
 		CefWindow::CreateTopLevelWindow(windowDelegate);
 	}
 }

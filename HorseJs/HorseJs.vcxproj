@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Browser\BrowserProcessHandler.cpp" />
+    <ClCompile Include="Browser\MessageProcessor\Window\WindowOverlayViewDelegate.cpp" />
     <ClCompile Include="Browser\MessageProcessor\Window\WindowDelegate.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="main.cpp" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Browser\BrowserProcessHandler.h" />
+    <ClInclude Include="Browser\MessageProcessor\Window\WindowOverlayViewDelegate.h" />
     <ClInclude Include="Browser\MessageProcessor\Window\WindowDelegate.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="json\json.hpp" />

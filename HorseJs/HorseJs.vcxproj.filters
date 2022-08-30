@@ -54,6 +54,9 @@
     <ClCompile Include="Browser\MessageProcessor\Window\WindowDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Browser\MessageProcessor\Window\WindowOverlayViewDelegate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Browser\MessageProcessor\Window\WindowMultiViewDelegate.h">
@@ -96,6 +99,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Browser\MessageProcessor\Window\WindowDelegate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\MessageProcessor\Window\WindowOverlayViewDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

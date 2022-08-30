@@ -1,4 +1,10 @@
-import { horse, WindowConfig, WindowMultiViewsConfig } from "../../jslib/src/backend";
+import {
+  horse,
+  WindowConfig,
+  WindowMultiViewsConfig,
+  WindowOverlayViewConfig,
+  WindowOverlayDockMode,
+} from "../../jslib/src/backend";
 import { config } from "../horse.config";
 
 let createWindowMultiView = () => {
@@ -19,6 +25,21 @@ let createWindowMultiView = () => {
   ];
   horse.window.createWindowMultiView(config);
 };
+
+let createWindowOverlayView = () => {
+  let config = new WindowOverlayViewConfig();
+  config.title = "这是我的窗口！！！";
+  config.frameless = false;
+  config.position = "absolute";
+  config.views = [
+    {
+      url: "https://sso.hikvision.com/login?service=http%3A%2F%2Fsso.hikvision.com.cn%2Fdomino%2FdominoLogin",
+      dockMode: WindowOverlayDockMode.topLeft,
+    },
+  ];
+  horse.window.createWindowOverlayView(config);
+};
+
 let createWindow = () => {
   let config = new WindowConfig();
   config.title = "这是我的窗口！！！";
@@ -34,7 +55,8 @@ horse.onServiceReady = (app) => {
   });
 };
 horse.onBrowserReady = () => {
+  createWindowOverlayView();
   // createWindowMultiView();
-  createWindow();
+  // createWindow();
 };
 horse.init(config);
