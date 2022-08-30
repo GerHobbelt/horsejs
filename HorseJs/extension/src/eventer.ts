@@ -17,7 +17,7 @@ class Eventer {
     if (!this.dic[msgName]) this.dic[msgName] = [cbWrap]
     else this.dic[msgName].push(cbWrap)
   }
-  public removeEventListener(msgName: string, cb: Function) {
+  public removeEventListener(msgName: string, cb?: Function) {
     if (!this.dic[msgName] || this.dic[msgName].length < 1) return
     if (!cb) {
       delete this.dic[msgName]

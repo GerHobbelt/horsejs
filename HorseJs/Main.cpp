@@ -54,15 +54,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, [[maybe_unused]] HINSTANCE hPrevInsta
     //CefDoMessageLoopWork();
     wxTheApp->OnRun();
     wxEntryCleanup();
-    try
-    {
-        CefShutdown();
-    }
-    catch (...)
-    {
-
-    }
-    
+    CefShutdown();    
     return 0;
 }
 

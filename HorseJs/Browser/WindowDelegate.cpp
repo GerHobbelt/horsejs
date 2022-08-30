@@ -6,20 +6,20 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window)
 {
     window->AddChildView(browser_view_);
     auto config = Config::get();
+    HWND hwnd = window->GetWindowHandle();
+    nativeWindow = new NativeWindow(hwnd);
+    HICON hIcon = (HICON)LoadImage(GetModuleHandle(0), MAKEINTRESOURCE(102), IMAGE_ICON, 32, 32, 0);
+    LRESULT res = SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
     auto autoShowFirstWindow = config["autoShowFirstWindow"].get<bool>();
     if (autoShowFirstWindow) {
         window->Show();
-        //TopWindow* win = new TopWindow();
-        //win->Show();
-        HWND hwnd = window->GetWindowHandle();
-        nativeWindow = new NativeWindow(hwnd);
+        window->CenterWindow(window->GetSize());
+        browser_view_->RequestFocus();
     }
-    window->CenterWindow(window->GetSize());
-    CefRefPtr<CefImage> image = CefImage::CreateImage();
-    PrepareIcon(image, 1.0f, "icon1.png");
-    PrepareIcon(image, 2.0f, "icon2.png");
-    window->SetWindowAppIcon(image);
-    browser_view_->RequestFocus();
+    //CefRefPtr<CefImage> image = CefImage::CreateImage();
+    //PrepareIcon(image, 1.0f, "icon1.png");
+    //PrepareIcon(image, 2.0f, "icon2.png");
+    //window->SetWindowAppIcon(image);
 }
 bool WindowDelegate::CanClose(CefRefPtr<CefWindow> window)
 {

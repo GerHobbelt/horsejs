@@ -1,6 +1,8 @@
 <div align=center>
 <img src="Doc/horseApp.png" />
 <br />
+健壮 | 优雅 | 迅捷
+<br />
 使用 HTML/JS/CSS 创建更快速、更稳定的桌面应用。
 <br />
 QQ交流群：650631559；微信公众号：桌面软件
@@ -35,6 +37,7 @@ HorseJs 可以直接加载 webpack 或 Rollup 构建的任何前端项目，由�
   - [路径](Doc/Horse/Path.md)
   - [系统](Doc/Horse/System.md)
   - [菜单](Doc/Horse/Menu.md)
+  - [托盘图标](Doc/Horse/Tray.md)
 - [可拖拽区域](Doc/AppRegion.md)
 - [源码构建指南](Doc/HorseJsBuild.md)
 - [升级记录](Doc/Update.md)
