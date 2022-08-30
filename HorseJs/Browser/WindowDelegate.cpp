@@ -21,14 +21,14 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window)
     window->SetWindowAppIcon(image);
     browser_view_->RequestFocus();
 }
-//bool WindowDelegate::CanClose(CefRefPtr<CefWindow> window)
-//{
-//    CefRefPtr<CefBrowser> browser = browser_view_->GetBrowser();
-//    if (browser) {
-//        return browser->GetHost()->TryCloseBrowser();
-//    }        
-//    return true;
-//}
+bool WindowDelegate::CanClose(CefRefPtr<CefWindow> window)
+{
+    CefRefPtr<CefBrowser> browser = browser_view_->GetBrowser();
+    if (browser) {
+        return browser->GetHost()->TryCloseBrowser();
+    }        
+    return true;
+}
 
 CefSize WindowDelegate::GetPreferredSize(CefRefPtr<CefView> view){
     return getSizeConfig("startSize");

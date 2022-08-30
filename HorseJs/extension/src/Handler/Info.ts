@@ -11,4 +11,7 @@ export class Info extends Base {
   getOSInfo() {
     return this.callHorse(this.getOSInfo, {})
   }
+  getHardwareInfo() {
+    return this.callHorse(this.getHardwareInfo, {})
+  }
 }

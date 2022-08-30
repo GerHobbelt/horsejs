@@ -27,7 +27,6 @@
     <ClInclude Include="Browser\MsgHandler\DialogCallback.h" />
     <ClInclude Include="Browser\MsgHandler\File.h" />
     <ClInclude Include="Browser\MsgHandler\Info.h" />
-    <ClInclude Include="Browser\MsgHandler\Shell.h" />
     <ClInclude Include="Browser\MsgHandler\Window.h" />
     <ClInclude Include="Browser\Browser.h" />
     <ClInclude Include="Browser\Handler.h" />

@@ -12,6 +12,7 @@
 /cefRelease/**
 /cefDebug/**
 /enc_temp_folder/**
+/HorseJs/extension/extension.js
 # Prerequisites
 *.d
 
@@ -44,3 +45,4 @@
 *.exe
 *.out
 *.app
+

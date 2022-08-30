@@ -1,13 +1,9 @@
-# HorseJs
-
-# 介绍
-
-使用 HTML/JS/CSS 创建更快速、更稳定的桌面应用。
-
 <div align=center>
 <img src="Doc/horseApp.png" />
 <br />
-QQ交流群：650631559
+使用 HTML/JS/CSS 创建更快速、更稳定的桌面应用。
+<br />
+QQ交流群：650631559；微信公众号：桌面软件
 </div>
 
 # 说明
