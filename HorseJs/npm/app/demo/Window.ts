@@ -28,6 +28,13 @@ export class Window {
     let result = await horse.window.close()
     console.log(result)
   }
+  async openWindow() {
+    let result = await horse.window.open({
+      url: 'https://www.baidu.com',
+      frame: true,
+    })
+    console.log(result)
+  }
   async centerWindow() {
     let result = await horse.window.center()
     console.log(result)
