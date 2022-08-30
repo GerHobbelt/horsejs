@@ -220,9 +220,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
-    <CopyFileToFolders Include="Common\DefaultConfig.json">
-      <FileType>Document</FileType>
-    </CopyFileToFolders>
     <CopyFileToFolders Include="npm\app\common.css">
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app</DestinationFolders>
