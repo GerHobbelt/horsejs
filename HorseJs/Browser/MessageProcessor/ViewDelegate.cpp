@@ -15,7 +15,15 @@ CefRefPtr<ViewDelegate> ViewDelegate::getInstance() {
     }
     return instance;
 }
+void ViewDelegate::OnWindowChanged(CefRefPtr<CefView> view, bool added) {
+    if (!added) return;
+    auto win = view->GetWindow();
 
+}
+//CefSize ViewDelegate::GetPreferredSize(CefRefPtr<CefView> view) {
+//    CefSize size(100, 200);
+//    return size;
+//}
 // 当前页面弹出新窗口时此方法被执行
 bool ViewDelegate::OnPopupBrowserViewCreated(CefRefPtr<CefBrowserView> browserView, CefRefPtr<CefBrowserView> popupBrowserView, bool isDevtools)
 {

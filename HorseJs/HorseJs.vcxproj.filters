@@ -51,7 +51,7 @@
     <ClCompile Include="Browser\MessageProcessor\Window\WindowPopupDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Browser\MessageProcessor\Window\WindowDelegate.cpp">
+    <ClCompile Include="Browser\MessageProcessor\WindowDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Browser\MessageProcessor\Window\WindowOverlayViewDelegate.cpp">
@@ -98,10 +98,13 @@
     <ClInclude Include="Browser\MessageProcessor\Window\WindowPopupDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Browser\MessageProcessor\Window\WindowDelegate.h">
+    <ClInclude Include="Browser\MessageProcessor\WindowDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Browser\MessageProcessor\Window\WindowOverlayViewDelegate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\ButtonDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

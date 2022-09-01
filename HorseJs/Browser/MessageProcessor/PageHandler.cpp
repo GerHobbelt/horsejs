@@ -3,6 +3,7 @@
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "ViewDelegate.h"
+#include "../WebSocketClient.h"
 
 namespace {
     CefRefPtr<PageHandler> instance = nullptr;

@@ -40,6 +40,7 @@ void WindowMultiViewDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
     }    
     window->SetTitle(config["title"].get<std::string>());
 }
+
 /// <summary>
 /// 窗口销毁成功
 /// </summary>

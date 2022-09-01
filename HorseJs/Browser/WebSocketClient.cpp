@@ -25,7 +25,7 @@ void WebSocketClient::listen() {
     websocketpp::lib::error_code ec;
     conn = client.get_connection(uri, ec);
     if (ec) {
-        LOG(0) << "websocket connect error" << ec.message();
+        LOG(0) << "websocket connect error:" << ec.message();
         return;
     }
     // 这里只是请求建立连接，服务端收不到任何消息
@@ -58,7 +58,7 @@ void WebSocketClient::sendMessage(std::string& message) {
     websocketpp::lib::error_code ec;
     client.send(conn->get_handle(), message, websocketpp::frame::opcode::text, ec);
     if (ec) {
-        std::cout << "Echo failed because: " << ec.message() << std::endl;
+        LOG(0)<<"websocket message send error:" << ec.message();
     }
 }
 void WebSocketClient::terminate() {
