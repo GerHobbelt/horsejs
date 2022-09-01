@@ -12,6 +12,7 @@ let linkLogic = () => {
       url: 'http://horse/app/demo.html',
       width: 1024,
       height: 768,
+      frame: false,
     })
   })
 }

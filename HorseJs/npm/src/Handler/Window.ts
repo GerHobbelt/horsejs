@@ -24,9 +24,11 @@ export class Window extends Base {
       else eventer.emitEvent(`${this.className}_show`)
     })
   }
-  open(config: { width?: number; height?: number; url: string }) {
+  open(config: { width?: number; height?: number; url: string; frame?: boolean }) {
     if (!config.width) config.width = 1000
     if (!config.height) config.height = 800
+    if (config.frame == undefined) config.frame = true
+    console.log(config)
     return this.callHorse(this.open, config)
   }
   addEventListener(eventName: eventType, cb: Function) {

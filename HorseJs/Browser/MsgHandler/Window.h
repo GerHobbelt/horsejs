@@ -57,8 +57,9 @@ public:
             CefSize size(configObj["width"], configObj["height"]);            
             CefBrowserSettings browserSettings;
             std::string url = configObj["url"];
+            auto frameless = !configObj["frame"];
             CefRefPtr<CefBrowserView> browserView = CefBrowserView::CreateBrowserView(Handler::GetInstance(), url, browserSettings, nullptr, nullptr, new ViewDelegate());
-            auto window = CefWindow::CreateTopLevelWindow(new WindowDelegate(browserView));
+            auto window = CefWindow::CreateTopLevelWindow(new WindowDelegate(browserView,frameless));
             window->SetSize(size);
         }
         else if (filter == "openDevTool")
