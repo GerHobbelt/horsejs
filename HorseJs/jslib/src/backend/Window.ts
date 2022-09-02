@@ -22,12 +22,28 @@ export class Window extends BaseObject {
     }
     browserMessageChannel.sendMessage(msg)
   }
-  async addViewOverlay(config: BrowserViewConfig) {
+  async addBrowserView(config: BrowserViewConfig) {
     let msg = {
       className: Window.name,
-      actionName: this.addViewOverlay.name,
+      actionName: this.addBrowserView.name,
       __winId: this.id,
       params: config,
+    }
+    await BaseObject.sendMsgToBrowser(msg)
+  }
+  async hide() {
+    let msg = {
+      className: Window.name,
+      actionName: this.hide.name,
+      __winId: this.id,
+    }
+    await BaseObject.sendMsgToBrowser(msg)
+  }
+  async show() {
+    let msg = {
+      className: Window.name,
+      actionName: this.show.name,
+      __winId: this.id,
     }
     await BaseObject.sendMsgToBrowser(msg)
   }

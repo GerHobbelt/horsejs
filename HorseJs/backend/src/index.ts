@@ -40,6 +40,21 @@ let createWindow = async () => {
   config.frameless = true;
   config.url = "https://www.baidu.com";
   let win: Window = await Window.createWindow(config);
+  let config2 = new WindowConfig();
+  config2.position = "absolute";
+  config2.title = "这是我的窗口！！！";
+  config2.frameless = true;
+  config2.url = "https://www.baidu.com";
+  let win2: Window = await Window.createWindow(config2);
+  setTimeout(async () => {
+    await win.hide();
+    console.log("hide window");
+    setTimeout(async () => {
+      await win.show();
+      console.log("show window");
+    }, 3000);
+  }, 8000);
+
   console.log(win);
   let viewConfig = new BrowserViewConfig();
   viewConfig.url = "https://cn.bing.com";
@@ -48,7 +63,7 @@ let createWindow = async () => {
   viewConfig.b = 120;
   viewConfig.c = 300;
   viewConfig.d = 300;
-  await win.addViewOverlay(viewConfig);
+  await win.addBrowserView(viewConfig);
 
   let viewConfig2 = new BrowserViewConfig();
   viewConfig2.url = "https://cn.bing.com";
@@ -57,7 +72,7 @@ let createWindow = async () => {
   viewConfig2.b = 12;
   viewConfig2.c = 300;
   viewConfig2.d = 300;
-  await win.addViewOverlay(viewConfig2);
+  await win.addBrowserView(viewConfig2);
   console.log("ok");
 };
 

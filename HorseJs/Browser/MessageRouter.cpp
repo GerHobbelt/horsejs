@@ -31,6 +31,32 @@ namespace MessageRouter {
 		std::string msgStr = backMsg.dump();
 		wsClient->sendMessage(msgStr);
 	}
+	void hideWindow(const nlohmann::json& message) {
+		auto id = message["__winId"].get<int>();
+		for (auto winDelegate : windowDelegateVector) {
+			if (winDelegate->win->GetID() == id) {
+				winDelegate->win->Hide();
+				break;
+			}
+		}
+		auto wsClient = WebSocketClient::getInstance();
+		nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
+		std::string msgStr = backMsg.dump();
+		wsClient->sendMessage(msgStr);
+	}
+	void showWindow(const nlohmann::json& message) {
+		auto id = message["__winId"].get<int>();
+		for (auto winDelegate : windowDelegateVector) {
+			if (winDelegate->win->GetID() == id) {
+				winDelegate->win->Show();
+				break;
+			}
+		}
+		auto wsClient = WebSocketClient::getInstance();
+		nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
+		std::string msgStr = backMsg.dump();
+		wsClient->sendMessage(msgStr);
+	}
 	void createWindowMultiView(const nlohmann::json& params) {
 		auto windowDelegate = new WindowMultiViewDelegate(params);
 		CefWindow::CreateTopLevelWindow(windowDelegate);
@@ -47,18 +73,25 @@ namespace MessageRouter {
 				//要让主线程做这个工作
 				CefPostTask(TID_UI, base::BindOnce(&createWindow, message));
 			}
-			else if (actionName == "addViewOverlay") {
+			else if (actionName == "addBrowserView") {
 				CefPostTask(TID_UI, base::BindOnce(&addViewOverlay, message));
 			}
-			else if (actionName == "createWindowMultiView") {
+			else if (actionName == "hide") {
+				CefPostTask(TID_UI, base::BindOnce(&hideWindow, message));
+			}
+			else if (actionName == "show") {
+				CefPostTask(TID_UI, base::BindOnce(&showWindow, message));
+			}
+			else if (actionName == "contextMenu") {
+
+			}
+
+/*			else if (actionName == "createWindowMultiView") {
 				CefPostTask(TID_UI, base::BindOnce(&createWindowMultiView, message["params"]));
 			}
 			else if (actionName == "createWindowOverlayView") {
 				CefPostTask(TID_UI, base::BindOnce(&createWindowOverlayView, message["params"]));
-			}
-			else if (actionName == "contextMenu") {
-
-			}			
+			}*/		
 		}
 	}
 }
