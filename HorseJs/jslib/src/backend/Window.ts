@@ -1,7 +1,5 @@
 import { BaseObject } from './BaseObject'
 import { WindowConfig } from './WindowConfig'
-import { WindowMultiViewsConfig } from './controller/windowConfig/WindowMultiViewsConfig'
-import { browserMessageChannel } from './browserMessageChannel'
 import { BrowserViewConfig } from './BrowserViewConfig'
 export class Window extends BaseObject {
   static async createWindow(config: WindowConfig): Promise<Window> {
@@ -42,6 +40,9 @@ export class Window extends BaseObject {
   }
   async hideAllBrowserView() {}
   async hideBrowserView() {}
+  async resize() {}
+  async center() {}
+
   private constructor(id: number) {
     super(id)
   }

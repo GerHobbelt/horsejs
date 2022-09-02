@@ -1,10 +1,4 @@
-import {
-  horse,
-  Window,
-  WindowConfig,
-  WindowMultiViewsConfig,
-  BrowserViewConfig,
-} from "../../jslib/src/backend";
+import { horse, Window, WindowConfig, BrowserViewConfig } from "../../jslib/src/backend";
 import { config } from "../horse.config";
 
 // let createWindowMultiView = () => {

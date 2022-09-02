@@ -1,6 +1,5 @@
 import { browserMessageChannel } from './browserMessageChannel'
 import EventEmitter from 'events'
-import crypto from 'crypto'
 
 export class BaseObject extends EventEmitter {
   public id: number

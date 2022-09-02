@@ -1,5 +1,4 @@
 export { horse } from './backend/Horse'
 export { Window } from './backend/Window'
 export { WindowConfig } from './backend/WindowConfig'
-export { WindowMultiViewsConfig } from './backend/controller/windowConfig/WindowMultiViewsConfig'
 export { BrowserViewConfig } from './backend/BrowserViewConfig'
