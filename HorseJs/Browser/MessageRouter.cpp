@@ -5,13 +5,11 @@
 #include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
 #include "MessageProcessor/WindowDelegate.h"
-#include "MessageProcessor/Window/WindowMultiViewDelegate.h"
-#include "MessageProcessor/Window/WindowOverlayViewDelegate.h"
 #include "WebSocketClient.h"
 namespace MessageRouter {
 	std::vector<WindowDelegate*> windowDelegateVector;
 	void createWindow(const nlohmann::json& message) {
-		auto winDelegate = new WindowDelegate(message["params"]);
+		auto winDelegate = new WindowDelegate(message["params"],windowDelegateVector.size());
 		windowDelegateVector.push_back(winDelegate);
 		auto wsClient = WebSocketClient::getInstance();
 		nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} ,{"id",winDelegate->win->GetID()},};
@@ -57,14 +55,6 @@ namespace MessageRouter {
 		std::string msgStr = backMsg.dump();
 		wsClient->sendMessage(msgStr);
 	}
-	void createWindowMultiView(const nlohmann::json& params) {
-		auto windowDelegate = new WindowMultiViewDelegate(params);
-		CefWindow::CreateTopLevelWindow(windowDelegate);
-	}
-	void createWindowOverlayView(const nlohmann::json& params) {
-		auto windowDelegate = new WindowOverlayViewDelegate(params);
-		CefWindow::CreateTopLevelWindow(windowDelegate);
-	}
 	void route(const nlohmann::json& message) {
 		auto className = message["className"].get<std::string>();
 		if (className == "Window") {
@@ -85,13 +75,6 @@ namespace MessageRouter {
 			else if (actionName == "contextMenu") {
 
 			}
-
-/*			else if (actionName == "createWindowMultiView") {
-				CefPostTask(TID_UI, base::BindOnce(&createWindowMultiView, message["params"]));
-			}
-			else if (actionName == "createWindowOverlayView") {
-				CefPostTask(TID_UI, base::BindOnce(&createWindowOverlayView, message["params"]));
-			}*/		
 		}
 	}
 }

@@ -144,8 +144,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Browser\BrowserProcessHandler.cpp" />
-    <ClCompile Include="Browser\MessageProcessor\Window\WindowOverlayViewDelegate.cpp" />
     <ClCompile Include="Browser\MessageProcessor\WindowDelegate.cpp" />
+    <ClCompile Include="Browser\MessageProcessor\WindowPopupDelegate.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Browser\MessageRouter.cpp" />
@@ -153,16 +153,13 @@
     <ClCompile Include="Browser\MessageProcessor\PageHandler.cpp" />
     <ClCompile Include="Render\RenderProcessHandler.cpp" />
     <ClCompile Include="Render\V8Handler.cpp" />
-    <ClCompile Include="Browser\MessageProcessor\ViewDelegate.cpp" />
     <ClCompile Include="Browser\WebSocketClient.cpp" />
-    <ClCompile Include="Browser\MessageProcessor\Window\WindowMultiViewDelegate.cpp" />
-    <ClCompile Include="Browser\MessageProcessor\Window\WindowPopupDelegate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Browser\BrowserProcessHandler.h" />
     <ClInclude Include="Browser\ButtonDelegate.h" />
-    <ClInclude Include="Browser\MessageProcessor\Window\WindowOverlayViewDelegate.h" />
     <ClInclude Include="Browser\MessageProcessor\WindowDelegate.h" />
+    <ClInclude Include="Browser\MessageProcessor\WindowPopupDelegate.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="json\json.hpp" />
     <ClInclude Include="Browser\MessageRouter.h" />
@@ -173,8 +170,6 @@
     <ClInclude Include="Render\V8Handler.h" />
     <ClInclude Include="Browser\MessageProcessor\ViewDelegate.h" />
     <ClInclude Include="Browser\WebSocketClient.h" />
-    <ClInclude Include="Browser\MessageProcessor\Window\WindowMultiViewDelegate.h" />
-    <ClInclude Include="Browser\MessageProcessor\Window\WindowPopupDelegate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

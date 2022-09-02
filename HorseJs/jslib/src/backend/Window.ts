@@ -11,16 +11,9 @@ export class Window extends BaseObject {
       params: config,
     }
     let obj: any = await BaseObject.sendMsgToBrowser(msg)
+    console.log('new window id:', obj.id)
     let result = new Window(obj.id)
     return result
-  }
-  static createWindowMultiView(config: WindowMultiViewsConfig) {
-    let msg = {
-      className: Window.name,
-      actionName: this.createWindowMultiView.name,
-      params: config,
-    }
-    browserMessageChannel.sendMessage(msg)
   }
   async addBrowserView(config: BrowserViewConfig) {
     let msg = {
@@ -47,6 +40,8 @@ export class Window extends BaseObject {
     }
     await BaseObject.sendMsgToBrowser(msg)
   }
+  async hideAllBrowserView() {}
+  async hideBrowserView() {}
   private constructor(id: number) {
     super(id)
   }

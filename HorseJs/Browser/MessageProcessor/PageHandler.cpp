@@ -2,7 +2,6 @@
 #include "include/wrapper/cef_helpers.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
-#include "ViewDelegate.h"
 #include "../WebSocketClient.h"
 
 namespace {
@@ -33,7 +32,6 @@ void PageHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
     }
     if (browsers.empty()) {
         instance = nullptr;
-        ViewDelegate::getInstance() = nullptr;
         CefQuitMessageLoop();
     }
 }

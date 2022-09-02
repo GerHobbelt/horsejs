@@ -6,20 +6,21 @@
 #include "include/views/cef_layout.h"
 #include "PageHandler.h"
 #include "../WebSocketClient.h"
-#include "./Window/WindowPopupDelegate.h"
 #include "../ButtonDelegate.h"
+#include "WindowPopupDelegate.h"
 
 
-WindowDelegate::WindowDelegate(const nlohmann::json& config):config(config) {
+WindowDelegate::WindowDelegate(const nlohmann::json& config, const int id):config(config) {
     auto url = config["url"].get<std::string>();
-    view = this->createView(url);
-    view->SetID(0);
+    view = this->createView(url,0);
     win = CefWindow::CreateTopLevelWindow(this);
+    win->SetID(id);
 }
-CefRefPtr<CefBrowserView> WindowDelegate::createView(std::string& url) {
+CefRefPtr<CefBrowserView> WindowDelegate::createView(std::string& url,int id) {
     CefBrowserSettings settings;
     auto pageHandler = PageHandler::getInstance();
     auto view = CefBrowserView::CreateBrowserView(pageHandler, url, settings, nullptr, nullptr, this);
+    view->SetID(id);
     return view;
 }
 /// <summary>
@@ -37,12 +38,13 @@ void WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
     auto dockVal = { overlayViewConfig["dockType"].get<int>(), overlayViewConfig["a"].get<int>(), overlayViewConfig["b"].get<int>(), overlayViewConfig["c"].get<int>(), overlayViewConfig["d"].get<int>() };
     dockInsets.push_back(dockVal);
     auto url = overlayViewConfig["url"].get<std::string>();
-    auto overlayView = this->createView(url);
+    auto overlayView = this->createView(url, overlayViews.size()+1);
     overlayViews.push_back(overlayView);
     auto panelCtrl = win->AddOverlayView(overlayView, CEF_DOCKING_MODE_CUSTOM);    
     overlayController.push_back(panelCtrl);
 }
 void WindowDelegate::OnLayoutChanged(CefRefPtr<CefView> _view, const CefRect& newBounds) {
+    
     if (_view->GetID() != 0) return;
     //todo 必须不能是带边框窗口
     for (int i = 0; i < overlayController.size(); i++) {
