@@ -3,8 +3,7 @@ import {
   Window,
   WindowConfig,
   WindowMultiViewsConfig,
-  ViewOverlayConfig,
-  ViewOverlayDockMode,
+  BrowserViewConfig,
 } from "../../jslib/src/backend";
 import { config } from "../horse.config";
 
@@ -41,22 +40,24 @@ let createWindow = async () => {
   config.frameless = true;
   config.url = "https://www.baidu.com";
   let win: Window = await Window.createWindow(config);
-  win.addListener("windowCreated", () => {
-    console.log("windowCreated");
-  });
   console.log(win);
-  let viewOverlayConfig = new ViewOverlayConfig();
-  viewOverlayConfig.url = "https://cn.bing.com";
-  viewOverlayConfig.dock = true;
-  viewOverlayConfig.top = 10;
-  viewOverlayConfig.left = 10;
-  viewOverlayConfig.bottom = 10;
-  viewOverlayConfig.right = 10;
-  viewOverlayConfig.width = 400;
-  viewOverlayConfig.height = 400;
-  setTimeout(async () => {
-    await win.addViewOverlay(viewOverlayConfig);
-  }, 6000);
+  let viewConfig = new BrowserViewConfig();
+  viewConfig.url = "https://cn.bing.com";
+  viewConfig.dockType = 6;
+  viewConfig.a = 120;
+  viewConfig.b = 120;
+  viewConfig.c = 300;
+  viewConfig.d = 300;
+  await win.addViewOverlay(viewConfig);
+
+  let viewConfig2 = new BrowserViewConfig();
+  viewConfig2.url = "https://cn.bing.com";
+  viewConfig2.dockType = 0;
+  viewConfig2.a = 12;
+  viewConfig2.b = 12;
+  viewConfig2.c = 300;
+  viewConfig2.d = 300;
+  await win.addViewOverlay(viewConfig2);
   console.log("ok");
 };
 

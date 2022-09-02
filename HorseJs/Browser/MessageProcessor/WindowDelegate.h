@@ -25,10 +25,9 @@ private:
     CefRefPtr<CefBrowserView> createView(std::string& url);
     nlohmann::json config;
     bool isDevTool = false;
-    bool hasDockView = false;
     CefRefPtr<CefBrowserView> view;
     std::vector<CefRefPtr<CefBrowserView>> overlayViews;
-    std::vector<CefInsets> dockInsets;
+    std::vector<std::vector<int>> dockInsets;
     std::vector<CefRefPtr<CefOverlayController>> overlayController;
     IMPLEMENT_REFCOUNTING(WindowDelegate);
 };

@@ -13,11 +13,8 @@
 WindowDelegate::WindowDelegate(const nlohmann::json& config):config(config) {
     auto url = config["url"].get<std::string>();
     view = this->createView(url);
-    view->SetID(66);
+    view->SetID(0);
     win = CefWindow::CreateTopLevelWindow(this);
-    //url = "https://www.cnblogs.com";
-    //auto view2 = this->createView(url);
-    //overlayViews.push_back(view2);
 }
 CefRefPtr<CefBrowserView> WindowDelegate::createView(std::string& url) {
     CefBrowserSettings settings;
@@ -37,40 +34,83 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
     window->SetTitle(config["title"].get<std::string>());
 }
 void WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
+    auto dockVal = { overlayViewConfig["dockType"].get<int>(), overlayViewConfig["a"].get<int>(), overlayViewConfig["b"].get<int>(), overlayViewConfig["c"].get<int>(), overlayViewConfig["d"].get<int>() };
+    dockInsets.push_back(dockVal);
     auto url = overlayViewConfig["url"].get<std::string>();
     auto overlayView = this->createView(url);
     overlayViews.push_back(overlayView);
-    auto panelCtrl = win->AddOverlayView(overlayView, CEF_DOCKING_MODE_CUSTOM);
-    auto dock = overlayViewConfig["dock"].get<bool>();
-    auto top = overlayViewConfig["top"].get<int>();
-    auto left = overlayViewConfig["left"].get<int>();
-    if (dock) {
-        this->hasDockView = true;
-        auto bottom = overlayViewConfig["bottom"].get<int>();
-        auto right = overlayViewConfig["right"].get<int>();
-        dockInsets.push_back(CefInsets(top, left, bottom, right));
-        overlayController.push_back(panelCtrl);
-    }
-    else {
-        auto width = overlayViewConfig["width"].get<int>();
-        auto height = overlayViewConfig["height"].get<int>();
-        auto rect = CefRect(top, left, width, height);
-        panelCtrl->SetBounds(rect);
-        panelCtrl->SetVisible(true);
-    }
+    auto panelCtrl = win->AddOverlayView(overlayView, CEF_DOCKING_MODE_CUSTOM);    
+    overlayController.push_back(panelCtrl);
 }
 void WindowDelegate::OnLayoutChanged(CefRefPtr<CefView> _view, const CefRect& newBounds) {
+    if (_view->GetID() != 0) return;
     //todo 必须不能是带边框窗口
-    //要修改node.js的接口
-    if (_view->GetID() == 66 && hasDockView){
-        auto winBounds = win->GetBounds();
-        for (int i = 0; i < overlayController.size(); i++) {
-            auto inset = dockInsets.at(i);
-            auto ctrl = overlayController.at(i);
-            auto viewBounds = CefRect(inset.left, inset.top, winBounds.width - inset.right-inset.left, winBounds.height - inset.bottom-inset.top);
-            ctrl->SetBounds(viewBounds);
-            ctrl->SetVisible(true);
+    for (int i = 0; i < overlayController.size(); i++) {
+        auto inset = dockInsets.at(i);
+        auto ctrl = overlayController.at(i);
+        CefRect viewBounds;
+        switch (inset[0])
+        {
+            case 0: {
+                viewBounds.x = inset.at(1); 
+                viewBounds.y = inset.at(2); 
+                viewBounds.width = inset.at(3); 
+                viewBounds.height = inset.at(4);
+                break;
+            }
+            case 1: {
+                auto winBounds = win->GetBounds();
+                viewBounds.x = inset.at(1);
+                viewBounds.y = inset.at(2);
+                viewBounds.width = winBounds.width - inset.at(3) - inset.at(1);
+                viewBounds.height = inset.at(4);
+                break;
+            }
+            case 2: {
+                auto winBounds = win->GetBounds();
+                viewBounds.x = inset.at(1);
+                viewBounds.y = inset.at(2);
+                viewBounds.width = inset.at(4);
+                viewBounds.height = winBounds.height - inset.at(2) - inset.at(3);
+                break;
+            }
+            case 3: {
+                auto winBounds = win->GetBounds();
+                viewBounds.x = winBounds.width - inset.at(1) - inset.at(3);
+                viewBounds.y = winBounds.height - inset.at(2) - inset.at(4);
+                viewBounds.width = inset.at(3);
+                viewBounds.height = inset.at(4);
+                break;
+            }
+            case 4: {
+                auto winBounds = win->GetBounds();
+                viewBounds.x = winBounds.width - inset.at(1) - inset.at(4);
+                viewBounds.y = inset.at(3);
+                viewBounds.width = inset.at(4);
+                viewBounds.height = winBounds.height - inset.at(2) - inset.at(3);
+                break;
+            }
+            case 5: {
+                auto winBounds = win->GetBounds();
+                viewBounds.x = inset.at(3);
+                viewBounds.y = winBounds.height - inset.at(2) - inset.at(4);
+                viewBounds.width = winBounds.width - inset.at(1) - inset.at(3);
+                viewBounds.height = inset.at(4);
+                break;
+            }
+            case 6: {
+                auto winBounds = win->GetBounds();
+                viewBounds.x = inset.at(1);
+                viewBounds.y = inset.at(2);
+                viewBounds.width = winBounds.width - inset.at(1) - inset.at(3);
+                viewBounds.height = winBounds.height - inset.at(2) - inset.at(4);
+                break;
+            }
+            default:
+                break;
         }
+        ctrl->SetBounds(viewBounds);
+        ctrl->SetVisible(true);
     }
 }
 /// <summary>
@@ -80,6 +120,8 @@ void WindowDelegate::OnLayoutChanged(CefRefPtr<CefView> _view, const CefRect& ne
 void WindowDelegate::OnWindowDestroyed(CefRefPtr<CefWindow> window) {
     view = nullptr;
     overlayViews.clear();
+    overlayController.clear();
+    dockInsets.clear();
 }
 /// <summary>
 /// 设置窗口位置和大小
@@ -128,8 +170,7 @@ bool WindowDelegate::IsFrameless(CefRefPtr<CefWindow> window) {
 /// <param name="window"></param>
 /// <returns></returns>
 bool WindowDelegate::CanClose(CefRefPtr<CefWindow> window) {
-    CefRefPtr<CefBrowser> browser = view->GetBrowser();
-    
+    CefRefPtr<CefBrowser> browser = view->GetBrowser();    
     bool result = browser->GetHost()->TryCloseBrowser();
     return result;
 }

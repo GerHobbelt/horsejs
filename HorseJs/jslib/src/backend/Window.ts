@@ -2,7 +2,7 @@ import { BaseObject } from './BaseObject'
 import { WindowConfig } from './WindowConfig'
 import { WindowMultiViewsConfig } from './controller/windowConfig/WindowMultiViewsConfig'
 import { browserMessageChannel } from './browserMessageChannel'
-import { ViewOverlayConfig } from './ViewOverlayConfig'
+import { BrowserViewConfig } from './BrowserViewConfig'
 export class Window extends BaseObject {
   static async createWindow(config: WindowConfig): Promise<Window> {
     let msg = {
@@ -22,7 +22,7 @@ export class Window extends BaseObject {
     }
     browserMessageChannel.sendMessage(msg)
   }
-  async addViewOverlay(config: ViewOverlayConfig) {
+  async addViewOverlay(config: BrowserViewConfig) {
     let msg = {
       className: Window.name,
       actionName: this.addViewOverlay.name,

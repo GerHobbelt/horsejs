@@ -1,3 +1,15 @@
+打开多个窗口
+
+创建多个 browserview
+
+显隐窗口
+
+显隐 browserview
+
+窗口或者 browserview 加载完成事件
+
+模态窗口
+
 窗口配置参数的一系列默认值
 
 一个窗口多个 browserview
