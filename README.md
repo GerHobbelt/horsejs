@@ -1,5 +1,5 @@
 <div align=center>
-<img src="Doc/horseApp.png" />
+<img src="Doc/horse.png" />
 <br />
 健壮 | 优雅 | 迅捷
 <br />
