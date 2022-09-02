@@ -1,6 +1,7 @@
 import { BaseObject } from './BaseObject'
 import { WindowConfig } from './WindowConfig'
 import { ViewConfig } from './ViewConfig'
+import { View } from './View'
 export class Window extends BaseObject {
   private createMsg(actionName: string, params?: any) {
     let msg = {
@@ -18,13 +19,14 @@ export class Window extends BaseObject {
       params: config,
     }
     let obj: any = await BaseObject.sendMsgToBrowser(msg)
-    console.log('new window id:', obj.id)
     let result = new Window(obj.id)
     return result
   }
-  async addView(config: ViewConfig) {
+  async addView(config: ViewConfig): Promise<View> {
     let msg = this.createMsg(this.addView.name, config)
-    await BaseObject.sendMsgToBrowser(msg)
+    let obj: any = await BaseObject.sendMsgToBrowser(msg)
+    let result = View.__createView(obj.id)
+    return result
   }
   async hide() {
     let msg = this.createMsg(this.hide.name)

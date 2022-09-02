@@ -1,5 +1,5 @@
 import { BaseObject } from './BaseObject'
-export class Window extends BaseObject {
+export class View extends BaseObject {
   async openDevTools() {}
   async closeDevTools() {}
   async wasHiden() {}
@@ -8,6 +8,9 @@ export class Window extends BaseObject {
   async sendMouseMoveEvent() {}
   async sendMouseWheelEvent() {}
   async sendTouchEvent() {}
+  static __createView(id: number) {
+    return new View(id)
+  }
   private constructor(id: number) {
     super(id)
   }
