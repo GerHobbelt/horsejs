@@ -1,4 +1,4 @@
-import { horse, Window, WindowConfig, BrowserViewConfig } from "../../jslib/src/backend";
+import { horse, Window, WindowConfig, ViewConfig } from "../../jslib/src/backend";
 import { config } from "../horse.config";
 
 // let createWindowMultiView = () => {
@@ -50,23 +50,23 @@ let createWindow = async () => {
   }, 8000);
 
   console.log(win);
-  let viewConfig = new BrowserViewConfig();
+  let viewConfig = new ViewConfig();
   viewConfig.url = "https://cn.bing.com";
   viewConfig.dockType = 6;
   viewConfig.a = 120;
   viewConfig.b = 120;
   viewConfig.c = 300;
   viewConfig.d = 300;
-  await win.addBrowserView(viewConfig);
+  await win.addView(viewConfig);
 
-  let viewConfig2 = new BrowserViewConfig();
+  let viewConfig2 = new ViewConfig();
   viewConfig2.url = "https://cn.bing.com";
   viewConfig2.dockType = 0;
   viewConfig2.a = 12;
   viewConfig2.b = 12;
   viewConfig2.c = 300;
   viewConfig2.d = 300;
-  await win.addBrowserView(viewConfig2);
+  await win.addView(viewConfig2);
   console.log("ok");
 };
 

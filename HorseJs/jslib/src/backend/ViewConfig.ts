@@ -1,4 +1,4 @@
-export class BrowserViewConfig {
+export class ViewConfig {
   /**
    * view地址
    */

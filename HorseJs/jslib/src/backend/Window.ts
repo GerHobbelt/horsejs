@@ -1,7 +1,16 @@
 import { BaseObject } from './BaseObject'
 import { WindowConfig } from './WindowConfig'
-import { BrowserViewConfig } from './BrowserViewConfig'
+import { ViewConfig } from './ViewConfig'
 export class Window extends BaseObject {
+  private createMsg(actionName: string, params?: any) {
+    let msg = {
+      className: Window.name,
+      actionName,
+      __winId: this.id,
+      params,
+    }
+    return msg
+  }
   static async createWindow(config: WindowConfig): Promise<Window> {
     let msg = {
       className: Window.name,
@@ -13,29 +22,16 @@ export class Window extends BaseObject {
     let result = new Window(obj.id)
     return result
   }
-  async addBrowserView(config: BrowserViewConfig) {
-    let msg = {
-      className: Window.name,
-      actionName: this.addBrowserView.name,
-      __winId: this.id,
-      params: config,
-    }
+  async addView(config: ViewConfig) {
+    let msg = this.createMsg(this.addView.name, config)
     await BaseObject.sendMsgToBrowser(msg)
   }
   async hide() {
-    let msg = {
-      className: Window.name,
-      actionName: this.hide.name,
-      __winId: this.id,
-    }
+    let msg = this.createMsg(this.hide.name)
     await BaseObject.sendMsgToBrowser(msg)
   }
   async show() {
-    let msg = {
-      className: Window.name,
-      actionName: this.show.name,
-      __winId: this.id,
-    }
+    let msg = this.createMsg(this.show.name)
     await BaseObject.sendMsgToBrowser(msg)
   }
   async hideAllBrowserView() {}

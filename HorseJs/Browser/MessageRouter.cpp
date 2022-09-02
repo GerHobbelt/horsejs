@@ -63,7 +63,7 @@ namespace MessageRouter {
 				//要让主线程做这个工作
 				CefPostTask(TID_UI, base::BindOnce(&createWindow, message));
 			}
-			else if (actionName == "addBrowserView") {
+			else if (actionName == "addView") {
 				CefPostTask(TID_UI, base::BindOnce(&addViewOverlay, message));
 			}
 			else if (actionName == "hide") {
