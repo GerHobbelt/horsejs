@@ -48,15 +48,21 @@
     <ClCompile Include="Browser\MessageProcessor\WindowPopupDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Browser\MessageRouter\WindowRouter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Browser\MessageRouter\ViewRouter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Browser\MessageProcessor\ViewDelegate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json\json.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Config.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\MessageProcessor\ViewDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Browser\MessageProcessor\PageHandler.h">
@@ -90,6 +96,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Browser\MessageProcessor\WindowPopupDelegate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\MessageRouter\WindowRouter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\MessageRouter\ViewRouter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\MessageProcessor\ViewDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

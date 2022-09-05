@@ -7,45 +7,45 @@
 #include "PageHandler.h"
 #include "../WebSocketClient.h"
 #include "../ButtonDelegate.h"
-#include "WindowPopupDelegate.h"
+#include "../MessageRouter/WindowRouter.h"
+#include "../MessageRouter/ViewRouter.h"
 
 
 WindowDelegate::WindowDelegate(const nlohmann::json& config, const int id):config(config) {
     auto url = config["url"].get<std::string>();
-    view = this->createView(url,0);
+    view = ViewRouter::getInstance()->createView(url);
     win = CefWindow::CreateTopLevelWindow(this);
     win->SetID(id);
-}
-CefRefPtr<CefBrowserView> WindowDelegate::createView(std::string& url,int id) {
-    CefBrowserSettings settings;
-    auto pageHandler = PageHandler::getInstance();
-    auto view = CefBrowserView::CreateBrowserView(pageHandler, url, settings, nullptr, nullptr, this);
-    view->SetID(id);
-    return view;
 }
 /// <summary>
 /// 窗口创建成功
 /// </summary>
 /// <param name="window"></param>
-void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
+void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {    
     window->AddChildView(view);
     if (config["show"].get<bool>()) {
         window->Show();
     }
     window->SetTitle(config["title"].get<std::string>());
 }
-void WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
-    auto dockVal = { overlayViewConfig["dockType"].get<int>(), overlayViewConfig["a"].get<int>(), overlayViewConfig["b"].get<int>(), overlayViewConfig["c"].get<int>(), overlayViewConfig["d"].get<int>() };
+int WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
+    auto dockVal = { 
+        overlayViewConfig["dockType"].get<int>(), 
+        overlayViewConfig["a"].get<int>(), 
+        overlayViewConfig["b"].get<int>(), 
+        overlayViewConfig["c"].get<int>(), 
+        overlayViewConfig["d"].get<int>() 
+    };
     dockInsets.push_back(dockVal);
     auto url = overlayViewConfig["url"].get<std::string>();
-    auto overlayView = this->createView(url, overlayViews.size()+1);
+    auto overlayView = ViewRouter::getInstance()->createView(url);
     overlayViews.push_back(overlayView);
     auto panelCtrl = win->AddOverlayView(overlayView, CEF_DOCKING_MODE_CUSTOM);    
     overlayController.push_back(panelCtrl);
+    return overlayView->GetID();
 }
 void WindowDelegate::OnLayoutChanged(CefRefPtr<CefView> _view, const CefRect& newBounds) {
-    
-    if (_view->GetID() != 0) return;
+    if (_view->GetID() != view->GetID()) return;
     //todo 必须不能是带边框窗口
     for (int i = 0; i < overlayController.size(); i++) {
         auto inset = dockInsets.at(i);
@@ -120,10 +120,16 @@ void WindowDelegate::OnLayoutChanged(CefRefPtr<CefView> _view, const CefRect& ne
 /// </summary>
 /// <param name="window"></param>
 void WindowDelegate::OnWindowDestroyed(CefRefPtr<CefWindow> window) {
+    ViewRouter::getInstance()->removeView(view->GetID());
+    for (auto v :overlayViews) {
+        ViewRouter::getInstance()->removeView(v->GetID());
+    }
     view = nullptr;
     overlayViews.clear();
     overlayController.clear();
     dockInsets.clear();
+    WindowRouter::getInstance()->removeWindow(this);
+    //todo 从WindowRouter的容器里移除
 }
 /// <summary>
 /// 设置窗口位置和大小
@@ -175,18 +181,4 @@ bool WindowDelegate::CanClose(CefRefPtr<CefWindow> window) {
     CefRefPtr<CefBrowser> browser = view->GetBrowser();    
     bool result = browser->GetHost()->TryCloseBrowser();
     return result;
-}
-/// <summary>
-/// 当前页面弹出新窗口时此方法被执行
-/// </summary>
-/// <param name="browserView"></param>
-/// <param name="popupBrowserView"></param>
-/// <param name="isDevtools"></param>
-/// <returns></returns>
-bool WindowDelegate::OnPopupBrowserViewCreated(CefRefPtr<CefBrowserView> browserView, CefRefPtr<CefBrowserView> popupBrowserView, bool isDevtools)
-{
-    //todo isDevtools没用上
-    //todo window.open传的参数在哪里？
-    CefWindow::CreateTopLevelWindow(new WindowPopupDelegate(popupBrowserView));
-    return true;
 }

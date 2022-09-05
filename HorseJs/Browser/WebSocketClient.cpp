@@ -7,13 +7,20 @@ using nlohmann::json;
 using websocketpp::lib::bind;
 
 namespace {
-    WebSocketClient* instance = nullptr;
+    CefRefPtr<WebSocketClient> instance = nullptr;
 }
-WebSocketClient* WebSocketClient::getInstance() {
+CefRefPtr<WebSocketClient> WebSocketClient::getInstance() {
     if (instance == nullptr) {
         instance = new WebSocketClient();
     }
     return instance;
+}
+WebSocketClient::~WebSocketClient() {
+    client.close(conn->get_handle(), 0, "app exit");
+    if (wsThread != nullptr) {
+        wsThread->join();
+    }
+    delete wsThread;
 }
 void WebSocketClient::listen() {
     std::string port = config["httpAndWebSocketServicePort"].get<std::string>();
@@ -43,18 +50,12 @@ void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg
     MessageRouter::route(msgObj);
     //std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     //std::wstring msgStr = converter.from_bytes(msg->get_payload());
-
-
-    
-    //todo 接下去就要路由消息到具体的业务处理单元了
-    
-
     //std::wstring testMsg = L"这是我的消息";
     //std::string narrow = converter.to_bytes(testMsg);
     //sendMessage(narrow);
 }
 void WebSocketClient::sendMessage(std::string& message) {
-    //todo 跨线程发送消息
+    //跨线程发送消息，没任何问题
     websocketpp::lib::error_code ec;
     client.send(conn->get_handle(), message, websocketpp::frame::opcode::text, ec);
     if (ec) {
@@ -68,6 +69,5 @@ void WebSocketClient::terminate() {
         wsThread->join();
     }
     delete wsThread;
-    delete instance;
     instance = nullptr;
 }

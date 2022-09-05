@@ -1,13 +1,18 @@
 #include "BrowserProcessHandler.h"
 #include "include/wrapper/cef_helpers.h"
-//#include "MessageProcessor/Window/WindowDelegate.h"
+#include "MessageProcessor/PageHandler.h"
+#include "MessageRouter/ViewRouter.h"
+#include "MessageRouter/WindowRouter.h"
 //#include "../json/json.hpp"
 
 //todo 使用系统代理或不试用系统代理
 //todo log的级别，网页里的日志也会输出
 BrowserProcessHandler::~BrowserProcessHandler() {
-    auto websocketClient = WebSocketClient::getInstance();
-    websocketClient->terminate();
+    PageHandler::getInstance() = nullptr;
+    ViewRouter::getInstance() = nullptr;
+    WindowRouter::getInstance() = nullptr;
+    WebSocketClient::getInstance() = nullptr;
+    //websocketClient->terminate();
 }
 BrowserProcessHandler::BrowserProcessHandler(std::string& port) {
     //初始化全局config

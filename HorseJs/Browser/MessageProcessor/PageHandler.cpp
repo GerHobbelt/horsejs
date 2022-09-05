@@ -15,27 +15,6 @@ CefRefPtr<PageHandler> PageHandler::getInstance() {
     return instance;
 }
 
-//页面创建成功
-void PageHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
-    CEF_REQUIRE_UI_THREAD();
-    browsers.push_back(browser);
-}
-//页面即将关闭
-void PageHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
-    CEF_REQUIRE_UI_THREAD();
-    std::list<CefRefPtr<CefBrowser>>::iterator bit = browsers.begin();
-    for (; bit != browsers.end(); ++bit) {
-        if ((*bit)->IsSame(browser)) {
-            browsers.erase(bit);
-            break;
-        }
-    }
-    if (browsers.empty()) {
-        instance = nullptr;
-        CefQuitMessageLoop();
-    }
-}
-
 void PageHandler::OnDraggableRegionsChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const std::vector<CefDraggableRegion>& regions)
 {
     CefRefPtr<CefBrowserView> browser_view = CefBrowserView::GetForBrowser(browser);
