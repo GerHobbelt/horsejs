@@ -23,7 +23,8 @@ CefRefPtr<CefBrowserView> ViewRouter::createView(std::string& url) {
 	views.push_back(view);
 	return view;
 }
-void ViewRouter::removeView(int id) {
+
+int ViewRouter::getViewIndexById(int id) {
 	int index = -1;
 	for (int i = 0; i < views.size(); i++) {
 		if (views.at(i)->GetID() == id) {
@@ -33,22 +34,30 @@ void ViewRouter::removeView(int id) {
 	}
 	if (index == -1) {
 		//todo error
-		return;
 	}
+	return index;
+}
+
+void ViewRouter::removeView(int id) {
+	int index = getViewIndexById(id);
 	views.erase(views.begin() + index);
 }
 void ViewRouter::setVisible(const nlohmann::json& message) {
-	int index = -1;
 	auto viewId = message["params"]["viewId"].get<int>();
 	auto visible = message["params"]["visible"].get<bool>();
-	for (int i = 0; i < views.size(); i++) {		
-		if (viewId == views.at(i)->GetID()) {
-			views.at(i)->SetVisible(visible);
-			break;
-		}
-	}
+	int index = getViewIndexById(viewId);
+	views.at(index)->SetVisible(visible);
 	auto wsClient = WebSocketClient::getInstance();
 	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
 	std::string msgStr = backMsg.dump();
 	wsClient->sendMessage(msgStr);
+}
+void ViewRouter::openDevTools(const nlohmann::json& message) {
+	auto viewId = message["params"]["viewId"].get<int>();
+	int index = getViewIndexById(viewId);
+	CefBrowserSettings browserSettings;
+	CefWindowInfo windowInfo;
+	CefPoint mousePoint(100, 100); //todo 
+	auto handler = PageHandler::getInstance();
+	views.at(index)->GetBrowser()->GetHost()->ShowDevTools(windowInfo, handler, browserSettings, mousePoint);
 }

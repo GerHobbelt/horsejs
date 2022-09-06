@@ -17,7 +17,10 @@ export class View extends BaseObject {
     let msg = this.createMsg('setVisible', { visible: false, viewId: this.id });
     await BaseObject.sendMsgToBrowser(msg);
   }
-  async openDevTools() {}
+  async openDevTools() {
+    let msg = this.createMsg('openDevTools', { viewId: this.id });
+    await BaseObject.sendMsgToBrowser(msg);
+  }
   async closeDevTools() {}
   async wasHiden() {}
   async sendKeyEvent() {}

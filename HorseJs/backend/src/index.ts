@@ -42,9 +42,9 @@ let createWindow = async () => {
   // let view = await win.addView(viewConfig2);
   // console.log("ok");
 
-  // setTimeout(() => {
-  //   view.hide();
-  // }, 6000);
+  setTimeout(() => {
+    win.view.openDevTools();
+  }, 6000);
 };
 
 horse.addListener("serviceReady", (app) => {

@@ -12,7 +12,6 @@ BrowserProcessHandler::~BrowserProcessHandler() {
     ViewRouter::getInstance() = nullptr;
     WindowRouter::getInstance() = nullptr;
     WebSocketClient::getInstance() = nullptr;
-    //websocketClient->terminate();
 }
 BrowserProcessHandler::BrowserProcessHandler(std::string& port) {
     //初始化全局config
@@ -29,7 +28,4 @@ BrowserProcessHandler::BrowserProcessHandler(std::string& port) {
 /// </summary>
 void BrowserProcessHandler::OnContextInitialized() {
     CEF_REQUIRE_UI_THREAD();
-    //std::string jsonStr = R"({"with":800,"height":600,"x":100,"y":100,"position":"centerDesktop","frameless":true,"layout":"default","url":"https://www.baidu.com"})";
-    //auto obj = nlohmann::json::parse(jsonStr);
-    //CefWindow::CreateTopLevelWindow(new WindowDelegate(obj));
 }

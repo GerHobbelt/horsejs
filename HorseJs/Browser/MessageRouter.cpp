@@ -47,8 +47,8 @@ namespace MessageRouter {
 			if (actionName == "setVisible") {
 				CefPostTask(TID_UI, base::BindOnce(&ViewRouter::setVisible, viewRouter, message));
 			}
-			else if (actionName == "show") {
-				
+			else if (actionName == "openDevTools") {
+				CefPostTask(TID_UI, base::BindOnce(&ViewRouter::openDevTools, viewRouter, message));
 			}
 		}
 	}
