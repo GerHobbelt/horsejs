@@ -18,10 +18,13 @@ export class View extends BaseObject {
     await BaseObject.sendMsgToBrowser(msg);
   }
   async openDevTools() {
-    let msg = this.createMsg('openDevTools', { viewId: this.id });
+    let msg = this.createMsg('devTools', { viewId: this.id, option: 'open' });
     await BaseObject.sendMsgToBrowser(msg);
   }
-  async closeDevTools() {}
+  async closeDevTools() {
+    let msg = this.createMsg('devTools', { viewId: this.id, option: 'close' });
+    await BaseObject.sendMsgToBrowser(msg);
+  }
   async wasHiden() {}
   async sendKeyEvent() {}
   async sendMouseClickEvent() {}

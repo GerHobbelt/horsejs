@@ -12,6 +12,20 @@ CefRefPtr<WindowRouter> WindowRouter::getInstance() {
 	return instance;
 }
 
+int WindowRouter::getWindowIndexById(int id) {
+	int index = -1;
+	for (int i = 0; i < windows.size(); i++) {
+		if (windows.at(i)->win->GetID() == id) {
+			index = i;
+			break;
+		}
+	}
+	if (index == -1) {
+		//todo error
+	}
+	return index;
+}
+
 void WindowRouter::createWindow(const nlohmann::json& message) {
 	auto winId = windows.size();
 	CefRefPtr<WindowDelegate> winDelegate = new WindowDelegate(message["params"], winId);
@@ -24,18 +38,20 @@ void WindowRouter::createWindow(const nlohmann::json& message) {
 }
 void WindowRouter::addView(const nlohmann::json& message) {
 	auto id = message["__winId"].get<int>();
-	int viewId = -1;
-	for (auto winDelegate : windows) {
-		if (winDelegate->win->GetID() == id) {
-			viewId = winDelegate->AddOverlayView(message["params"]);
-			break;
-		}
-	}
-	if (viewId == -1) {
-		//todo send error back to end
-	}
+	int winIndex = getWindowIndexById(id);
+	int viewId = windows.at(winIndex)->AddOverlayView(message["params"]);
 	auto wsClient = WebSocketClient::getInstance();
 	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()},{"id",viewId}, };
+	std::string msgStr = backMsg.dump();
+	wsClient->sendMessage(msgStr);
+}
+void WindowRouter::removeView(const nlohmann::json& message) {
+	auto id = message["__winId"].get<int>();
+	int winIndex = getWindowIndexById(id);
+	auto viewId = message["params"]["viewId"].get<int>();
+	windows.at(winIndex)->removeView(viewId);
+	auto wsClient = WebSocketClient::getInstance();
+	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
 	std::string msgStr = backMsg.dump();
 	wsClient->sendMessage(msgStr);
 }

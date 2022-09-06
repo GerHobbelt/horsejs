@@ -23,28 +23,40 @@ let createWindow = async () => {
   // }, 8000);
 
   // console.log(win);
-  // let viewConfig = new ViewConfig();
-  // viewConfig.url = "https://cn.bing.com";
-  // viewConfig.dockType = 6;
-  // viewConfig.a = 120;
-  // viewConfig.b = 120;
-  // viewConfig.c = 300;
-  // viewConfig.d = 300;
-  // await win.addView(viewConfig);
 
-  // let viewConfig2 = new ViewConfig();
-  // viewConfig2.url = "https://cn.bing.com";
-  // viewConfig2.dockType = 0;
-  // viewConfig2.a = 12;
-  // viewConfig2.b = 12;
-  // viewConfig2.c = 300;
-  // viewConfig2.d = 300;
-  // let view = await win.addView(viewConfig2);
-  // console.log("ok");
+  let viewConfig = new ViewConfig();
+  viewConfig.url = "https://cn.bing.com";
+  viewConfig.dockType = 0;
+  viewConfig.a = 20;
+  viewConfig.b = 20;
+  viewConfig.c = 400;
+  viewConfig.d = 400;
+  let view = await win.addView(viewConfig);
+  console.log(view.id);
 
   setTimeout(() => {
-    win.view.openDevTools();
+    win.removeView(view);
   }, 6000);
+
+  // setTimeout(async () => {
+  //   let viewConfig2 = new ViewConfig();
+  //   viewConfig2.url = "https://www.so.com";
+  //   viewConfig2.dockType = 0;
+  //   viewConfig2.a = 12;
+  //   viewConfig2.b = 12;
+  //   viewConfig2.c = 300;
+  //   viewConfig2.d = 300;
+  //   let view2 = await win.addView(viewConfig2);
+  //   console.log(view2.id);
+  // }, 18000);
+  // console.log("ok");
+
+  // setTimeout(() => {
+  //   win.view.openDevTools();
+  //   setTimeout(() => {
+  //     win.view.closeDevTools();
+  //   }, 6000);
+  // }, 6000);
 };
 
 horse.addListener("serviceReady", (app) => {

@@ -11,24 +11,33 @@
 #include "../MessageRouter/ViewRouter.h"
 
 
-WindowDelegate::WindowDelegate(const nlohmann::json& config, const int id):config(config) {
+WindowDelegate::WindowDelegate(const nlohmann::json& config, const int id):config(config),id(id) {
     auto url = config["url"].get<std::string>();
     view = ViewRouter::getInstance()->createView(url);
-    win = CefWindow::CreateTopLevelWindow(this);
-    win->SetID(id);
+    CefWindow::CreateTopLevelWindow(this);
 }
 /// <summary>
 /// 窗口创建成功
 /// </summary>
 /// <param name="window"></param>
-void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {    
+void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
+    window->SetID(id);
+    auto size = window->GetChildViewCount();
     window->AddChildView(view);
     if (config["show"].get<bool>()) {
         window->Show();
     }
     window->SetTitle(config["title"].get<std::string>());
+    size = window->GetChildViewCount();
+    win = window;
 }
 int WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
+    auto size = win->GetChildViewCount();
+    auto url = overlayViewConfig["url"].get<std::string>();
+    auto overlayView = ViewRouter::getInstance()->createView(url);
+    overlayViews.push_back(overlayView);
+    auto panelCtrl = win->AddOverlayView(overlayView, CEF_DOCKING_MODE_CUSTOM);
+    overlayController.push_back(panelCtrl);
     auto dockVal = { 
         overlayViewConfig["dockType"].get<int>(), 
         overlayViewConfig["a"].get<int>(), 
@@ -37,12 +46,31 @@ int WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
         overlayViewConfig["d"].get<int>() 
     };
     dockInsets.push_back(dockVal);
-    auto url = overlayViewConfig["url"].get<std::string>();
-    auto overlayView = ViewRouter::getInstance()->createView(url);
-    overlayViews.push_back(overlayView);
-    auto panelCtrl = win->AddOverlayView(overlayView, CEF_DOCKING_MODE_CUSTOM);    
-    overlayController.push_back(panelCtrl);
+    size = win->GetChildViewCount();
     return overlayView->GetID();
+}
+void WindowDelegate::removeView(int id) {
+    int index = -1;
+    for (int i = 0; i < overlayViews.size(); i++) {
+        if (overlayViews.at(i)->GetID() == id) {
+            index = i;
+            break;
+        }
+    }
+
+    auto size = win->GetChildViewCount();
+    auto view = overlayViews.at(index);
+    view->GetBrowser()->GetHost()->CloseBrowser(true);
+    
+    size = win->GetChildViewCount();
+
+    overlayViews.erase(overlayViews.begin() + index);
+    dockInsets.erase(dockInsets.begin() + index);
+    ViewRouter::getInstance()->_removeView(id);
+    //overlayController.at(index)->Destroy(); //todo 有这一句，关闭应用时就会报错，暂时不知道为什么
+    overlayController.erase(overlayController.begin()+index);
+    auto hasOne = view->HasAtLeastOneRef();
+    
 }
 void WindowDelegate::OnLayoutChanged(CefRefPtr<CefView> _view, const CefRect& newBounds) {
     if (_view->GetID() != view->GetID()) return;
@@ -120,9 +148,9 @@ void WindowDelegate::OnLayoutChanged(CefRefPtr<CefView> _view, const CefRect& ne
 /// </summary>
 /// <param name="window"></param>
 void WindowDelegate::OnWindowDestroyed(CefRefPtr<CefWindow> window) {
-    ViewRouter::getInstance()->removeView(view->GetID());
+    ViewRouter::getInstance()->_removeView(view->GetID());
     for (auto v :overlayViews) {
-        ViewRouter::getInstance()->removeView(v->GetID());
+        ViewRouter::getInstance()->_removeView(v->GetID());
     }
     view = nullptr;
     overlayViews.clear();

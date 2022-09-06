@@ -7,6 +7,7 @@ class WindowDelegate : public CefWindowDelegate
 public:
     explicit WindowDelegate(const nlohmann::json& config,const int id);
     int AddOverlayView(const nlohmann::json& overlayViewConfig);
+    void removeView(int id);
     bool IsFrameless(CefRefPtr<CefWindow> window) override;
     void OnWindowCreated(CefRefPtr<CefWindow> window) override;
     void OnWindowDestroyed(CefRefPtr<CefWindow> window) override;
@@ -20,6 +21,7 @@ public:
 private:
     nlohmann::json config;
     bool isDevTool = false;
+    int id;
     CefRefPtr<CefBrowserView> view;
     std::vector<CefRefPtr<CefBrowserView>> overlayViews;
     std::vector<std::vector<int>> dockInsets;

@@ -13,11 +13,13 @@ public:
 	void createWindow(const nlohmann::json& message);
 	void removeWindow(WindowDelegate* tar);
 	void addView(const nlohmann::json& message);
+	void removeView(const nlohmann::json& message);
 	void hide(const nlohmann::json& message);
 	void show(const nlohmann::json& message);
 private:
 	IMPLEMENT_REFCOUNTING(WindowRouter);
 	WindowRouter() = default;
+	int getWindowIndexById(int id);
 	std::vector<CefRefPtr<WindowDelegate>> windows;
 };
 

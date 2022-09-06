@@ -38,7 +38,7 @@ int ViewRouter::getViewIndexById(int id) {
 	return index;
 }
 
-void ViewRouter::removeView(int id) {
+void ViewRouter::_removeView(int id) {
 	int index = getViewIndexById(id);
 	views.erase(views.begin() + index);
 }
@@ -54,10 +54,20 @@ void ViewRouter::setVisible(const nlohmann::json& message) {
 }
 void ViewRouter::openDevTools(const nlohmann::json& message) {
 	auto viewId = message["params"]["viewId"].get<int>();
+	auto option = message["params"]["option"].get<std::string>();
 	int index = getViewIndexById(viewId);
 	CefBrowserSettings browserSettings;
 	CefWindowInfo windowInfo;
-	CefPoint mousePoint(100, 100); //todo 
+	CefPoint mousePoint(100, 100); //todo 得到当前鼠标所在位置
 	auto handler = PageHandler::getInstance();
-	views.at(index)->GetBrowser()->GetHost()->ShowDevTools(windowInfo, handler, browserSettings, mousePoint);
+	if (option == "open") {
+		views.at(index)->GetBrowser()->GetHost()->ShowDevTools(windowInfo, handler, browserSettings, mousePoint);
+	}
+	else {
+		views.at(index)->GetBrowser()->GetHost()->CloseDevTools();
+	}
+	auto wsClient = WebSocketClient::getInstance();
+	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
+	std::string msgStr = backMsg.dump();
+	wsClient->sendMessage(msgStr);
 }

@@ -23,7 +23,7 @@ namespace MessageRouter {
 
 			}
 			else if (actionName == "removeView") {
-
+				CefPostTask(TID_UI, base::BindOnce(&WindowRouter::removeView, windowRouter, message));
 			}
 			else if (actionName == "hide") {
 				CefPostTask(TID_UI, base::BindOnce(&WindowRouter::hide, windowRouter , message));
@@ -47,7 +47,7 @@ namespace MessageRouter {
 			if (actionName == "setVisible") {
 				CefPostTask(TID_UI, base::BindOnce(&ViewRouter::setVisible, viewRouter, message));
 			}
-			else if (actionName == "openDevTools") {
+			else if (actionName == "devTools") {
 				CefPostTask(TID_UI, base::BindOnce(&ViewRouter::openDevTools, viewRouter, message));
 			}
 		}

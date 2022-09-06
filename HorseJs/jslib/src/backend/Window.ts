@@ -43,6 +43,15 @@ export class Window extends BaseObject {
     return result;
   }
   /**
+   *
+   * @param config
+   * @returns
+   */
+  async removeView(view: View) {
+    let msg = this.createMsg(this.removeView.name, { viewId: view.id });
+    await BaseObject.sendMsgToBrowser(msg);
+  }
+  /**
    * 隐藏窗口
    */
   async hide() {
@@ -63,7 +72,6 @@ export class Window extends BaseObject {
   async resize() {}
   async center() {}
   async setTitle(title: string) {}
-  async removeView(view: View) {}
   private constructor(id: number) {
     super(id);
   }

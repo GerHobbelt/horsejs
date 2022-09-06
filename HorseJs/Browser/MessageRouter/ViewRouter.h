@@ -10,7 +10,7 @@ public:
 
 	static CefRefPtr<ViewRouter> getInstance();
 	CefRefPtr<CefBrowserView> createView(std::string& url);
-	void removeView(int id);
+	void _removeView(int id);
 	void setVisible(const nlohmann::json& message);
 	void openDevTools(const nlohmann::json& message);
 private:
