@@ -6,26 +6,35 @@ export class Path extends Base {
   private splitTailRe = /^([\s\S]*?)((?:\.{1,2}|[^\\\/]+?|)(\.[^.\/\\]*|))(?:[\\\/]*)$/
   private splitPath(fileName: string) {
     let result = this.splitDeviceRe.exec(fileName)
+    //@ts-ignore
     let device = (result[1] || '') + (result[2] || '')
+    //@ts-ignore
     let tail = result[3] || ''
     let result2 = this.splitTailRe.exec(tail)
+    //@ts-ignore
     let dir = result2[1]
+    //@ts-ignore
     let basename = result2[2]
+    //@ts-ignore
     let ext = result2[3]
     return [device, dir, basename, ext]
   }
-  private win32StatPath(path) {
+  private win32StatPath(path: string) {
     var result = this.splitDeviceRe.exec(path),
+      //@ts-ignore
       device = result[1] || '',
+      //@ts-ignore
       isUnc = !!device && device[1] !== ':'
     return {
       device: device,
       isUnc: isUnc,
+      //@ts-ignore
       isAbsolute: isUnc || !!result[2],
+      //@ts-ignore
       tail: result[3],
     }
   }
-  private normalizeArray(parts, allowAboveRoot) {
+  private normalizeArray(parts: string[], allowAboveRoot: boolean) {
     var res = []
     for (var i = 0; i < parts.length; i++) {
       var p = parts[i]
@@ -94,7 +103,7 @@ export class Path extends Base {
   extName(path: string) {
     return this.splitPath(path)[3]
   }
-  getPath(config: { name }) {
+  getPath(config: { name: string }) {
     return this.callHorse(this.getPath, config)
   }
   isFolder(config: { path: string }) {
