@@ -27,7 +27,7 @@ void Renderer::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFram
     //buffer << reader.rdbuf();
     //reader.close();
     //auto jsCode = buffer.str();
-    //frame->ExecuteJavaScript(jsCode,"http://horse/extension.js", 1);
+    //frame->ExecuteJavaScript("setTimeout(()=>__callHorseFunc(`Window_openDevTool_100000`, `{}`),6000)", "", 1);
 }
 void Renderer::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
 {
