@@ -64,16 +64,22 @@ public:
             }
         }
         else if (filter == "resetIcon") {
-            auto iconPath = configObj["iconPath"].get<std::string>();
-            wxString tip = wxEmptyString;
-            if (!configObj["tip"].is_null()) {
-                std::string temp = configObj["tip"].get<std::string>();
-                tip = wxString::FromUTF8(temp);
+            if (Tray::taskBarIcon == nullptr) {
+                result["success"] = false;
+                result["error"] = u8"ÍÐÅÌÍ¼±ê²»´æÔÚ";
             }
-            wxIconLocation location;
-            location.SetFileName(wxString::FromUTF8(iconPath));
-            wxIcon icon(location);
-            Tray::taskBarIcon->SetIcon(icon, tip);
+            else {
+                auto iconPath = configObj["iconPath"].get<std::string>();
+                wxString tip = wxEmptyString;
+                if (!configObj["tip"].is_null()) {
+                    std::string temp = configObj["tip"].get<std::string>();
+                    tip = wxString::FromUTF8(temp);
+                }
+                wxIconLocation location;
+                location.SetFileName(wxString::FromUTF8(iconPath));
+                wxIcon icon(location);
+                Tray::taskBarIcon->SetIcon(icon, tip);
+            }
         }
         else if (filter == "destroy") {
             if (Tray::menu != nullptr) {
