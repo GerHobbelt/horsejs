@@ -8,20 +8,14 @@ class WindowRouter : public virtual CefBaseRefCounted
 public:
 	WindowRouter(const WindowRouter&) = delete;
 	WindowRouter& operator=(const WindowRouter&) = delete;
-
 	static CefRefPtr<WindowRouter> getInstance();
-	void createWindow(const nlohmann::json& message);
 	void removeWindow(WindowDelegate* tar);
-	void addView(const nlohmann::json& message);
-	void removeView(const nlohmann::json& message);
-	void setVisible(const nlohmann::json& message);
-	void centerAndSize(const nlohmann::json& message);
-	void positionAndSize(const nlohmann::json& message);
-	void getBound(const nlohmann::json& message);
+	void routeMessage(const nlohmann::json& message, CefRefPtr<WindowDelegate> winDelegate);
+	void returnMessage(nlohmann::json& backMsg, const nlohmann::json& message);
 private:
 	IMPLEMENT_REFCOUNTING(WindowRouter);
 	WindowRouter() = default;
-	int getWindowIndexById(int id);
+	CefRefPtr<WindowDelegate> getWindowDelegateById(const nlohmann::json& message);
 	std::vector<CefRefPtr<WindowDelegate>> windows;
 };
 

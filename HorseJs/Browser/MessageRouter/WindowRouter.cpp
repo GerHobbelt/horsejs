@@ -11,8 +11,15 @@ CefRefPtr<WindowRouter> WindowRouter::getInstance() {
 	}
 	return instance;
 }
-
-int WindowRouter::getWindowIndexById(int id) {
+void WindowRouter::returnMessage(nlohmann::json& backMsg,const nlohmann::json& message) {
+	auto wsClient = WebSocketClient::getInstance();
+	backMsg["__msgId"] = message["__msgId"].get<double>();
+	//todo 好像释放不了？这个要验证一下
+	std::string msgStr = backMsg.dump();
+	wsClient->sendMessage(msgStr);
+}
+CefRefPtr<WindowDelegate> WindowRouter::getWindowDelegateById(const nlohmann::json& message) {
+	auto id = message["__winId"].get<int>();
 	int index = -1;
 	for (int i = 0; i < windows.size(); i++) {
 		if (windows.at(i)->win->GetID() == id) {
@@ -23,90 +30,68 @@ int WindowRouter::getWindowIndexById(int id) {
 	if (index == -1) {
 		//todo error
 	}
-	return index;
+	auto winDelegate = windows.at(index);
+	return winDelegate;
 }
 
-void WindowRouter::createWindow(const nlohmann::json& message) {
-	auto winId = windows.size();
-	CefRefPtr<WindowDelegate> winDelegate = new WindowDelegate(message["params"], winId);
-	windows.push_back(winDelegate);
-	auto wsClient = WebSocketClient::getInstance();
-	//todo 好像释放不了？这个要验证一下
-	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} ,{"id",winId}, };
-	std::string msgStr = backMsg.dump();
-	wsClient->sendMessage(msgStr);
-}
-void WindowRouter::addView(const nlohmann::json& message) {
-	auto id = message["__winId"].get<int>();
-	int winIndex = getWindowIndexById(id);
-	int viewId = windows.at(winIndex)->AddOverlayView(message["params"]);
-	auto wsClient = WebSocketClient::getInstance();
-	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()},{"id",viewId}, };
-	std::string msgStr = backMsg.dump();
-	wsClient->sendMessage(msgStr);
-}
-void WindowRouter::removeView(const nlohmann::json& message) {
-	auto id = message["__winId"].get<int>();
-	int winIndex = getWindowIndexById(id);
-	auto viewId = message["params"]["viewId"].get<int>();
-	windows.at(winIndex)->removeView(viewId);
-	auto wsClient = WebSocketClient::getInstance();
-	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
-	std::string msgStr = backMsg.dump();
-	wsClient->sendMessage(msgStr);
-}
-void WindowRouter::setVisible(const nlohmann::json& message) {
-	auto id = message["__winId"].get<int>();
-	int winIndex = getWindowIndexById(id);
-	auto visible = message["params"]["visible"].get<bool>();
-	if (visible) {
-		windows.at(winIndex)->win->Show();
+void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowDelegate> winDelegate) {
+	auto actionName = message["actionName"].get<std::string>();
+	nlohmann::json backMsg = { };
+	if (actionName == "createWindow") {
+		auto winId = windows.size();
+		CefRefPtr<WindowDelegate> winDelegate = new WindowDelegate(message["params"], winId);
+		windows.push_back(winDelegate);
+		backMsg["id"] = winId;
+		returnMessage(backMsg, message);
 	}
-	else
-	{
-		windows.at(winIndex)->win->Hide();
-	}	
-	auto wsClient = WebSocketClient::getInstance();
-	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
-	std::string msgStr = backMsg.dump();
-	wsClient->sendMessage(msgStr);
-}
-void WindowRouter::centerAndSize(const nlohmann::json& message) {
-	auto id = message["__winId"].get<int>();
-	int winIndex = getWindowIndexById(id);
-	windows.at(winIndex)->centerAndSize(message);
-	auto wsClient = WebSocketClient::getInstance();
-	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
-	std::string msgStr = backMsg.dump();
-	wsClient->sendMessage(msgStr);
-}
-void WindowRouter::positionAndSize(const nlohmann::json& message) {
-	auto id = message["__winId"].get<int>();
-	int winIndex = getWindowIndexById(id);
-	windows.at(winIndex)->positionAndSize(message);
-	auto wsClient = WebSocketClient::getInstance();
-	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
-	std::string msgStr = backMsg.dump();
-	wsClient->sendMessage(msgStr);
-}
+	else if (actionName == "addView") {
+		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
+		auto viewId = winDelegate->AddOverlayView(message["params"]);
+		backMsg["id"] = viewId;
+		returnMessage(backMsg, message);
+	}
+	else if (actionName == "hideAllView") {
 
-void WindowRouter::getBound(const nlohmann::json& message) {
-	auto id = message["__winId"].get<int>();
-	int winIndex = getWindowIndexById(id);
-	auto rect = windows.at(winIndex)->win->GetBounds();
-	auto wsClient = WebSocketClient::getInstance();
-	nlohmann::json backMsg = { 
-		{"__msgId", message["__msgId"].get<double>()},
-		{"result",{
+	}
+	else if (actionName == "removeView") {
+		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
+		auto viewId = message["params"]["viewId"].get<int>();
+		winDelegate->removeView(viewId);
+	}
+	else if (actionName == "setVisible") {
+		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
+		auto visible = message["params"]["visible"].get<bool>();
+		if (visible) {
+			winDelegate->win->Show();
+		}
+		else {
+			winDelegate->win->Hide();
+		}
+	}
+	else if (actionName == "setTitle") {
+
+	}
+	else if (actionName == "centerAndSize") {
+		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
+		winDelegate->centerAndSize(message);
+	}
+	else if (actionName == "positionAndSize") {
+		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
+		winDelegate->positionAndSize(message);
+	}
+	else if (actionName == "getBound") {
+		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
+		auto rect = winDelegate->win->GetBounds();
+		backMsg["result"] = {
 			{"x",rect.x},
 			{"y",rect.y},
 			{"width",rect.width},
 			{"height",rect.height}
-		}}
-	};
-	std::string msgStr = backMsg.dump();
-	wsClient->sendMessage(msgStr);
+		};
+	}
+	returnMessage(backMsg, message);
 }
+
 void WindowRouter::removeWindow(WindowDelegate* tar) {
 	int index = -1;
 	for (int i = 0; i < windows.size(); i++) {
@@ -120,7 +105,4 @@ void WindowRouter::removeWindow(WindowDelegate* tar) {
 		return;
 	}
 	windows.erase(windows.begin()+index);
-	//if (windows.size() == 0) {
-	//	CefQuitMessageLoop();
-	//}
 }

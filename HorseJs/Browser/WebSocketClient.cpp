@@ -1,7 +1,13 @@
 #include "WebSocketClient.h"
+#include "include/cef_app.h"
+#include "include/wrapper/cef_helpers.h"
+#include "include/base/cef_callback.h"
+#include "include/cef_task.h"
+#include "include/wrapper/cef_closure_task.h"
 #include "include/base/cef_logging.h"
 #include "../Config.h"
-#include "MessageRouter.h"
+#include "MessageRouter/WindowRouter.h"
+#include "MessageRouter/ViewRouter.h"
 #include "../json/json.hpp"
 using nlohmann::json;
 using websocketpp::lib::bind;
@@ -46,8 +52,16 @@ void WebSocketClient::run() {
 void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg) {
     auto msgStr = msg->get_payload();
     LOG(INFO) << "msg from backend" << msgStr;
-    json msgObj = json::parse(msgStr);
-    MessageRouter::route(msgObj);
+    json message = json::parse(msgStr);
+    auto className = message["className"].get<std::string>();
+    if (className == "Window") {
+        auto windowRouter = WindowRouter::getInstance();
+        CefPostTask(TID_UI, base::BindOnce(&WindowRouter::routeMessage, windowRouter,message,nullptr));
+    }
+    else if (className == "View") {
+        auto viewRouter = ViewRouter::getInstance();
+        CefPostTask(TID_UI, base::BindOnce(&ViewRouter::routeMessage, viewRouter, message));
+    }
     //std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     //std::wstring msgStr = converter.from_bytes(msg->get_payload());
     //std::wstring testMsg = L"这是我的消息";

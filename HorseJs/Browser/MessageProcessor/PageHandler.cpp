@@ -59,7 +59,7 @@ bool PageHandler::OnJSDialog(CefRefPtr<CefBrowser> browser,
     const CefString& message_text,
     const CefString& default_prompt_text,
     CefRefPtr<CefJSDialogCallback> callback,
-    bool& suppress_message) {
+    bool& suppress_message) { 
     suppress_message = false;
     HWND hwnd = browser->GetHost()->GetWindowHandle();
     if (dialog_type == JSDialogType::JSDIALOGTYPE_ALERT) {
@@ -108,5 +108,29 @@ bool PageHandler::OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<
         break;
     }
     }
+    return true;
+}
+
+bool PageHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
+{
+    CEF_REQUIRE_UI_THREAD();
+    std::string messageName = message->GetName();
+    //std::vector<std::string> arr = split(messageName, '_');
+    //if (arr.at(0) == "window") {
+    //    CefRefPtr<CefBrowserView> browserView = CefBrowserView::GetForBrowser(browser);
+    //    CefRefPtr<CefWindow> window = browserView->GetWindow();
+    //    if (arr.at(1) == "minimize") {
+    //        window->Minimize();
+    //    }
+    //    else if (arr.at(1) == "maximize") {
+    //        window->Maximize();
+    //    }
+    //    else if (arr.at(1) == "close") {
+    //        window->Close();
+    //    }
+    //    else if (arr.at(1) == "restore") {
+    //        window->Restore();
+    //    }
+    //}
     return true;
 }

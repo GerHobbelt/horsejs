@@ -30,9 +30,6 @@
     <ClCompile Include="Browser\WebSocketClient.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Browser\MessageRouter.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Browser\BrowserProcessHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -75,9 +72,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Render\ReleaseCallback.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\MessageRouter.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Browser\BrowserProcessHandler.h">

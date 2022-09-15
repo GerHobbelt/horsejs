@@ -24,6 +24,8 @@ public:
     CefRefPtr<CefJSDialogHandler> GetJSDialogHandler() override { return this; }
     bool OnBeforeUnloadDialog(CefRefPtr<CefBrowser> browser, const CefString& message_text, bool is_reload, CefRefPtr<CefJSDialogCallback> callback) override;
     bool OnJSDialog(CefRefPtr<CefBrowser> browser, const CefString& origin_url, JSDialogType dialog_type, const CefString& message_text, const CefString& default_prompt_text, CefRefPtr<CefJSDialogCallback> callback, bool& suppress_message) override;
+    bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message) override;
+
 private:
     IMPLEMENT_REFCOUNTING(PageHandler);
     std::list<CefRefPtr<CefBrowser>> browsers;

@@ -149,7 +149,6 @@
     <ClCompile Include="Browser\MessageRouter\ViewRouter.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Browser\MessageRouter.cpp" />
     <ClCompile Include="Other\OtherProcessHandler.cpp" />
     <ClCompile Include="Browser\MessageProcessor\PageHandler.cpp" />
     <ClCompile Include="Render\RenderProcessHandler.cpp" />
@@ -166,7 +165,6 @@
     <ClInclude Include="Browser\MessageRouter\ViewRouter.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="json\json.hpp" />
-    <ClInclude Include="Browser\MessageRouter.h" />
     <ClInclude Include="Other\OtherProcessHandler.h" />
     <ClInclude Include="Browser\MessageProcessor\PageHandler.h" />
     <ClInclude Include="Render\ReleaseCallback.h" />

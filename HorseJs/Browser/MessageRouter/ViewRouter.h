@@ -13,6 +13,7 @@ public:
 	void _removeView(int id);
 	void setVisible(const nlohmann::json& message);
 	void openDevTools(const nlohmann::json& message);
+	void routeMessage(const nlohmann::json& message);
 private:
 	IMPLEMENT_REFCOUNTING(ViewRouter);
 	ViewRouter() = default;

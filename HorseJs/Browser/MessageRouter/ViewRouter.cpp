@@ -71,3 +71,12 @@ void ViewRouter::openDevTools(const nlohmann::json& message) {
 	std::string msgStr = backMsg.dump();
 	wsClient->sendMessage(msgStr);
 }
+void ViewRouter::routeMessage(const nlohmann::json& message) {
+	auto actionName = message["actionName"].get<std::string>();
+	if (actionName == "setVisible") {
+		setVisible(message);
+	}
+	else if (actionName == "devTools") {
+		openDevTools(message);
+	}
+}
