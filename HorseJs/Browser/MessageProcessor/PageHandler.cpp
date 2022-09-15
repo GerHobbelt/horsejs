@@ -29,7 +29,7 @@ void PageHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
     }
     if (browsers.empty()) {
         instance = nullptr;
-        //CefQuitMessageLoop();
+        CefQuitMessageLoop();
     }
 }
 void PageHandler::OnDraggableRegionsChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const std::vector<CefDraggableRegion>& regions)

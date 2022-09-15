@@ -55,29 +55,55 @@ void WindowRouter::removeView(const nlohmann::json& message) {
 	std::string msgStr = backMsg.dump();
 	wsClient->sendMessage(msgStr);
 }
-void WindowRouter::hide(const nlohmann::json& message) {
+void WindowRouter::setVisible(const nlohmann::json& message) {
 	auto id = message["__winId"].get<int>();
-	for (auto winDelegate : windows) {
-		if (winDelegate->win->GetID() == id) {
-			winDelegate->win->Hide();
-			break;
-		}
+	int winIndex = getWindowIndexById(id);
+	auto visible = message["params"]["visible"].get<bool>();
+	if (visible) {
+		windows.at(winIndex)->win->Show();
 	}
+	else
+	{
+		windows.at(winIndex)->win->Hide();
+	}	
 	auto wsClient = WebSocketClient::getInstance();
 	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
 	std::string msgStr = backMsg.dump();
 	wsClient->sendMessage(msgStr);
 }
-void WindowRouter::show(const nlohmann::json& message) {
+void WindowRouter::centerAndSize(const nlohmann::json& message) {
 	auto id = message["__winId"].get<int>();
-	for (auto winDelegate : windows) {
-		if (winDelegate->win->GetID() == id) {
-			winDelegate->win->Show();
-			break;
-		}
-	}
+	int winIndex = getWindowIndexById(id);
+	windows.at(winIndex)->centerAndSize(message);
 	auto wsClient = WebSocketClient::getInstance();
 	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
+	std::string msgStr = backMsg.dump();
+	wsClient->sendMessage(msgStr);
+}
+void WindowRouter::positionAndSize(const nlohmann::json& message) {
+	auto id = message["__winId"].get<int>();
+	int winIndex = getWindowIndexById(id);
+	windows.at(winIndex)->positionAndSize(message);
+	auto wsClient = WebSocketClient::getInstance();
+	nlohmann::json backMsg = { {"__msgId", message["__msgId"].get<double>()} };
+	std::string msgStr = backMsg.dump();
+	wsClient->sendMessage(msgStr);
+}
+
+void WindowRouter::getBound(const nlohmann::json& message) {
+	auto id = message["__winId"].get<int>();
+	int winIndex = getWindowIndexById(id);
+	auto rect = windows.at(winIndex)->win->GetBounds();
+	auto wsClient = WebSocketClient::getInstance();
+	nlohmann::json backMsg = { 
+		{"__msgId", message["__msgId"].get<double>()},
+		{"result",{
+			{"x",rect.x},
+			{"y",rect.y},
+			{"width",rect.width},
+			{"height",rect.height}
+		}}
+	};
 	std::string msgStr = backMsg.dump();
 	wsClient->sendMessage(msgStr);
 }
@@ -94,7 +120,7 @@ void WindowRouter::removeWindow(WindowDelegate* tar) {
 		return;
 	}
 	windows.erase(windows.begin()+index);
-	if (windows.size() == 0) {
-		CefQuitMessageLoop();
-	}
+	//if (windows.size() == 0) {
+	//	CefQuitMessageLoop();
+	//}
 }

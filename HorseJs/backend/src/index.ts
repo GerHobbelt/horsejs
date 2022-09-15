@@ -5,7 +5,7 @@ let createWindow = async () => {
   let config = new WindowConfig();
   config.title = "这是我的窗口！！！";
   config.frameless = true;
-  config.url = "https://www.baidu.com";
+  config.url = "http://127.0.0.1:5173/";
   let win: Window = await Window.createWindow(config);
   return win;
 };
@@ -15,14 +15,28 @@ let createView = async (win: Window) => {
   let viewConfig = new ViewConfig();
   viewConfig.url = "https://cn.bing.com";
   viewConfig.dockType = 0;
-  viewConfig.a = x;
-  viewConfig.b = y;
+  viewConfig.a = 10;
+  viewConfig.b = 10;
   viewConfig.c = 400;
   viewConfig.d = 400;
   let view = await win.addView(viewConfig);
   x += 30;
   y += 30;
   return view;
+};
+
+let centerAndSize = (win: Window) => {
+  setTimeout(async () => {
+    await win.center();
+    // await win.centerAndSize({ width: 1600, height: 900 });
+  }, 8000);
+};
+
+let positionAndSize = (win: Window) => {
+  setTimeout(async () => {
+    // await win.position({ x: 100, y: 100 });
+    await win.positionAndSize({ x: 100, y: 100, width: 1600, height: 900 });
+  }, 8000);
 };
 
 horse.addListener("serviceReady", (app) => {
@@ -32,12 +46,13 @@ horse.addListener("serviceReady", (app) => {
 });
 
 horse.addListener("browserReady", async () => {
-  // createWindowOverlayView();
-  // createWindowMultiView();
   x = 0;
   y = 0;
   let win = await createWindow();
-  let view = await createView(win);
+  let bound = await win.getBound();
+  console.log(bound);
+  // await positionAndSize(win);
+  // await centerAndSize(win);
   // let view2 = await createView(win);
   // let view3 = await createView(win);
   // setTimeout(() => {

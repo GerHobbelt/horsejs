@@ -13,7 +13,6 @@ namespace MessageRouter {
 			auto actionName = message["actionName"].get<std::string>();
 			auto windowRouter = WindowRouter::getInstance();
 			if (actionName == "createWindow") {
-				//要让主线程做这个工作
 				CefPostTask(TID_UI, base::BindOnce(&WindowRouter::createWindow, windowRouter, message));
 			}
 			else if (actionName == "addView") {
@@ -25,20 +24,20 @@ namespace MessageRouter {
 			else if (actionName == "removeView") {
 				CefPostTask(TID_UI, base::BindOnce(&WindowRouter::removeView, windowRouter, message));
 			}
-			else if (actionName == "hide") {
-				CefPostTask(TID_UI, base::BindOnce(&WindowRouter::hide, windowRouter , message));
-			}
-			else if (actionName == "show") {
-				CefPostTask(TID_UI, base::BindOnce(&WindowRouter::show, windowRouter, message));
+			else if (actionName == "setVisible") {
+				CefPostTask(TID_UI, base::BindOnce(&WindowRouter::setVisible, windowRouter , message));
 			}
 			else if (actionName == "setTitle") {
 
 			}
-			else if (actionName == "resize") {
-
+			else if (actionName == "centerAndSize") {
+				CefPostTask(TID_UI, base::BindOnce(&WindowRouter::centerAndSize, windowRouter, message));
 			}
-			else if (actionName == "center") {
-
+			else if (actionName == "positionAndSize") {
+				CefPostTask(TID_UI, base::BindOnce(&WindowRouter::positionAndSize, windowRouter, message));
+			}
+			else if (actionName == "getBound") {
+				CefPostTask(TID_UI, base::BindOnce(&WindowRouter::getBound, windowRouter, message));
 			}
 		}
 		else if (className == "View") {

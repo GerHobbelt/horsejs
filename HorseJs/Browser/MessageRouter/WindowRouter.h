@@ -14,8 +14,10 @@ public:
 	void removeWindow(WindowDelegate* tar);
 	void addView(const nlohmann::json& message);
 	void removeView(const nlohmann::json& message);
-	void hide(const nlohmann::json& message);
-	void show(const nlohmann::json& message);
+	void setVisible(const nlohmann::json& message);
+	void centerAndSize(const nlohmann::json& message);
+	void positionAndSize(const nlohmann::json& message);
+	void getBound(const nlohmann::json& message);
 private:
 	IMPLEMENT_REFCOUNTING(WindowRouter);
 	WindowRouter() = default;

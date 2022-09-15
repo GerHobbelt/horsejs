@@ -64,9 +64,9 @@ void WindowDelegate::removeView(int id) {
     ViewRouter::getInstance()->_removeView(view->GetID());
     view->GetBrowser()->GetHost()->CloseBrowser(true);
 }
-void WindowDelegate::OnChildViewChanged(CefRefPtr<CefView> view, bool added, CefRefPtr<CefView> child) {
-
-}
+//void WindowDelegate::OnChildViewChanged(CefRefPtr<CefView> view, bool added, CefRefPtr<CefView> child) {
+//
+//}
 void WindowDelegate::OnLayoutChanged(CefRefPtr<CefView> _view, const CefRect& newBounds) {
     if (_view->GetID() != view->GetID()) return;
     //todo 必须不能是带边框窗口
@@ -146,13 +146,39 @@ void WindowDelegate::OnWindowDestroyed(CefRefPtr<CefWindow> window) {
     ViewRouter::getInstance()->_removeView(view->GetID());
     for (auto v :overlayViews) {
         ViewRouter::getInstance()->_removeView(v->GetID());
+        v->GetBrowser()->GetHost()->CloseBrowser(true);
     }
     view = nullptr;
     overlayViews.clear();
     overlayController.clear();
     dockInsets.clear();
+    //从WindowRouter的容器里移除
     WindowRouter::getInstance()->removeWindow(this);
-    //todo 从WindowRouter的容器里移除
+}
+void WindowDelegate::centerAndSize(const nlohmann::json& config) {
+    CefRect rect = this->win->GetBounds();
+    if (config.contains("params")) {
+        rect.width = config["params"]["width"].get<int>();
+        rect.height = config["params"]["height"].get<int>();
+    }
+    CefRefPtr<CefDisplay> display = CefDisplay::GetPrimaryDisplay();
+    CefRect displayRect = display->GetBounds();
+    rect.x = (displayRect.width - rect.width) / 2;
+    rect.y = (displayRect.height - rect.height) / 2;
+    this->win->SetBounds(rect);
+}
+void WindowDelegate::positionAndSize(const nlohmann::json& config) {
+    CefRect rect = this->win->GetBounds();
+    auto param = config["params"];
+    rect.x = param["x"].get<int>();
+    rect.y = param["y"].get<int>();
+    if (param.contains("width")) {
+        rect.width = param["width"].get<int>();
+    }
+    if (param.contains("height")) {
+        rect.height = param["height"].get<int>();
+    }
+    this->win->SetBounds(rect);
 }
 /// <summary>
 /// 设置窗口位置和大小

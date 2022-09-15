@@ -58,14 +58,14 @@ export class Window extends BaseObject {
    * 隐藏窗口
    */
   async hide() {
-    let msg = this.createMsg(this.hide.name);
+    let msg = this.createMsg('setVisible', { visible: false });
     await BaseObject.sendMsgToBrowser(msg);
   }
   /**
    * 显示窗口
    */
   async show() {
-    let msg = this.createMsg(this.show.name);
+    let msg = this.createMsg('setVisible', { visible: true });
     await BaseObject.sendMsgToBrowser(msg);
   }
   /**
@@ -84,7 +84,7 @@ export class Window extends BaseObject {
    * 把窗口设置到屏幕中央
    */
   async center() {
-    let msg = this.createMsg(this.center.name);
+    let msg = this.createMsg('centerAndSize');
     await BaseObject.sendMsgToBrowser(msg);
   }
   /**
@@ -99,17 +99,26 @@ export class Window extends BaseObject {
    * 设置窗口的位置
    * @param param
    */
-  async setPosiion(param: { x: number; y: number }) {
-    let msg = this.createMsg(this.setPosiion.name, param);
+  async position(param: { x: number; y: number }) {
+    let msg = this.createMsg('positionAndSize', param);
     await BaseObject.sendMsgToBrowser(msg);
   }
   /**
    * 设置窗口的大小和位置
    * @param param
    */
-  async setPositionAndSize(param: { x: number; y: number; width: number; height: number }) {
-    let msg = this.createMsg(this.setPositionAndSize.name, param);
+  async positionAndSize(param: { x: number; y: number; width: number; height: number }) {
+    let msg = this.createMsg(this.positionAndSize.name, param);
     await BaseObject.sendMsgToBrowser(msg);
+  }
+  /**
+   * 获取窗口的位置和大小
+   * @returns
+   */
+  async getBound() {
+    let msg = this.createMsg(this.getBound.name);
+    let result = await BaseObject.sendMsgToBrowser(msg);
+    return result.result;
   }
   /**
    * 设置窗口的标题
