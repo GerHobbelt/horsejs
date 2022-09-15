@@ -14,3 +14,6 @@ bool ViewDelegate::OnPopupBrowserViewCreated(CefRefPtr<CefBrowserView> browserVi
     CefWindow::CreateTopLevelWindow(new WindowPopupDelegate(popupBrowserView));
     return true;
 }
+void ViewDelegate::OnBrowserDestroyed(CefRefPtr<CefBrowserView> browser_view, CefRefPtr<CefBrowser> browser) {
+    int i = 0;
+}

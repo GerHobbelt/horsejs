@@ -7,56 +7,22 @@ let createWindow = async () => {
   config.frameless = true;
   config.url = "https://www.baidu.com";
   let win: Window = await Window.createWindow(config);
-  // let config2 = new WindowConfig();
-  // config2.position = "absolute";
-  // config2.title = "这是我的窗口！！！";
-  // config2.frameless = true;
-  // config2.url = "https://www.baidu.com";
-  // let win2: Window = await Window.createWindow(config2);
-  // setTimeout(async () => {
-  //   await win.hide();
-  //   console.log("hide window");
-  //   setTimeout(async () => {
-  //     await win.show();
-  //     console.log("show window");
-  //   }, 3000);
-  // }, 8000);
-
-  // console.log(win);
-
+  return win;
+};
+let x = 0;
+let y = 0;
+let createView = async (win: Window) => {
   let viewConfig = new ViewConfig();
   viewConfig.url = "https://cn.bing.com";
   viewConfig.dockType = 0;
-  viewConfig.a = 20;
-  viewConfig.b = 20;
+  viewConfig.a = x;
+  viewConfig.b = y;
   viewConfig.c = 400;
   viewConfig.d = 400;
   let view = await win.addView(viewConfig);
-  console.log(view.id);
-
-  setTimeout(() => {
-    win.removeView(view);
-  }, 6000);
-
-  // setTimeout(async () => {
-  //   let viewConfig2 = new ViewConfig();
-  //   viewConfig2.url = "https://www.so.com";
-  //   viewConfig2.dockType = 0;
-  //   viewConfig2.a = 12;
-  //   viewConfig2.b = 12;
-  //   viewConfig2.c = 300;
-  //   viewConfig2.d = 300;
-  //   let view2 = await win.addView(viewConfig2);
-  //   console.log(view2.id);
-  // }, 18000);
-  // console.log("ok");
-
-  // setTimeout(() => {
-  //   win.view.openDevTools();
-  //   setTimeout(() => {
-  //     win.view.closeDevTools();
-  //   }, 6000);
-  // }, 6000);
+  x += 30;
+  y += 30;
+  return view;
 };
 
 horse.addListener("serviceReady", (app) => {
@@ -65,9 +31,17 @@ horse.addListener("serviceReady", (app) => {
   });
 });
 
-horse.addListener("browserReady", () => {
+horse.addListener("browserReady", async () => {
   // createWindowOverlayView();
   // createWindowMultiView();
-  createWindow();
+  x = 0;
+  y = 0;
+  let win = await createWindow();
+  let view = await createView(win);
+  // let view2 = await createView(win);
+  // let view3 = await createView(win);
+  // setTimeout(() => {
+  //   win.removeView(view);
+  // }, 8000);
 });
 horse.init(config);

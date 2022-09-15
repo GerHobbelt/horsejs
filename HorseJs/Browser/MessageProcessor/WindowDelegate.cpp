@@ -35,6 +35,8 @@ int WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
     auto size = win->GetChildViewCount();
     auto url = overlayViewConfig["url"].get<std::string>();
     auto overlayView = ViewRouter::getInstance()->createView(url);
+    //auto pannel = CefPanel::CreatePanel(nullptr);
+    //pannel->SetBackgroundColor(CefColorSetARGB(55 * .80, 55, 55, 55));
     overlayViews.push_back(overlayView);
     auto panelCtrl = win->AddOverlayView(overlayView, CEF_DOCKING_MODE_CUSTOM);
     overlayController.push_back(panelCtrl);
@@ -46,10 +48,11 @@ int WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
         overlayViewConfig["d"].get<int>() 
     };
     dockInsets.push_back(dockVal);
-    size = win->GetChildViewCount();
     return overlayView->GetID();
 }
 void WindowDelegate::removeView(int id) {
+    //overlayController.at(0)->Destroy();
+    //overlayController.erase(overlayController.begin() + 0);
     int index = -1;
     for (int i = 0; i < overlayViews.size(); i++) {
         if (overlayViews.at(i)->GetID() == id) {
@@ -57,20 +60,22 @@ void WindowDelegate::removeView(int id) {
             break;
         }
     }
-
-    auto size = win->GetChildViewCount();
-    auto view = overlayViews.at(index);
-    view->GetBrowser()->GetHost()->CloseBrowser(true);
-    
-    size = win->GetChildViewCount();
-
+    auto view = overlayViews.at(index);    
+    //overlayController.at(index)->Destroy(); //todo 有这一句，关闭应用时就会报错，暂时不知道为什么
+    overlayController.erase(overlayController.begin() + index);
+    ViewRouter::getInstance()->_removeView(overlayViews.at(index)->GetID());
     overlayViews.erase(overlayViews.begin() + index);
     dockInsets.erase(dockInsets.begin() + index);
-    ViewRouter::getInstance()->_removeView(id);
-    //overlayController.at(index)->Destroy(); //todo 有这一句，关闭应用时就会报错，暂时不知道为什么
-    overlayController.erase(overlayController.begin()+index);
-    auto hasOne = view->HasAtLeastOneRef();
-    
+    view->GetBrowser()->GetHost()->CloseBrowser(true);
+    //view->GetBrowser()->GetHost()->GetClient()->GetLifeSpanHandler()->OnBeforeClose(view->GetBrowser());
+    //win->InvalidateLayout();
+    //auto v = win->GetViewForID(1);
+    //att = view->IsAttached();
+    //overlayController.at(index)->GetWindow()->RemoveChildView(view);
+    //auto host = view->GetBrowser()->GetHost()->GetClient()->GetLifeSpanHandler();    
+}
+void WindowDelegate::OnChildViewChanged(CefRefPtr<CefView> view, bool added, CefRefPtr<CefView> child) {
+
 }
 void WindowDelegate::OnLayoutChanged(CefRefPtr<CefView> _view, const CefRect& newBounds) {
     if (_view->GetID() != view->GetID()) return;
