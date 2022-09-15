@@ -43,7 +43,10 @@ export class Window extends BaseObject {
     return result;
   }
   /**
-   *
+   * 移除View
+   * todo 这个方法有问题，BrowserView的进程没办法退出，这是CEF的问题
+   * https://www.magpcss.org/ceforum/viewtopic.php?f=6&t=19152
+   * https://bitbucket.org/chromiumembedded/cef/pull-requests/526
    * @param config
    * @returns
    */
@@ -69,9 +72,53 @@ export class Window extends BaseObject {
    * 隐藏所有的ViewOverlay
    */
   async hideAllViewOverlay() {}
-  async resize() {}
-  async center() {}
-  async setTitle(title: string) {}
+  /**
+   * 设置窗口大小
+   * @param param
+   */
+  async setSize(param: { width: number; height: number }) {
+    let msg = this.createMsg(this.setSize.name, param);
+    await BaseObject.sendMsgToBrowser(msg);
+  }
+  /**
+   * 把窗口设置到屏幕中央
+   */
+  async center() {
+    let msg = this.createMsg(this.center.name);
+    await BaseObject.sendMsgToBrowser(msg);
+  }
+  /**
+   * 把窗口设置到屏幕中央，同时设置窗口的大小
+   * @param param
+   */
+  async centerAndSize(param: { width: number; height: number }) {
+    let msg = this.createMsg(this.centerAndSize.name, param);
+    await BaseObject.sendMsgToBrowser(msg);
+  }
+  /**
+   * 设置窗口的位置
+   * @param param
+   */
+  async setPosiion(param: { x: number; y: number }) {
+    let msg = this.createMsg(this.setPosiion.name, param);
+    await BaseObject.sendMsgToBrowser(msg);
+  }
+  /**
+   * 设置窗口的大小和位置
+   * @param param
+   */
+  async setPositionAndSize(param: { x: number; y: number; width: number; height: number }) {
+    let msg = this.createMsg(this.setPositionAndSize.name, param);
+    await BaseObject.sendMsgToBrowser(msg);
+  }
+  /**
+   * 设置窗口的标题
+   * @param title
+   */
+  async setTitle(title: string) {
+    let msg = this.createMsg(this.setTitle.name, { title });
+    await BaseObject.sendMsgToBrowser(msg);
+  }
   private constructor(id: number) {
     super(id);
   }
