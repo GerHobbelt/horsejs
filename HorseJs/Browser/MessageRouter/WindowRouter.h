@@ -11,11 +11,11 @@ public:
 	static CefRefPtr<WindowRouter> getInstance();
 	void removeWindow(WindowDelegate* tar);
 	void routeMessage(const nlohmann::json& message, CefRefPtr<WindowDelegate> winDelegate);
-	void returnMessage(nlohmann::json& backMsg, const nlohmann::json& message);
 private:
 	IMPLEMENT_REFCOUNTING(WindowRouter);
 	WindowRouter() = default;
 	CefRefPtr<WindowDelegate> getWindowDelegateById(const nlohmann::json& message);
+	void returnMessage(nlohmann::json& backMsg, const nlohmann::json& message);
 	std::vector<CefRefPtr<WindowDelegate>> windows;
 };
 

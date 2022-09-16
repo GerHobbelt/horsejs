@@ -21,12 +21,12 @@ public:
     WindowDelegate(const WindowDelegate&) = delete;
     WindowDelegate& operator=(const WindowDelegate&) = delete;
     CefRefPtr<CefWindow> win;
+    CefRefPtr<CefBrowserView> view;
 private:
     nlohmann::json config;
     bool isDevTool = false;
     int id;
     CefRefPtr<CefPanel> parentPanel;
-    CefRefPtr<CefBrowserView> view;
     std::vector<CefRefPtr<CefBrowserView>> overlayViews;
     std::vector<std::vector<int>> dockInsets;
     std::vector<CefRefPtr<CefOverlayController>> overlayController;

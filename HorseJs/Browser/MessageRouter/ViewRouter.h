@@ -17,7 +17,8 @@ public:
 private:
 	IMPLEMENT_REFCOUNTING(ViewRouter);
 	ViewRouter() = default;
-	int getViewIndexById(int id);
+	CefRefPtr<CefBrowserView> getViewById(const nlohmann::json& message);
+	void returnMessage(nlohmann::json& backMsg, const nlohmann::json& message);
 	std::vector<CefRefPtr<CefBrowserView>> views;
 };
 

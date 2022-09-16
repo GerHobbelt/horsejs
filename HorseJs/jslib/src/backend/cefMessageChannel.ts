@@ -1,5 +1,7 @@
-import EventEmitter from 'events';
+import * as EventEmitter from 'eventemitter3';
+
 import { WebSocket } from 'ws';
+import { Window } from '../common/Window';
 class CEFMessageChannel extends EventEmitter {
   ws: WebSocket;
   private onWebSocketMessage(message) {
@@ -12,6 +14,7 @@ class CEFMessageChannel extends EventEmitter {
     this.ws.send(msgStr);
   }
   init(ws: WebSocket) {
+    Window.__internalListen();
     this.ws = ws;
     this.ws.on('message', (message) => this.onWebSocketMessage(message));
   }

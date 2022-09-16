@@ -9,13 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "eventemitter3": "^4.0.7",
     "koa": "^2.13.4",
     "koa-static": "^5.0.0",
     "ws": "^8.8.1"
   },
   "devDependencies": {
     "@types/koa": "^2.13.5",
-    "@types/ws": "^8.5.3",
-    "@types/node": "^18.7.12"
+    "@types/node": "^18.7.12",
+    "@types/ws": "^8.5.3"
   }
 }

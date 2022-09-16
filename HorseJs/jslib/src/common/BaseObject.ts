@@ -1,24 +1,29 @@
-import EventEmitter from 'events';
+import * as EventEmitter from 'eventemitter3';
 
 export class BaseObject extends EventEmitter {
   public id: number;
-  addListener(eventName: string, listener: (...args: any[]) => void): this {
+  addListener(eventName: string | symbol, listener: (...args: any[]) => void): this {
+    eventName = eventName as string;
     globalThis.cefMessageChannel.addListener(`${eventName}_${this.id}`, listener);
     return this;
   }
-  removeListener(eventName: string, listener: (...args: any[]) => void): this {
+  removeListener(eventName: string | symbol, listener: (...args: any[]) => void): this {
+    eventName = eventName as string;
     globalThis.cefMessageChannel.removeListener(`${eventName}_${this.id}`, listener);
     return this;
   }
-  once(eventName: string, listener: (...args: any[]) => void): this {
+  once(eventName: string | symbol, listener: (...args: any[]) => void): this {
+    eventName = eventName as string;
     globalThis.cefMessageChannel.once(`${eventName}_${this.id}`, listener);
     return this;
   }
-  on(eventName: string, listener: (...args: any[]) => void): this {
+  on(eventName: string | symbol, listener: (...args: any[]) => void): this {
+    eventName = eventName as string;
     globalThis.cefMessageChannel.on(`${eventName}_${this.id}`, listener);
     return this;
   }
-  off(eventName: string, listener: (...args: any[]) => void): this {
+  off(eventName: string | symbol, listener: (...args: any[]) => void): this {
+    eventName = eventName as string;
     globalThis.cefMessageChannel.off(`${eventName}_${this.id}`, listener);
     return this;
   }
@@ -27,14 +32,6 @@ export class BaseObject extends EventEmitter {
       globalThis.cefMessageChannel.removeAllListeners(`${event}_${this.id}`);
     }
     super.removeAllListeners(event);
-    return this;
-  }
-  prependListener(eventName: string, listener: (...args: any[]) => void): this {
-    globalThis.cefMessageChannel.prependListener(`${eventName}_${this.id}`, listener);
-    return this;
-  }
-  prependOnceListener(eventName: string, listener: (...args: any[]) => void): this {
-    globalThis.cefMessageChannel.prependOnceListener(`${eventName}_${this.id}`, listener);
     return this;
   }
   static sendMsgToBrowser(msg: any): Promise<any> {

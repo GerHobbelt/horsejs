@@ -22,17 +22,24 @@ WindowDelegate::WindowDelegate(const nlohmann::json& config, const int id):confi
 /// <param name="window"></param>
 void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
     window->SetID(id);
-    auto size = window->GetChildViewCount();
     window->AddChildView(view);
     if (config["show"].get<bool>()) {
         window->Show();
     }
     window->SetTitle(config["title"].get<std::string>());
-    size = window->GetChildViewCount();
     win = window;
+
+    auto wsClient = WebSocketClient::getInstance();
+    nlohmann::json backMsg = { 
+        {"__msgId","windowCreated"},
+        {"winId",id},
+        {"viewId",view->GetID()},
+    };
+    //todo 好像释放不了？这个要验证一下
+    std::string msgStr = backMsg.dump();
+    wsClient->sendMessage(msgStr);
 }
 int WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
-    auto size = win->GetChildViewCount();
     auto url = overlayViewConfig["url"].get<std::string>();
     auto overlayView = ViewRouter::getInstance()->createView(url);
     overlayViews.push_back(overlayView);
@@ -46,6 +53,17 @@ int WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
         overlayViewConfig["d"].get<int>() 
     };
     dockInsets.push_back(dockVal);
+
+    auto wsClient = WebSocketClient::getInstance();
+    nlohmann::json backMsg = {
+        {"__msgId","viewOverlayCreated"},
+        {"winId",id},
+        {"viewId",overlayView->GetID()},
+    };
+    //todo 好像释放不了？这个要验证一下
+    std::string msgStr = backMsg.dump();
+    wsClient->sendMessage(msgStr);
+
     return overlayView->GetID();
 }
 void WindowDelegate::removeView(int id) {

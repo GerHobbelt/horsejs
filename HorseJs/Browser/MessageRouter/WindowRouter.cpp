@@ -1,5 +1,7 @@
 #include "WindowRouter.h"
 #include "../WebSocketClient.h"
+#include "include/views/cef_window.h"
+#include "include/views/cef_browser_view.h"
 
 namespace {
 	CefRefPtr<WindowRouter> instance = nullptr;
@@ -41,14 +43,14 @@ void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowD
 		auto winId = windows.size();
 		CefRefPtr<WindowDelegate> winDelegate = new WindowDelegate(message["params"], winId);
 		windows.push_back(winDelegate);
-		backMsg["id"] = winId;
-		returnMessage(backMsg, message);
+		backMsg["winId"] = winId;
+		backMsg["viewId"] = winDelegate->view->GetID();
 	}
 	else if (actionName == "addView") {
 		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
 		auto viewId = winDelegate->AddOverlayView(message["params"]);
-		backMsg["id"] = viewId;
-		returnMessage(backMsg, message);
+		backMsg["winId"] = winDelegate->win->GetID();
+		backMsg["viewId"] = viewId;
 	}
 	else if (actionName == "hideAllView") {
 

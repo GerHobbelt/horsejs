@@ -5,6 +5,7 @@ import { View } from './View';
 export class Window extends BaseObject {
   view: View;
   viewOverlay: View[] = [];
+  protected static windows: Window[] = [];
   private createMsg(actionName: string, params?: any) {
     let msg = {
       className: Window.name,
@@ -26,10 +27,76 @@ export class Window extends BaseObject {
       params: config,
     };
     let obj: any = await BaseObject.sendMsgToBrowser(msg);
-    let result = new Window(obj.id);
-    result.view = View.__createView(0);
+    let result = this.__storeWindow(obj.winId, obj.viewId);
     return result;
   }
+  /**
+   * 根据Id获取Window对象，静态方法
+   * @param id
+   * @returns
+   */
+  static getWindowById(id: number): Window | any {
+    let result = Window.windows.find((v) => v.id === id);
+    return result;
+  }
+  /**
+   * 获取所有窗口，静态方法
+   * @returns
+   */
+  static getAllWindow(): Window[] {
+    return Window.windows;
+  }
+  private static __storeWindow(winId, viewId): Window | any {
+    let win = this.getWindowById(winId);
+    if (win) return null;
+    let result = new Window(winId);
+    result.view = View.__createView(viewId);
+    this.windows.push(result);
+    return result;
+  }
+  /**
+   * 这是框架用的方法，不要尝试在业务代码中使用此方法
+   * 如果渲染进程创建了窗口，Node进程需要持有这个窗口
+   * 如果Node进程创建了窗口，渲染进程需要持有这个窗口
+   */
+  static __internalListen() {
+    //窗口创建成功
+    globalThis.cefMessageChannel.on('windowCreated', (param) => {
+      this.__storeWindow(param.winId, param.viewId);
+    });
+    //子view创建成功
+    globalThis.cefMessageChannel.on('viewOverlayCreated', (param) => {
+      let win = this.getWindowById(param.winId) as Window;
+      if (!win) {
+        throw new Error('win not found');
+      }
+      let index = win.viewOverlay.findIndex((v) => v.id === param.viewId);
+      if (index > -1) {
+        return;
+      }
+      let result = View.__createView(param.viewId);
+      win.viewOverlay.push(result);
+    });
+    //窗口关闭
+    globalThis.cefMessageChannel.on('windowRemoved', (param) => {
+      let index = this.windows.findIndex((v) => v.id === param.winId);
+      if (index < 0) return;
+      this.windows.splice(index, 1);
+    });
+    //子View移除
+    globalThis.cefMessageChannel.on('viewRemoved', (param) => {
+      let win = this.getWindowById(param.winId) as Window;
+      if (!win) {
+        throw new Error('win not found');
+      }
+      let index = win.viewOverlay.findIndex((v) => v.id === param.viewId);
+      if (index < 0) {
+        return;
+      }
+      win.viewOverlay.splice(index);
+    });
+  }
+
   /**
    * 为窗口添加view
    * @param config
@@ -128,7 +195,7 @@ export class Window extends BaseObject {
     let msg = this.createMsg(this.setTitle.name, { title });
     await BaseObject.sendMsgToBrowser(msg);
   }
-  private constructor(id: number) {
+  protected constructor(id: number) {
     super(id);
   }
 }
