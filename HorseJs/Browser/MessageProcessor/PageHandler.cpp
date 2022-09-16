@@ -2,7 +2,8 @@
 #include "include/wrapper/cef_helpers.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
-#include "../WebSocketClient.h"
+#include "../MessageRouter/WindowRouter.h"
+#include "../../json/json.hpp"
 
 namespace {
     CefRefPtr<PageHandler> instance = nullptr;
@@ -116,21 +117,12 @@ bool PageHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRef
     CEF_REQUIRE_UI_THREAD();
     std::string messageName = message->GetName();
     //std::vector<std::string> arr = split(messageName, '_');
-    //if (arr.at(0) == "window") {
-    //    CefRefPtr<CefBrowserView> browserView = CefBrowserView::GetForBrowser(browser);
-    //    CefRefPtr<CefWindow> window = browserView->GetWindow();
-    //    if (arr.at(1) == "minimize") {
-    //        window->Minimize();
-    //    }
-    //    else if (arr.at(1) == "maximize") {
-    //        window->Maximize();
-    //    }
-    //    else if (arr.at(1) == "close") {
-    //        window->Close();
-    //    }
-    //    else if (arr.at(1) == "restore") {
-    //        window->Restore();
-    //    }
-    //}
+    if (messageName == "window") {
+        CefRefPtr<CefBrowserView> browserView = CefBrowserView::GetForBrowser(browser);
+        CefRefPtr<WindowDelegate> windowDelegate = (CefRefPtr<WindowDelegate>)browserView->GetWindow()->GetDelegate();
+        auto windowRouter = WindowRouter::getInstance();
+        nlohmann::json message;
+        windowRouter->routeMessage(message, windowDelegate);
+    }
     return true;
 }

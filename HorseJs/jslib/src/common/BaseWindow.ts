@@ -2,13 +2,11 @@ import { BaseObject } from './BaseObject';
 import { WindowConfig } from './WindowConfig';
 import { ViewConfig } from './ViewConfig';
 import { View } from './View';
-export class Window extends BaseObject {
+export class BaseWindow extends BaseObject {
   view: View;
-  viewOverlay: View[] = [];
-  protected static windows: Window[] = [];
   private createMsg(actionName: string, params?: any) {
     let msg = {
-      className: Window.name,
+      className: 'Window',
       actionName,
       __winId: this.id,
       params,
@@ -20,14 +18,16 @@ export class Window extends BaseObject {
    * @param config
    * @returns
    */
-  static async createWindow(config: WindowConfig): Promise<Window> {
+  static async createWindow(config: WindowConfig): Promise<BaseWindow> {
     let msg = {
-      className: Window.name,
+      className: 'Window',
       actionName: this.createWindow.name,
       params: config,
     };
     let obj: any = await BaseObject.sendMsgToBrowser(msg);
-    let result = this.__storeWindow(obj.winId, obj.viewId);
+    console.log(obj);
+    let result = new BaseWindow(obj.winId);
+    result.view = View.__createView(obj.viewId);
     return result;
   }
   /**
@@ -35,66 +35,17 @@ export class Window extends BaseObject {
    * @param id
    * @returns
    */
-  static getWindowById(id: number): Window | any {
-    let result = Window.windows.find((v) => v.id === id);
-    return result;
+  static async getWindowById(id: number): Promise<BaseWindow | any> {
+    //todo
+    return null;
   }
   /**
    * 获取所有窗口，静态方法
    * @returns
    */
-  static getAllWindow(): Window[] {
-    return Window.windows;
-  }
-  private static __storeWindow(winId, viewId): Window | any {
-    let win = this.getWindowById(winId);
-    if (win) return null;
-    let result = new Window(winId);
-    result.view = View.__createView(viewId);
-    this.windows.push(result);
-    return result;
-  }
-  /**
-   * 这是框架用的方法，不要尝试在业务代码中使用此方法
-   * 如果渲染进程创建了窗口，Node进程需要持有这个窗口
-   * 如果Node进程创建了窗口，渲染进程需要持有这个窗口
-   */
-  static __internalListen() {
-    //窗口创建成功
-    globalThis.cefMessageChannel.on('windowCreated', (param) => {
-      this.__storeWindow(param.winId, param.viewId);
-    });
-    //子view创建成功
-    globalThis.cefMessageChannel.on('viewOverlayCreated', (param) => {
-      let win = this.getWindowById(param.winId) as Window;
-      if (!win) {
-        throw new Error('win not found');
-      }
-      let index = win.viewOverlay.findIndex((v) => v.id === param.viewId);
-      if (index > -1) {
-        return;
-      }
-      let result = View.__createView(param.viewId);
-      win.viewOverlay.push(result);
-    });
-    //窗口关闭
-    globalThis.cefMessageChannel.on('windowRemoved', (param) => {
-      let index = this.windows.findIndex((v) => v.id === param.winId);
-      if (index < 0) return;
-      this.windows.splice(index, 1);
-    });
-    //子View移除
-    globalThis.cefMessageChannel.on('viewRemoved', (param) => {
-      let win = this.getWindowById(param.winId) as Window;
-      if (!win) {
-        throw new Error('win not found');
-      }
-      let index = win.viewOverlay.findIndex((v) => v.id === param.viewId);
-      if (index < 0) {
-        return;
-      }
-      win.viewOverlay.splice(index);
-    });
+  static async getAllWindow(): Promise<BaseWindow[]> {
+    //todo
+    return [];
   }
 
   /**
@@ -102,12 +53,19 @@ export class Window extends BaseObject {
    * @param config
    * @returns
    */
-  async addView(config: ViewConfig): Promise<View> {
-    let msg = this.createMsg(this.addView.name, config);
+  async addOverlayView(config: ViewConfig): Promise<View> {
+    let msg = this.createMsg(this.addOverlayView.name, config);
     let obj: any = await BaseObject.sendMsgToBrowser(msg);
     let result = View.__createView(obj.id);
-    this.viewOverlay.push(result);
     return result;
+  }
+
+  /**
+   * 获取窗口所有的
+   * @returns
+   */
+  async getOverlayView(): Promise<View[]> {
+    return [];
   }
   /**
    * 移除View

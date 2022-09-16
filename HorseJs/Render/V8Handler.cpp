@@ -1,9 +1,9 @@
 #include "V8Handler.h"
 bool V8Handler::Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception)
 {
-    if (name != "__callHorseFunc") return true;
+    if (name != "nativeCall") return true;
     auto msgName = arguments[0]->GetStringValue();
-    if (msgName == "native_registe_callback") {
+    if (msgName == "__registeNativeCallback") {
         callBack = arguments[1];
         return true;
     }

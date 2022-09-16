@@ -46,7 +46,7 @@ void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowD
 		backMsg["winId"] = winId;
 		backMsg["viewId"] = winDelegate->view->GetID();
 	}
-	else if (actionName == "addView") {
+	else if (actionName == "addOverlayView") {
 		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
 		auto viewId = winDelegate->AddOverlayView(message["params"]);
 		backMsg["winId"] = winDelegate->win->GetID();

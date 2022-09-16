@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, onUnmounted } from "vue";
+import { horse, Win } from "../../../jslib/src/client";
 defineProps<{ title?: string }>();
 let isMaximized = ref(false);
 let closeWindow = () => {};
@@ -12,7 +13,9 @@ let winMaximizeEvent = () => {
 let winUnmaximizeEvent = () => {
   isMaximized.value = false;
 };
-onMounted(() => {});
+onMounted(async () => {
+  let win = await Win.getCurrentWindow();
+});
 onUnmounted(() => {});
 </script>
 <template>

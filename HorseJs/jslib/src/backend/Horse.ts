@@ -6,7 +6,7 @@ import { WebSocketServer } from 'ws';
 import { AddressInfo } from 'net';
 import { config } from './config';
 import fs from 'fs';
-import EventEmitter from 'events';
+import EventEmitter from 'eventemitter3';
 class Horse extends EventEmitter {
   config = config;
   private initStaticService(app: any) {
@@ -26,6 +26,21 @@ class Horse extends EventEmitter {
        * 当Browser进程连接到websocket服务后执行此方法
        */
       this.emit('browserReady', ws, req);
+      globalThis.cefMessageChannel.on('windowCreated', (param) => {
+        console.log('windowCreated');
+        this.emit('windowCreated', param);
+      });
+      globalThis.cefMessageChannel.on('viewOverlayCreated', (param) => {
+        console.log('viewOverlayCreated');
+        this.emit('viewOverlayCreated', param);
+      });
+      //todo
+      // globalThis.cefMessageChannel.on('viewOverlayCreated', (param) => {
+      //   this.emit('viewOverlayCreated', param);
+      // });
+      // globalThis.cefMessageChannel.on('viewOverlayCreated', (param) => {
+      //   this.emit('viewOverlayCreated', param);
+      // });
     } else {
       /**
        * 当渲染进程连接到websocket服务后执行此方法

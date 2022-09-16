@@ -21,15 +21,6 @@ bool RenderProcessHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browse
         CefRefPtr<CefV8Value> resultV8 = CefV8Value::CreateString(result);
         argsForJs.push_back(resultV8);
     }
-    else if (args->GetType(0) == CefValueType::VTYPE_BINARY) {
-        CefRefPtr<CefBinaryValue> data = args->GetBinary(0);
-        size_t size = data->GetSize();
-        unsigned char* result = new unsigned char[size];
-        data->GetData(result, size, 0);
-        CefRefPtr<CefV8ArrayBufferReleaseCallback> cb = new ReleaseCallback();
-        CefRefPtr<CefV8Value> resultV8 = CefV8Value::CreateArrayBuffer(result, size, cb);
-        argsForJs.push_back(resultV8);
-    }
     v8Handler->callBack->ExecuteFunction(nullptr, argsForJs);
     context->Exit();
     return true;

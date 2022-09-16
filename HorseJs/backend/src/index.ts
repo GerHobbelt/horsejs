@@ -1,4 +1,4 @@
-import { horse, Window, WindowConfig, ViewConfig } from "../../jslib/src/backend";
+import { horse, Win, WindowConfig, ViewConfig } from "../../jslib/src/backend";
 import { config } from "../horse.config";
 
 let createWindow = async () => {
@@ -6,12 +6,12 @@ let createWindow = async () => {
   config.title = "这是我的窗口！！！";
   config.frameless = true;
   config.url = "http://127.0.0.1:5173/";
-  let win: Window = await Window.createWindow(config);
+  let win: Win = await Win.createWindow(config);
   return win;
 };
 let x = 0;
 let y = 0;
-let createView = async (win: Window) => {
+let createView = async (win: Win) => {
   let viewConfig = new ViewConfig();
   viewConfig.url = "https://cn.bing.com";
   viewConfig.dockType = 0;
@@ -19,20 +19,20 @@ let createView = async (win: Window) => {
   viewConfig.b = 10;
   viewConfig.c = 400;
   viewConfig.d = 400;
-  let view = await win.addView(viewConfig);
+  let view = await win.addOverlayView(viewConfig);
   x += 30;
   y += 30;
   return view;
 };
 
-let centerAndSize = (win: Window) => {
+let centerAndSize = (win: Win) => {
   setTimeout(async () => {
     await win.center();
     // await win.centerAndSize({ width: 1600, height: 900 });
   }, 8000);
 };
 
-let positionAndSize = (win: Window) => {
+let positionAndSize = (win: Win) => {
   setTimeout(async () => {
     // await win.position({ x: 100, y: 100 });
     await win.positionAndSize({ x: 100, y: 100, width: 1600, height: 900 });
