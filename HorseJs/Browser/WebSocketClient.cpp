@@ -53,7 +53,7 @@ void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg
     auto msgStr = msg->get_payload();
     LOG(INFO) << "msg from backend" << msgStr;
     json message = json::parse(msgStr);
-    auto className = message["className"].get<std::string>();
+    auto className = message["__className"].get<std::string>();
     nlohmann::json result = {};
     if (className == "Win") {
         auto windowRouter = WindowRouter::getInstance();

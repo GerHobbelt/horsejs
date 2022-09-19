@@ -1,29 +1,29 @@
 import EventEmitter from 'eventemitter3';
 export class View extends EventEmitter {
   id: number;
-  private createMsg(actionName: string, params?: any) {
-    let msg = {
-      className: View.name,
-      actionName,
+  private prepareMsg(actionName: string, msg: any) {
+    let result = {
+      __className: 'View',
+      __actionName: actionName,
       __winId: this.id,
-      params,
     };
-    return msg;
+    Object.assign(result, msg);
+    return result;
   }
   async show() {
-    let msg = this.createMsg('setVisible', { visible: true, viewId: this.id });
+    let msg = this.prepareMsg('setVisible', { visible: true, viewId: this.id });
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   async hide() {
-    let msg = this.createMsg('setVisible', { visible: false, viewId: this.id });
+    let msg = this.prepareMsg('setVisible', { visible: false, viewId: this.id });
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   async openDevTools() {
-    let msg = this.createMsg('devTools', { viewId: this.id, option: 'open' });
+    let msg = this.prepareMsg('devTools', { viewId: this.id, option: 'open' });
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   async closeDevTools() {
-    let msg = this.createMsg('devTools', { viewId: this.id, option: 'close' });
+    let msg = this.prepareMsg('devTools', { viewId: this.id, option: 'close' });
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   async wasHiden() {}

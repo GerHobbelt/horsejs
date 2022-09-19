@@ -37,17 +37,17 @@ CefRefPtr<WindowDelegate> WindowRouter::getWindowDelegateById(const nlohmann::js
 }
 
 void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowDelegate> winDelegate, nlohmann::json& result) {
-	auto actionName = message["actionName"].get<std::string>();
+	auto actionName = message["__actionName"].get<std::string>();
 	if (actionName == "createWindow") {
 		auto winId = windows.size();
-		CefRefPtr<WindowDelegate> winDelegate = new WindowDelegate(message["params"], winId);
+		CefRefPtr<WindowDelegate> winDelegate = new WindowDelegate(message, winId);
 		windows.push_back(winDelegate);
 		result["winId"] = winId;
 		result["viewId"] = winDelegate->view->GetID();
 	}
 	else if (actionName == "addOverlayView") {
 		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
-		auto viewId = winDelegate->AddOverlayView(message["params"]);
+		auto viewId = winDelegate->AddOverlayView(message);
 		result["winId"] = winDelegate->win->GetID();
 		result["viewId"] = viewId;
 	}
@@ -61,12 +61,12 @@ void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowD
 	}
 	else if (actionName == "removeView") {
 		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
-		auto viewId = message["params"]["viewId"].get<int>();
+		auto viewId = message["viewId"].get<int>();
 		winDelegate->removeView(viewId);
 	}
 	else if (actionName == "setVisible") {
 		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
-		auto visible = message["params"]["visible"].get<bool>();
+		auto visible = message["visible"].get<bool>();
 		if (visible) {
 			winDelegate->win->Show();
 		}
@@ -75,7 +75,8 @@ void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowD
 		}
 	}
 	else if (actionName == "setTitle") {
-
+		auto title = message["title"].get<std::string>();
+		winDelegate->win->SetTitle(title);
 	}
 	else if (actionName == "minimize") {
 		winDelegate->win->Minimize();

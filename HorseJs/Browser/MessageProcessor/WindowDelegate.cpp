@@ -176,8 +176,8 @@ void WindowDelegate::OnWindowDestroyed(CefRefPtr<CefWindow> window) {
 void WindowDelegate::centerAndSize(const nlohmann::json& config) {
     CefRect rect = this->win->GetBounds();
     if (config.contains("params")) {
-        rect.width = config["params"]["width"].get<int>();
-        rect.height = config["params"]["height"].get<int>();
+        rect.width = config["width"].get<int>();
+        rect.height = config["height"].get<int>();
     }
     CefRefPtr<CefDisplay> display = CefDisplay::GetPrimaryDisplay();
     CefRect displayRect = display->GetBounds();
@@ -187,14 +187,13 @@ void WindowDelegate::centerAndSize(const nlohmann::json& config) {
 }
 void WindowDelegate::positionAndSize(const nlohmann::json& config) {
     CefRect rect = this->win->GetBounds();
-    auto param = config["params"];
-    rect.x = param["x"].get<int>();
-    rect.y = param["y"].get<int>();
-    if (param.contains("width")) {
-        rect.width = param["width"].get<int>();
+    rect.x = config["x"].get<int>();
+    rect.y = config["y"].get<int>();
+    if (config.contains("width")) {
+        rect.width = config["width"].get<int>();
     }
-    if (param.contains("height")) {
-        rect.height = param["height"].get<int>();
+    if (config.contains("height")) {
+        rect.height = config["height"].get<int>();
     }
     this->win->SetBounds(rect);
 }

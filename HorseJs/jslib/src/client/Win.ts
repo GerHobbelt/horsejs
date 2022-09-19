@@ -7,8 +7,8 @@ export class Win extends BaseWindow {
    */
   static async getCurrentWindow(): Promise<Win | any> {
     let msg = {
-      className: 'Win',
-      actionName: this.getCurrentWindow.name,
+      __className: 'Win',
+      __actionName: this.getCurrentWindow.name,
     };
     let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     let result = new Win(obj.winId);

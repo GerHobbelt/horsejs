@@ -3,7 +3,7 @@ import BarTop from "./components/BarTop.vue";
 </script>
 
 <template>
-  <BarTop></BarTop>
+  <BarTop title="美好的桌面软件开发!!!"></BarTop>
 </template>
 
 <style scoped></style>

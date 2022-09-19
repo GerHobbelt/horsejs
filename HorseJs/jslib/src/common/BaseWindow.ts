@@ -5,26 +5,27 @@ import EventEmitter from 'eventemitter3';
 export class BaseWindow extends EventEmitter {
   id: number;
   view: View;
-  private createMsg(actionName: string, params?: any) {
-    let msg = {
-      className: 'Win',
-      actionName,
+  private prepareMsg(actionName: string, msg: any) {
+    let result = {
+      __className: 'Win',
+      __actionName: actionName,
       __winId: this.id,
-      params,
     };
-    return msg;
+    Object.assign(result, msg);
+    console.log(result);
+    return result;
   }
   /**
    * 创建窗口，静态方法
-   * @param config
+   * @param param
    * @returns
    */
-  static async createWindow(config: WindowConfig): Promise<BaseWindow> {
+  static async createWindow(param: WindowConfig): Promise<BaseWindow> {
     let msg = {
-      className: 'Win',
-      actionName: this.createWindow.name,
-      params: config,
+      __className: 'Win',
+      __actionName: this.createWindow.name,
     };
+    Object.assign(msg, param);
     let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     let result = new BaseWindow(obj.winId);
     result.view = View.__createView(obj.viewId);
@@ -53,8 +54,8 @@ export class BaseWindow extends EventEmitter {
    * @param config
    * @returns
    */
-  async addOverlayView(config: ViewConfig): Promise<View> {
-    let msg = this.createMsg(this.addOverlayView.name, config);
+  async addOverlayView(param: ViewConfig): Promise<View> {
+    let msg = this.prepareMsg(this.addOverlayView.name, param);
     let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     let result = View.__createView(obj.id);
     return result;
@@ -76,35 +77,35 @@ export class BaseWindow extends EventEmitter {
    * @returns
    */
   async removeView(view: View) {
-    let msg = this.createMsg(this.removeView.name, { viewId: view.id });
+    let msg = this.prepareMsg(this.removeView.name, { viewId: view.id });
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 隐藏窗口
    */
   async hide() {
-    let msg = this.createMsg('setVisible', { visible: false });
+    let msg = this.prepareMsg('setVisible', { visible: false });
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 显示窗口
    */
   async show() {
-    let msg = this.createMsg('setVisible', { visible: true });
+    let msg = this.prepareMsg('setVisible', { visible: true });
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 最小化窗口
    */
   async minimize() {
-    let msg = this.createMsg(this.minimize.name);
+    let msg = this.prepareMsg(this.minimize.name, {});
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 最大化窗口
    */
   async maximize() {
-    let msg = this.createMsg(this.maximize.name);
+    let msg = this.prepareMsg(this.maximize.name, {});
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
 
@@ -112,7 +113,7 @@ export class BaseWindow extends EventEmitter {
    * 关闭窗口
    */
   async close() {
-    let msg = this.createMsg(this.close.name);
+    let msg = this.prepareMsg(this.close.name, {});
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
 
@@ -120,7 +121,7 @@ export class BaseWindow extends EventEmitter {
    * 还原窗口
    */
   async restore() {
-    let msg = this.createMsg(this.restore.name);
+    let msg = this.prepareMsg(this.restore.name, {});
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
 
@@ -133,14 +134,14 @@ export class BaseWindow extends EventEmitter {
    * @param param
    */
   async setSize(param: { width: number; height: number }) {
-    let msg = this.createMsg(this.setSize.name, param);
+    let msg = this.prepareMsg(this.setSize.name, {});
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 把窗口设置到屏幕中央
    */
   async center() {
-    let msg = this.createMsg('centerAndSize');
+    let msg = this.prepareMsg('centerAndSize', {});
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
@@ -148,7 +149,7 @@ export class BaseWindow extends EventEmitter {
    * @param param
    */
   async centerAndSize(param: { width: number; height: number }) {
-    let msg = this.createMsg(this.centerAndSize.name, param);
+    let msg = this.prepareMsg(this.centerAndSize.name, param);
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
@@ -156,7 +157,7 @@ export class BaseWindow extends EventEmitter {
    * @param param
    */
   async position(param: { x: number; y: number }) {
-    let msg = this.createMsg('positionAndSize', param);
+    let msg = this.prepareMsg('positionAndSize', param);
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
@@ -164,7 +165,7 @@ export class BaseWindow extends EventEmitter {
    * @param param
    */
   async positionAndSize(param: { x: number; y: number; width: number; height: number }) {
-    let msg = this.createMsg(this.positionAndSize.name, param);
+    let msg = this.prepareMsg(this.positionAndSize.name, param);
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
@@ -172,7 +173,7 @@ export class BaseWindow extends EventEmitter {
    * @returns
    */
   async getBound() {
-    let msg = this.createMsg(this.getBound.name);
+    let msg = this.prepareMsg(this.getBound.name, {});
     let result = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     return result.result;
   }
@@ -181,7 +182,7 @@ export class BaseWindow extends EventEmitter {
    * @param title
    */
   async setTitle(title: string) {
-    let msg = this.createMsg(this.setTitle.name, { title });
+    let msg = this.prepareMsg(this.setTitle.name, { title });
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   protected constructor(id: number) {

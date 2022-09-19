@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, onUnmounted } from "vue";
 import { horse, Win } from "../../../jslib/src/client";
-defineProps<{ title?: string }>();
+let props = defineProps<{ title?: string }>();
 let isMaximized = ref(false);
 let win: Win;
 let close = async () => {
@@ -28,6 +28,7 @@ onMounted(async () => {
   win.on("unMaximized", unmaximizeEvent);
   win.on("maximized", maximizeEvent);
   isMaximized.value = win.getIsMaximized();
+  win.setTitle(props.title as string);
 });
 onUnmounted(() => {
   win.off("unMaximized", unmaximizeEvent);

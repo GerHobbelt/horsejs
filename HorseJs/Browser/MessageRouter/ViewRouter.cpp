@@ -31,7 +31,7 @@ void ViewRouter::returnMessage(nlohmann::json& backMsg, const nlohmann::json& me
 	wsClient->sendMessage(msgStr);
 }
 CefRefPtr<CefBrowserView> ViewRouter::getViewById(const nlohmann::json& message) {
-	auto id = message["params"]["viewId"].get<int>();
+	auto id = message["viewId"].get<int>();
 	int index = -1;
 	for (int i = 0; i < views.size(); i++) {
 		if (views.at(i)->GetID() == id) {
@@ -59,7 +59,7 @@ void ViewRouter::_removeView(int id) {
 	views.erase(views.begin() + index);
 }
 void ViewRouter::setVisible(const nlohmann::json& message) {	
-	auto visible = message["params"]["visible"].get<bool>();
+	auto visible = message["visible"].get<bool>();
 	auto view = getViewById(message);
 	view->SetVisible(visible);
 	auto wsClient = WebSocketClient::getInstance();
@@ -72,7 +72,7 @@ void ViewRouter::openDevTools(const nlohmann::json& message) {
 	CefWindowInfo windowInfo;
 	CefPoint mousePoint(100, 100); //todo 得到当前鼠标所在位置
 	auto handler = PageHandler::getInstance();
-	auto option = message["params"]["option"].get<std::string>();
+	auto option = message["option"].get<std::string>();
 	if (option == "open") {
 		view->GetBrowser()->GetHost()->ShowDevTools(windowInfo, handler, browserSettings, mousePoint);
 	}
@@ -83,7 +83,7 @@ void ViewRouter::openDevTools(const nlohmann::json& message) {
 	returnMessage(backMsg, message);
 }
 void ViewRouter::routeMessage(const nlohmann::json& message) {
-	auto actionName = message["actionName"].get<std::string>();
+	auto actionName = message["__actionName"].get<std::string>();
 	if (actionName == "setVisible") {
 		setVisible(message);
 	}
