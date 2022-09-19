@@ -10,7 +10,7 @@ public:
 	WindowRouter& operator=(const WindowRouter&) = delete;
 	static CefRefPtr<WindowRouter> getInstance();
 	void removeWindow(WindowDelegate* tar);
-	void routeMessage(const nlohmann::json& message, CefRefPtr<WindowDelegate> winDelegate);
+	void routeMessage(const nlohmann::json& message, CefRefPtr<WindowDelegate> winDelegate, nlohmann::json& result);
 private:
 	IMPLEMENT_REFCOUNTING(WindowRouter);
 	WindowRouter() = default;

@@ -3,35 +3,51 @@ import { onMounted, ref, onUnmounted } from "vue";
 import { horse, Win } from "../../../jslib/src/client";
 defineProps<{ title?: string }>();
 let isMaximized = ref(false);
-let closeWindow = () => {};
-let maxmizeMainWin = () => {};
-let minimizeMainWindow = () => {};
-let unmaximizeMainWindow = () => {};
-let winMaximizeEvent = () => {
+let win: Win;
+let close = async () => {
+  await win.close();
+};
+let maxmize = async () => {
+  await win.maximize();
+};
+let minimize = async () => {
+  await win.minimize();
+};
+let restore = async () => {
+  await win.restore();
+};
+let maximizeEvent = () => {
   isMaximized.value = true;
 };
-let winUnmaximizeEvent = () => {
+let unmaximizeEvent = () => {
   isMaximized.value = false;
 };
+
 onMounted(async () => {
-  let win = await Win.getCurrentWindow();
+  win = await Win.getCurrentWindow();
+  win.on("unMaximized", unmaximizeEvent);
+  win.on("maximized", maximizeEvent);
+  isMaximized.value = win.getIsMaximized();
 });
-onUnmounted(() => {});
+onUnmounted(() => {
+  win.off("unMaximized", unmaximizeEvent);
+  win.off("maximized", maximizeEvent);
+});
 </script>
 <template>
   <div class="topBar">
     <div class="winTitle">{{ title }}</div>
     <div class="winTool">
-      <div @click="minimizeMainWindow">
+      <div @click="minimize">
         <i class="icon icon-minimize" />
       </div>
-      <div v-if="isMaximized" @click="unmaximizeMainWindow">
+      <div v-if="isMaximized" @click="restore">
         <i class="icon icon-restore" />
       </div>
-      <div v-else @click="maxmizeMainWin">
+      <div v-else @click="maxmize">
         <i class="icon icon-maximize" />
       </div>
-      <div @click="closeWindow">
+      <div @click="close">
         <i class="icon icon-close" />
       </div>
     </div>

@@ -54,14 +54,24 @@ void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg
     LOG(INFO) << "msg from backend" << msgStr;
     json message = json::parse(msgStr);
     auto className = message["className"].get<std::string>();
-    if (className == "Window") {
+    nlohmann::json result = {};
+    if (className == "Win") {
         auto windowRouter = WindowRouter::getInstance();
-        CefPostTask(TID_UI, base::BindOnce(&WindowRouter::routeMessage, windowRouter,message,nullptr));
+        CefPostTask(TID_UI, base::BindOnce(&WindowRouter::routeMessage, windowRouter,message,nullptr, base::OwnedRef(result)));     
+        result["__msgId"] = message["__msgId"].get<double>();
+        //todo 好像释放不了？这个要验证一下
+        std::string resultStr = result.dump();
+        this->sendMessage(resultStr);
     }
     else if (className == "View") {
         auto viewRouter = ViewRouter::getInstance();
         CefPostTask(TID_UI, base::BindOnce(&ViewRouter::routeMessage, viewRouter, message));
+        result["__msgId"] = message["__msgId"].get<double>();
+        //todo 好像释放不了？这个要验证一下
+        std::string resultStr = result.dump();
+        this->sendMessage(resultStr);
     }
+
     //std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     //std::wstring msgStr = converter.from_bytes(msg->get_payload());
     //std::wstring testMsg = L"这是我的消息";

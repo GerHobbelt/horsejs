@@ -1,12 +1,19 @@
-import * as EventEmitter from 'eventemitter3';
+import EventEmitter from 'eventemitter3';
 class CEFMessageChannel extends EventEmitter {
-  sendMessage(message: any, param: any) {
-    //@ts-ignore
-    window.nativeCall(message, param);
-  }
   private nativeCallBack(message: any) {
     let msg = JSON.parse(message);
-    this.emit(msg['__msgId'], msg.param);
+    this.emit(msg['__msgId'], msg);
+  }
+  sendMsgToBrowser(msg: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let msgId = Math.random();
+      msg['__msgId'] = msgId;
+      this.once(msgId.toString(), (obj) => resolve(obj));
+      //todo reject
+      let msgStr = JSON.stringify(msg);
+      //@ts-ignore
+      window.nativeCall(msg.className, msgStr);
+    });
   }
   constructor() {
     super();

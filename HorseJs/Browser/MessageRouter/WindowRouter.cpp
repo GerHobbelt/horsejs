@@ -36,21 +36,25 @@ CefRefPtr<WindowDelegate> WindowRouter::getWindowDelegateById(const nlohmann::js
 	return winDelegate;
 }
 
-void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowDelegate> winDelegate) {
+void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowDelegate> winDelegate, nlohmann::json& result) {
 	auto actionName = message["actionName"].get<std::string>();
-	nlohmann::json backMsg = { };
 	if (actionName == "createWindow") {
 		auto winId = windows.size();
 		CefRefPtr<WindowDelegate> winDelegate = new WindowDelegate(message["params"], winId);
 		windows.push_back(winDelegate);
-		backMsg["winId"] = winId;
-		backMsg["viewId"] = winDelegate->view->GetID();
+		result["winId"] = winId;
+		result["viewId"] = winDelegate->view->GetID();
 	}
 	else if (actionName == "addOverlayView") {
 		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
 		auto viewId = winDelegate->AddOverlayView(message["params"]);
-		backMsg["winId"] = winDelegate->win->GetID();
-		backMsg["viewId"] = viewId;
+		result["winId"] = winDelegate->win->GetID();
+		result["viewId"] = viewId;
+	}
+	else if (actionName == "getCurrentWindow") {
+		//这个方法只为渲染进程服务，所以winDelegate必然存在
+		result["winId"] = winDelegate->win->GetID();
+		result["viewId"] = winDelegate->view->GetID();
 	}
 	else if (actionName == "hideAllView") {
 
@@ -73,6 +77,18 @@ void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowD
 	else if (actionName == "setTitle") {
 
 	}
+	else if (actionName == "minimize") {
+		winDelegate->win->Minimize();
+	}
+	else if (actionName == "maximize") {
+		winDelegate->win->Maximize();
+	}
+	else if (actionName == "restore") {
+		winDelegate->win->Restore();
+	}
+	else if (actionName == "close") {
+		winDelegate->win->Close();
+	}
 	else if (actionName == "centerAndSize") {
 		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
 		winDelegate->centerAndSize(message);
@@ -84,14 +100,13 @@ void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowD
 	else if (actionName == "getBound") {
 		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
 		auto rect = winDelegate->win->GetBounds();
-		backMsg["result"] = {
+		result["result"] = {
 			{"x",rect.x},
 			{"y",rect.y},
 			{"width",rect.width},
 			{"height",rect.height}
 		};
 	}
-	returnMessage(backMsg, message);
 }
 
 void WindowRouter::removeWindow(WindowDelegate* tar) {

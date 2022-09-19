@@ -1,5 +1,6 @@
-import { BaseObject } from './BaseObject';
-export class View extends BaseObject {
+import EventEmitter from 'eventemitter3';
+export class View extends EventEmitter {
+  id: number;
   private createMsg(actionName: string, params?: any) {
     let msg = {
       className: View.name,
@@ -11,19 +12,19 @@ export class View extends BaseObject {
   }
   async show() {
     let msg = this.createMsg('setVisible', { visible: true, viewId: this.id });
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   async hide() {
     let msg = this.createMsg('setVisible', { visible: false, viewId: this.id });
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   async openDevTools() {
     let msg = this.createMsg('devTools', { viewId: this.id, option: 'open' });
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   async closeDevTools() {
     let msg = this.createMsg('devTools', { viewId: this.id, option: 'close' });
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   async wasHiden() {}
   async sendKeyEvent() {}
@@ -36,6 +37,7 @@ export class View extends BaseObject {
     return new View(id);
   }
   private constructor(id: number) {
-    super(id);
+    super();
+    this.id = id;
   }
 }

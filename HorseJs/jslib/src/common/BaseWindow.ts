@@ -1,12 +1,13 @@
-import { BaseObject } from './BaseObject';
 import { WindowConfig } from './WindowConfig';
 import { ViewConfig } from './ViewConfig';
 import { View } from './View';
-export class BaseWindow extends BaseObject {
+import EventEmitter from 'eventemitter3';
+export class BaseWindow extends EventEmitter {
+  id: number;
   view: View;
   private createMsg(actionName: string, params?: any) {
     let msg = {
-      className: 'Window',
+      className: 'Win',
       actionName,
       __winId: this.id,
       params,
@@ -20,12 +21,11 @@ export class BaseWindow extends BaseObject {
    */
   static async createWindow(config: WindowConfig): Promise<BaseWindow> {
     let msg = {
-      className: 'Window',
+      className: 'Win',
       actionName: this.createWindow.name,
       params: config,
     };
-    let obj: any = await BaseObject.sendMsgToBrowser(msg);
-    console.log(obj);
+    let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     let result = new BaseWindow(obj.winId);
     result.view = View.__createView(obj.viewId);
     return result;
@@ -55,7 +55,7 @@ export class BaseWindow extends BaseObject {
    */
   async addOverlayView(config: ViewConfig): Promise<View> {
     let msg = this.createMsg(this.addOverlayView.name, config);
-    let obj: any = await BaseObject.sendMsgToBrowser(msg);
+    let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     let result = View.__createView(obj.id);
     return result;
   }
@@ -77,22 +77,53 @@ export class BaseWindow extends BaseObject {
    */
   async removeView(view: View) {
     let msg = this.createMsg(this.removeView.name, { viewId: view.id });
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 隐藏窗口
    */
   async hide() {
     let msg = this.createMsg('setVisible', { visible: false });
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 显示窗口
    */
   async show() {
     let msg = this.createMsg('setVisible', { visible: true });
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
+  /**
+   * 最小化窗口
+   */
+  async minimize() {
+    let msg = this.createMsg(this.minimize.name);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
+  }
+  /**
+   * 最大化窗口
+   */
+  async maximize() {
+    let msg = this.createMsg(this.maximize.name);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
+  }
+
+  /**
+   * 关闭窗口
+   */
+  async close() {
+    let msg = this.createMsg(this.close.name);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
+  }
+
+  /**
+   * 还原窗口
+   */
+  async restore() {
+    let msg = this.createMsg(this.restore.name);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
+  }
+
   /**
    * 隐藏所有的ViewOverlay
    */
@@ -103,14 +134,14 @@ export class BaseWindow extends BaseObject {
    */
   async setSize(param: { width: number; height: number }) {
     let msg = this.createMsg(this.setSize.name, param);
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 把窗口设置到屏幕中央
    */
   async center() {
     let msg = this.createMsg('centerAndSize');
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 把窗口设置到屏幕中央，同时设置窗口的大小
@@ -118,7 +149,7 @@ export class BaseWindow extends BaseObject {
    */
   async centerAndSize(param: { width: number; height: number }) {
     let msg = this.createMsg(this.centerAndSize.name, param);
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 设置窗口的位置
@@ -126,7 +157,7 @@ export class BaseWindow extends BaseObject {
    */
   async position(param: { x: number; y: number }) {
     let msg = this.createMsg('positionAndSize', param);
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 设置窗口的大小和位置
@@ -134,7 +165,7 @@ export class BaseWindow extends BaseObject {
    */
   async positionAndSize(param: { x: number; y: number; width: number; height: number }) {
     let msg = this.createMsg(this.positionAndSize.name, param);
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**
    * 获取窗口的位置和大小
@@ -142,7 +173,7 @@ export class BaseWindow extends BaseObject {
    */
   async getBound() {
     let msg = this.createMsg(this.getBound.name);
-    let result = await BaseObject.sendMsgToBrowser(msg);
+    let result = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     return result.result;
   }
   /**
@@ -151,9 +182,10 @@ export class BaseWindow extends BaseObject {
    */
   async setTitle(title: string) {
     let msg = this.createMsg(this.setTitle.name, { title });
-    await BaseObject.sendMsgToBrowser(msg);
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   protected constructor(id: number) {
-    super(id);
+    super();
+    this.id = id;
   }
 }
