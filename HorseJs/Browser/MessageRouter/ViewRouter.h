@@ -8,7 +8,7 @@ class ViewRouter : public virtual CefBaseRefCounted
 public:
 	ViewRouter(const ViewRouter&) = delete;
 	ViewRouter& operator=(const ViewRouter&) = delete;
-
+	CefRefPtr<CefBrowserView> getViewById(int viewId);
 	static CefRefPtr<ViewRouter> getInstance();
 	CefRefPtr<CefBrowserView> createView(std::string& url);
 	void _removeView(int id);
@@ -16,7 +16,6 @@ public:
 private:
 	IMPLEMENT_REFCOUNTING(ViewRouter);
 	ViewRouter() = default;
-	CefRefPtr<CefBrowserView> getViewById(const nlohmann::json& message);
 	std::vector<CefRefPtr<CefBrowserView>> views;
 };
 

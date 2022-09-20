@@ -23,11 +23,10 @@ CefRefPtr<CefBrowserView> ViewRouter::createView(std::string& url) {
 	views.push_back(view);
 	return view;
 }
-CefRefPtr<CefBrowserView> ViewRouter::getViewById(const nlohmann::json& message) {
-	auto id = message["viewId"].get<int>();
+CefRefPtr<CefBrowserView> ViewRouter::getViewById(int viewId) {
 	int index = -1;
 	for (int i = 0; i < views.size(); i++) {
-		if (views.at(i)->GetID() == id) {
+		if (views.at(i)->GetID() == viewId) {
 			index = i;
 			break;
 		}
@@ -54,13 +53,15 @@ void ViewRouter::_removeView(int id) {
 
 void ViewRouter::routeMessage(const nlohmann::json& message, CefRefPtr<CefBrowserView> view, nlohmann::json& result) {
 	auto actionName = message["__actionName"].get<std::string>();
+	if (view == nullptr) {
+		auto viewId = message["viewId"].get<int>();
+		view = this->getViewById(viewId);
+	}
 	if (actionName == "setVisible") {
-		if (view == nullptr) view = getViewById(message);
 		auto visible = message["visible"].get<bool>();
 		view->SetVisible(visible);
 	}
 	else if (actionName == "devTools") {
-		if (view == nullptr) view = getViewById(message);
 		CefBrowserSettings browserSettings;
 		CefWindowInfo windowInfo;
 		CefPoint mousePoint(100, 100); //todo 得到当前鼠标所在位置
@@ -73,4 +74,6 @@ void ViewRouter::routeMessage(const nlohmann::json& message, CefRefPtr<CefBrowse
 			view->GetBrowser()->GetHost()->CloseDevTools();
 		}
 	}
+	result["__msgId"] = message["__msgId"].get<int64>();
+	WebSocketClient::getInstance()->sendMessage(result);
 }

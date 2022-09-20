@@ -28,16 +28,12 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
     }
     window->SetTitle(config["title"].get<std::string>());
     win = window;
-
-    auto wsClient = WebSocketClient::getInstance();
     nlohmann::json backMsg = { 
         {"__msgId","windowCreated"},
         {"winId",id},
         {"viewId",view->GetID()},
     };
-    //todo 好像释放不了？这个要验证一下
-    std::string msgStr = backMsg.dump();
-    wsClient->sendMessage(msgStr);
+    WebSocketClient::getInstance()->sendMessage(backMsg);
 }
 int WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
     auto url = overlayViewConfig["url"].get<std::string>();
@@ -60,10 +56,7 @@ int WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
         {"winId",id},
         {"viewId",overlayView->GetID()},
     };
-    //todo 好像释放不了？这个要验证一下
-    std::string msgStr = backMsg.dump();
-    wsClient->sendMessage(msgStr);
-
+    WebSocketClient::getInstance()->sendMessage(backMsg);
     return overlayView->GetID();
 }
 void WindowDelegate::removeView(int id) {

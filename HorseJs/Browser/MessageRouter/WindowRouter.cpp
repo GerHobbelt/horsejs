@@ -2,6 +2,7 @@
 #include "../WebSocketClient.h"
 #include "include/views/cef_window.h"
 #include "include/views/cef_browser_view.h"
+#include "../WebSocketClient.h"
 
 namespace {
 	CefRefPtr<WindowRouter> instance = nullptr;
@@ -13,11 +14,10 @@ CefRefPtr<WindowRouter> WindowRouter::getInstance() {
 	}
 	return instance;
 }
-CefRefPtr<WindowDelegate> WindowRouter::getWindowDelegateById(const nlohmann::json& message) {
-	auto id = message["__winId"].get<int>();
+CefRefPtr<WindowDelegate> WindowRouter::getWindowDelegateById(int winId){
 	int index = -1;
 	for (int i = 0; i < windows.size(); i++) {
-		if (windows.at(i)->win->GetID() == id) {
+		if (windows.at(i)->win->GetID() == winId) {
 			index = i;
 			break;
 		}
@@ -31,6 +31,10 @@ CefRefPtr<WindowDelegate> WindowRouter::getWindowDelegateById(const nlohmann::js
 
 void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowDelegate> winDelegate, nlohmann::json& result) {
 	auto actionName = message["__actionName"].get<std::string>();
+	if (message.contains("__winId")) {
+		auto winId = message["__winId"].get<int>();
+		winDelegate = this->getWindowDelegateById(winId);
+	}
 	if (actionName == "createWindow") {
 		auto winId = windows.size();
 		CefRefPtr<WindowDelegate> winDelegate = new WindowDelegate(message, winId);
@@ -39,7 +43,6 @@ void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowD
 		result["viewId"] = winDelegate->view->GetID();
 	}
 	else if (actionName == "addOverlayView") {
-		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
 		auto viewId = winDelegate->AddOverlayView(message);
 		result["winId"] = winDelegate->win->GetID();
 		result["viewId"] = viewId;
@@ -53,12 +56,10 @@ void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowD
 
 	}
 	else if (actionName == "removeView") {
-		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
 		auto viewId = message["viewId"].get<int>();
 		winDelegate->removeView(viewId);
 	}
 	else if (actionName == "setVisible") {
-		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
 		auto visible = message["visible"].get<bool>();
 		if (visible) {
 			winDelegate->win->Show();
@@ -84,15 +85,12 @@ void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowD
 		winDelegate->win->Close();
 	}
 	else if (actionName == "centerAndSize") {
-		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
 		winDelegate->centerAndSize(message);
 	}
 	else if (actionName == "positionAndSize") {
-		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
 		winDelegate->positionAndSize(message);
 	}
 	else if (actionName == "getBound") {
-		if (winDelegate == nullptr) winDelegate = getWindowDelegateById(message);
 		auto rect = winDelegate->win->GetBounds();
 		result["result"] = {
 			{"x",rect.x},
@@ -101,6 +99,8 @@ void WindowRouter::routeMessage(const nlohmann::json& message, CefRefPtr<WindowD
 			{"height",rect.height}
 		};
 	}
+	result["__msgId"] = message["__msgId"].get<int64>();
+	WebSocketClient::getInstance()->sendMessage(result);
 }
 
 void WindowRouter::removeWindow(WindowDelegate* tar) {

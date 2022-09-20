@@ -7,6 +7,8 @@
 #include <websocketpp/client.hpp>
 #include <websocketpp/common/thread.hpp>
 #include <websocketpp/common/memory.hpp>
+#include "../json/json.hpp"
+using nlohmann::json;
 
 typedef websocketpp::client<websocketpp::config::asio_client> client;
 typedef websocketpp::config::asio_client::message_type::ptr message_ptr;
@@ -18,7 +20,7 @@ public:
     WebSocketClient(const WebSocketClient&) = delete;
     WebSocketClient& operator=(const WebSocketClient&) = delete;
     void run();
-    void sendMessage(std::string& message);
+    void sendMessage(json& message);
     static CefRefPtr<WebSocketClient> getInstance();
 private:
     IMPLEMENT_REFCOUNTING(WebSocketClient);

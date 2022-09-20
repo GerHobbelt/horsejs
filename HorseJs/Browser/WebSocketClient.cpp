@@ -9,8 +9,6 @@
 #include "MessageRouter/WindowRouter.h"
 #include "MessageRouter/ViewRouter.h"
 #include "MessageRouter/AppRouter.h"
-#include "../json/json.hpp"
-using nlohmann::json;
 using websocketpp::lib::bind;
 
 namespace {
@@ -58,28 +56,19 @@ void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg
     nlohmann::json result = {};
     if (className == "Win") {
         auto windowRouter = WindowRouter::getInstance();
-        CefPostTask(TID_UI, base::BindOnce(&WindowRouter::routeMessage, windowRouter,message,nullptr, base::OwnedRef(result)));     
-        result["__msgId"] = message["__msgId"].get<int64>();
-        //todo 好像释放不了？这个要验证一下
-        std::string resultStr = result.dump();
-        this->sendMessage(resultStr);
+        CefRefPtr<WindowDelegate> winDelegate = nullptr;      
+        CefPostTask(TID_UI, base::BindOnce(&WindowRouter::routeMessage, windowRouter,message, winDelegate, base::OwnedRef(result)));
     }
     else if (className == "View") {
         auto viewRouter = ViewRouter::getInstance();
-        CefPostTask(TID_UI, base::BindOnce(&ViewRouter::routeMessage, viewRouter, message,nullptr, base::OwnedRef(result)));
-        result["__msgId"] = message["__msgId"].get<int64>();
-        //todo 好像释放不了？这个要验证一下
-        std::string resultStr = result.dump();
-        this->sendMessage(resultStr);
+        CefRefPtr<CefBrowserView> view = nullptr;
+        CefPostTask(TID_UI, base::BindOnce(&ViewRouter::routeMessage, viewRouter, message,view, base::OwnedRef(result)));
     }
     else if (className == "App") {
         auto appRouter = AppRouter::getInstance();
         CefPostTask(TID_UI, base::BindOnce(&AppRouter::routeMessage, appRouter,message, base::OwnedRef(result)));
-        result["__msgId"] = message["__msgId"].get<int64>();
-        //todo 好像释放不了？这个要验证一下
-        std::string resultStr = result.dump();
-        this->sendMessage(resultStr);
     }
+
 
     //std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     //std::wstring msgStr = converter.from_bytes(msg->get_payload());
@@ -87,10 +76,11 @@ void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg
     //std::string narrow = converter.to_bytes(testMsg);
     //sendMessage(narrow);
 }
-void WebSocketClient::sendMessage(std::string& message) {
+void WebSocketClient::sendMessage(json& message) {
     //跨线程发送消息，没任何问题
+    std::string resultStr = message.dump();
     websocketpp::lib::error_code ec;
-    client.send(conn->get_handle(), message, websocketpp::frame::opcode::text, ec);
+    client.send(conn->get_handle(), resultStr, websocketpp::frame::opcode::text, ec);
     if (ec) {
         LOG(0)<<"websocket message send error:" << ec.message();
     }
