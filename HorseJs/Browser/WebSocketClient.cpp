@@ -50,7 +50,6 @@ void WebSocketClient::run() {
 }
 void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg) {
     auto msgStr = msg->get_payload();
-    LOG(INFO) << "msg from backend" << msgStr;
     json message = json::parse(msgStr);
     auto className = message["__className"].get<std::string>();
     nlohmann::json result = {};
@@ -68,13 +67,6 @@ void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg
         auto appRouter = AppRouter::getInstance();
         CefPostTask(TID_UI, base::BindOnce(&AppRouter::routeMessage, appRouter,message, base::OwnedRef(result)));
     }
-
-
-    //std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    //std::wstring msgStr = converter.from_bytes(msg->get_payload());
-    //std::wstring testMsg = L"这是我的消息";
-    //std::string narrow = converter.to_bytes(testMsg);
-    //sendMessage(narrow);
 }
 void WebSocketClient::sendMessage(json& message) {
     //跨线程发送消息，没任何问题
@@ -84,6 +76,11 @@ void WebSocketClient::sendMessage(json& message) {
     if (ec) {
         LOG(0)<<"websocket message send error:" << ec.message();
     }
+    //std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    //std::wstring msgStr = converter.from_bytes(msg->get_payload());
+    //std::wstring testMsg = L"这是我的消息";
+    //std::string narrow = converter.to_bytes(testMsg);
+    //sendMessage(narrow);
 }
 void WebSocketClient::terminate() {
     //关闭连接，等待线程退出

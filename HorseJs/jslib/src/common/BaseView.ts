@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-export class View extends EventEmitter {
+export class BaseView extends EventEmitter {
   id: number;
   private prepareMsg(actionName: string, msg: any) {
     let result = {
@@ -34,9 +34,9 @@ export class View extends EventEmitter {
   async sendTouchEvent() {}
   async getUrl() {}
   static __createView(id: number) {
-    return new View(id);
+    return new BaseView(id);
   }
-  private constructor(id: number) {
+  protected constructor(id: number) {
     super();
     this.id = id;
   }

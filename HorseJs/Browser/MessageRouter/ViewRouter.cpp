@@ -64,11 +64,10 @@ void ViewRouter::routeMessage(const nlohmann::json& message, CefRefPtr<CefBrowse
 	else if (actionName == "devTools") {
 		CefBrowserSettings browserSettings;
 		CefWindowInfo windowInfo;
-		CefPoint mousePoint(100, 100); //todo 得到当前鼠标所在位置
 		auto handler = PageHandler::getInstance();
 		auto option = message["option"].get<std::string>();
 		if (option == "open") {
-			view->GetBrowser()->GetHost()->ShowDevTools(windowInfo, handler, browserSettings, mousePoint);
+			view->GetBrowser()->GetHost()->ShowDevTools(windowInfo, handler, browserSettings, CefPoint());
 		}
 		else {
 			view->GetBrowser()->GetHost()->CloseDevTools();

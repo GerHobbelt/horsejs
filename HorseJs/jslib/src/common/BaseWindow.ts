@@ -1,10 +1,10 @@
 import { WindowConfig } from './WindowConfig';
 import { ViewConfig } from './ViewConfig';
-import { View } from './View';
+import { BaseView } from './BaseView';
 import EventEmitter from 'eventemitter3';
 export class BaseWindow extends EventEmitter {
   id: number;
-  view: View;
+  view: BaseView;
   private prepareMsg(actionName: string, msg: any) {
     let result = {
       __className: 'Win',
@@ -27,7 +27,7 @@ export class BaseWindow extends EventEmitter {
     Object.assign(msg, param);
     let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     let result = new BaseWindow(obj.winId);
-    result.view = View.__createView(obj.viewId);
+    result.view = BaseView.__createView(obj.viewId);
     return result;
   }
   /**
@@ -53,10 +53,10 @@ export class BaseWindow extends EventEmitter {
    * @param config
    * @returns
    */
-  async addOverlayView(param: ViewConfig): Promise<View> {
+  async addOverlayView(param: ViewConfig): Promise<BaseView> {
     let msg = this.prepareMsg(this.addOverlayView.name, param);
     let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
-    let result = View.__createView(obj.id);
+    let result = BaseView.__createView(obj.id);
     return result;
   }
 
@@ -64,7 +64,7 @@ export class BaseWindow extends EventEmitter {
    * 获取窗口所有的
    * @returns
    */
-  async getOverlayView(): Promise<View[]> {
+  async getOverlayView(): Promise<BaseView[]> {
     return [];
   }
   /**
@@ -75,7 +75,7 @@ export class BaseWindow extends EventEmitter {
    * @param config
    * @returns
    */
-  async removeView(view: View) {
+  async removeView(view: BaseView) {
     let msg = this.prepareMsg(this.removeView.name, { viewId: view.id });
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
