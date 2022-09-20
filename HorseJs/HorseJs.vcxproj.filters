@@ -54,6 +54,9 @@
     <ClCompile Include="Browser\MessageProcessor\ViewDelegate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Browser\MessageRouter\AppRouter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json\json.hpp">
@@ -99,6 +102,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Browser\MessageProcessor\ViewDelegate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\MessageRouter\AppRouter.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

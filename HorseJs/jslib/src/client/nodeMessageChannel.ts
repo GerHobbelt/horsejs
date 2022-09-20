@@ -4,16 +4,16 @@ class MessageChannel {
   }
   init() {
     let url = new URL(location.href);
-    let wsAddress = url.searchParams.get("ws") as string;
+    let wsAddress = url.searchParams.get('ws') as string;
     url = new URL(wsAddress);
-    url.searchParams.set("client", "client");
+    url.searchParams.set('client', 'client');
     let ws = new WebSocket(url.toString());
     ws.onopen = () => {
-      console.log("websocket connected", url.toString());
+      console.log('websocket connected', url.toString());
     };
     ws.onmessage = (e) => this.onWebSocketMessage(e.data.toString());
     ws.onclose = () => {
-      console.log("websocket closed");
+      console.log('websocket closed');
     };
   }
 }

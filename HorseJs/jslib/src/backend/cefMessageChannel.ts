@@ -1,5 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import { WebSocket } from 'ws';
+import { Util } from '../common/Util';
 class CEFMessageChannel extends EventEmitter {
   ws: WebSocket;
   private onWebSocketMessage(message) {
@@ -12,7 +13,7 @@ class CEFMessageChannel extends EventEmitter {
   }
   sendMsgToBrowser(msg: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      let msgId = Math.random();
+      let msgId = Util.randomNum();
       msg['__msgId'] = msgId;
       this.once(msgId.toString(), (obj) => resolve(obj));
       //todo reject

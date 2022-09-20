@@ -37,8 +37,11 @@ onUnmounted(() => {
 </script>
 <template>
   <div class="topBar">
-    <div class="winTitle">{{ title }}</div>
-    <div class="winTool">
+    <div class="titleLogo">
+      <img src="../assets/logo.png" />
+    </div>
+    <div class="titleText">{{ title }}</div>
+    <div class="titleTool">
       <div @click="minimize">
         <i class="icon icon-minimize" />
       </div>
@@ -57,42 +60,51 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .topBar {
   display: flex;
-  height: 25px;
-  line-height: 25px;
   -webkit-app-region: drag;
   width: 100%;
+  height: 38px;
+  line-height: 38px;
+  background-color: rgb(60, 60, 60);
 }
-.winTitle {
-  flex: 1;
-  padding-left: 12px;
-  font-size: 14px;
-  color: #888;
-}
-.winTool {
-  height: 100%;
+.titleLogo {
+  width: 38px;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.titleLogo img {
+  width: 18px;
+  height: 18px;
+}
+.titleText {
+  height: 38px;
+  line-height: 38px;
+  font-size: 13px;
+  color: rgb(206, 206, 206);
+  flex: 1;
+}
+.titleTool {
   -webkit-app-region: no-drag;
+  height: 38px;
+  float: right;
+  color: white;
+  line-height: 38px;
+  display: flex;
+  justify-content: flex-end;
 }
-.winTool div {
-  height: 100%;
-  width: 34px;
+.titleTool div {
   text-align: center;
-  color: #999;
-  cursor: pointer;
-  line-height: 25px;
+  width: 42px;
+  height: 38px;
+  color: rgb(206, 206, 206);
+  i {
+    font-size: 12px;
+  }
 }
-.winTool .icon {
-  font-size: 10px;
-  color: #666666;
-  font-weight: bold;
+.titleTool div:hover {
+  background-color: rgb(80, 80, 80);
 }
-.winTool div:hover {
-  background: #efefef;
-}
-.winTool div:last-child:hover {
-  background: #ff7875;
-}
-.winTool div:last-child:hover i {
-  color: #fff !important;
+.titleTool div:last-child:hover {
+  background-color: rgba(214, 20, 37, 0.6) !important;
 }
 </style>

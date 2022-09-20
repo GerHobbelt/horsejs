@@ -4,6 +4,8 @@ html,body{
   height: 100%;
   width: 100%;
   font-family: "Microsoft Yahei", -apple-system, Ubuntu, sans-serif;
+  font-size: 13px;  
+  user-select: none;
 }
 ::-webkit-scrollbar {
   width: 6px;
@@ -29,13 +31,11 @@ html,body{
 ::-webkit-scrollbar-corner {
   background-color: transparent;
 }
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 14px;
-}
 #app{
   display: flex;
   height: 100%;
   width: 100%;
-  user-select: none;
+  background-color: rgb(30, 30, 30);
+  display: flex;
+  flex-direction: column;
 }

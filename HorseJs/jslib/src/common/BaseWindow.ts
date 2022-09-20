@@ -12,7 +12,6 @@ export class BaseWindow extends EventEmitter {
       __winId: this.id,
     };
     Object.assign(result, msg);
-    console.log(result);
     return result;
   }
   /**

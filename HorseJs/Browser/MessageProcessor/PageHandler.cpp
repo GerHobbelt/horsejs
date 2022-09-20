@@ -3,6 +3,7 @@
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "../MessageRouter/WindowRouter.h"
+#include "../MessageRouter/AppRouter.h"
 #include "../../json/json.hpp"
 
 namespace {
@@ -118,17 +119,21 @@ bool PageHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRef
     std::string messageName = message->GetName();
     std::string msgStr = message->GetArgumentList()->GetString(0).ToString();
     nlohmann::json messageParam = nlohmann::json::parse(msgStr);
+    nlohmann::json result = {};
     if (messageName == "Win") {
         CefRefPtr<CefBrowserView> browserView = CefBrowserView::GetForBrowser(browser);        
         auto delegate = browserView->GetWindow()->GetDelegate().get();
         CefRefPtr<WindowDelegate> windowDelegate = static_cast<WindowDelegate*>(delegate);
         auto windowRouter = WindowRouter::getInstance();  
-        nlohmann::json result = {};
         windowRouter->routeMessage(messageParam, windowDelegate, result);
-        result["__msgId"] = messageParam["__msgId"].get<double>();
-        std::string resultStr = result.dump();
-        CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(resultStr);
-        frame->SendProcessMessage(PID_RENDERER, msg);
     }
+    else if (messageName == "App") {
+        auto appRouter = AppRouter::getInstance();
+        appRouter->routeMessage(messageParam, result);
+    }
+    result["__msgId"] = messageParam["__msgId"].get<double>();
+    std::string resultStr = result.dump();
+    CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(resultStr);
+    frame->SendProcessMessage(PID_RENDERER, msg);
     return true;
 }

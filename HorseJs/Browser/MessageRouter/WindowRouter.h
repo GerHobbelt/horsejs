@@ -15,7 +15,6 @@ private:
 	IMPLEMENT_REFCOUNTING(WindowRouter);
 	WindowRouter() = default;
 	CefRefPtr<WindowDelegate> getWindowDelegateById(const nlohmann::json& message);
-	void returnMessage(nlohmann::json& backMsg, const nlohmann::json& message);
 	std::vector<CefRefPtr<WindowDelegate>> windows;
 };
 

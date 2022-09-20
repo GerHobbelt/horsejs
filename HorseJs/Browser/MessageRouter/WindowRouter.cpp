@@ -13,13 +13,6 @@ CefRefPtr<WindowRouter> WindowRouter::getInstance() {
 	}
 	return instance;
 }
-void WindowRouter::returnMessage(nlohmann::json& backMsg,const nlohmann::json& message) {
-	auto wsClient = WebSocketClient::getInstance();
-	backMsg["__msgId"] = message["__msgId"].get<double>();
-	//todo 好像释放不了？这个要验证一下
-	std::string msgStr = backMsg.dump();
-	wsClient->sendMessage(msgStr);
-}
 CefRefPtr<WindowDelegate> WindowRouter::getWindowDelegateById(const nlohmann::json& message) {
 	auto id = message["__winId"].get<int>();
 	int index = -1;
