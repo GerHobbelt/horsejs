@@ -4,6 +4,8 @@
 #include "include/views/cef_window.h"
 #include "../MessageRouter/WindowRouter.h"
 #include "../MessageRouter/AppRouter.h"
+#include "../MessageRouter/ViewRouter.h"
+#include "ViewDelegate.h"
 #include "../../json/json.hpp"
 
 namespace {
@@ -127,11 +129,16 @@ bool PageHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRef
         auto windowRouter = WindowRouter::getInstance();  
         windowRouter->routeMessage(messageParam, windowDelegate, result);
     }
+    else if (messageName == "View") {
+        CefRefPtr<CefBrowserView> browserView = CefBrowserView::GetForBrowser(browser);
+        auto viewRouter = ViewRouter::getInstance();
+        viewRouter->routeMessage(messageParam, browserView, result);
+    }
     else if (messageName == "App") {
         auto appRouter = AppRouter::getInstance();
         appRouter->routeMessage(messageParam, result);
     }
-    result["__msgId"] = messageParam["__msgId"].get<double>();
+    result["__msgId"] = messageParam["__msgId"].get<int64>();
     std::string resultStr = result.dump();
     CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(resultStr);
     frame->SendProcessMessage(PID_RENDERER, msg);

@@ -1,20 +1,25 @@
 import { BaseWindow } from '../common/BaseWindow';
 export class Win extends BaseWindow {
   private isMaximized = false;
+  private static currentWindow: Win;
   /**
    * 获取当前窗口
    * @returns
    */
   static async getCurrentWindow(): Promise<Win | any> {
+    if (this.currentWindow) return this.currentWindow;
     let msg = {
       __className: 'Win',
       __actionName: this.getCurrentWindow.name,
     };
     let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
-    let result = new Win(obj.winId);
-    return result;
+    this.currentWindow = new Win(obj.winId);
+    return this.currentWindow;
   }
-
+  /**
+   * 当前窗口是否处于最大化状态
+   * @returns
+   */
   getIsMaximized() {
     let hSpan = window.outerHeight - screen.availHeight;
     let wSpan = window.outerWidth - screen.availWidth;

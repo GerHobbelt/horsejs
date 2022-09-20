@@ -27,11 +27,9 @@ class Horse extends EventEmitter {
        */
       this.emit('browserReady', ws, req);
       globalThis.cefMessageChannel.on('windowCreated', (param) => {
-        console.log('windowCreated');
         this.emit('windowCreated', param);
       });
       globalThis.cefMessageChannel.on('viewOverlayCreated', (param) => {
-        console.log('viewOverlayCreated');
         this.emit('viewOverlayCreated', param);
       });
       //todo

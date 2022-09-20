@@ -8,6 +8,7 @@
 #include "../Config.h"
 #include "MessageRouter/WindowRouter.h"
 #include "MessageRouter/ViewRouter.h"
+#include "MessageRouter/AppRouter.h"
 #include "../json/json.hpp"
 using nlohmann::json;
 using websocketpp::lib::bind;
@@ -58,23 +59,23 @@ void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg
     if (className == "Win") {
         auto windowRouter = WindowRouter::getInstance();
         CefPostTask(TID_UI, base::BindOnce(&WindowRouter::routeMessage, windowRouter,message,nullptr, base::OwnedRef(result)));     
-        result["__msgId"] = message["__msgId"].get<double>();
+        result["__msgId"] = message["__msgId"].get<int64>();
         //todo 好像释放不了？这个要验证一下
         std::string resultStr = result.dump();
         this->sendMessage(resultStr);
     }
     else if (className == "View") {
         auto viewRouter = ViewRouter::getInstance();
-        CefPostTask(TID_UI, base::BindOnce(&ViewRouter::routeMessage, viewRouter, message));
-        result["__msgId"] = message["__msgId"].get<double>();
+        CefPostTask(TID_UI, base::BindOnce(&ViewRouter::routeMessage, viewRouter, message,nullptr, base::OwnedRef(result)));
+        result["__msgId"] = message["__msgId"].get<int64>();
         //todo 好像释放不了？这个要验证一下
         std::string resultStr = result.dump();
         this->sendMessage(resultStr);
     }
     else if (className == "App") {
-        auto viewRouter = ViewRouter::getInstance();
-        CefPostTask(TID_UI, base::BindOnce(&ViewRouter::routeMessage, viewRouter, message));
-        result["__msgId"] = message["__msgId"].get<double>();
+        auto appRouter = AppRouter::getInstance();
+        CefPostTask(TID_UI, base::BindOnce(&AppRouter::routeMessage, appRouter,message, base::OwnedRef(result)));
+        result["__msgId"] = message["__msgId"].get<int64>();
         //todo 好像释放不了？这个要验证一下
         std::string resultStr = result.dump();
         this->sendMessage(resultStr);
