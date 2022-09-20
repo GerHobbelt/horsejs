@@ -1,19 +1,41 @@
+<script lang="ts" setup>
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+let route = useRoute()
+let menus = ref([
+  {
+    path: `/demo/window`,
+    title: '窗口',
+    isSelected: true,
+  },
+  {
+    path: `/demo/dialog`,
+    title: '对话框',
+    isSelected: false,
+  },
+  {
+    path: `/demo/dialog`,
+    title: '对话框',
+    isSelected: false,
+  },
+])
+watch(
+  () => route,
+  () => menus.value.forEach((v) => (v.isSelected = v.path === route.fullPath)),
+  {
+    immediate: true,
+    deep: true,
+  }
+)
+</script>
 <template>
   <div class="demo">
     <div id="menuContainer">
-      <a class="menuSelected" href="window">窗口</a>
-      <a href="dialog">对话框</a>
-      <a href="/demo/window">信息</a>
-      <a href="/demo/window">剪切板</a>
-      <a href="/demo/window">系统</a>
-      <a href="/demo/window">文件</a>
-      <a href="/demo/window">路径</a>
-      <a href="/demo/window">菜单</a>
-      <a href="/demo/window">托盘图标</a>
-      <a href="/demo/window">数据库</a>
-      <a href="/demo/window">原生插件</a>
+      <router-link v-for="item in menus" :to="item.path" :class="[``, { menuSelected: item.isSelected }]">{{ item.title }}</router-link>
     </div>
-    <router-view />
+    <div class="demoBox">
+      <router-view />
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -37,6 +59,7 @@
   display: block;
   text-decoration: none;
   padding-left: 16px;
+  color: #333;
 }
 #menuContainer a:hover {
   background: rgb(140, 200, 255);
@@ -60,12 +83,17 @@
   border-top: solid 4px transparent;
   border-right: solid 4px #fff;
   border-bottom: solid 4px transparent;
-  content: "";
+  content: '';
 }
 #demoContainer {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+.demoBox {
+  padding: 26px;
+  overflow-y: auto;
+  flex: 1;
 }
 </style>

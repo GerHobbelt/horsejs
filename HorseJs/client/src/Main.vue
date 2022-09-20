@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { app, Win, WindowConfig } from "../../jslib/src/client";
-let version = ref("");
+import { onMounted, ref } from 'vue'
+import { app, Win, WindowConfig } from '../../jslib/src/client'
+let version = ref('')
 let openDemoWindow = async () => {
-  let config = new WindowConfig();
-  config.title = "第二个窗口";
-  config.frameless = true;
-  config.url = "http://127.0.0.1:5173/";
-  await Win.createWindow(config);
-};
-let openDocBrowser = () => {};
+  let config = new WindowConfig()
+  config.title = '第二个窗口'
+  config.frameless = true
+  config.url = 'http://127.0.0.1:5173/'
+  await Win.createWindow(config)
+}
+let openDocBrowser = () => {}
 onMounted(async () => {
-  let versionInfo = await app.getVersionInfo();
-  version.value = versionInfo.horseJsVersion.join(".");
-});
+  let versionInfo = await app.getVersionInfo()
+  version.value = versionInfo.horseJsVersion.join('.')
+})
 </script>
 <template>
   <div class="content">
     <div class="title">HorseJs</div>
     <div class="version">{{ version }}</div>
     <div class="link">
-      <a href="/demo/window">demo</a>
+      <router-link to="/demo/window">demo</router-link>
       <a @click="openDocBrowser">doc</a>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BarTop from "./components/BarTop.vue";
+import BarTop from './components/BarTop.vue'
 </script>
 
 <template>
