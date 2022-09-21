@@ -1,4 +1,5 @@
 import { BaseView } from '../common/BaseView';
+import { ViewConfig } from '../common/ViewConfig';
 export class View extends BaseView {
   private static currentView: View;
   private static mainView: View;
@@ -16,6 +17,17 @@ export class View extends BaseView {
     }
   }
   /**
+   * 为窗口添加view
+   * @param config
+   * @returns
+   */
+  async addOverlayView(param: ViewConfig): Promise<BaseView> {
+    let msg = this.prepareMsg(this.addOverlayView.name, param);
+    let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
+    let result = View.__createView(obj.id);
+    return result;
+  }
+  /**
    * 获取当前窗口主View
    * @returns
    */
@@ -23,5 +35,8 @@ export class View extends BaseView {
     if (this.mainView) return this.mainView;
     this.mainView = new View(globalThis.__mainViewId);
     return this.mainView;
+  }
+  static __createView(id: number) {
+    return new View(id);
   }
 }

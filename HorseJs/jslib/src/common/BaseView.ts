@@ -1,11 +1,11 @@
 import EventEmitter from 'eventemitter3';
 export class BaseView extends EventEmitter {
   id: number;
-  private prepareMsg(actionName: string, msg: any) {
+  protected prepareMsg(actionName: string, msg: any) {
     let result = {
       __className: 'View',
       __actionName: actionName,
-      __winId: this.id,
+      __viewId: this.id,
     };
     Object.assign(result, msg);
     return result;
@@ -32,20 +32,11 @@ export class BaseView extends EventEmitter {
   async sendMouseMoveEvent() {}
   async sendMouseWheelEvent() {}
   async sendTouchEvent() {}
-  async getUrl() {
-    let msg = this.prepareMsg(this.getUrl.name, {});
-    let result = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
-    console.log(result);
-  }
   async showOpenFileDialog() {}
   async showOpenFolderDialog() {}
   async showSaveFileDialog() {}
   async showMessageDialog() {}
   async showErrorDialog() {}
-
-  static __createView(id: number) {
-    return new BaseView(id);
-  }
   protected constructor(id: number) {
     super();
     this.id = id;

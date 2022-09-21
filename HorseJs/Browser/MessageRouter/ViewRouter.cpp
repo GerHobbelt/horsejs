@@ -59,16 +59,19 @@ void ViewRouter::_removeView(int id) {
 
 void ViewRouter::routeMessage(const nlohmann::json& message, CefRefPtr<CefBrowserView> view, nlohmann::json& result) {
 	auto actionName = message["__actionName"].get<std::string>();
+	bool isFromNodeProcess = false;
 	if (view == nullptr) {
-		auto viewId = message["viewId"].get<int>();
+		auto viewId = message["__viewId"].get<int>();
 		view = this->getViewById(viewId);
+		isFromNodeProcess = true;
 	}
 	if (actionName == "setVisible") {
 		auto visible = message["visible"].get<bool>();
 		view->SetVisible(visible);
 	}
 	else if (actionName == "getUrl") {
-		result["url"] = view->GetBrowser()->GetMainFrame()->GetURL();
+		std::string url = view->GetBrowser()->GetMainFrame()->GetURL();
+		result["url"] = url;
 	}
 	else if (actionName == "showOpenFileDialog") {
 		CefBrowserHost::FileDialogMode mode = FILE_DIALOG_OPEN_MULTIPLE;// FILE_DIALOG_OPEN;
@@ -89,7 +92,7 @@ void ViewRouter::routeMessage(const nlohmann::json& message, CefRefPtr<CefBrowse
 	else if (actionName == "devTools") {
 		CefBrowserSettings browserSettings;
 		CefWindowInfo windowInfo;
-		auto handler = PageHandler::getInstance();
+		CefRefPtr<PageHandler> handler = PageHandler::getInstance();
 		auto option = message["option"].get<std::string>();
 		if (option == "open") {
 			view->GetBrowser()->GetHost()->ShowDevTools(windowInfo, handler, browserSettings, CefPoint());
@@ -98,6 +101,7 @@ void ViewRouter::routeMessage(const nlohmann::json& message, CefRefPtr<CefBrowse
 			view->GetBrowser()->GetHost()->CloseDevTools();
 		}
 	}
-	result["__msgId"] = message["__msgId"].get<int64>();
-	WebSocketClient::getInstance()->sendMessage(result);
+	if (isFromNodeProcess) {
+		WebSocketClient::getInstance()->sendMessage(result);
+	}
 }

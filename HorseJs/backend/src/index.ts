@@ -49,8 +49,13 @@ horse.addListener("browserReady", async () => {
   x = 0;
   y = 0;
   let win = await createWindow();
-  let bound = await win.getBound();
-  console.log(bound);
+  setTimeout(async () => {
+    let url = await win.view.getUrl();
+    console.log(url);
+  }, 6000);
+
+  // let bound = await win.getBound();
+  // console.log(bound);
   // await positionAndSize(win);
   // await centerAndSize(win);
   // let view2 = await createView(win);

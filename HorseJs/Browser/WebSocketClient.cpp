@@ -52,7 +52,7 @@ void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg
     auto msgStr = msg->get_payload();
     json message = json::parse(msgStr);
     auto className = message["__className"].get<std::string>();
-    nlohmann::json result = {};
+    nlohmann::json result = { {"__msgId",message["__msgId"].get<int64>()}};
     if (className == "Win") {
         auto windowRouter = WindowRouter::getInstance();
         CefRefPtr<WindowDelegate> winDelegate = nullptr;      
@@ -67,6 +67,7 @@ void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg
         auto appRouter = AppRouter::getInstance();
         CefPostTask(TID_UI, base::BindOnce(&AppRouter::routeMessage, appRouter,message, base::OwnedRef(result)));
     }
+    //因为CefPostTask是异步的，所以发送返回的消息必须放在UI线程去做
 }
 void WebSocketClient::sendMessage(json& message) {
     //跨线程发送消息，没任何问题

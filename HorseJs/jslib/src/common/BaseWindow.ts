@@ -4,7 +4,6 @@ import { BaseView } from './BaseView';
 import EventEmitter from 'eventemitter3';
 export class BaseWindow extends EventEmitter {
   id: number;
-  view: BaseView;
   private prepareMsg(actionName: string, msg: any) {
     let result = {
       __className: 'Win',
@@ -14,22 +13,7 @@ export class BaseWindow extends EventEmitter {
     Object.assign(result, msg);
     return result;
   }
-  /**
-   * 创建窗口，静态方法
-   * @param param
-   * @returns
-   */
-  static async createWindow(param: WindowConfig): Promise<BaseWindow> {
-    let msg = {
-      __className: 'Win',
-      __actionName: this.createWindow.name,
-    };
-    Object.assign(msg, param);
-    let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
-    let result = new BaseWindow(obj.winId);
-    result.view = BaseView.__createView(obj.viewId);
-    return result;
-  }
+
   /**
    * 根据Id获取Window对象，静态方法
    * @param id
@@ -46,18 +30,6 @@ export class BaseWindow extends EventEmitter {
   static async getAllWindow(): Promise<BaseWindow[]> {
     //todo
     return [];
-  }
-
-  /**
-   * 为窗口添加view
-   * @param config
-   * @returns
-   */
-  async addOverlayView(param: ViewConfig): Promise<BaseView> {
-    let msg = this.prepareMsg(this.addOverlayView.name, param);
-    let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
-    let result = BaseView.__createView(obj.id);
-    return result;
   }
 
   /**

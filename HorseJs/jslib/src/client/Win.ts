@@ -1,9 +1,26 @@
 import { View } from './View';
 import { BaseWindow } from '../common/BaseWindow';
-
+import { WindowConfig } from '../common/WindowConfig';
 export class Win extends BaseWindow {
   private isMaximized = false;
   private static currentWindow: Win;
+  view: View;
+  /**
+   * 创建窗口，静态方法
+   * @param param
+   * @returns
+   */
+  static async createWindow(param: WindowConfig): Promise<BaseWindow> {
+    let msg = {
+      __className: 'Win',
+      __actionName: this.createWindow.name,
+    };
+    Object.assign(msg, param);
+    let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
+    let result = new Win(obj.winId);
+    result.view = View.__createView(obj.viewId);
+    return result;
+  }
   /**
    * 获取当前窗口
    * todo 如果是在一个overlayView中，获取到这个窗口对象是正确的，但view对象是错的

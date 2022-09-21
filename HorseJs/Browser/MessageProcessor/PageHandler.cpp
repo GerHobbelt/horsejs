@@ -122,7 +122,7 @@ bool PageHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRef
     //std::string msgStr = message->GetArgumentList()->GetString(0).ToString();
     nlohmann::json messageParam = nlohmann::json::parse(msgStr);
     auto messageName = messageParam["__className"].get<std::string>();
-    nlohmann::json result = {};
+    nlohmann::json result = { {"__msgId",messageParam["__msgId"].get<int64>()}};
     if (messageName == "Win") {
         CefRefPtr<CefBrowserView> browserView = CefBrowserView::GetForBrowser(browser);        
         auto delegate = browserView->GetWindow()->GetDelegate().get();
@@ -139,7 +139,6 @@ bool PageHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRef
         auto appRouter = AppRouter::getInstance();
         appRouter->routeMessage(messageParam, result);
     }
-    result["__msgId"] = messageParam["__msgId"].get<int64>();
     std::string resultStr = result.dump();
     CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(resultStr);
     frame->SendProcessMessage(PID_RENDERER, msg);
