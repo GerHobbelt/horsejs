@@ -13,13 +13,13 @@ class CEFMessageChannel extends EventEmitter {
       //todo reject
       let msgStr = JSON.stringify(msg);
       //@ts-ignore
-      window.nativeCall(msg.__className, msgStr);
+      window.__nativeCall(msgStr);
     });
   }
   constructor() {
     super();
     //@ts-ignore
-    window.nativeCall('__registeNativeCallback', (message) => this.nativeCallBack(message));
+    window.__nativeCall('__registeNativeCallback', (message) => this.nativeCallBack(message));
   }
 }
 globalThis.cefMessageChannel = new CEFMessageChannel();

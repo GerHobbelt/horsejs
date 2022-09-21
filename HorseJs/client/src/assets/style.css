@@ -39,3 +39,24 @@ html,body{
   display: flex;
   flex-direction: column;
 }
+
+.demoBtn {
+  display: inline-block;
+  margin: 8px 8px;
+  border-radius: 3px;
+  padding: 0px 12px;
+  border: 1px solid rgb(140, 200, 255);
+  cursor: pointer;
+  height: 36px;
+  line-height: 36px;
+}
+.demoBtn:hover {
+  background: rgb(33, 136, 255);
+  border: 1px solid rgb(33, 136, 255);
+  color: #fff;
+}
+.demoBtn:active {
+  background: rgb(3, 102, 214);
+  border: 1px solid rgb(3, 102, 214);
+  color: #fff;
+}

@@ -133,7 +133,7 @@ export class BaseWindow extends EventEmitter {
    * @param param
    */
   async setSize(param: { width: number; height: number }) {
-    let msg = this.prepareMsg(this.setSize.name, {});
+    let msg = this.prepareMsg('positionAndSize', param);
     await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
   }
   /**

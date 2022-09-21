@@ -32,7 +32,17 @@ export class BaseView extends EventEmitter {
   async sendMouseMoveEvent() {}
   async sendMouseWheelEvent() {}
   async sendTouchEvent() {}
-  async getUrl() {}
+  async getUrl() {
+    let msg = this.prepareMsg(this.getUrl.name, {});
+    let result = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
+    console.log(result);
+  }
+  async showOpenFileDialog() {}
+  async showOpenFolderDialog() {}
+  async showSaveFileDialog() {}
+  async showMessageDialog() {}
+  async showErrorDialog() {}
+
   static __createView(id: number) {
     return new BaseView(id);
   }

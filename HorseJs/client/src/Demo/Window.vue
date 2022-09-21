@@ -1,48 +1,54 @@
 <script lang="ts" setup>
-let windowSizeChange = () => {}
-let hideShowWindow = () => {}
-let maximizeWindow = () => {}
-let restoreWindow = () => {}
-let minimizeWindow = () => {}
-let closeWindow = () => {}
-let openWindow = () => {}
-let centerWindow = () => {}
-let openDevTool = () => {}
-let closeDevTool = () => {}
+import { Win, WindowConfig } from '../../../jslib/src/client'
+let win = Win.getCurrentWindow()
+let windowSizeChange = async () => {
+  await win.setSize({ width: 960, height: 800 })
+}
+let hideShowWindow = async () => {
+  await win.hide()
+  setTimeout(async () => {
+    await win.show()
+  }, 3000)
+}
+let maximizeWindow = async () => {
+  await win.maximize()
+}
+let restoreWindow = async () => {
+  await win.restore()
+}
+let minimizeWindow = async () => {
+  await win.minimize()
+}
+let closeWindow = async () => {
+  await win.close()
+}
+let openWindow = async () => {
+  let config = new WindowConfig()
+  config.title = '这是我的窗口！！！'
+  config.frameless = true
+  config.url = 'https://www.baidu.com'
+  await Win.createWindow(config)
+}
+let centerWindow = async () => {
+  await win.center()
+}
+let openDevTool = async () => {
+  await win.view.openDevTools()
+}
+let closeDevTool = async () => {
+  await win.view.closeDevTools()
+}
 </script>
 <template>
-  <div id="sectionWindow" class="section sectionSelected">
-    <div class="demoBtn" @click="windowSizeChange">改变窗口大小到800*600</div>
-    <div class="demoBtn" @click="hideShowWindow">窗口隐藏，3秒钟之后窗口再显示</div>
-    <div class="demoBtn" @click="maximizeWindow">最大化窗口</div>
-    <div class="demoBtn" @click="restoreWindow">还原窗口</div>
-    <div class="demoBtn" @click="minimizeWindow">最小化窗口</div>
-    <div class="demoBtn" @click="closeWindow">关闭窗口</div>
-    <div class="demoBtn" @click="openWindow">打开一个新窗口</div>
-    <div class="demoBtn" @click="centerWindow">移动窗口到屏幕中央</div>
-    <div class="demoBtn" @click="openDevTool">打开调试器窗口</div>
-    <div class="demoBtn" @click="closeDevTool">关闭调试器窗口</div>
-  </div>
+  <div class="demoBtn" @click="windowSizeChange">改变窗口大小到960*800</div>
+  <div class="demoBtn" @click="hideShowWindow">窗口隐藏，3秒钟之后窗口再显示</div>
+  <div class="demoBtn" @click="maximizeWindow">最大化窗口</div>
+  <div class="demoBtn" @click="restoreWindow">还原窗口</div>
+  <div class="demoBtn" @click="minimizeWindow">最小化窗口</div>
+  <div class="demoBtn" @click="closeWindow">关闭窗口</div>
+  <div class="demoBtn" @click="openWindow">打开一个新窗口</div>
+  <div class="demoBtn" @click="centerWindow">移动窗口到屏幕中央</div>
+  <div class="demoBtn" @click="openDevTool">打开调试器窗口</div>
+  <div class="demoBtn" @click="closeDevTool">关闭调试器窗口</div>
 </template>
-<style lang="scss" scoped>
-.demoBtn {
-  display: inline-block;
-  margin: 8px 8px;
-  border-radius: 3px;
-  padding: 0px 12px;
-  border: 1px solid rgb(140, 200, 255);
-  cursor: pointer;
-  height: 36px;
-  line-height: 36px;
-}
-.demoBtn:hover {
-  background: rgb(33, 136, 255);
-  border: 1px solid rgb(33, 136, 255);
-  color: #fff;
-}
-.demoBtn:active {
-  background: rgb(3, 102, 214);
-  border: 1px solid rgb(3, 102, 214);
-  color: #fff;
-}
-</style>
+<style lang="scss" scoped></style>

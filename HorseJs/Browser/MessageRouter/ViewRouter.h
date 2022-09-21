@@ -10,7 +10,7 @@ public:
 	ViewRouter& operator=(const ViewRouter&) = delete;
 	CefRefPtr<CefBrowserView> getViewById(int viewId);
 	static CefRefPtr<ViewRouter> getInstance();
-	CefRefPtr<CefBrowserView> createView(std::string& url);
+	CefRefPtr<CefBrowserView> createView(std::string& url, int winId,int mainViewId);
 	void _removeView(int id);
 	void routeMessage(const nlohmann::json& message, CefRefPtr<CefBrowserView> view, nlohmann::json& result);
 private:

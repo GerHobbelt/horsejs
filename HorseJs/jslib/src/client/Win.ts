@@ -2,21 +2,18 @@ import { View } from './View';
 import { BaseWindow } from '../common/BaseWindow';
 
 export class Win extends BaseWindow {
-  view: View;
   private isMaximized = false;
   private static currentWindow: Win;
   /**
    * 获取当前窗口
+   * todo 如果是在一个overlayView中，获取到这个窗口对象是正确的，但view对象是错的
+   * 因为view对象指向的是overlayView而不是窗口的主View
    * @returns
    */
-  static async getCurrentWindow(): Promise<Win | any> {
+  static getCurrentWindow(): Win {
     if (this.currentWindow) return this.currentWindow;
-    let msg = {
-      __className: 'Win',
-      __actionName: this.getCurrentWindow.name,
-    };
-    let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
-    this.currentWindow = new Win(obj.winId);
+    this.currentWindow = new Win(globalThis.__winId);
+    this.currentWindow.view = View.getMainView();
     return this.currentWindow;
   }
   /**

@@ -12,6 +12,7 @@
     "eventemitter3": "^4.0.7",
     "koa": "^2.13.4",
     "koa-static": "^5.0.0",
+    "open": "^8.4.0",
     "ws": "^8.8.1"
   },
   "devDependencies": {

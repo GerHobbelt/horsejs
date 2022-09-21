@@ -118,9 +118,10 @@ bool PageHandler::OnContextMenuCommand(CefRefPtr<CefBrowser> browser, CefRefPtr<
 bool PageHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
 {
     CEF_REQUIRE_UI_THREAD();
-    std::string messageName = message->GetName();
-    std::string msgStr = message->GetArgumentList()->GetString(0).ToString();
+    std::string msgStr = message->GetName();
+    //std::string msgStr = message->GetArgumentList()->GetString(0).ToString();
     nlohmann::json messageParam = nlohmann::json::parse(msgStr);
+    auto messageName = messageParam["__className"].get<std::string>();
     nlohmann::json result = {};
     if (messageName == "Win") {
         CefRefPtr<CefBrowserView> browserView = CefBrowserView::GetForBrowser(browser);        

@@ -13,7 +13,7 @@
 
 WindowDelegate::WindowDelegate(const nlohmann::json& config, const int id):config(config),id(id) {
     auto url = config["url"].get<std::string>();
-    view = ViewRouter::getInstance()->createView(url);
+    view = ViewRouter::getInstance()->createView(url,id,id);
     CefWindow::CreateTopLevelWindow(this);
 }
 /// <summary>
@@ -37,7 +37,7 @@ void WindowDelegate::OnWindowCreated(CefRefPtr<CefWindow> window) {
 }
 int WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
     auto url = overlayViewConfig["url"].get<std::string>();
-    auto overlayView = ViewRouter::getInstance()->createView(url);
+    auto overlayView = ViewRouter::getInstance()->createView(url,id,view->GetID());
     overlayViews.push_back(overlayView);
     auto panelCtrl = win->AddOverlayView(overlayView, CEF_DOCKING_MODE_CUSTOM);
     overlayController.push_back(panelCtrl);
@@ -168,8 +168,10 @@ void WindowDelegate::OnWindowDestroyed(CefRefPtr<CefWindow> window) {
 }
 void WindowDelegate::centerAndSize(const nlohmann::json& config) {
     CefRect rect = this->win->GetBounds();
-    if (config.contains("params")) {
+    if (config.contains("width")) {
         rect.width = config["width"].get<int>();
+    }
+    if (config.contains("height")) {
         rect.height = config["height"].get<int>();
     }
     CefRefPtr<CefDisplay> display = CefDisplay::GetPrimaryDisplay();
@@ -180,8 +182,12 @@ void WindowDelegate::centerAndSize(const nlohmann::json& config) {
 }
 void WindowDelegate::positionAndSize(const nlohmann::json& config) {
     CefRect rect = this->win->GetBounds();
-    rect.x = config["x"].get<int>();
-    rect.y = config["y"].get<int>();
+    if (config.contains("x")) {
+        rect.x = config["x"].get<int>();
+    }
+    if (config.contains("y")) {
+        rect.y = config["y"].get<int>();
+    }
     if (config.contains("width")) {
         rect.width = config["width"].get<int>();
     }

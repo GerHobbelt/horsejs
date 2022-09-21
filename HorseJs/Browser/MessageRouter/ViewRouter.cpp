@@ -14,12 +14,18 @@ CefRefPtr<ViewRouter> ViewRouter::getInstance() {
 	return instance;
 }
 
-CefRefPtr<CefBrowserView> ViewRouter::createView(std::string& url) {
+CefRefPtr<CefBrowserView> ViewRouter::createView(std::string& url,int winId,int mainViewId) {
 	CefBrowserSettings settings;
 	auto pageHandler = PageHandler::getInstance();
-	CefRefPtr<ViewDelegate> viewDelegate = new ViewDelegate();
-	auto view = CefBrowserView::CreateBrowserView(pageHandler, url, settings, nullptr, nullptr, nullptr);
-	view->SetID(views.size());
+	//todo 这个应该是有用的，但目前还没用上
+	//CefRefPtr<ViewDelegate> viewDelegate = new ViewDelegate();
+	CefRefPtr<CefDictionaryValue> extraInfo = CefDictionaryValue::Create();
+	auto viewId = views.size();
+	extraInfo->SetInt("curViewId", viewId);
+	extraInfo->SetInt("mainViewId", mainViewId);
+	extraInfo->SetInt("winId", winId);
+	auto view = CefBrowserView::CreateBrowserView(pageHandler, url, settings, extraInfo, nullptr, nullptr);
+	view->SetID(viewId);
 	views.push_back(view);
 	return view;
 }
@@ -60,6 +66,25 @@ void ViewRouter::routeMessage(const nlohmann::json& message, CefRefPtr<CefBrowse
 	if (actionName == "setVisible") {
 		auto visible = message["visible"].get<bool>();
 		view->SetVisible(visible);
+	}
+	else if (actionName == "getUrl") {
+		result["url"] = view->GetBrowser()->GetMainFrame()->GetURL();
+	}
+	else if (actionName == "showOpenFileDialog") {
+		CefBrowserHost::FileDialogMode mode = FILE_DIALOG_OPEN_MULTIPLE;// FILE_DIALOG_OPEN;
+		//view->GetBrowser()->GetHost()->RunFileDialog();
+	}
+	else if (actionName == "showOpenFolderDialog") {
+		//view->GetBrowser()->GetHost()->RunFileDialog();
+	}
+	else if (actionName == "showSaveFileDialog") {
+		//view->GetBrowser()->GetHost()->RunFileDialog();
+	}
+	else if (actionName == "showMessageDialog") {
+		//view->GetBrowser()->GetHost()->RunFileDialog();
+	}
+	else if (actionName == "showErrorDialog") {
+		//view->GetBrowser()->GetHost()->RunFileDialog();
 	}
 	else if (actionName == "devTools") {
 		CefBrowserSettings browserSettings;

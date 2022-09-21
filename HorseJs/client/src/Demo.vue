@@ -9,8 +9,8 @@ let menus = ref([
     isSelected: true,
   },
   {
-    path: `/demo/dialog`,
-    title: '对话框',
+    path: `/demo/view`,
+    title: '视图',
     isSelected: false,
   },
   {
