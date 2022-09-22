@@ -2,7 +2,7 @@
 #include "../MessageProcessor/ViewDelegate.h"
 #include "../WebSocketClient.h"
 #include "../MessageProcessor/PageHandler.h"
-
+#include "../MessageProcessor/DialogCallback.h"
 namespace {
 	CefRefPtr<ViewRouter> instance = nullptr;
 }
