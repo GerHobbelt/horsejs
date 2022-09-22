@@ -8,7 +8,7 @@ public:
 	AppRouter(const AppRouter&) = delete;
 	AppRouter& operator=(const AppRouter&) = delete;
 	static CefRefPtr<AppRouter> getInstance();
-	void routeMessage(const nlohmann::json& message, nlohmann::json& result);
+	void routeMessage(const nlohmann::json& message, bool isFromNodeProcess, nlohmann::json& result);
 private:
 	IMPLEMENT_REFCOUNTING(AppRouter);
 	AppRouter() = default;

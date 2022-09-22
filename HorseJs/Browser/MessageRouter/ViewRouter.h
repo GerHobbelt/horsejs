@@ -12,7 +12,7 @@ public:
 	static CefRefPtr<ViewRouter> getInstance();
 	CefRefPtr<CefBrowserView> createView(std::string& url, int winId,int mainViewId);
 	void _removeView(int id);
-	void routeMessage(const nlohmann::json& message, CefRefPtr<CefBrowserView> view, nlohmann::json& result);
+	void routeMessage(const nlohmann::json& message, bool isFromNodeProcess, nlohmann::json& result);
 private:
 	IMPLEMENT_REFCOUNTING(ViewRouter);
 	ViewRouter() = default;

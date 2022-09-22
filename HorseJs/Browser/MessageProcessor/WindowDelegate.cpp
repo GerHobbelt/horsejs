@@ -182,6 +182,9 @@ void WindowDelegate::centerAndSize(const nlohmann::json& config) {
 }
 void WindowDelegate::positionAndSize(const nlohmann::json& config) {
     CefRect rect = this->win->GetBounds();
+    if (this->win->IsMaximized()) {
+        this->win->Restore();
+    }
     if (config.contains("x")) {
         rect.x = config["x"].get<int>();
     }

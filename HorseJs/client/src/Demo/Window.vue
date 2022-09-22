@@ -27,7 +27,8 @@ let openWindow = async () => {
   config.title = '这是我的窗口！！！'
   config.frameless = true
   config.url = 'https://www.baidu.com'
-  await Win.createWindow(config)
+  let win = await Win.createWindow(config)
+  await win.setTitle('这是一个新窗口')
 }
 let centerWindow = async () => {
   await win.center()

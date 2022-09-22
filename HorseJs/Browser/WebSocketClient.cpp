@@ -51,21 +51,20 @@ void WebSocketClient::run() {
 void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg) {
     auto msgStr = msg->get_payload();
     json message = json::parse(msgStr);
+    nlohmann::json result = { {"__msgId",message["__msgId"].get<int64>()} };
     auto className = message["__className"].get<std::string>();
-    nlohmann::json result = { {"__msgId",message["__msgId"].get<int64>()}};
     if (className == "Win") {
         auto windowRouter = WindowRouter::getInstance();
-        CefRefPtr<WindowDelegate> winDelegate = nullptr;      
-        CefPostTask(TID_UI, base::BindOnce(&WindowRouter::routeMessage, windowRouter,message, winDelegate, base::OwnedRef(result)));
+        CefPostTask(TID_UI, base::BindOnce(&WindowRouter::routeMessage, windowRouter,message, true, base::OwnedRef(result)));
     }
     else if (className == "View") {
         auto viewRouter = ViewRouter::getInstance();
         CefRefPtr<CefBrowserView> view = nullptr;
-        CefPostTask(TID_UI, base::BindOnce(&ViewRouter::routeMessage, viewRouter, message,view, base::OwnedRef(result)));
+        CefPostTask(TID_UI, base::BindOnce(&ViewRouter::routeMessage, viewRouter, message,true, base::OwnedRef(result)));
     }
     else if (className == "App") {
         auto appRouter = AppRouter::getInstance();
-        CefPostTask(TID_UI, base::BindOnce(&AppRouter::routeMessage, appRouter,message, base::OwnedRef(result)));
+        CefPostTask(TID_UI, base::BindOnce(&AppRouter::routeMessage, appRouter,message, true, base::OwnedRef(result)));
     }
     //因为CefPostTask是异步的，所以发送返回的消息必须放在UI线程去做
 }

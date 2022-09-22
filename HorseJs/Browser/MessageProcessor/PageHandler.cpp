@@ -121,23 +121,23 @@ bool PageHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRef
     std::string msgStr = message->GetName();
     //std::string msgStr = message->GetArgumentList()->GetString(0).ToString();
     nlohmann::json messageParam = nlohmann::json::parse(msgStr);
+    nlohmann::json result = { {"__msgId",messageParam["__msgId"].get<int64>()} };
     auto messageName = messageParam["__className"].get<std::string>();
-    nlohmann::json result = { {"__msgId",messageParam["__msgId"].get<int64>()}};
     if (messageName == "Win") {
-        CefRefPtr<CefBrowserView> browserView = CefBrowserView::GetForBrowser(browser);        
-        auto delegate = browserView->GetWindow()->GetDelegate().get();
-        CefRefPtr<WindowDelegate> windowDelegate = static_cast<WindowDelegate*>(delegate);
+        //CefRefPtr<CefBrowserView> browserView = CefBrowserView::GetForBrowser(browser);        
+        //auto delegate = browserView->GetWindow()->GetDelegate().get();
+        //CefRefPtr<WindowDelegate> windowDelegate = static_cast<WindowDelegate*>(delegate);
         auto windowRouter = WindowRouter::getInstance();  
-        windowRouter->routeMessage(messageParam, windowDelegate, result);
+        windowRouter->routeMessage(messageParam, false,result);
     }
     else if (messageName == "View") {
         CefRefPtr<CefBrowserView> browserView = CefBrowserView::GetForBrowser(browser);
         auto viewRouter = ViewRouter::getInstance();
-        viewRouter->routeMessage(messageParam, browserView, result);
+        viewRouter->routeMessage(messageParam, false,result);
     }
     else if (messageName == "App") {
         auto appRouter = AppRouter::getInstance();
-        appRouter->routeMessage(messageParam, result);
+        appRouter->routeMessage(messageParam, false,result);
     }
     std::string resultStr = result.dump();
     CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(resultStr);

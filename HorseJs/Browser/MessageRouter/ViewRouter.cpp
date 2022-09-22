@@ -57,14 +57,10 @@ void ViewRouter::_removeView(int id) {
 	views.erase(views.begin() + index);
 }
 
-void ViewRouter::routeMessage(const nlohmann::json& message, CefRefPtr<CefBrowserView> view, nlohmann::json& result) {
+void ViewRouter::routeMessage(const nlohmann::json& message, bool isFromNodeProcess, nlohmann::json& result) {
 	auto actionName = message["__actionName"].get<std::string>();
-	bool isFromNodeProcess = false;
-	if (view == nullptr) {
-		auto viewId = message["__viewId"].get<int>();
-		view = this->getViewById(viewId);
-		isFromNodeProcess = true;
-	}
+	auto viewId = message["__viewId"].get<int>();
+	auto view = this->getViewById(viewId);
 	if (actionName == "setVisible") {
 		auto visible = message["visible"].get<bool>();
 		view->SetVisible(visible);
@@ -72,22 +68,6 @@ void ViewRouter::routeMessage(const nlohmann::json& message, CefRefPtr<CefBrowse
 	else if (actionName == "getUrl") {
 		std::string url = view->GetBrowser()->GetMainFrame()->GetURL();
 		result["url"] = url;
-	}
-	else if (actionName == "showOpenFileDialog") {
-		CefBrowserHost::FileDialogMode mode = FILE_DIALOG_OPEN_MULTIPLE;// FILE_DIALOG_OPEN;
-		//view->GetBrowser()->GetHost()->RunFileDialog();
-	}
-	else if (actionName == "showOpenFolderDialog") {
-		//view->GetBrowser()->GetHost()->RunFileDialog();
-	}
-	else if (actionName == "showSaveFileDialog") {
-		//view->GetBrowser()->GetHost()->RunFileDialog();
-	}
-	else if (actionName == "showMessageDialog") {
-		//view->GetBrowser()->GetHost()->RunFileDialog();
-	}
-	else if (actionName == "showErrorDialog") {
-		//view->GetBrowser()->GetHost()->RunFileDialog();
 	}
 	else if (actionName == "devTools") {
 		CefBrowserSettings browserSettings;
