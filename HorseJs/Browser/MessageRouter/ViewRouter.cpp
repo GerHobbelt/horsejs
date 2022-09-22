@@ -101,7 +101,12 @@ void ViewRouter::routeMessage(const nlohmann::json& message, bool isFromNodeProc
 		{
 			mode = FILE_DIALOG_OPEN_FOLDER;
 			view->GetBrowser()->GetHost()->RunFileDialog(mode, title, defaultPath, fileFilters, dcb);
-		}		
+		}
+		else if (type == "saveFile")
+		{
+			mode = FILE_DIALOG_SAVE;
+			view->GetBrowser()->GetHost()->RunFileDialog(mode, title, defaultPath, fileFilters, dcb);
+		}
 		return;
 	}
 	else if (actionName == "showOpenFolderDialog") {

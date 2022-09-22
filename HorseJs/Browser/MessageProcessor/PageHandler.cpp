@@ -5,7 +5,6 @@
 #include "../MessageRouter/WindowRouter.h"
 #include "../MessageRouter/AppRouter.h"
 #include "../MessageRouter/ViewRouter.h"
-#include "../MessageRouter/DialogRouter.h"
 #include "ViewDelegate.h"
 #include "../../json/json.hpp"
 

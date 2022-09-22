@@ -9,7 +9,6 @@
 #include "MessageRouter/WindowRouter.h"
 #include "MessageRouter/ViewRouter.h"
 #include "MessageRouter/AppRouter.h"
-#include "MessageRouter/DialogRouter.h"
 using websocketpp::lib::bind;
 
 namespace {

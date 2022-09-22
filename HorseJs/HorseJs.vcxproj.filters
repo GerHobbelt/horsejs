@@ -60,9 +60,6 @@
     <ClCompile Include="Browser\MessageProcessor\DialogCallback.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Browser\MessageRouter\DialogRouter.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json\json.hpp">
@@ -114,9 +111,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Browser\MessageProcessor\DialogCallback.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\MessageRouter\DialogRouter.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

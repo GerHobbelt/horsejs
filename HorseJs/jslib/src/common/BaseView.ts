@@ -39,13 +39,17 @@ export class BaseView extends EventEmitter {
     let result = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     return result.data;
   }
-  async showOpenFolderDialog(param: { title?: string; defaultPath?: string; multiSelection?: boolean; filters?: string[] }): Promise<string[]> {
+  async showOpenFolderDialog(param: { title?: string; defaultPath?: string; multiSelection?: boolean; filters?: string[] }): Promise<string> {
     let msg = this.prepareMsg('showFileOrFolderDialog', param) as any;
     msg.type = 'openFolder';
     return await this.showFileOrFolderDialog(msg);
   }
-
-  async showOpenFileDialog(param: { title?: string; defaultPath?: string; filters?: string[] }): Promise<string[]> {
+  async showSaveFileDialog(param: { title?: string; defaultPath?: string; multiSelection?: boolean; filters?: string[] }): Promise<string> {
+    let msg = this.prepareMsg('showFileOrFolderDialog', param) as any;
+    msg.type = 'saveFile';
+    return await this.showFileOrFolderDialog(msg);
+  }
+  async showOpenFileDialog(param: { title?: string; defaultPath?: string; filters?: string[] }): Promise<string[] | string> {
     let msg = this.prepareMsg('showFileOrFolderDialog', param) as any;
     msg.type = 'openFile';
     if (msg.multiSelection === undefined) {
@@ -53,8 +57,6 @@ export class BaseView extends EventEmitter {
     }
     return await this.showFileOrFolderDialog(msg);
   }
-
-  async showSaveFileDialog() {}
   async showMessageDialog() {}
   async showErrorDialog() {}
   protected constructor(id: number) {

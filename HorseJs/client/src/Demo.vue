@@ -13,11 +13,6 @@ let menus = ref([
     title: '视图',
     isSelected: false,
   },
-  {
-    path: `/demo/dialog`,
-    title: '对话框',
-    isSelected: false,
-  },
 ])
 watch(
   () => route,

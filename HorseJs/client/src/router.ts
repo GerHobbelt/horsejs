@@ -18,10 +18,6 @@ const routes = [
         path: 'view',
         component: () => import('./Demo/View.vue'),
       },
-      {
-        path: 'dialog',
-        component: () => import('./Demo/Dialog.vue'),
-      },
     ],
   },
 ]
