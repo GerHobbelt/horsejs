@@ -11,17 +11,7 @@ export class View extends BaseView {
     let result = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     return result.url;
   }
-  /**
-   * 为窗口添加view
-   * @param config
-   * @returns
-   */
-  async addOverlayView(param: ViewConfig): Promise<BaseView> {
-    let msg = this.prepareMsg(this.addOverlayView.name, param);
-    let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
-    let result = View.__createView(obj.id);
-    return result;
-  }
+
   static __createView(id: number) {
     return new View(id);
   }

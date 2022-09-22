@@ -4,7 +4,7 @@ import { BaseView } from './BaseView';
 import EventEmitter from 'eventemitter3';
 export class BaseWindow extends EventEmitter {
   id: number;
-  private prepareMsg(actionName: string, msg: any) {
+  protected prepareMsg(actionName: string, msg: any) {
     let result = {
       __className: 'Win',
       __actionName: actionName,

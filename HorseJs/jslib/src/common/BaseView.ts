@@ -32,8 +32,28 @@ export class BaseView extends EventEmitter {
   async sendMouseMoveEvent() {}
   async sendMouseWheelEvent() {}
   async sendTouchEvent() {}
-  async showOpenFileDialog() {}
-  async showOpenFolderDialog() {}
+  private async showFileOrFolderDialog(msg: any) {
+    if (!msg.filters || msg.filters.length < 1) {
+      msg.filters = ['*'];
+    }
+    let result = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
+    return result.data;
+  }
+  async showOpenFolderDialog(param: { title?: string; defaultPath?: string; multiSelection?: boolean; filters?: string[] }): Promise<string[]> {
+    let msg = this.prepareMsg('showFileOrFolderDialog', param) as any;
+    msg.type = 'openFolder';
+    return await this.showFileOrFolderDialog(msg);
+  }
+
+  async showOpenFileDialog(param: { title?: string; defaultPath?: string; filters?: string[] }): Promise<string[]> {
+    let msg = this.prepareMsg('showFileOrFolderDialog', param) as any;
+    msg.type = 'openFile';
+    if (msg.multiSelection === undefined) {
+      msg.multiSelection = true;
+    }
+    return await this.showFileOrFolderDialog(msg);
+  }
+
   async showSaveFileDialog() {}
   async showMessageDialog() {}
   async showErrorDialog() {}

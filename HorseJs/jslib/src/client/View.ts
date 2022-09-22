@@ -21,7 +21,7 @@ export class View extends BaseView {
    * @param config
    * @returns
    */
-  async addOverlayView(param: ViewConfig): Promise<BaseView> {
+  async addOverlayView(param: ViewConfig): Promise<View> {
     let msg = this.prepareMsg(this.addOverlayView.name, param);
     let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     let result = View.__createView(obj.id);

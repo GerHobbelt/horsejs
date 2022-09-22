@@ -29,7 +29,7 @@ CefRefPtr<WindowDelegate> WindowRouter::getWindowDelegateById(int winId){
 	return winDelegate;
 }
 
-void WindowRouter::routeMessage(const nlohmann::json& message,bool isFromNodeProcess, nlohmann::json&  result) {	
+void WindowRouter::routeMessage(const nlohmann::json& message,bool isFromNodeProcess, nlohmann::json&  result, CefRefPtr<CefFrame> frame) {
 	auto actionName = message["__actionName"].get<std::string>();
 	if (actionName == "createWindow") {
 		auto winId = windows.size();
@@ -101,7 +101,13 @@ void WindowRouter::routeMessage(const nlohmann::json& message,bool isFromNodePro
 	}
 	if (isFromNodeProcess) {
 		WebSocketClient::getInstance()->sendMessage(result);
-	}	
+	}
+	else
+	{
+		std::string resultStr = result.dump();
+		CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(resultStr);
+		frame->SendProcessMessage(PID_RENDERER, msg);
+	}
 }
 
 void WindowRouter::removeWindow(WindowDelegate* tar) {

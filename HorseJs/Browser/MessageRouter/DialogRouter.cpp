@@ -1,6 +1,7 @@
 #include "DialogRouter.h"
 #include "../WebSocketClient.h"
 #include "../MessageProcessor/DialogCallback.h"
+#include "ViewRouter.h"
 namespace {
 	CefRefPtr<DialogRouter> instance = nullptr;
 }
@@ -14,19 +15,19 @@ CefRefPtr<DialogRouter> DialogRouter::getInstance() {
 
 void DialogRouter::routeMessage(const nlohmann::json& message, bool isFromNodeProcess, nlohmann::json& result, CefRefPtr<CefFrame> frame) {
 	auto actionName = message["__actionName"].get<std::string>();
+	auto viewId = message["__viewId"].get<int>();
+	auto view = ViewRouter::getInstance()->getViewById(viewId);
 	if (actionName == "showOpenFileDialog") {
-		CefBrowserHost::FileDialogMode mode = FILE_DIALOG_OPEN_MULTIPLE;// FILE_DIALOG_OPEN;
+		CefBrowserHost::FileDialogMode mode = message["multiSelections"].get<bool>() ? FILE_DIALOG_OPEN_MULTIPLE : FILE_DIALOG_OPEN;
 		auto title = message["title"].get<std::string>();
 		auto defaultPath = message["defaultPath"].get<std::string>();
-		auto filterIndex = message["filterIndex"].get<int>();
 		std::vector<CefString> fileFilters;
-		CefRefPtr<CefRunFileDialogCallback> dcb = new DialogCallback(result, frame);
 		for (const std::string& var : message["filters"])
 		{
 			fileFilters.push_back(var);
 		}
+		CefRefPtr<CefRunFileDialogCallback> dcb = new DialogCallback(result, frame,isFromNodeProcess);
 		view->GetBrowser()->GetHost()->RunFileDialog(mode, title, defaultPath, fileFilters, dcb);
-		//view->GetBrowser()->GetHost()->RunFileDialog();
 	}
 	else if (actionName == "showOpenFolderDialog") {
 		//view->GetBrowser()->GetHost()->RunFileDialog();
@@ -39,8 +40,5 @@ void DialogRouter::routeMessage(const nlohmann::json& message, bool isFromNodePr
 	}
 	else if (actionName == "showErrorDialog") {
 		//view->GetBrowser()->GetHost()->RunFileDialog();
-	}
-	if (isFromNodeProcess) {
-		WebSocketClient::getInstance()->sendMessage(result);
 	}
 }

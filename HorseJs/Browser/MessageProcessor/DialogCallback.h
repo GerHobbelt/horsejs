@@ -7,11 +7,12 @@
 class DialogCallback: public CefRunFileDialogCallback
 {
 public:
-	DialogCallback(const nlohmann::json& message, CefRefPtr<CefFrame> frame) :message(message), frame(frame){};
+	DialogCallback(const nlohmann::json& result, CefRefPtr<CefFrame> frame,bool isFromNodeProcess) :result(result), frame(frame), isFromNodeProcess(isFromNodeProcess) {};
 	virtual void OnFileDialogDismissed(const std::vector<CefString>& file_paths) override;
 private:
-	nlohmann::json message;
+	nlohmann::json result;
 	CefRefPtr<CefFrame> frame;
+	bool isFromNodeProcess;
 	IMPLEMENT_REFCOUNTING(DialogCallback);
 	DISALLOW_COPY_AND_ASSIGN(DialogCallback);
 };

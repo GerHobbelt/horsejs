@@ -1,6 +1,7 @@
 import { View } from './View';
 import { BaseWindow } from '../common/BaseWindow';
 import { WindowConfig } from '../common/WindowConfig';
+import { ViewConfig } from '../common/ViewConfig';
 export class Win extends BaseWindow {
   view: View;
   /**
@@ -17,6 +18,17 @@ export class Win extends BaseWindow {
     let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     let result = new Win(obj.winId);
     result.view = View.__createView(obj.viewId);
+    return result;
+  }
+  /**
+   * 为窗口添加view
+   * @param config
+   * @returns
+   */
+  async addOverlayView(param: ViewConfig): Promise<View> {
+    let msg = super.prepareMsg(this.addOverlayView.name, param);
+    let obj: any = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
+    let result = View.__createView(obj.id);
     return result;
   }
 }

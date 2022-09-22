@@ -11,7 +11,7 @@ public:
 	static CefRefPtr<WindowRouter> getInstance();
 	void removeWindow(WindowDelegate* tar);
 	CefRefPtr<WindowDelegate> getWindowDelegateById(int winId);
-	void routeMessage(const nlohmann::json& message,bool isFromNodeProcess, nlohmann::json& result);
+	void routeMessage(const nlohmann::json& message,bool isFromNodeProcess, nlohmann::json& result, CefRefPtr<CefFrame> frame);
 private:
 	IMPLEMENT_REFCOUNTING(WindowRouter);
 	WindowRouter() = default;

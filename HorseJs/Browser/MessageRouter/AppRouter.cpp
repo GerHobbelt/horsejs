@@ -12,7 +12,7 @@ CefRefPtr<AppRouter> AppRouter::getInstance() {
 	return instance;
 }
 
-void AppRouter::routeMessage(const nlohmann::json& message, bool isFromNodeProcess, nlohmann::json& result) {
+void AppRouter::routeMessage(const nlohmann::json& message, bool isFromNodeProcess, nlohmann::json& result, CefRefPtr<CefFrame> frame) {
 	auto actionName = message["__actionName"].get<std::string>();
 	if (actionName == "getVersionInfo") {
 		result["horseJsVersion"] = { 0,0,12 };
@@ -21,5 +21,10 @@ void AppRouter::routeMessage(const nlohmann::json& message, bool isFromNodeProce
 	}
 	if (isFromNodeProcess) {
 		WebSocketClient::getInstance()->sendMessage(result);
+	}
+	else {
+		std::string resultStr = result.dump();
+		CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(resultStr);
+		frame->SendProcessMessage(PID_RENDERER, msg);
 	}
 }

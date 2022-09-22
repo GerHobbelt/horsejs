@@ -9,6 +9,7 @@
 #include "MessageRouter/WindowRouter.h"
 #include "MessageRouter/ViewRouter.h"
 #include "MessageRouter/AppRouter.h"
+#include "MessageRouter/DialogRouter.h"
 using websocketpp::lib::bind;
 
 namespace {
@@ -55,16 +56,16 @@ void WebSocketClient::onMessage(websocketpp::connection_hdl hdl, message_ptr msg
     auto className = message["__className"].get<std::string>();
     if (className == "Win") {
         auto windowRouter = WindowRouter::getInstance();
-        CefPostTask(TID_UI, base::BindOnce(&WindowRouter::routeMessage, windowRouter,message, true, base::OwnedRef(result)));
+        CefPostTask(TID_UI, base::BindOnce(&WindowRouter::routeMessage, windowRouter,message, true, base::OwnedRef(result),nullptr));
     }
     else if (className == "View") {
         auto viewRouter = ViewRouter::getInstance();
         CefRefPtr<CefBrowserView> view = nullptr;
-        CefPostTask(TID_UI, base::BindOnce(&ViewRouter::routeMessage, viewRouter, message,true, base::OwnedRef(result)));
+        CefPostTask(TID_UI, base::BindOnce(&ViewRouter::routeMessage, viewRouter, message,true, base::OwnedRef(result),nullptr));
     }
     else if (className == "App") {
         auto appRouter = AppRouter::getInstance();
-        CefPostTask(TID_UI, base::BindOnce(&AppRouter::routeMessage, appRouter,message, true, base::OwnedRef(result)));
+        CefPostTask(TID_UI, base::BindOnce(&AppRouter::routeMessage, appRouter,message, true, base::OwnedRef(result),nullptr));
     }
     //因为CefPostTask是异步的，所以发送返回的消息必须放在UI线程去做
 }
