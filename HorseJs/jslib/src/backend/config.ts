@@ -3,4 +3,5 @@ export let config = {
   productName: 'HorseJs',
   productClass: 'horsejs.com',
   httpAndWebSocketServicePort: '0',
-}
+  browser: `D:\\project\\horsejs\\x64\\Debug\\HorseJs.exe`,
+};

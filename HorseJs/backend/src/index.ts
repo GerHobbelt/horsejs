@@ -38,6 +38,12 @@ let positionAndSize = (win: Win) => {
     await win.positionAndSize({ x: 100, y: 100, width: 1600, height: 900 });
   }, 8000);
 };
+let getUrl = (win: Win) => {
+  setTimeout(async () => {
+    let url = await win.view.getUrl();
+    console.log(url);
+  }, 6000);
+};
 
 horse.addListener("serviceReady", (app) => {
   app.use((ctx) => {
@@ -49,11 +55,11 @@ horse.addListener("browserReady", async () => {
   x = 0;
   y = 0;
   let win = await createWindow();
-  setTimeout(async () => {
-    let url = await win.view.getUrl();
-    console.log(url);
-  }, 6000);
+  // setTimeout(async () => {
+  //   await win.view.alert("test中文");
+  // }, 6000);
 
+  // getUrl(win);
   // let bound = await win.getBound();
   // console.log(bound);
   // await positionAndSize(win);

@@ -7,6 +7,7 @@ import { AddressInfo } from 'net';
 import { config } from './config';
 import fs from 'fs';
 import EventEmitter from 'eventemitter3';
+import { spawn } from 'child_process';
 class Horse extends EventEmitter {
   config = config;
   private initStaticService(app: any) {
@@ -32,13 +33,6 @@ class Horse extends EventEmitter {
       globalThis.cefMessageChannel.on('viewOverlayCreated', (param) => {
         this.emit('viewOverlayCreated', param);
       });
-      //todo
-      // globalThis.cefMessageChannel.on('viewOverlayCreated', (param) => {
-      //   this.emit('viewOverlayCreated', param);
-      // });
-      // globalThis.cefMessageChannel.on('viewOverlayCreated', (param) => {
-      //   this.emit('viewOverlayCreated', param);
-      // });
     } else {
       /**
        * 当渲染进程连接到websocket服务后执行此方法
@@ -73,6 +67,7 @@ class Horse extends EventEmitter {
     //todo debug
     // let devenvPath = `C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\devenv.exe`
     // let childProcess = spawn(devenvPath, [`/nosplash`, `/runexit`, `D:\\project\\horsejs\\HorseJs.sln`, `servicePort=` + port], { detached: true })
+    let childProcess = spawn(config.browser, [], { detached: true, cwd: path.dirname(config.browser) });
   }
   /**
    * 启动horse

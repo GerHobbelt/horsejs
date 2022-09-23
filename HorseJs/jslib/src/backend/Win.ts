@@ -9,7 +9,7 @@ export class Win extends BaseWindow {
    * @param param
    * @returns
    */
-  static async createWindow(param: WindowConfig): Promise<BaseWindow> {
+  static async createWindow(param: WindowConfig): Promise<Win> {
     let msg = {
       __className: 'Win',
       __actionName: this.createWindow.name,

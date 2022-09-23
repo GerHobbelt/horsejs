@@ -4,18 +4,15 @@
 #include "include/views/cef_window.h"
 
 void RenderProcessHandler::OnBrowserCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDictionaryValue> extraInfo) {
-    winId = extraInfo->GetInt("winId");
-    curViewId = extraInfo->GetInt("curViewId");
-    mainViewId = extraInfo->GetInt("mainViewId");
+    std::string jsonStr = extraInfo->GetString("horse");
+    horse = horse + jsonStr;
 }
 void RenderProcessHandler::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context) {
     CefRefPtr<CefV8Value> globalObject = context->GetGlobal();
     v8Handler = new V8Handler();
     CefRefPtr<CefV8Value> nativeCall = CefV8Value::CreateFunction("__nativeCall", v8Handler);
     globalObject->SetValue("__nativeCall", nativeCall, V8_PROPERTY_ATTRIBUTE_READONLY);
-    globalObject->SetValue("__winId", CefV8Value::CreateInt(this->winId), V8_PROPERTY_ATTRIBUTE_READONLY);
-    globalObject->SetValue("__curViewId", CefV8Value::CreateInt(this->curViewId), V8_PROPERTY_ATTRIBUTE_READONLY);
-    globalObject->SetValue("__mainViewId", CefV8Value::CreateInt(this->mainViewId), V8_PROPERTY_ATTRIBUTE_READONLY);
+    frame->ExecuteJavaScript("window.__horse = " + horse,"",0);
 }
 
 bool RenderProcessHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)

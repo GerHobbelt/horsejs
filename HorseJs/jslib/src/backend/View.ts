@@ -11,7 +11,24 @@ export class View extends BaseView {
     let result = await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
     return result.url;
   }
-
+  /**
+   * 显示alert对话框
+   * 对于Node进程来说这个方法时非阻塞的
+   * 但对于Browser进程来说，却是阻塞的
+   * @param text
+   */
+  async alert(text: string) {
+    let msg = super.prepareMsg(this.alert.name, { text });
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
+  }
+  /**
+   * 显示confirm对话框
+   * @param text
+   */
+  async confirm(text: string) {
+    let msg = super.prepareMsg(this.confirm.name, { text });
+    await globalThis.cefMessageChannel.sendMsgToBrowser(msg);
+  }
   static __createView(id: number) {
     return new View(id);
   }

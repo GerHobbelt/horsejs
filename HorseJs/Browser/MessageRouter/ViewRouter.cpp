@@ -3,6 +3,7 @@
 #include "../WebSocketClient.h"
 #include "../MessageProcessor/PageHandler.h"
 #include "../MessageProcessor/DialogCallback.h"
+#include "../../Config.h"
 namespace {
 	CefRefPtr<ViewRouter> instance = nullptr;
 }
@@ -21,9 +22,10 @@ CefRefPtr<CefBrowserView> ViewRouter::createView(std::string& url,int winId,int 
 	//CefRefPtr<ViewDelegate> viewDelegate = new ViewDelegate();
 	CefRefPtr<CefDictionaryValue> extraInfo = CefDictionaryValue::Create();
 	auto viewId = views.size();
-	extraInfo->SetInt("curViewId", viewId);
-	extraInfo->SetInt("mainViewId", mainViewId);
-	extraInfo->SetInt("winId", winId);
+	auto port = config["httpAndWebSocketServicePort"].get<std::string>();
+	nlohmann::json horse = { {"curViewId",viewId},{"mainViewId",mainViewId},{"winId",winId},{"port",port} };
+	std::string horseStr = horse.dump();
+	extraInfo->SetString("horse", horseStr);
 	auto view = CefBrowserView::CreateBrowserView(pageHandler, url, settings, extraInfo, nullptr, nullptr);
 	view->SetID(viewId);
 	views.push_back(view);
@@ -80,6 +82,14 @@ void ViewRouter::routeMessage(const nlohmann::json& message, bool isFromNodeProc
 		else {
 			view->GetBrowser()->GetHost()->CloseDevTools();
 		}
+	}
+	else if (actionName == "alert") {
+		//todo only windows
+		HWND hwnd = view->GetBrowser()->GetHost()->GetWindowHandle();
+		auto msg = message["text"].get<std::string>();
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> utf8Conv;
+		std::wstring wMsg = utf8Conv.from_bytes(msg);
+		MessageBox(hwnd, wMsg.c_str(), L"系统提示", MB_ICONEXCLAMATION | MB_OK);
 	}
 	else if (actionName == "showFileOrFolderDialog") {
 		CefBrowserHost::FileDialogMode mode;

@@ -33,12 +33,6 @@ let openWindow = async () => {
 let centerWindow = async () => {
   await win.center()
 }
-let openDevTool = async () => {
-  await win.view.openDevTools()
-}
-let closeDevTool = async () => {
-  await win.view.closeDevTools()
-}
 </script>
 <template>
   <div class="demoBtn" @click="windowSizeChange">改变窗口大小到960*800</div>
@@ -49,7 +43,5 @@ let closeDevTool = async () => {
   <div class="demoBtn" @click="closeWindow">关闭窗口</div>
   <div class="demoBtn" @click="openWindow">打开一个新窗口</div>
   <div class="demoBtn" @click="centerWindow">移动窗口到屏幕中央</div>
-  <div class="demoBtn" @click="openDevTool">打开调试器窗口</div>
-  <div class="demoBtn" @click="closeDevTool">关闭调试器窗口</div>
 </template>
 <style lang="scss" scoped></style>

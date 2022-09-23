@@ -29,7 +29,7 @@ export class Win extends BaseWindow {
    */
   static getCurrentWindow(): Win {
     if (this.currentWindow) return this.currentWindow;
-    this.currentWindow = new Win(globalThis.__winId);
+    this.currentWindow = new Win(globalThis.__horse.winId);
     this.currentWindow.view = View.getMainView();
     return this.currentWindow;
   }

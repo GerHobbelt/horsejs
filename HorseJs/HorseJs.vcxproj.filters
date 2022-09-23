@@ -92,9 +92,6 @@
     <ClInclude Include="Browser\MessageProcessor\WindowDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Browser\ButtonDelegate.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Browser\MessageProcessor\WindowPopupDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>

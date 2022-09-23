@@ -65,6 +65,7 @@ bool PageHandler::OnJSDialog(CefRefPtr<CefBrowser> browser,
     CefRefPtr<CefJSDialogCallback> callback,
     bool& suppress_message) { 
     suppress_message = false;
+    //todo only windows
     HWND hwnd = browser->GetHost()->GetWindowHandle();
     if (dialog_type == JSDialogType::JSDIALOGTYPE_ALERT) {
         MessageBox(hwnd, message_text.c_str(), L"系统提示", MB_ICONEXCLAMATION | MB_OK);

@@ -8,11 +8,11 @@ export class View extends BaseView {
    * @returns
    */
   static getCurrentView(): View {
-    if (globalThis.__mainViewId === globalThis.__curViewId) {
+    if (globalThis.__horse.mainViewId === globalThis.__horse.curViewId) {
       return this.getMainView();
     } else {
       if (this.currentView) return this.currentView;
-      this.currentView = new View(globalThis.__curViewId);
+      this.currentView = new View(globalThis.__horse.curViewId);
       return this.currentView;
     }
   }
@@ -33,7 +33,7 @@ export class View extends BaseView {
    */
   static getMainView(): View {
     if (this.mainView) return this.mainView;
-    this.mainView = new View(globalThis.__mainViewId);
+    this.mainView = new View(globalThis.__horse.mainViewId);
     return this.mainView;
   }
   static __createView(id: number) {

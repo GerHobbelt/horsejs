@@ -6,7 +6,6 @@
 #include "include/views/cef_layout.h"
 #include "PageHandler.h"
 #include "../WebSocketClient.h"
-#include "../ButtonDelegate.h"
 #include "../MessageRouter/WindowRouter.h"
 #include "../MessageRouter/ViewRouter.h"
 
