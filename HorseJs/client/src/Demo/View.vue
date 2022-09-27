@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { View } from '../../../jslib/src/client'
+import { View, horse } from '../../../jslib/src/client'
 let view = View.getCurrentView()
 let showOpenFileDialog = async (multiSelection: boolean) => {
   let obj = await view.showOpenFileDialog({
@@ -33,6 +33,9 @@ let openDevTool = async () => {
 let closeDevTool = async () => {
   await view.closeDevTools()
 }
+let handle = async () => {
+  horse.invoke('testtest', { abc: 'allen1' })
+}
 </script>
 <template>
   <div class="demoBtn" @click="showOpenFileDialog(false)">打开文件对话框（只能选择一个文件）</div>
@@ -41,4 +44,5 @@ let closeDevTool = async () => {
   <div class="demoBtn" @click="showSaveFileDialog">保存文件对话框</div>
   <div class="demoBtn" @click="openDevTool">打开调试器窗口</div>
   <div class="demoBtn" @click="closeDevTool">关闭调试器窗口</div>
+  <div class="demoBtn" @click="handle">handle</div>
 </template>

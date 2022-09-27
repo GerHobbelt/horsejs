@@ -3,13 +3,13 @@ import { WebSocket } from 'ws';
 import { Util } from '../common/Util';
 class CEFMessageChannel extends EventEmitter {
   ws: WebSocket;
-  private onWebSocketMessage(message) {
-    let msg = JSON.parse(message.toString('utf8'));
-    this.emit(msg['__msgId'].toString(), msg);
-  }
   init(ws: WebSocket) {
     this.ws = ws;
-    this.ws.on('message', (message) => this.onWebSocketMessage(message));
+    this.ws.on('message', (message) => () => {
+      console.log('browser msg', message.toString('utf8'));
+      let msg = JSON.parse(message.toString('utf8'));
+      this.emit(msg['__msgId'].toString(), msg);
+    });
   }
   sendMsgToBrowser(msg: any): Promise<any> {
     return new Promise((resolve, reject) => {

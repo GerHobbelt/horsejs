@@ -51,6 +51,13 @@ horse.addListener("serviceReady", (app) => {
   });
 });
 
+horse.on("clientReady", () => {
+  console.log("clientReady");
+  horse.handle("testtest", (arg) => {
+    console.log(arg);
+  });
+});
+
 horse.addListener("browserReady", async () => {
   x = 0;
   y = 0;
