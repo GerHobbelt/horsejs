@@ -54,7 +54,8 @@ horse.addListener("serviceReady", (app) => {
 horse.on("clientReady", () => {
   console.log("clientReady");
   horse.handle("testtest", (arg) => {
-    console.log(arg);
+    console.log("testtest", arg);
+    return { allen: "ok" };
   });
 });
 

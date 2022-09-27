@@ -9,11 +9,7 @@ class Horse extends EventEmitter {
     let url = `ws://localhost:${globalThis.__horse.port}/?client=client`;
     this.ws = new WebSocket(url);
     this.ws.onopen = () => {
-      console.log('websocket connected', url, this.ws);
-      setInterval(() => {
-        console.log('send');
-        horse.invoke('testtest', { abc: 'allen1' });
-      }, 8000);
+      console.log('websocket connected', url);
     };
     this.ws.onmessage = (e) => {
       let msgStr = e.data.toString();
@@ -40,6 +36,7 @@ class Horse extends EventEmitter {
         ...param,
       };
       let msgStr = JSON.stringify(msg);
+      console.log(msgStr);
       this.ws.send(msgStr);
     });
   }

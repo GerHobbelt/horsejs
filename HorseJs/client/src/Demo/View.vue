@@ -34,7 +34,8 @@ let closeDevTool = async () => {
   await view.closeDevTools()
 }
 let handle = async () => {
-  horse.invoke('testtest', { abc: 'allen1' })
+  let result = await horse.invoke('testtest', { abc: 'allen1' })
+  console.log(result)
 }
 </script>
 <template>

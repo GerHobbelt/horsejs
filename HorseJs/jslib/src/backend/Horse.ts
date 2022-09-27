@@ -33,9 +33,9 @@ class Horse extends EventEmitter {
     ws.addListener('upgrade', (e) => {
       console.log('node backend upgrade', e);
     });
-
     ws.addListener('message', (message, isBinary) => {
       let messageStr = message.toString('utf8');
+      console.log('message', messageStr);
       let msg = JSON.parse(messageStr);
       this.emit(msg['__wsMsgName'].toString(), msg);
     });
@@ -87,7 +87,9 @@ class Horse extends EventEmitter {
     // let childProcess = spawn(config.browser, [], { detached: true, cwd: path.dirname(config.browser) });
   }
   handle(name: string, callBack: any) {
-    this.on(name, callBack);
+    this.on(name, (msg) => {
+      let result = callBack(msg);
+    });
   }
   handleOnce(name: string, callBack: any) {
     this.once(name, callBack);
