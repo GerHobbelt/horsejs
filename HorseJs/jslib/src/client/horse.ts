@@ -15,6 +15,7 @@ class Horse extends EventEmitter {
       let msgStr = e.data.toString();
       let msg = JSON.parse(msgStr);
       this.emit(msg.__msgId, msg);
+      delete msg.__msgId;
     };
     this.ws.onerror = (e) => {
       console.log(e);
@@ -36,7 +37,6 @@ class Horse extends EventEmitter {
         ...param,
       };
       let msgStr = JSON.stringify(msg);
-      console.log(msgStr);
       this.ws.send(msgStr);
     });
   }

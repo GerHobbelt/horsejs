@@ -28,21 +28,10 @@ class Horse extends EventEmitter {
       this.emit('viewOverlayCreated', param);
     });
   }
-
-  private listenClientMessage(ws: WebSocket) {
-    ws.addListener('upgrade', (e) => {
-      console.log('node backend upgrade', e);
+  private listenClientEvent() {
+    globalThis.clientMessageChannel.on('clientMessage', (param) => {
+      this.emit(param['__wsMsgName'].toString(), param);
     });
-    ws.addListener('message', (message, isBinary) => {
-      let messageStr = message.toString('utf8');
-      console.log('message', messageStr);
-      let msg = JSON.parse(messageStr);
-      this.emit(msg['__wsMsgName'].toString(), msg);
-    });
-    ws.addListener('error', (e) => {
-      console.log('node backend error', e);
-    });
-    console.log('node backend onmessage');
   }
 
   /**
@@ -58,8 +47,11 @@ class Horse extends EventEmitter {
       this.emit('browserReady', ws, req);
       this.listenCefEvent();
     } else {
+      let arr = req.url.split(`=`);
+      let clientId = arr[arr.length - 1];
+      globalThis.clientMessageChannel.init(ws, clientId);
       this.emit('clientReady', ws, req);
-      this.listenClientMessage(ws);
+      this.listenClientEvent();
     }
   }
   /**
@@ -86,17 +78,34 @@ class Horse extends EventEmitter {
     fs.writeFileSync(configPath, JSON.stringify(this.config));
     // let childProcess = spawn(config.browser, [], { detached: true, cwd: path.dirname(config.browser) });
   }
+  /**
+   * 注册handle，处理渲染进程发来的请求。
+   * 渲染进程通过horse.invoke()，发起请求。
+   * todo 目前还没做removeOneHandle
+   * @param name handle名称
+   * @param callBack
+   */
   handle(name: string, callBack: any) {
     this.on(name, (msg) => {
       let result = callBack(msg);
+      result['__wsId'] = msg['__wsId'];
+      result['__msgId'] = msg['__msgId'];
+      globalThis.clientMessageChannel.sendMsgToClient(result);
     });
   }
+  /**
+   * 注册一次性handle，处理渲染进程发来的请求。
+   * 渲染进程通过horse.invoke()，发起请求，不过只能请求一次
+   * @param name handle名称
+   * @param callBack
+   */
   handleOnce(name: string, callBack: any) {
     this.once(name, callBack);
   }
-  removeOneHandle(name: string, callBack: any) {
-    this.removeListener(name, callBack);
-  }
+  /**
+   * 移除同名所有的handle
+   * @param name handle名称
+   */
   removeAllHandle(name: string) {
     this.removeAllListeners(name);
   }

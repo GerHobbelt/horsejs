@@ -1,4 +1,5 @@
 import './backend/cefMessageChannel';
+import './backend/clientMessageChannel';
 export { horse } from './backend/horse';
 export { Win } from './backend/Win';
 export { View } from './backend/View';
