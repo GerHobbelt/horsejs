@@ -16,12 +16,11 @@ class ClientMessageChannel extends EventEmitter {
       let messageStr = message.toString('utf8');
       let msg = JSON.parse(messageStr);
       msg['__wsId'] = ws['__id'];
-      this.emit('clientMessage', msg);
+      this.emit(msg['__wsMsgName'], msg);
     });
     ws.addListener('error', (e) => {
       console.log('node backend error', e);
     });
-    console.log('node backend onmessage');
   }
   sendMsgToClient(msg: any) {
     //todo 没找到

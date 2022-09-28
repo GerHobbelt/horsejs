@@ -28,11 +28,6 @@ class Horse extends EventEmitter {
       this.emit('viewOverlayCreated', param);
     });
   }
-  private listenClientEvent() {
-    globalThis.clientMessageChannel.on('clientMessage', (param) => {
-      this.emit(param['__wsMsgName'].toString(), param);
-    });
-  }
 
   /**
    * 当有客户端连接到websocket服务会触发指定的事件
@@ -51,7 +46,6 @@ class Horse extends EventEmitter {
       let clientId = arr[arr.length - 1];
       globalThis.clientMessageChannel.init(ws, clientId);
       this.emit('clientReady', ws, req);
-      this.listenClientEvent();
     }
   }
   /**
@@ -86,7 +80,7 @@ class Horse extends EventEmitter {
    * @param callBack
    */
   handle(name: string, callBack: any) {
-    this.on(name, (msg) => {
+    globalThis.clientMessageChannel.on(name, (msg) => {
       let result = callBack(msg);
       result['__wsId'] = msg['__wsId'];
       result['__msgId'] = msg['__msgId'];
@@ -100,14 +94,19 @@ class Horse extends EventEmitter {
    * @param callBack
    */
   handleOnce(name: string, callBack: any) {
-    this.once(name, callBack);
+    globalThis.clientMessageChannel.once(name, (msg) => {
+      let result = callBack(msg);
+      result['__wsId'] = msg['__wsId'];
+      result['__msgId'] = msg['__msgId'];
+      globalThis.clientMessageChannel.sendMsgToClient(result);
+    });
   }
   /**
    * 移除同名所有的handle
    * @param name handle名称
    */
   removeAllHandle(name: string) {
-    this.removeAllListeners(name);
+    globalThis.clientMessageChannel.removeAllListeners(name);
   }
   /**
    * 启动horse

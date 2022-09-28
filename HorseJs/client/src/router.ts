@@ -18,6 +18,10 @@ const routes = [
         path: 'view',
         component: () => import('./Demo/View.vue'),
       },
+      {
+        path: 'invoke',
+        component: () => import('./Demo/Invoke.vue'),
+      },
     ],
   },
 ]

@@ -13,6 +13,11 @@ let menus = ref([
     title: '视图',
     isSelected: false,
   },
+  {
+    path: `/demo/invoke`,
+    title: 'Invoke',
+    isSelected: false,
+  },
 ])
 watch(
   () => route,

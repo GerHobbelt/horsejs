@@ -33,10 +33,6 @@ let openDevTool = async () => {
 let closeDevTool = async () => {
   await view.closeDevTools()
 }
-let handle = async () => {
-  let result = await horse.invoke('testtest', { abc: 'allen1' })
-  console.log(result)
-}
 </script>
 <template>
   <div class="demoBtn" @click="showOpenFileDialog(false)">打开文件对话框（只能选择一个文件）</div>
@@ -45,5 +41,4 @@ let handle = async () => {
   <div class="demoBtn" @click="showSaveFileDialog">保存文件对话框</div>
   <div class="demoBtn" @click="openDevTool">打开调试器窗口</div>
   <div class="demoBtn" @click="closeDevTool">关闭调试器窗口</div>
-  <div class="demoBtn" @click="handle">handle</div>
 </template>
