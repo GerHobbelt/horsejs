@@ -45,7 +45,7 @@ int WindowDelegate::AddOverlayView(const nlohmann::json& overlayViewConfig) {
         overlayViewConfig["a"].get<int>(), 
         overlayViewConfig["b"].get<int>(), 
         overlayViewConfig["c"].get<int>(), 
-        overlayViewConfig["d"].get<int>() 
+        overlayViewConfig["d"].get<int>()
     };
     dockInsets.push_back(dockVal);
 

@@ -4,14 +4,14 @@ import path from 'path';
 import Koa from 'koa';
 import { WebSocketServer, WebSocket } from 'ws';
 import { AddressInfo } from 'net';
-import { config } from './config';
-import fs from 'fs';
+import { Config } from './config';
 import EventEmitter from 'eventemitter3';
 import { spawn } from 'child_process';
 class Horse extends EventEmitter {
-  config = config;
+  config: Config;
+  port: number;
   private initStaticService(app: any) {
-    let staticPath = path.join(__dirname, '../client');
+    let staticPath = path.join(__dirname, 'client');
     app.use(
       serve(staticPath, {
         maxage: 604800000, //7天
@@ -39,8 +39,8 @@ class Horse extends EventEmitter {
   private websocketConnected(ws: WebSocket, req) {
     if (req.url?.endsWith('browser')) {
       globalThis.cefMessageChannel.init(ws);
-      this.emit('browserReady', ws, req);
       this.listenCefEvent();
+      this.emit('browserReady', ws, req);
     } else {
       let arr = req.url.split(`=`);
       let clientId = arr[arr.length - 1];
@@ -58,19 +58,24 @@ class Horse extends EventEmitter {
     let server = http.createServer(app.callback());
     let wss = new WebSocketServer({ server });
     wss.on('connection', (ws, req) => this.websocketConnected(ws, req));
-    server.listen(Number(config.httpAndWebSocketServicePort), 'localhost');
+    this.port = Number(this.config.httpAndWebSocketServicePort);
+    server.listen(this.port, 'localhost');
     server.addListener('listening', () => {
-      let port = (server.address() as AddressInfo).port;
-      console.log(`backend server start:[http://][ws://]localhost:${port}`);
+      this.port = (server.address() as AddressInfo).port;
+      console.log(`backend server start:[http://][ws://]localhost:${this.port}`);
       this.emit('serviceReady', app);
-      this.startBrowserProcess(port);
+      this.startBrowserProcess();
     });
   }
-  private startBrowserProcess(port: number) {
-    //todo 生产环境不需要拷贝
-    let configPath = path.join(__dirname, '../config.json');
-    fs.writeFileSync(configPath, JSON.stringify(this.config));
-    // let childProcess = spawn(config.browser, [], { detached: true, cwd: path.dirname(config.browser) });
+  private startBrowserProcess() {
+    let isDebug = process.argv.includes('--inspect');
+    console.log(process.argv);
+    if (isDebug) return;
+    let cwd = path.join(__dirname, '../cef');
+    let childProcess = spawn(path.join(cwd, 'HorseJs.exe'), [`--horse-port=${this.port}`, ...this.config.chromeSwitch], { cwd });
+    childProcess.on('exit', () => {
+      process.exit();
+    });
   }
   /**
    * 注册handle，处理渲染进程发来的请求。
@@ -111,8 +116,8 @@ class Horse extends EventEmitter {
   /**
    * 启动horse
    */
-  init(config) {
-    Object.assign(this.config, config);
+  init(config: Config) {
+    this.config = config;
     const app = new Koa();
     this.initStaticService(app);
     this.initHttpAndWebSocketService(app);

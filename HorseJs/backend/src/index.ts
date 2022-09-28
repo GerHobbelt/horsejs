@@ -1,11 +1,10 @@
-import { horse, Win, WindowConfig, ViewConfig } from "../../jslib/src/backend";
-import { config } from "../horse.config";
+import { horse, Win, WindowConfig, ViewConfig, config } from "../../jslib/src/backend";
 
 let createWindow = async () => {
   let config = new WindowConfig();
   config.title = "这是我的窗口！！！";
   config.frameless = true;
-  config.url = "http://127.0.0.1:5173/";
+  config.url = `http://localhost:${horse.port}/`;
   let win: Win = await Win.createWindow(config);
   return win;
 };

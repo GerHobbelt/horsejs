@@ -15,10 +15,8 @@ BrowserProcessHandler::~BrowserProcessHandler() {
 }
 BrowserProcessHandler::BrowserProcessHandler(std::string& port) {
     //初始化全局config
-    Config::init();
-    if (port != "") {
-        config["httpAndWebSocketServicePort"] = port;
-    }
+    //Config::init();
+    config["httpAndWebSocketServicePort"] = port;
     //在一个新的线程里启动websocket客户端
     auto websocketClient = WebSocketClient::getInstance();
     websocketClient->run();

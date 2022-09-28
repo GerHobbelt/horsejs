@@ -7,6 +7,7 @@
 /HorseJs/npm/node_modules/**
 /x64/Debug/
 /x64/Release/
+/x64/dist/
 /wxWidgetsRelease/**
 /wxWidgetsDebug/**
 /cefRelease/**
