@@ -4,7 +4,8 @@ let createWindow = async () => {
   let config = new WindowConfig();
   config.title = "这是我的窗口！！！";
   config.frameless = true;
-  config.url = `http://localhost:${horse.port}/`;
+  config.url =
+    process.env.envName === `debug` ? `http://127.0.0.1:5173/` : `http://localhost:${horse.port}/`;
   let win: Win = await Win.createWindow(config);
   return win;
 };

@@ -14,8 +14,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     //为不同进程创建不同的处理对象
     CefRefPtr<CefApp> app;    
     if (!commandLine->HasSwitch("type")) {
-        auto port = commandLine->GetSwitchValue("horse-port").ToString();
-        app = new BrowserProcessHandler(port);
+        app = new BrowserProcessHandler();
     }
     else if (commandLine->GetSwitchValue("type").ToString() == "renderer") {
         //--renderer-startup-dialog

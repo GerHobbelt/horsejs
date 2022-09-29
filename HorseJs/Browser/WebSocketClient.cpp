@@ -5,7 +5,6 @@
 #include "include/cef_task.h"
 #include "include/wrapper/cef_closure_task.h"
 #include "include/base/cef_logging.h"
-#include "../Config.h"
 #include "MessageRouter/WindowRouter.h"
 #include "MessageRouter/ViewRouter.h"
 #include "MessageRouter/AppRouter.h"
@@ -28,7 +27,8 @@ WebSocketClient::~WebSocketClient() {
     delete wsThread;
 }
 void WebSocketClient::listen() {
-    std::string port = config["httpAndWebSocketServicePort"].get<std::string>();
+    auto cmdLine = CefCommandLine::GetGlobalCommandLine();
+    auto port = cmdLine->GetSwitchValue("horse-port").ToString();
     auto uri = "ws://localhost:" + port + "/?client=browser";
     //c.set_access_channels(websocketpp::log::alevel::all);
     //c.clear_access_channels(websocketpp::log::alevel::frame_payload);

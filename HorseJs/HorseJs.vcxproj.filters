@@ -24,9 +24,6 @@
     <ClCompile Include="Render\V8Handler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Config.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Browser\WebSocketClient.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -63,9 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json\json.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Config.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Browser\MessageProcessor\PageHandler.h">
@@ -110,5 +104,18 @@
     <ClInclude Include="Browser\MessageProcessor\DialogCallback.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HorseJs.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\resource\icon.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

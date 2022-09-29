@@ -3,7 +3,6 @@
 #include "../WebSocketClient.h"
 #include "../MessageProcessor/PageHandler.h"
 #include "../MessageProcessor/DialogCallback.h"
-#include "../../Config.h"
 namespace {
 	CefRefPtr<ViewRouter> instance = nullptr;
 }
@@ -22,7 +21,8 @@ CefRefPtr<CefBrowserView> ViewRouter::createView(std::string& url,int winId,int 
 	//CefRefPtr<ViewDelegate> viewDelegate = new ViewDelegate();
 	CefRefPtr<CefDictionaryValue> extraInfo = CefDictionaryValue::Create();
 	auto viewId = views.size();
-	auto port = config["httpAndWebSocketServicePort"].get<std::string>();
+	auto cmdLine = CefCommandLine::GetGlobalCommandLine();
+	auto port = cmdLine->GetSwitchValue("horse-port").ToString();
 	nlohmann::json horse = { {"curViewId",viewId},{"mainViewId",mainViewId},{"winId",winId},{"port",port} };
 	std::string horseStr = horse.dump();
 	extraInfo->SetString("horse", horseStr);

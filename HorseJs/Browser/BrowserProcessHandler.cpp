@@ -13,17 +13,12 @@ BrowserProcessHandler::~BrowserProcessHandler() {
     WindowRouter::getInstance() = nullptr;
     WebSocketClient::getInstance() = nullptr;
 }
-BrowserProcessHandler::BrowserProcessHandler(std::string& port) {
-    //初始化全局config
-    //Config::init();
-    config["httpAndWebSocketServicePort"] = port;
-    //在一个新的线程里启动websocket客户端
-    auto websocketClient = WebSocketClient::getInstance();
-    websocketClient->run();
-}
 /// <summary>
 /// CEF主进程上下文环境初始化成功
 /// </summary>
 void BrowserProcessHandler::OnContextInitialized() {
+    //在一个新的线程里启动websocket客户端
+    auto websocketClient = WebSocketClient::getInstance();
+    websocketClient->run();
     CEF_REQUIRE_UI_THREAD();
 }

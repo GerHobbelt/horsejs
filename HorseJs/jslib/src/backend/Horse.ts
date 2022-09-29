@@ -58,8 +58,8 @@ class Horse extends EventEmitter {
     let server = http.createServer(app.callback());
     let wss = new WebSocketServer({ server });
     wss.on('connection', (ws, req) => this.websocketConnected(ws, req));
-    this.port = Number(this.config.httpAndWebSocketServicePort);
-    server.listen(this.port, 'localhost');
+    let port = process.env.envName === `debug` ? `5916` : `0`;
+    server.listen(Number(port), 'localhost');
     server.addListener('listening', () => {
       this.port = (server.address() as AddressInfo).port;
       console.log(`backend server start:[http://][ws://]localhost:${this.port}`);
@@ -68,9 +68,7 @@ class Horse extends EventEmitter {
     });
   }
   private startBrowserProcess() {
-    let isDebug = process.argv.includes('--inspect');
-    console.log(process.argv);
-    if (isDebug) return;
+    if (process.env.envName === `debug`) return;
     let cwd = path.join(__dirname, '../cef');
     let childProcess = spawn(path.join(cwd, 'HorseJs.exe'), [`--horse-port=${this.port}`, ...this.config.chromeSwitch], { cwd });
     childProcess.on('exit', () => {
