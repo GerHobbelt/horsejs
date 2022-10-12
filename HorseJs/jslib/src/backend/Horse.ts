@@ -67,6 +67,10 @@ class Horse extends EventEmitter {
       this.startBrowserProcess();
     });
   }
+  /**
+   * 启动CEF进程
+   * @returns
+   */
   private startBrowserProcess() {
     if (process.env.envName === `debug`) return;
     let cwd = path.join(__dirname, '../cef');
