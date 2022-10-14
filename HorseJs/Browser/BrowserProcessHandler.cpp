@@ -3,7 +3,6 @@
 #include "MessageProcessor/PageHandler.h"
 #include "MessageRouter/ViewRouter.h"
 #include "MessageRouter/WindowRouter.h"
-//#include "../json/json.hpp"
 
 //todo 使用系统代理或不试用系统代理
 //todo log的级别，网页里的日志也会输出
