@@ -1,1 +1,0 @@
-process.env.envName = "debug";
