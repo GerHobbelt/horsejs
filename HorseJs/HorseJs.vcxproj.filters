@@ -18,104 +18,25 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Browser\MessageProcessor\PageHandler.cpp">
+    <ClCompile Include="WindowNative.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Render\V8Handler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser\WebSocketClient.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser\BrowserProcessHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\RenderProcessHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Other\OtherProcessHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser\MessageProcessor\WindowDelegate.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser\MessageProcessor\WindowPopupDelegate.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser\MessageRouter\WindowRouter.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser\MessageRouter\ViewRouter.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser\MessageProcessor\ViewDelegate.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser\MessageRouter\AppRouter.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser\MessageProcessor\DialogCallback.cpp">
+    <ClCompile Include="WindowBase.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="json\json.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\MessageProcessor\PageHandler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\V8Handler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\WebSocketClient.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\ReleaseCallback.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\BrowserProcessHandler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\RenderProcessHandler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Other\OtherProcessHandler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\MessageProcessor\WindowDelegate.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\MessageProcessor\WindowPopupDelegate.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\MessageRouter\WindowRouter.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\MessageRouter\ViewRouter.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\MessageProcessor\ViewDelegate.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\MessageRouter\AppRouter.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser\MessageProcessor\DialogCallback.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="HorseJs.rc">
-      <Filter>资源文件</Filter>
-    </ResourceCompile>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\resource\icon.ico">
-      <Filter>资源文件</Filter>
-    </Image>
+    <ClInclude Include="WindowNative.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
