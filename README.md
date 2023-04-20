@@ -108,9 +108,3 @@ await horse.window.openDevTool();
 微信收款码
 
 > 如果赞助者希望把名字添加到 HorseJs 主页，可以通过 QQ （412588801）联系我
-
-# 作者新书
-
-《深入浅出 Electron》(刚刚上架)
-
-<img src="Doc/shupi.jpg" />
