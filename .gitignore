@@ -1,3 +1,19 @@
+/.vs/**
+/HorseJs/.vs/**
+/HorseJs/cef/**
+/HorseJs/GPUCache/**
+/HorseJs/x64/**
+/Horse/x64/**
+/HorseJs/npm/node_modules/**
+/x64/Debug/
+/x64/Release/
+/x64/dist/
+/wxWidgetsRelease/**
+/wxWidgetsDebug/**
+/cefRelease/**
+/cefDebug/**
+/enc_temp_folder/**
+/HorseJs/extension/extension.js
 # Prerequisites
 *.d
 
@@ -30,3 +46,13 @@
 *.exe
 *.out
 *.app
+
+HorseJs/npm/dist/horse.js
+HorseJs/npm/app/index.js
+HorseJs/npm/app/demo.js
+
+HorseJs/jslib/node_modules/
+HorseJs/backend/node_modules/
+HorseJs/backend/debug/
+HorseJs/backend/release/
+packages/
