@@ -29,9 +29,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="WindowNative.h">
       <Filter>头文件</Filter>
     </ClInclude>

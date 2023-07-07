@@ -61,11 +61,11 @@ HRESULT WindowNative::CreateBrowserView(HRESULT result, ICoreWebView2Controller*
 	// Schedule an async task to add initialization script that
 	// 1) Add an listener to print message from the host
 	// 2) Post document URL to the host
-	webview->AddScriptToExecuteOnDocumentCreated(
-		L"window.chrome.webview.addEventListener(\'message\', event => alert(event.data));" \
-		L"window.chrome.webview.postMessage(window.document.URL);",
-		nullptr);
-	webview->OpenDevToolsWindow();
+	//webview->AddScriptToExecuteOnDocumentCreated(
+	//	L"window.chrome.webview.addEventListener(\'message\', event => alert(event.data));" \
+	//	L"window.chrome.webview.postMessage(window.document.URL);",
+	//	nullptr);
+	//webview->OpenDevToolsWindow();
 	return S_OK;
 }
 
