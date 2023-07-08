@@ -154,6 +154,19 @@
     <ClCompile Include="WindowNative.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="app\app.json">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\index.html">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\js\index.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\js</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\js</DestinationFolders>
+    </CopyFileToFolders>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

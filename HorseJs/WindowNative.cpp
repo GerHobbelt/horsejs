@@ -14,6 +14,7 @@ namespace {
 using namespace Microsoft::WRL;
 WindowNative::WindowNative() {
 	auto envCB = [this](HRESULT result, ICoreWebView2Environment* env) -> HRESULT {
+
 		auto ctrlCBInstance = Callback<ICoreWebView2CreateCoreWebView2ControllerCompletedHandler>(this,&WindowNative::CreateBrowserView);
 		env->CreateCoreWebView2Controller(hWnd, ctrlCBInstance.Get());
 		return S_OK;

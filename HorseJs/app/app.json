@@ -1,0 +1,40 @@
+{
+    "logEnable":true,
+    "schema":"app", 
+    "window":{
+        "frame":false,
+        "visible":false,
+        "size":{        
+            "width":800,
+            "height":600,
+            "resizable":true,
+            "sizeMin":{        
+                "width":400,
+                "height":300
+            },
+            "sizeMax":{        
+                "width":-1,
+                "height":-1
+            }
+        },
+        "position":{
+            "isCenterScreen":true,
+            "movable":true,   
+            "x":-1,
+            "y":-1
+        },
+        "closable":true,
+        "alwaysOnTop":false,
+        "fullscreen":false,
+        "fullscreenable":"true",
+        "skipTaskbar":false,
+        "title":"HorseJs Demo",
+        "icon":"",
+        "hasShadow":true,
+        "opacity":1,
+        "devToolsEnable":true,
+        "page":{
+            "url":"/index.html"
+        }
+    }
+}
