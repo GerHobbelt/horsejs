@@ -1,0 +1,8 @@
+getPosition
+setPosition
+setCenterScreen
+getSize
+setSize
+minimize
+maximize
+close
