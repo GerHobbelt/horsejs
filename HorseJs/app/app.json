@@ -1,6 +1,8 @@
 {
     "logEnable":true,
     "schema":"app", 
+    "appName":"测试应用",
+    "icon":"",
     "window":{
         "frame":false,
         "visible":false,
