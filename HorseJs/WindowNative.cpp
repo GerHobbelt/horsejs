@@ -16,14 +16,17 @@ WindowNative::WindowNative() {
 	auto envCB = [this](HRESULT result, ICoreWebView2Environment* env) -> HRESULT {
 
 		auto ctrlCBInstance = Callback<ICoreWebView2CreateCoreWebView2ControllerCompletedHandler>(this,&WindowNative::CreateBrowserView);
+		//2
 		env->CreateCoreWebView2Controller(hWnd, ctrlCBInstance.Get());
 		return S_OK;
 	};
 	auto envCBInstance = Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>(envCB);
+	//1
 	CreateCoreWebView2EnvironmentWithOptions(nullptr, nullptr, nullptr, envCBInstance.Get());
 }
 
 HRESULT WindowNative::CreateBrowserView(HRESULT result, ICoreWebView2Controller* controller) {
+	//3
 	if (controller != nullptr) {
 		webviewController = controller;
 		webviewController->get_CoreWebView2(&webview);

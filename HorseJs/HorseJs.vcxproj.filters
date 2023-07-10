@@ -344,7 +344,7 @@
     <ClInclude Include="log\version.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="json\json.hpp">
+    <ClInclude Include="json.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -170,7 +170,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="json\json.hpp" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="log\async.h" />
     <ClInclude Include="log\async_logger-inl.h" />
     <ClInclude Include="log\async_logger.h" />

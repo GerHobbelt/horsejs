@@ -6,4 +6,5 @@
     - 依据`app.config`的信息，初始化第一个窗口和第一个页面
 
 - 已完成
+    - 通过HorseCmd.exe启动HorseJs.exe
     - 检查注册表，验证系统环境是否具备Microsoft Edge WebView2 Runtime

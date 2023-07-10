@@ -2,20 +2,18 @@
 #include <dwmapi.h>
 #include "WindowBase.h"
 
-namespace {
-    static LRESULT CALLBACK RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-        if (msg == WM_NCCREATE)
-        {
-            //虽然窗口消息处理类实例指针被保存在窗口的extra data区域，
-            //但RouteWindowMessage首次被调用时，还不能通过GetWindowLongPtrW得到这个指针，
-            //所以必须要再设置一次
-            CREATESTRUCT* pCS = reinterpret_cast<CREATESTRUCT*>(lParam);
-            LPVOID pThis = pCS->lpCreateParams;
-            SetWindowLongPtr(hWnd, 0, reinterpret_cast<LONG_PTR>(pThis));
-        }
-        WindowBase* pWnd = reinterpret_cast<WindowBase*>(GetWindowLongPtrW(hWnd, 0));
-        return pWnd->WindowProc(hWnd, msg, wParam, lParam);
+LRESULT CALLBACK WindowBase::RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+    if (msg == WM_NCCREATE)
+    {
+        //虽然窗口消息处理类实例指针被保存在窗口的extra data区域，
+        //但RouteWindowMessage首次被调用时，还不能通过GetWindowLongPtrW得到这个指针，
+        //所以必须要再设置一次
+        CREATESTRUCT* pCS = reinterpret_cast<CREATESTRUCT*>(lParam);
+        LPVOID pThis = pCS->lpCreateParams;
+        SetWindowLongPtr(hWnd, 0, reinterpret_cast<LONG_PTR>(pThis));
     }
+    WindowBase* pWnd = reinterpret_cast<WindowBase*>(GetWindowLongPtrW(hWnd, 0));
+    return pWnd->WindowProc(hWnd, msg, wParam, lParam);
 }
 
 WindowBase::WindowBase() {
@@ -27,9 +25,9 @@ void WindowBase::CreateWindowFrameless() {
     wcx.cbSize = sizeof(wcx);
     wcx.style = CS_HREDRAW | CS_VREDRAW;
     wcx.hInstance = nullptr;
-    wcx.lpfnWndProc = &RouteWindowMessage;
+    wcx.lpfnWndProc = &WindowBase::RouteWindowMessage;
     wcx.lpszClassName = L"BorderlessWindowClass";
-    wcx.hbrBackground = CreateSolidBrush(RGB(226, 160, 160));
+    wcx.hbrBackground = NULL;
     wcx.hCursor = ::LoadCursorW(nullptr, IDC_ARROW);
     wcx.cbWndExtra = sizeof(WindowBase*);
     ::RegisterClassEx(&wcx);

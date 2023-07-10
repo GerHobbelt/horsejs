@@ -1,8 +1,32 @@
 #include <windows.h>
 #include "WindowNative.h"
+#include "json.hpp"
 #include <shellapi.h>
-
-
+#include <fstream>
+#include <filesystem>
+using nlohmann::json;
+void readFile()
+{
+//std::wstring buffer;            // stores file contents
+//FILE* f;
+//_wfopen_s(&f, L"build.json", L"rtS, ccs=UTF-8");
+//// Failed to open file
+//if (f == NULL)
+//{
+//    // ...handle some error...
+//}
+//struct _stat fileinfo;
+//_wstat(L"build.json", &fileinfo);
+//size_t filesize = fileinfo.st_size;
+//if (filesize > 0)
+//{
+//    buffer.resize(filesize);
+//    size_t wchars_read = fread(&(buffer.front()), sizeof(wchar_t), filesize, f);
+//    buffer.resize(wchars_read);
+//    buffer.shrink_to_fit();
+//}
+//fclose(f);
+}
 
 bool checkOnRegKey(const HKEY& key, const std::wstring& subKey) {
     bool hasRuntime = true;
@@ -45,11 +69,25 @@ bool checkRuntime()
     return true;
 }
 
+static json config;
+void initConfig()
+{
+    std::string buffer;
+    std::ifstream f("app/app.json");
+    f.seekg(0, std::ios::end);
+    buffer.resize(f.tellg());
+    f.seekg(0);
+    f.read(buffer.data(), buffer.size());
+    config = json::parse(buffer);
+}
+
+
 //entry point
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)
 {
     auto flag = checkRuntime();
     if (!flag) return 0;
+    initConfig();
     WindowNative win;
     MSG msg;
     while (GetMessage(&msg, nullptr, 0, 0) == TRUE) {
