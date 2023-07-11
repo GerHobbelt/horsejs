@@ -1,12 +1,16 @@
 #include "App.h"
 
 namespace {
-	std::shared_ptr<App> app;
+	static std::shared_ptr<App> app;
 }
 
 App::App()
 {
-	pageEnvironment = std::make_unique<PageEnvironment>();
+	auto win = std::make_shared<Window>();
+	windows.push_back(win);
+	PageEnvironment::Init([&win]() {
+		win->CreatePageController();
+	});
 }
 App::~App()
 {

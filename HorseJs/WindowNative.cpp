@@ -73,7 +73,8 @@ HRESULT WindowNative::CreateBrowserView(HRESULT result, ICoreWebView2Controller*
 	return S_OK;
 }
 
-HRESULT WindowNative::NavigationStarting(ICoreWebView2* webview, ICoreWebView2NavigationStartingEventArgs* args){
+HRESULT WindowNative::NavigationStarting(ICoreWebView2* webview, ICoreWebView2NavigationStartingEventArgs* args)
+{
 	wil::unique_cotaskmem_string uri;
 	args->get_Uri(&uri);
 	std::wstring source(uri.get());

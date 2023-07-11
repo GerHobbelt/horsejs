@@ -2,6 +2,8 @@
 #include <dwmapi.h>
 #include "Window.h"
 
+
+using namespace Microsoft::WRL;
 LRESULT CALLBACK Window::RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_NCCREATE)
     {
@@ -32,12 +34,32 @@ void Window::CreateWindowFrameless() {
     wcx.cbWndExtra = sizeof(Window*);
     ::RegisterClassEx(&wcx);
     auto borderlessStyle = WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_VISIBLE;
-    hWnd = CreateWindowEx(0, wcx.lpszClassName, L"窗口标题", borderlessStyle, CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, nullptr, nullptr, nullptr, static_cast<LPVOID>(this));
-    ::SetWindowLongPtr(hWnd, GWL_STYLE, borderlessStyle);
+    hwnd = CreateWindowEx(0, wcx.lpszClassName, L"窗口标题", borderlessStyle, CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, nullptr, nullptr, nullptr, static_cast<LPVOID>(this));
+    ::SetWindowLongPtr(hwnd, GWL_STYLE, borderlessStyle);
     static const MARGINS shadow_state{ 1,1,1,1 };
-    ::DwmExtendFrameIntoClientArea(hWnd, &shadow_state);
-    ::SetWindowPos(hWnd, nullptr, 110, 110, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE);
+    ::DwmExtendFrameIntoClientArea(hwnd, &shadow_state);
+    ::SetWindowPos(hwnd, nullptr, 110, 110, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE);
 }
+void Window::CreatePageController()
+{
+    auto callBackInstance = Callback<ICoreWebView2CreateCoreWebView2ControllerCompletedHandler>(this, &Window::pageCtrlCallBack);
+    PageEnvironment::Get()->Environment->CreateCoreWebView2Controller(hwnd, callBackInstance.Get());
+
+
+    
+}
+
+
+HRESULT Window::pageCtrlCallBack(HRESULT result, ICoreWebView2Controller* controller)
+{
+    auto ctrl = std::make_shared<PageController>(controller);
+    controllers.push_back(ctrl);
+    RECT bounds;
+    GetClientRect(hwnd, &bounds); //todo 多个ctrl
+    controller->put_Bounds(bounds);
+    return S_OK;
+}
+
 
 LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {    
     switch (msg) {
@@ -61,8 +83,8 @@ LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 }
 LRESULT Window::HitTest(HWND hwnd, POINT cursor) {
     const POINT border{
-        ::GetSystemMetrics(SM_CXFRAME) + ::GetSystemMetrics(SM_CXPADDEDBORDER),
-        ::GetSystemMetrics(SM_CYFRAME) + ::GetSystemMetrics(SM_CXPADDEDBORDER)
+        GetSystemMetrics(SM_CXFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER),
+        GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)
     };
     RECT winRect;
     if (!::GetWindowRect(hwnd, &winRect)) return HTNOWHERE;

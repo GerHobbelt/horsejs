@@ -1,17 +1,21 @@
 #pragma once
 #include <Windows.h>
+#include "PageController.h"
 class Window
 {
 public:
 	Window();
-	Window(const WindowBase&) = delete;
-	Window& operator=(const WindowBase&) = delete;
-	static LRESULT CALLBACK RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	Window(const Window&) = delete;
+	Window& operator=(const Window&) = delete;
+	static LRESULT CALLBACK RouteWindowMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 	LRESULT HitTest(HWND hwnd, POINT cursor);
-	HWND hWnd;
+	void CreatePageController();
+	HWND hwnd;
 	
 private:
 	void CreateWindowFrameless();
+	HRESULT pageCtrlCallBack(HRESULT result, ICoreWebView2Controller* controller);
+	std::vector<std::shared_ptr<PageController>> controllers;
 };
 
