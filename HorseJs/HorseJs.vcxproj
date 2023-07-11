@@ -149,8 +149,12 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="WindowBase.cpp" />
+    <ClCompile Include="Page.cpp" />
+    <ClCompile Include="PageController.cpp" />
+    <ClCompile Include="PageEnvironment.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowNative.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +174,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Global.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="log\async.h" />
     <ClInclude Include="log\async_logger-inl.h" />
@@ -274,7 +279,10 @@
     <ClInclude Include="log\stopwatch.h" />
     <ClInclude Include="log\tweakme.h" />
     <ClInclude Include="log\version.h" />
-    <ClInclude Include="WindowBase.h" />
+    <ClInclude Include="Page.h" />
+    <ClInclude Include="PageController.h" />
+    <ClInclude Include="PageEnvironment.h" />
+    <ClInclude Include="Window.h" />
     <ClInclude Include="WindowNative.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

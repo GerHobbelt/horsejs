@@ -21,7 +21,19 @@
     <ClCompile Include="WindowNative.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="WindowBase.cpp">
+    <ClCompile Include="Window.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PageController.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Page.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PageEnvironment.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,7 +44,7 @@
     <ClInclude Include="WindowNative.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="WindowBase.h">
+    <ClInclude Include="Window.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="log\cfg\argv.h">
@@ -345,6 +357,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="json.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PageController.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Page.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PageEnvironment.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

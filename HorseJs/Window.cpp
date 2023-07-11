@@ -1,8 +1,8 @@
 #include <windowsx.h>
 #include <dwmapi.h>
-#include "WindowBase.h"
+#include "Window.h"
 
-LRESULT CALLBACK WindowBase::RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK Window::RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_NCCREATE)
     {
         //虽然窗口消息处理类实例指针被保存在窗口的extra data区域，
@@ -12,24 +12,24 @@ LRESULT CALLBACK WindowBase::RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wPar
         LPVOID pThis = pCS->lpCreateParams;
         SetWindowLongPtr(hWnd, 0, reinterpret_cast<LONG_PTR>(pThis));
     }
-    WindowBase* pWnd = reinterpret_cast<WindowBase*>(GetWindowLongPtrW(hWnd, 0));
+    Window* pWnd = reinterpret_cast<Window*>(GetWindowLongPtrW(hWnd, 0));
     return pWnd->WindowProc(hWnd, msg, wParam, lParam);
 }
 
-WindowBase::WindowBase() {
+Window::Window() {
     CreateWindowFrameless();
 }
 
-void WindowBase::CreateWindowFrameless() {
+void Window::CreateWindowFrameless() {
     WNDCLASSEXW wcx{};
     wcx.cbSize = sizeof(wcx);
     wcx.style = CS_HREDRAW | CS_VREDRAW;
     wcx.hInstance = nullptr;
-    wcx.lpfnWndProc = &WindowBase::RouteWindowMessage;
+    wcx.lpfnWndProc = &Window::RouteWindowMessage;
     wcx.lpszClassName = L"BorderlessWindowClass";
     wcx.hbrBackground = NULL;
     wcx.hCursor = ::LoadCursorW(nullptr, IDC_ARROW);
-    wcx.cbWndExtra = sizeof(WindowBase*);
+    wcx.cbWndExtra = sizeof(Window*);
     ::RegisterClassEx(&wcx);
     auto borderlessStyle = WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_VISIBLE;
     hWnd = CreateWindowEx(0, wcx.lpszClassName, L"窗口标题", borderlessStyle, CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, nullptr, nullptr, nullptr, static_cast<LPVOID>(this));
@@ -39,7 +39,7 @@ void WindowBase::CreateWindowFrameless() {
     ::SetWindowPos(hWnd, nullptr, 110, 110, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE);
 }
 
-LRESULT CALLBACK WindowBase::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {    
+LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {    
     switch (msg) {
         case WM_NCCALCSIZE: {
             return 0;
@@ -59,7 +59,7 @@ LRESULT CALLBACK WindowBase::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
     }
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
-LRESULT WindowBase::HitTest(HWND hwnd, POINT cursor) {
+LRESULT Window::HitTest(HWND hwnd, POINT cursor) {
     const POINT border{
         ::GetSystemMetrics(SM_CXFRAME) + ::GetSystemMetrics(SM_CXPADDEDBORDER),
         ::GetSystemMetrics(SM_CYFRAME) + ::GetSystemMetrics(SM_CXPADDEDBORDER)

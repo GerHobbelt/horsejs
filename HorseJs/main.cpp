@@ -28,9 +28,8 @@ void readFile()
 //fclose(f);
 }
 
-bool checkOnRegKey(const HKEY& key, const std::wstring& subKey) {
-    bool hasRuntime = true;
-    size_t bufferSize = 18;
+bool checkRegKey(const HKEY& key, const std::wstring& subKey) {
+    size_t bufferSize = 20; //每位4个，共4位，加3个点，再多给一位，后面会截掉多余的
     std::wstring valueBuf;
     valueBuf.resize(bufferSize);
     auto valueSize = static_cast<DWORD>(bufferSize * sizeof(wchar_t));
@@ -40,24 +39,24 @@ bool checkOnRegKey(const HKEY& key, const std::wstring& subKey) {
     if (rc == ERROR_SUCCESS)
     {
         valueSize /= sizeof(wchar_t);
-        valueBuf.resize(static_cast<size_t>(valueSize - 1));
+        valueBuf.resize(static_cast<size_t>(valueSize - 1));//todo 这个版本号可能有用
         if (valueBuf.empty() || valueBuf == L"0.0.0.0") {
-            hasRuntime = false;
+            return false;
         }
     }
     else
     {
-        hasRuntime = false;
+        return false;
     }
-    return hasRuntime;
+    return true;
 }
 
 bool checkRuntime()
 {
     std::wstring regSubKey = L"\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}";
-    bool hasRuntime = checkOnRegKey(HKEY_LOCAL_MACHINE, L"SOFTWARE\\WOW6432Node"+regSubKey);
+    bool hasRuntime = checkRegKey(HKEY_LOCAL_MACHINE, L"SOFTWARE\\WOW6432Node"+regSubKey);
     if (hasRuntime) return true;
-    hasRuntime = checkOnRegKey(HKEY_CURRENT_USER, L"Software"+regSubKey);
+    hasRuntime = checkRegKey(HKEY_CURRENT_USER, L"Software"+regSubKey);
     if (!hasRuntime) {
         auto result = MessageBox(nullptr, L"您得系统中缺少必要组件，现在为您打开下载链接，下载相关组件？", 
             L"系统提示", MB_OKCANCEL | MB_ICONINFORMATION | MB_DEFBUTTON1);
