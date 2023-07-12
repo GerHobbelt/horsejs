@@ -1,7 +1,7 @@
 #include "App.h"
 
 namespace {
-	static std::shared_ptr<App> app;
+	static App* app;
 }
 
 App::App()
@@ -17,11 +17,15 @@ App::~App()
 
 }
 void App::Init() {
-	if (app.get()) {
+	if (app) {
 		return;
 	}
-	app = std::make_unique<App>();
+	app = new App();
 }
-std::shared_ptr<App> App::Get() {
+App* App::Get() {
 	return app;
+}
+void App::Dispose()
+{
+	delete app;
 }

@@ -1,4 +1,5 @@
 #include "Page.h"
+using namespace Microsoft::WRL;
 
 Page::Page(wil::com_ptr<ICoreWebView2> webview):webview{ webview }
 {
@@ -9,8 +10,51 @@ Page::Page(wil::com_ptr<ICoreWebView2> webview):webview{ webview }
 	settings->put_IsWebMessageEnabled(TRUE);
 	// Schedule an async task to navigate to Bing
 	webview->Navigate(L"https://www.baidu.com/");
+
+
+	EventRegistrationToken token;
+	auto navigateCB = Callback<ICoreWebView2NavigationStartingEventHandler>(this, &Page::navigationStarting);
+	webview->add_NavigationStarting(navigateCB.Get(), &token);
+
+
+	auto messageReceivedCB = Callback<ICoreWebView2WebMessageReceivedEventHandler>(this, &Page::messageReceived);
+	webview->add_WebMessageReceived(messageReceivedCB.Get(),&token);
 }
 Page::~Page()
 {
 
+}
+
+HRESULT Page::messageReceived(ICoreWebView2* webview, ICoreWebView2WebMessageReceivedEventArgs* args)
+{
+	wil::unique_cotaskmem_string message;
+	args->TryGetWebMessageAsString(&message);
+	// processMessage(&message);
+	webview->PostWebMessageAsString(message.get());
+	return S_OK;
+}
+
+HRESULT Page::navigationStarting(ICoreWebView2* webview, ICoreWebView2NavigationStartingEventArgs* args)
+{
+	//wil::unique_cotaskmem_string uri;
+	//args->get_Uri(&uri);
+	//std::wstring source(uri.get());
+	//if (source.substr(0, 5) != L"https") {
+	//	args->put_Cancel(true);
+	//}
+	return S_OK;
+}
+void Page::OpenDevTools()
+{
+	webview->OpenDevToolsWindow();
+}
+void Page::ExecuteScript()
+{
+	//webview->AddScriptToExecuteOnDocumentCreated(L"Object.freeze(Object);", nullptr);
+	//webview->ExecuteScript(L"window.document.URL;", Callback<ICoreWebView2ExecuteScriptCompletedHandler>(
+	//	[](HRESULT errorCode, LPCWSTR resultObjectAsJson) -> HRESULT {
+	//		LPCWSTR URL = resultObjectAsJson;
+	//		//doSomethingWithURL(URL);
+	//		return S_OK;
+	//	}).Get());
 }

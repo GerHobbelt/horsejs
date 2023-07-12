@@ -8,7 +8,8 @@ class App
 public:
 	~App();
 	static void Init();
-	static std::shared_ptr<App> Get();
+	static void Dispose();
+	static App* Get();
 private:
 	App();
 	std::vector<std::shared_ptr<Window>> windows;

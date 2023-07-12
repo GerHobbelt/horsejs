@@ -1,9 +1,9 @@
 #include <windows.h>
-#include "WindowNative.h"
 #include "json.hpp"
 #include <shellapi.h>
 #include <fstream>
 #include <filesystem>
+#include "App.h"
 using nlohmann::json;
 void readFile()
 {
@@ -87,11 +87,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     auto flag = checkRuntime();
     if (!flag) return 0;
     initConfig();
-    WindowNative win;
+    App::Init();
     MSG msg;
     while (GetMessage(&msg, nullptr, 0, 0) == TRUE) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
+    App::Dispose();
     return 0;
 }

@@ -155,7 +155,6 @@
     <ClCompile Include="PageController.cpp" />
     <ClCompile Include="PageEnvironment.cpp" />
     <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WindowNative.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="app\app.json">
@@ -283,7 +282,6 @@
     <ClInclude Include="PageController.h" />
     <ClInclude Include="PageEnvironment.h" />
     <ClInclude Include="Window.h" />
-    <ClInclude Include="WindowNative.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

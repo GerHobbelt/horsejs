@@ -10,5 +10,7 @@ public:
 	ICoreWebView2Controller* Controller;
 	std::shared_ptr<Page> page;
 private:
+
+
 };
 

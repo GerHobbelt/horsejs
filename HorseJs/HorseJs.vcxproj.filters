@@ -18,9 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="WindowNative.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -41,9 +38,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WindowNative.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>头文件</Filter>
     </ClInclude>
