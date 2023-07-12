@@ -33,7 +33,7 @@
     <ClCompile Include="PageEnvironment.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Global.cpp">
+    <ClCompile Include="App.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -368,7 +368,7 @@
     <ClInclude Include="PageEnvironment.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Global.h">
+    <ClInclude Include="App.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

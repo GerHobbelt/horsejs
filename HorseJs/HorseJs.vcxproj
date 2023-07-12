@@ -149,7 +149,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Global.cpp" />
+    <ClCompile Include="App.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Page.cpp" />
     <ClCompile Include="PageController.cpp" />
@@ -174,7 +174,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Global.h" />
+    <ClInclude Include="App.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="log\async.h" />
     <ClInclude Include="log\async_logger-inl.h" />
