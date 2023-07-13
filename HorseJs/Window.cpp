@@ -7,15 +7,12 @@ using namespace Microsoft::WRL;
 LRESULT CALLBACK Window::RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_NCCREATE)
     {
-        //虽然窗口消息处理类实例指针被保存在窗口的extra data区域，
-        //但RouteWindowMessage首次被调用时，还不能通过GetWindowLongPtrW得到这个指针，
-        //所以必须要再设置一次
         CREATESTRUCT* pCS = reinterpret_cast<CREATESTRUCT*>(lParam);
         LPVOID pThis = pCS->lpCreateParams;
         SetWindowLongPtr(hWnd, 0, reinterpret_cast<LONG_PTR>(pThis));
     }
-    Window* pWnd = reinterpret_cast<Window*>(GetWindowLongPtrW(hWnd, 0));
-    return pWnd->WindowProc(hWnd, msg, wParam, lParam);
+    auto obj = reinterpret_cast<Window*>(GetWindowLongPtrW(hWnd, 0));
+    return obj->WindowProc(hWnd, msg, wParam, lParam);
 }
 
 Window::Window(const HINSTANCE& hInstance) {
@@ -34,7 +31,7 @@ void Window::createWindow(const HINSTANCE& hInstance)
     wcx.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
     wcx.hCursor = LoadCursor(hInstance, IDC_ARROW);
     wcx.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcx.lpszClassName = L"BorderWindowClass";
+    wcx.lpszClassName = L"HorseJs";
     if (!RegisterClassEx(&wcx))
     {
         MessageBox(NULL, L"RegisterClassEx failed!", L"系统提示", NULL);
