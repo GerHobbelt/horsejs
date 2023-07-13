@@ -1,6 +1,7 @@
 #include <windowsx.h>
 #include <dwmapi.h>
 #include "Window.h"
+#include "PageEnvironment.h"
 
 
 using namespace Microsoft::WRL;
@@ -43,16 +44,13 @@ void Window::CreateWindowFrameless() {
 void Window::CreatePageController()
 {
     auto callBackInstance = Callback<ICoreWebView2CreateCoreWebView2ControllerCompletedHandler>(this, &Window::pageCtrlCallBack);
-    PageEnvironment::Get()->Environment->CreateCoreWebView2Controller(hwnd, callBackInstance.Get());
-
-
-    
+    PageEnvironment::Get()->Environment->CreateCoreWebView2Controller(hwnd, callBackInstance.Get());    
 }
 
 
 HRESULT Window::pageCtrlCallBack(HRESULT result, ICoreWebView2Controller* controller)
 {
-    auto ctrl = std::make_shared<PageController>(controller);
+    auto ctrl = new PageController(controller);
     controllers.push_back(ctrl);
     RECT bounds;
     GetClientRect(hwnd, &bounds); //todo ¶à¸öctrl

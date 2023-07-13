@@ -1,8 +1,8 @@
 #pragma once
-#include "Window.h"
 #include "PageEnvironment.h"
 #include <memory>
 #include <vector>
+#include "Window.h"
 class App
 {
 public:
@@ -12,6 +12,6 @@ public:
 	static App* Get();
 private:
 	App();
-	std::vector<std::shared_ptr<Window>> windows;
+	std::vector<Window *> windows;
 };
 

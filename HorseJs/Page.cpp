@@ -27,10 +27,10 @@ Page::~Page()
 
 HRESULT Page::messageReceived(ICoreWebView2* webview, ICoreWebView2WebMessageReceivedEventArgs* args)
 {
-	wil::unique_cotaskmem_string message;
-	args->TryGetWebMessageAsString(&message);
+	//wil::unique_cotaskmem_string message;
+	//args->TryGetWebMessageAsString(&message);
 	// processMessage(&message);
-	webview->PostWebMessageAsString(message.get());
+	//webview->PostWebMessageAsString(message.get());
 	return S_OK;
 }
 

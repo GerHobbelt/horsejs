@@ -84,6 +84,10 @@ void initConfig()
 //entry point
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)
 {
+    auto result = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+    if (result != S_OK) {
+        return 0;
+    }
     auto flag = checkRuntime();
     if (!flag) return 0;
     initConfig();
@@ -94,5 +98,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
         DispatchMessage(&msg);
     }
     App::Dispose();
+    CoUninitialize();
     return 0;
 }

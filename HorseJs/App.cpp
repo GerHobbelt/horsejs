@@ -6,7 +6,7 @@ namespace {
 
 App::App()
 {
-	auto win = std::make_shared<Window>();
+	auto win = new Window();
 	windows.push_back(win);
 	PageEnvironment::Init([&win]() {
 		win->CreatePageController();

@@ -6,6 +6,7 @@
 #include <wrl.h>
 #include <wil/com.h>
 #include "WebView2.h"
+
 class Window
 {
 public:
@@ -18,6 +19,6 @@ public:
 private:
 	void CreateWindowFrameless();
 	HRESULT pageCtrlCallBack(HRESULT result, ICoreWebView2Controller* controller);
-	std::vector<std::shared_ptr<PageController>> controllers;
+	std::vector<PageController*> controllers;
 };
 

@@ -1,31 +1,30 @@
-#include "PageEnvironment.h"
+ï»¿#include "PageEnvironment.h"
 using namespace Microsoft::WRL;
 
 namespace {
-	static std::shared_ptr<PageEnvironment> pageEnv;
+	static PageEnvironment* pageEnv;
 }
 
 PageEnvironment::PageEnvironment()
 {
-	auto envCBInstance = Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>(PageEnvironment::callBack);
-	CreateCoreWebView2EnvironmentWithOptions(nullptr, nullptr, nullptr, envCBInstance.Get());
 }
 PageEnvironment::~PageEnvironment()
 {
 
 }
-
-void PageEnvironment::Init(const std::function<void()>& func)
+void PageEnvironment::Init(const std::function<void()> func)
 {
-	if (pageEnv.get()) {
+	if (pageEnv) {
 		return;
 	}
-	pageEnv = std::make_shared<PageEnvironment>();
+	pageEnv = new PageEnvironment();
 	pageEnv->func = func;
+	auto envCBInstance = Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>(pageEnv, &PageEnvironment::callBack);
+	CreateCoreWebView2EnvironmentWithOptions(nullptr, nullptr, nullptr, envCBInstance.Get());
 }
-std::shared_ptr<PageEnvironment> PageEnvironment::Get()
+PageEnvironment* PageEnvironment::Get()
 {
-
+	return pageEnv;
 }
 
 HRESULT PageEnvironment::callBack(HRESULT result, ICoreWebView2Environment* env)
@@ -35,4 +34,4 @@ HRESULT PageEnvironment::callBack(HRESULT result, ICoreWebView2Environment* env)
 	return S_OK;
 }
 
-//ÏÈ´´½¨Env£¬ÔÙ´´½¨Ô­ÉúWindow£¬Env´´½¨ºÃÖ®ºó£¬Window±ØÈ»´´½¨ºÃÁË
+//å…ˆåˆ›å»ºEnvï¼Œå†åˆ›å»ºåŸç”ŸWindowï¼ŒEnvåˆ›å»ºå¥½ä¹‹åï¼ŒWindowå¿…ç„¶åˆ›å»ºå¥½äº†
