@@ -7,11 +7,12 @@ class App
 {
 public:
 	~App();
-	static void Init();
+	static void Init(const HINSTANCE& hInstance);
 	static void Dispose();
 	static App* Get();
+	HINSTANCE hinstance;
 private:
-	App();
-	std::vector<Window *> windows;
+	App(const HINSTANCE& hInstance);
+	std::vector<Window*> windows;
 };
 

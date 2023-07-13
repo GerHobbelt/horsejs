@@ -6,12 +6,14 @@
 class Page
 {
 public:
-	Page(wil::com_ptr<ICoreWebView2> webview);
+	Page();
 	~Page();
+	void Init();
+	void Navigate(const std::string& url);
 	void ExecuteScript();
 	void OpenDevTools();
-private:
 	wil::com_ptr<ICoreWebView2> webview;
+private:
 	HRESULT navigationStarting(ICoreWebView2* webview, ICoreWebView2NavigationStartingEventArgs* args);
 	HRESULT messageReceived(ICoreWebView2* webview, ICoreWebView2WebMessageReceivedEventArgs* args);
 };

@@ -5,9 +5,9 @@
 using namespace Microsoft::WRL;
 PageController::PageController(ICoreWebView2Controller* ctrl) :Controller{ctrl}
 {
-    wil::com_ptr<ICoreWebView2> webview;
-    ctrl->get_CoreWebView2(&webview);
-    page = new Page(webview);
+    page = new Page();
+    auto result = ctrl->get_CoreWebView2(&page->webview);
+    page->Init();
 }
 PageController::~PageController()
 {

@@ -1,28 +1,38 @@
 #include "Page.h"
 using namespace Microsoft::WRL;
 
-Page::Page(wil::com_ptr<ICoreWebView2> webview):webview{ webview }
+Page::Page()
 {
+}
+Page::~Page()
+{
+
+}
+
+void Page::Init()
+{
+
 	wil::com_ptr<ICoreWebView2Settings> settings;
 	webview->get_Settings(&settings);
 	settings->put_IsScriptEnabled(TRUE);
 	settings->put_AreDefaultScriptDialogsEnabled(TRUE);
 	settings->put_IsWebMessageEnabled(TRUE);
-	// Schedule an async task to navigate to Bing
-	webview->Navigate(L"https://www.baidu.com/");
 
+
+	//auto messageReceivedCB = Callback<ICoreWebView2WebMessageReceivedEventHandler>(this, &Page::messageReceived);
+	//webview->add_WebMessageReceived(messageReceivedCB.Get(),&token);
+}
+
+void Page::Navigate(const std::string& url)
+{
+	// Schedule an async task to navigate to Bing
+	auto result = webview->Navigate(L"https://www.baidu.com/");
 
 	EventRegistrationToken token;
 	auto navigateCB = Callback<ICoreWebView2NavigationStartingEventHandler>(this, &Page::navigationStarting);
 	webview->add_NavigationStarting(navigateCB.Get(), &token);
 
-
-	auto messageReceivedCB = Callback<ICoreWebView2WebMessageReceivedEventHandler>(this, &Page::messageReceived);
-	webview->add_WebMessageReceived(messageReceivedCB.Get(),&token);
-}
-Page::~Page()
-{
-
+	//webview->OpenDevToolsWindow();
 }
 
 HRESULT Page::messageReceived(ICoreWebView2* webview, ICoreWebView2WebMessageReceivedEventArgs* args)

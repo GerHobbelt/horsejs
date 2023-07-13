@@ -10,15 +10,17 @@
 class Window
 {
 public:
-	Window();
+	Window(const HINSTANCE& hInstance);
 	static LRESULT CALLBACK RouteWindowMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 	LRESULT HitTest(HWND hwnd, POINT cursor);
 	void CreatePageController();
-	HWND hwnd;	
+	HWND hwnd;
 private:
-	void CreateWindowFrameless();
+	void CreateWindowFrameless(const HINSTANCE& hInstance);
+	void CreateWindowWithFrame(const HINSTANCE& hInstance);
 	HRESULT pageCtrlCallBack(HRESULT result, ICoreWebView2Controller* controller);
 	std::vector<PageController*> controllers;
+	bool flag = false;
 };
 

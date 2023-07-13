@@ -14,6 +14,5 @@ public:
 	ICoreWebView2Environment* Environment;
 private:
 	std::function<void()> func;
-	PageEnvironment();
 };
 

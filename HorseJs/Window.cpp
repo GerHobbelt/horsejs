@@ -19,54 +19,98 @@ LRESULT CALLBACK Window::RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wParam, 
     return pWnd->WindowProc(hWnd, msg, wParam, lParam);
 }
 
-Window::Window() {
-    CreateWindowFrameless();
+Window::Window(const HINSTANCE& hInstance) {
+    //CreateWindowFrameless(hInstance);
+    CreateWindowWithFrame(hInstance);
 }
 
-void Window::CreateWindowFrameless() {
-    WNDCLASSEXW wcx{};
+void Window::CreateWindowWithFrame(const HINSTANCE& hInstance)
+{
+    WNDCLASSEX wcx{};
     wcx.cbSize = sizeof(wcx);
     wcx.style = CS_HREDRAW | CS_VREDRAW;
-    wcx.hInstance = nullptr;
     wcx.lpfnWndProc = &Window::RouteWindowMessage;
-    wcx.lpszClassName = L"BorderlessWindowClass";
-    wcx.hbrBackground = NULL;
-    wcx.hCursor = ::LoadCursorW(nullptr, IDC_ARROW);
     wcx.cbWndExtra = sizeof(Window*);
-    ::RegisterClassEx(&wcx);
+    wcx.hInstance = hInstance;
+    wcx.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
+    wcx.hCursor = LoadCursor(hInstance, IDC_ARROW);
+    wcx.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcx.lpszClassName = L"BorderWindowClass";
+    if (!RegisterClassEx(&wcx))
+    {
+        MessageBox(NULL, L"RegisterClassEx failed!", L"系统提示", NULL);
+        return;
+    }
+    hwnd = CreateWindowEx(0, wcx.lpszClassName, L"窗口标题",WS_OVERLAPPEDWINDOW,
+        110, 110,800, 600,NULL,NULL,hInstance, static_cast<LPVOID>(this));
+    ShowWindow(hwnd, SW_SHOW);
+    UpdateWindow(hwnd);
+}
+
+void Window::CreateWindowFrameless(const HINSTANCE& hInstance) {
+    WNDCLASSEX wcx{};
+    wcx.cbSize = sizeof(wcx);
+    wcx.style = CS_HREDRAW | CS_VREDRAW;
+    wcx.lpfnWndProc = &Window::RouteWindowMessage;
+    wcx.cbWndExtra = sizeof(Window*);
+    wcx.hInstance = hInstance;
+    wcx.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
+    wcx.hCursor = LoadCursor(hInstance, IDC_ARROW);
+    wcx.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcx.lpszClassName = L"BorderlessWindowClass";
+    RegisterClassEx(&wcx);
     auto borderlessStyle = WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_VISIBLE;
-    hwnd = CreateWindowEx(0, wcx.lpszClassName, L"窗口标题", borderlessStyle, CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, nullptr, nullptr, nullptr, static_cast<LPVOID>(this));
-    ::SetWindowLongPtr(hwnd, GWL_STYLE, borderlessStyle);
+    hwnd = CreateWindowEx(0, wcx.lpszClassName, L"窗口标题", borderlessStyle, CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, nullptr, nullptr, hInstance, static_cast<LPVOID>(this));
+    SetWindowLongPtr(hwnd, GWL_STYLE, borderlessStyle);
     static const MARGINS shadow_state{ 1,1,1,1 };
-    ::DwmExtendFrameIntoClientArea(hwnd, &shadow_state);
-    ::SetWindowPos(hwnd, nullptr, 110, 110, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE);
+    DwmExtendFrameIntoClientArea(hwnd, &shadow_state);
+    SetWindowPos(hwnd, nullptr, 110, 110, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE);
+    ShowWindow(hwnd, SW_SHOW);
+    UpdateWindow(hwnd);
 }
 void Window::CreatePageController()
 {
     auto callBackInstance = Callback<ICoreWebView2CreateCoreWebView2ControllerCompletedHandler>(this, &Window::pageCtrlCallBack);
-    PageEnvironment::Get()->Environment->CreateCoreWebView2Controller(hwnd, callBackInstance.Get());    
+    auto env = PageEnvironment::Get()->Environment;
+    auto result = env->CreateCoreWebView2Controller(hwnd, callBackInstance.Get());    
 }
 
 
 HRESULT Window::pageCtrlCallBack(HRESULT result, ICoreWebView2Controller* controller)
 {
-    auto ctrl = new PageController(controller);
-    controllers.push_back(ctrl);
+    if (controller != nullptr) {
+        auto ctrl = new PageController(controller);
+        controllers.push_back(ctrl);
+    }
     RECT bounds;
-    GetClientRect(hwnd, &bounds); //todo 多个ctrl
-    controller->put_Bounds(bounds);
+    GetClientRect(hwnd, &bounds); //todo 多个ctrl    
+    //controller->SetBoundsAndZoomFactor(bounds, 1.5);
+    auto a = controller->put_Bounds(bounds);
+    controllers[0]->page->Navigate("");
+    flag = true;
     return S_OK;
 }
 
 
 LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {    
     switch (msg) {
-        case WM_NCCALCSIZE: {
-            return 0;
+        //case WM_NCCALCSIZE: {
+        //    return 0;
+        //}
+        //case WM_NCHITTEST: {
+        //    return HitTest(hWnd, POINT{ GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) });
+        //}
+        case WM_SIZE:{
+            if (flag) {
+                for (size_t i = 0; i < controllers.size(); i++)
+                {
+                    RECT bounds;
+                    GetClientRect(hWnd, &bounds);
+                    controllers[i]->Controller->put_Bounds(bounds);
+                }
+            }
         }
-        case WM_NCHITTEST: {
-            return HitTest(hWnd, POINT{ GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) });
-        }
+        break;
         case WM_CLOSE: {
             ::DestroyWindow(hWnd);
             return 0;

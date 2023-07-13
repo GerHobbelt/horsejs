@@ -91,13 +91,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     auto flag = checkRuntime();
     if (!flag) return 0;
     initConfig();
-    App::Init();
+    App::Init(hInstance);
     MSG msg;
-    while (GetMessage(&msg, nullptr, 0, 0) == TRUE) {
+    while (GetMessage(&msg, NULL, 0, 0))
+    {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
-    }
+    }    
     App::Dispose();
     CoUninitialize();
-    return 0;
+    return (int)msg.wParam;
 }
