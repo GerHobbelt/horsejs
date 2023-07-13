@@ -6,9 +6,8 @@
 class Page
 {
 public:
-	Page();
+	Page(wil::com_ptr<ICoreWebView2>&& webview);
 	~Page();
-	void Init();
 	void Navigate(const std::string& url);
 	void ExecuteScript();
 	void OpenDevTools();

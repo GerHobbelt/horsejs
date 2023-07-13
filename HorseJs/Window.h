@@ -17,8 +17,8 @@ public:
 	void CreatePageController();
 	HWND hwnd;
 private:
-	void CreateWindowFrameless(const HINSTANCE& hInstance);
-	void CreateWindowWithFrame(const HINSTANCE& hInstance);
+	void createWindow(const HINSTANCE& hInstance);
+	void removeFrame();
 	HRESULT pageCtrlCallBack(HRESULT result, ICoreWebView2Controller* controller);
 	std::vector<PageController*> controllers;
 	bool flag = false;

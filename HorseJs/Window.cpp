@@ -4,10 +4,6 @@
 #include "PageEnvironment.h"
 using namespace Microsoft::WRL;
 
-
-static wil::com_ptr<ICoreWebView2Controller> webviewController;
-static wil::com_ptr<ICoreWebView2> webview;
-
 LRESULT CALLBACK Window::RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_NCCREATE)
     {
@@ -24,10 +20,10 @@ LRESULT CALLBACK Window::RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wParam, 
 
 Window::Window(const HINSTANCE& hInstance) {
     //CreateWindowFrameless(hInstance);
-    CreateWindowWithFrame(hInstance);
+    createWindow(hInstance);
 }
 
-void Window::CreateWindowWithFrame(const HINSTANCE& hInstance)
+void Window::createWindow(const HINSTANCE& hInstance)
 {
     WNDCLASSEX wcx{};
     wcx.cbSize = sizeof(wcx);
@@ -44,32 +40,17 @@ void Window::CreateWindowWithFrame(const HINSTANCE& hInstance)
         MessageBox(NULL, L"RegisterClassEx failed!", L"系统提示", NULL);
         return;
     }
-    hwnd = CreateWindowEx(0, wcx.lpszClassName, L"窗口标题",WS_OVERLAPPEDWINDOW,
-        110, 110,800, 600,NULL,NULL,hInstance, static_cast<LPVOID>(this));
+    hwnd = CreateWindowEx(0, wcx.lpszClassName, L"窗口标题",WS_OVERLAPPEDWINDOW,110,110,800, 600,NULL,NULL,hInstance, static_cast<LPVOID>(this));
     ShowWindow(hwnd, SW_SHOW);
     UpdateWindow(hwnd);
 }
 
-void Window::CreateWindowFrameless(const HINSTANCE& hInstance) {
-    WNDCLASSEX wcx{};
-    wcx.cbSize = sizeof(wcx);
-    wcx.style = CS_HREDRAW | CS_VREDRAW;
-    wcx.lpfnWndProc = &Window::RouteWindowMessage;
-    wcx.cbWndExtra = sizeof(Window*);
-    wcx.hInstance = hInstance;
-    wcx.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
-    wcx.hCursor = LoadCursor(hInstance, IDC_ARROW);
-    wcx.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcx.lpszClassName = L"BorderlessWindowClass";
-    RegisterClassEx(&wcx);
-    auto borderlessStyle = WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_VISIBLE;
-    hwnd = CreateWindowEx(0, wcx.lpszClassName, L"窗口标题", borderlessStyle, CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, nullptr, nullptr, hInstance, static_cast<LPVOID>(this));
+void Window::removeFrame() {
+    auto borderlessStyle = WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_VISIBLE; //todo
     SetWindowLongPtr(hwnd, GWL_STYLE, borderlessStyle);
     static const MARGINS shadow_state{ 1,1,1,1 };
     DwmExtendFrameIntoClientArea(hwnd, &shadow_state);
     SetWindowPos(hwnd, nullptr, 110, 110, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE);
-    ShowWindow(hwnd, SW_SHOW);
-    UpdateWindow(hwnd);
 }
 void Window::CreatePageController()
 {
@@ -81,21 +62,6 @@ void Window::CreatePageController()
 
 HRESULT Window::pageCtrlCallBack(HRESULT result, ICoreWebView2Controller* controller)
 {
-    //if (controller != nullptr) {
-    //    webviewController = controller;
-    //    webviewController->get_CoreWebView2(&webview);
-    //}
-    //wil::com_ptr<ICoreWebView2Settings> settings;
-    //webview->get_Settings(&settings);
-    //settings->put_IsScriptEnabled(TRUE);
-    //settings->put_AreDefaultScriptDialogsEnabled(TRUE);
-    //settings->put_IsWebMessageEnabled(TRUE);
-    //RECT bounds;
-    //GetClientRect(this->hwnd, &bounds);
-    //webviewController->put_Bounds(bounds);
-    //webview->Navigate(L"https://www.bing.com/");
-    //return S_OK;
-
     auto ctrl = new PageController(controller);
     controllers.push_back(ctrl);
     RECT bounds;
@@ -114,7 +80,8 @@ LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
         //case WM_NCHITTEST: {
         //    return HitTest(hWnd, POINT{ GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) });
         //}
-        case WM_SIZE:{
+        case WM_SIZE:
+        {
             if (flag) {
                 for (size_t i = 0; i < controllers.size(); i++)
                 {
@@ -123,13 +90,15 @@ LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
                     controllers[i]->Controller->put_Bounds(bounds);
                 }
             }
+            break;
         }
-        break;
-        case WM_CLOSE: {
-            ::DestroyWindow(hWnd);
+        case WM_CLOSE: 
+        {
+            DestroyWindow(hWnd);
             return 0;
         }
-        case WM_DESTROY: {
+        case WM_DESTROY: 
+        {
             //todo 所有窗口销毁之后要不要退出应用
             PostQuitMessage(0);
             return 0;
