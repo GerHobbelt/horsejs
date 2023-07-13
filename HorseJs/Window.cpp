@@ -2,9 +2,12 @@
 #include <dwmapi.h>
 #include "Window.h"
 #include "PageEnvironment.h"
-
-
 using namespace Microsoft::WRL;
+
+
+static wil::com_ptr<ICoreWebView2Controller> webviewController;
+static wil::com_ptr<ICoreWebView2> webview;
+
 LRESULT CALLBACK Window::RouteWindowMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (msg == WM_NCCREATE)
     {
@@ -72,21 +75,32 @@ void Window::CreatePageController()
 {
     auto callBackInstance = Callback<ICoreWebView2CreateCoreWebView2ControllerCompletedHandler>(this, &Window::pageCtrlCallBack);
     auto env = PageEnvironment::Get()->Environment;
-    auto result = env->CreateCoreWebView2Controller(hwnd, callBackInstance.Get());    
+    auto result = env->CreateCoreWebView2Controller(hwnd, callBackInstance.Get());   
 }
 
 
 HRESULT Window::pageCtrlCallBack(HRESULT result, ICoreWebView2Controller* controller)
 {
-    if (controller != nullptr) {
-        auto ctrl = new PageController(controller);
-        controllers.push_back(ctrl);
-    }
+    //if (controller != nullptr) {
+    //    webviewController = controller;
+    //    webviewController->get_CoreWebView2(&webview);
+    //}
+    //wil::com_ptr<ICoreWebView2Settings> settings;
+    //webview->get_Settings(&settings);
+    //settings->put_IsScriptEnabled(TRUE);
+    //settings->put_AreDefaultScriptDialogsEnabled(TRUE);
+    //settings->put_IsWebMessageEnabled(TRUE);
+    //RECT bounds;
+    //GetClientRect(this->hwnd, &bounds);
+    //webviewController->put_Bounds(bounds);
+    //webview->Navigate(L"https://www.bing.com/");
+    //return S_OK;
+
+    auto ctrl = new PageController(controller);
+    controllers.push_back(ctrl);
     RECT bounds;
-    GetClientRect(hwnd, &bounds); //todo 多个ctrl    
-    //controller->SetBoundsAndZoomFactor(bounds, 1.5);
+    GetClientRect(hwnd, &bounds); //todo 多个ctrl
     auto a = controller->put_Bounds(bounds);
-    controllers[0]->page->Navigate("");
     flag = true;
     return S_OK;
 }

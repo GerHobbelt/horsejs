@@ -11,14 +11,12 @@ Page::~Page()
 
 void Page::Init()
 {
-
 	wil::com_ptr<ICoreWebView2Settings> settings;
 	webview->get_Settings(&settings);
 	settings->put_IsScriptEnabled(TRUE);
 	settings->put_AreDefaultScriptDialogsEnabled(TRUE);
 	settings->put_IsWebMessageEnabled(TRUE);
-
-
+	Navigate("");
 	//auto messageReceivedCB = Callback<ICoreWebView2WebMessageReceivedEventHandler>(this, &Page::messageReceived);
 	//webview->add_WebMessageReceived(messageReceivedCB.Get(),&token);
 }
