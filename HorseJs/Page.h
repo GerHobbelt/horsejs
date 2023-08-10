@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <wrl.h>
 #include <wil/com.h>
 #include "WebView2.h"

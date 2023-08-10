@@ -1,4 +1,4 @@
-#include <windows.h>
+ï»¿#include <windows.h>
 #include "json.hpp"
 #include <shellapi.h>
 #include <fstream>
@@ -29,7 +29,7 @@ void readFile()
 }
 
 bool checkRegKey(const HKEY& key, const std::wstring& subKey) {
-    size_t bufferSize = 20; //Ã¿Î»4¸ö£¬¹²4Î»£¬¼Ó3¸öµã£¬ÔÙ¶à¸øÒ»Î»£¬ºóÃæ»á½Øµô¶àÓàµÄ
+    size_t bufferSize = 20; //æ¯ä½4ä¸ªï¼Œå…±4ä½ï¼ŒåŠ 3ä¸ªç‚¹ï¼Œå†å¤šç»™ä¸€ä½ï¼Œåé¢ä¼šæˆªæ‰å¤šä½™çš„
     std::wstring valueBuf;
     valueBuf.resize(bufferSize);
     auto valueSize = static_cast<DWORD>(bufferSize * sizeof(wchar_t));
@@ -39,7 +39,7 @@ bool checkRegKey(const HKEY& key, const std::wstring& subKey) {
     if (rc == ERROR_SUCCESS)
     {
         valueSize /= sizeof(wchar_t);
-        valueBuf.resize(static_cast<size_t>(valueSize - 1));//todo Õâ¸ö°æ±¾ºÅ¿ÉÄÜÓĞÓÃ
+        valueBuf.resize(static_cast<size_t>(valueSize - 1));//todo è¿™ä¸ªç‰ˆæœ¬å·å¯èƒ½æœ‰ç”¨
         if (valueBuf.empty() || valueBuf == L"0.0.0.0") {
             return false;
         }
@@ -58,8 +58,8 @@ bool checkRuntime()
     if (hasRuntime) return true;
     hasRuntime = checkRegKey(HKEY_CURRENT_USER, L"Software"+regSubKey);
     if (!hasRuntime) {
-        auto result = MessageBox(nullptr, L"ÄúµÃÏµÍ³ÖĞÈ±ÉÙ±ØÒª×é¼ş£¬ÏÖÔÚÎªÄú´ò¿ªÏÂÔØÁ´½Ó£¬ÏÂÔØÏà¹Ø×é¼ş£¿", 
-            L"ÏµÍ³ÌáÊ¾", MB_OKCANCEL | MB_ICONINFORMATION | MB_DEFBUTTON1);
+        auto result = MessageBox(nullptr, L"æ‚¨å¾—ç³»ç»Ÿä¸­ç¼ºå°‘å¿…è¦ç»„ä»¶ï¼Œç°åœ¨ä¸ºæ‚¨æ‰“å¼€ä¸‹è½½é“¾æ¥ï¼Œä¸‹è½½ç›¸å…³ç»„ä»¶ï¼Ÿ", 
+            L"ç³»ç»Ÿæç¤º", MB_OKCANCEL | MB_ICONINFORMATION | MB_DEFBUTTON1);
         if (result == IDOK) {
             ShellExecute(0, 0, L"https://go.microsoft.com/fwlink/p/?LinkId=2124703", 0, 0, SW_SHOW);
         }

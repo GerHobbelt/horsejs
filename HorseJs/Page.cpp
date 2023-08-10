@@ -1,4 +1,4 @@
-#include "Page.h"
+﻿#include "Page.h"
 using namespace Microsoft::WRL;
 
 Page::Page(wil::com_ptr<ICoreWebView2>&& webview) :webview{ webview }

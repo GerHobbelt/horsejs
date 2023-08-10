@@ -1,4 +1,4 @@
-#include "App.h"
+﻿#include "App.h"
 
 namespace {
 	static App* app;

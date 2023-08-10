@@ -1,4 +1,4 @@
-#include <windowsx.h>
+ï»¿#include <windowsx.h>
 #include <dwmapi.h>
 #include "Window.h"
 #include "PageEnvironment.h"
@@ -34,10 +34,10 @@ void Window::createWindow(const HINSTANCE& hInstance)
     wcx.lpszClassName = L"HorseJs";
     if (!RegisterClassEx(&wcx))
     {
-        MessageBox(NULL, L"RegisterClassEx failed!", L"ÏµÍ³ÌáÊ¾", NULL);
+        MessageBox(NULL, L"RegisterClassEx failed!", L"ç³»ç»Ÿæç¤º", NULL);
         return;
     }
-    hwnd = CreateWindowEx(0, wcx.lpszClassName, L"´°¿Ú±êÌâ",WS_OVERLAPPEDWINDOW,110,110,800, 600,NULL,NULL,hInstance, static_cast<LPVOID>(this));
+    hwnd = CreateWindowEx(0, wcx.lpszClassName, L"çª—å£æ ‡é¢˜",WS_OVERLAPPEDWINDOW,110,110,800, 600,NULL,NULL,hInstance, static_cast<LPVOID>(this));
     ShowWindow(hwnd, SW_SHOW);
     UpdateWindow(hwnd);
 }
@@ -62,7 +62,7 @@ HRESULT Window::pageCtrlCallBack(HRESULT result, ICoreWebView2Controller* contro
     auto ctrl = new PageController(controller);
     controllers.push_back(ctrl);
     RECT bounds;
-    GetClientRect(hwnd, &bounds); //todo ¶à¸öctrl
+    GetClientRect(hwnd, &bounds); //todo å¤šä¸ªctrl
     auto a = controller->put_Bounds(bounds);
     flag = true;
     return S_OK;
@@ -96,7 +96,7 @@ LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
         }
         case WM_DESTROY: 
         {
-            //todo ËùÓĞ´°¿ÚÏú»ÙÖ®ºóÒª²»ÒªÍË³öÓ¦ÓÃ
+            //todo æ‰€æœ‰çª—å£é”€æ¯ä¹‹åè¦ä¸è¦é€€å‡ºåº”ç”¨
             PostQuitMessage(0);
             return 0;
         }
