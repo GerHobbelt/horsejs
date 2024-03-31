@@ -41,7 +41,7 @@ import { horse } from "horsejs.org";
 await horse.window.openDevTool();
 ```
 
-> HorseJs 的 npm 包并非原生模块，无需本地编译；支持 TypeScirpt 类型
+> HorseJs 的 npm 包并非原生模块，无需本地编译；支持 TypeScript 类型
 >
 > 你可以自由的使用 Vue、React、Angular 或者其他的现代前端框架构建你的前端项目
 
@@ -108,3 +108,131 @@ await horse.window.openDevTool();
 微信收款码
 
 > 如果赞助者希望把名字添加到 HorseJs 主页，可以通过 QQ （412588801）联系我
+
+
+
+
+---
+
+
+
+
+<div align=center>
+<img src="Doc/horse.png" />
+<br />
+robust | elegant | swift
+<br />
+Create faster and more stable desktop applications using HTML/JS/CSS.
+<br />
+QQ exchange group: 650631559; WeChat public account:桌面软件 (desktop software)
+</div>
+
+# What is it?
+
+HorseJs is a framework similar to Electron. Unlike Electron, it has no built-in Node.js, but directly uses C++ to provide most of Electron's capabilities, such as accessing files using JavaScript, opening dialog boxes, creating new windows, etc. Since there is no Node.js, HorseJs runs faster, uses less memory, and is more stable.
+
+HorseJs can directly load any front-end project built by `webpack` or `rollup`. Since these build tools will bundle the code in the `npm` package into your final product, developers can use any `npm` package in this type of project. HorseJs does not exclude the Node.js ecosystem.
+
+Using HorseJs to develop applications, you don't have to consider any rendering process, the main process and the communication between these processes. Because of the work HorseJs has already done for the developers, developers only need to focus on their own business logic.
+
+# Start using HorseJs
+
+## first step
+
+Download the binary file of [HorseJs](https://gitee.com/horsejs/horsejs/releases) (compressed package with the extension `7z`) and decompress it, start `HorseJs.exe` from the compressed package and enter the Demo interface to see examples of various APIs that come with the SDK;
+
+<div align=center>
+<img src="Doc/Demo.png" />
+</div>
+
+## second step
+
+Execute the following command under your front-end project to install the `npm` package of HorseJs:
+
+```cmd
+npm install horsejs.org
+```
+
+After that, you can use the following methods to call the API provided by HorseJs for you:
+
+```js
+import { horse } from "horsejs.org";
+await horse.window.openDevTool();
+```
+
+> HorseJs's `npm` package is not a native module and does not require local compilation; it supports TypeScript types.
+>
+> You are free to build your front-end projects using Vue, React, Angular or any other modern front-end frameworks.
+
+## third step
+
+Modify the file downloaded in the first step: `HorseJs\app\horse.config.json`
+
+Make its `startPath` configuration point to your debug address, for example:
+
+```url
+"startPath": "http://localhost:3000/"
+```
+
+Start `HorseJs.exe` again and observe how your debug page behaves under HorseJs.
+
+> HorseJs has the Chromium browser core built-in, supports hot update, so you can use it as a regular browser.
+
+## the fourth step
+
+After the development is completed, put your front-end project construction product into the `HorseJs\app\` directory (the original files in this directory should be deleted except `horse.config.json`), and modify `horse.config.json` again. Point the `startPath` configuration item to your start page, for example:
+
+```url
+"startPath": "app/index.html"
+```
+
+## the fifth step
+
+You can use tools like [Resource Hacker](http://angusj.com/resourcehacker/) to modify the icon or property information of `HorseJs.exe`;
+
+You can use tools like [NSIS](https://nsis.sourceforge.io/) or [InnoSetup](https://jrsoftware.org/isinfo.php) to make a setup file from the contents of the `HorseJs` directory and distribute it to your users;
+
+> In the future, I will provide corresponding toolchains for developers to use them.
+
+# Documentation
+
+- [configuration file](Doc/Config.md)
+- [global object](Doc/Horse.md)
+  - [basic information](Doc/Horse/Info.md)
+  - [window control](Doc/Horse/Window.md)
+  - [dialog](Doc/Horse/Dialog.md)
+  - [clipboard](Doc/Horse/Clipboard.md)
+  - [document](Doc/Horse/File.md)
+  - [path](Doc/Horse/Path.md)
+  - [system](Doc/Horse/System.md)
+  - [menu](Doc/Horse/Menu.md)
+  - [tray icon](Doc/Horse/Tray.md)
+  - [database](Doc/Horse/Db.md)
+  - [Native plugin](Doc/Horse/Plugin.md)
+- [draggable area](Doc/AppRegion.md)
+- [Source code build guide](Doc/HorseJsBuild.md)
+- [Upgrade record](Doc/Update.md)
+
+# Misc.
+
+1.  This project is open source using the MIT license, and you can use it with confidence;
+2.  At present, this project is still in the experimental verification stage, and I will gradually add various functions and auxiliary tools to it in the future;
+3.  Welcome and thank you for raising Issues and Pull Requests;
+4.  This project is developed based on CEF3 and wxWidgets, with a lot of reference to the source code of Electron, Node.js, and Chromium, thanks.
+
+# Sponsoring
+
+<img src="Doc/pay.png" />
+
+WeChat payment code
+
+> If sponsors want to add their name to the HorseJs homepage, they can contact me via QQ (412588801)
+
+# Author's new book
+
+《In-depth Electron》(just launched)
+
+<img src="Doc/shupi.jpg" />
+
+
+
