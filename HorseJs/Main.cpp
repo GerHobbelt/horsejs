@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ï»¿#include <windows.h>
 #include "json.hpp"
 #include <shellapi.h>
@@ -101,4 +102,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     App::Dispose();
     CoUninitialize();
     return (int)msg.wParam;
+=======
+#include <windows.h>
+#include "WindowNative.h"
+
+
+//Õû¸öÓ¦ÓÃµÄÈë¿Úº¯Êý
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)
+{
+    WindowNative win;
+    MSG msg;
+    while (::GetMessageW(&msg, nullptr, 0, 0) == TRUE) {
+        ::TranslateMessage(&msg);
+        ::DispatchMessageW(&msg);
+    }
+    return 0;
+>>>>>>> remotes/GerHobbelt/master
 }
