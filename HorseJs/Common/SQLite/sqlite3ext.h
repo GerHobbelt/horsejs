@@ -424,7 +424,7 @@ typedef int (*sqlite3_loadext_entry)(
 #define sqlite3_expired                sqlite3_api->expired
 #endif
 #define sqlite3_finalize               sqlite3_api->finalize
-#define sqlite3_free                   sqlite3_api->free
+#define sqlite3_free                   sqlite3_api->_free
 #define sqlite3_free_table             sqlite3_api->free_table
 #define sqlite3_get_autocommit         sqlite3_api->get_autocommit
 #define sqlite3_get_auxdata            sqlite3_api->get_auxdata
@@ -436,7 +436,7 @@ typedef int (*sqlite3_loadext_entry)(
 #define sqlite3_last_insert_rowid      sqlite3_api->last_insert_rowid
 #define sqlite3_libversion             sqlite3_api->libversion
 #define sqlite3_libversion_number      sqlite3_api->libversion_number
-#define sqlite3_malloc                 sqlite3_api->malloc
+#define sqlite3_malloc                 sqlite3_api->_malloc
 #define sqlite3_mprintf                sqlite3_api->mprintf
 #define sqlite3_open                   sqlite3_api->open
 #define sqlite3_open16                 sqlite3_api->open16

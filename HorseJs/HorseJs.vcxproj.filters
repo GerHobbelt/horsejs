@@ -77,4 +77,380 @@
   <ItemGroup>
     <Manifest Include="Resource\cef.manifest" />
   </ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PageController.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Page.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PageEnvironment.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Demo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Window.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\cfg\argv.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\cfg\env.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\cfg\helpers.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\cfg\helpers-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\backtracer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\backtracer-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\circular_q.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\console_globals.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\file_helper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\file_helper-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\fmt_helper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\log_msg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\log_msg_buffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\log_msg_buffer-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\log_msg-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\mpmc_blocking_q.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\null_mutex.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\os.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\os-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\periodic_worker.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\periodic_worker-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\registry.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\registry-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\synchronous_factory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\tcp_client.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\tcp_client-windows.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\thread_pool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\thread_pool-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\udp_client.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\udp_client-windows.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\details\windows_include.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\args.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\chrono.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\color.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\compile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\core.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\format.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\format-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\locale.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\os.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\ostream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\printf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\ranges.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\std.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bundled\xchar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\bin_to_hex.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\chrono.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\compile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\fmt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\ostr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\ranges.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\std.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fmt\xchar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\android_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\ansicolor_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\ansicolor_sink-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\base_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\base_sink-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\basic_file_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\basic_file_sink-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\callback_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\daily_file_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\dist_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\dup_filter_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\hourly_file_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\kafka_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\mongo_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\msvc_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\null_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\ostream_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\qt_sinks.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\ringbuffer_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\rotating_file_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\rotating_file_sink-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\sink-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\stdout_color_sinks.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\stdout_color_sinks-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\stdout_sinks.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\stdout_sinks-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\syslog_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\systemd_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\tcp_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\udp_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\win_eventlog_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\wincolor_sink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\sinks\wincolor_sink-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\async.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\async_logger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\async_logger-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\common-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\formatter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\fwd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\logger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\logger-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\pattern_formatter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\pattern_formatter-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\spdlog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\spdlog-inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\stopwatch.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\tweakme.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log\version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PageController.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Page.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PageEnvironment.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="app\index.html" />
+    <CopyFileToFolders Include="app\app.json" />
+    <CopyFileToFolders Include="app\js\index.js" />
+  </ItemGroup>
 </Project>

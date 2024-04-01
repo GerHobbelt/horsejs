@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{de86b801-7cba-409d-990c-00122a0af6f6}</ProjectGuid>
+    <ProjectGuid>{bf88a06a-601c-4870-89a0-76bcaa4a671e}</ProjectGuid>
     <RootNamespace>HorseJs</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -41,7 +41,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -112,31 +112,25 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;_WIN32;UNICODE;_UNICODE;WINVER=0x0601;_WIN32_WINNT=0x601;NOMINMAX;WIN32_LEAN_AND_MEAN;_HAS_EXCEPTIONS=0;PSAPI_VERSION=1;CEF_USE_SANDBOX;CEF_USE_ATL;_HAS_ITERATOR_DEBUGGING=0;CMAKE_INTDIR="Debug";_DEBUG;_WINDOWS;NDEBUG;WXMSW</PreprocessorDefinitions>
-      <ConformanceMode>Default</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)cefDebug;$(SolutionDir)wxWidgetsDebug\include;$(SolutionDir)wxWidgetsDebug\include\msvc</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;_WIN32;UNICODE;_UNICODE;WINVER=0x0601;_WIN32_WINNT=0x601;NOMINMAX;WIN32_LEAN_AND_MEAN;_HAS_EXCEPTIONS=0;PSAPI_VERSION=1;CEF_USE_SANDBOX;CEF_USE_ATL;_HAS_ITERATOR_DEBUGGING=0;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_DEBUG;_WEBSOCKETPP_CPP11_FUNCTIONAL_;_WEBSOCKETPP_CPP11_SYSTEM_ERROR_;_WEBSOCKETPP_CPP11_RANDOM_DEVICE_;_WEBSOCKETPP_CPP11_MEMORY_;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <Optimization>Disabled</Optimization>
-      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)cefDebug\build\libcef_dll_wrapper\Debug;$(SolutionDir)cefDebug\Debug;$(SolutionDir)wxWidgetsDebug\lib\vc_x64_lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)cefDebug\Debug\libcef.lib;$(SolutionDir)cefDebug\build\libcef_dll_wrapper\Debug\libcef_dll_wrapper.lib;$(SolutionDir)cefDebug\Debug\cef_sandbox.lib;comctl32.lib;gdi32.lib;rpcrt4.lib;shlwapi.lib;ws2_32.lib;Advapi32.lib;dbghelp.lib;Delayimp.lib;OleAut32.lib;PowrProf.lib;Propsys.lib;psapi.lib;SetupAPI.lib;Shell32.lib;version.lib;wbemuuid.lib;winmm.lib;kernel32.lib;user32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalDependencies>dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\local\boost_1_80_0\lib64-msvc-14.3;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
     <Manifest>
-      <AdditionalManifestFiles>$(ProjectDir)Resource/cef.manifest</AdditionalManifestFiles>
-      <EnableDpiAwareness>true</EnableDpiAwareness>
+      <AdditionalManifestFiles>
+      </AdditionalManifestFiles>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
     </Manifest>
     <PreBuildEvent>
       <Command>node $(projectDir)npm\cli.js</Command>
@@ -144,35 +138,61 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;_WIN32;UNICODE;_UNICODE;WINVER=0x0601;_WIN32_WINNT=0x601;NOMINMAX;WIN32_LEAN_AND_MEAN;_HAS_EXCEPTIONS=0;PSAPI_VERSION=1;CEF_USE_SANDBOX;CEF_USE_ATL;_NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;_WIN32;UNICODE;_UNICODE;WINVER=0x0601;_WIN32_WINNT=0x601;NOMINMAX;WIN32_LEAN_AND_MEAN;_HAS_EXCEPTIONS=0;PSAPI_VERSION=1;CEF_USE_SANDBOX;CEF_USE_ATL;_HAS_ITERATOR_DEBUGGING=0;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)cefRelease;$(SolutionDir)wxWidgetsRelease\include;$(SolutionDir)wxWidgetsRelease\include\msvc</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <Optimization>MinSpace</Optimization>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <StringPooling>true</StringPooling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)cefRelease\build\libcef_dll_wrapper\Release\libcef_dll_wrapper.lib;$(solutionDir)cefRelease\Release\libcef.lib;$(solutionDir)cefRelease\Release\cef_sandbox.lib;comctl32.lib;rpcrt4.lib;shlwapi.lib;ws2_32.lib;Advapi32.lib;dbghelp.lib;Delayimp.lib;OleAut32.lib;PowrProf.lib;Propsys.lib;psapi.lib;SetupAPI.lib;Shell32.lib;version.lib;wbemuuid.lib;winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>libcef_dll_wrapper.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <AdditionalLibraryDirectories>$(SolutionDir)cefRelease;$(SolutionDir)wxWidgetsRelease\lib\vc_x64_lib</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\local\boost_1_80_0\lib64-msvc-14.3;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <Manifest>
-      <AdditionalManifestFiles>$(ProjectDir)Resource\cef.manifest</AdditionalManifestFiles>
+      <AdditionalManifestFiles>
+      </AdditionalManifestFiles>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
     </Manifest>
     <PreBuildEvent>
       <Command>node $(projectDir)npm\cli.js</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="Demo.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Page.cpp" />
+    <ClCompile Include="PageController.cpp" />
+    <ClCompile Include="PageEnvironment.cpp" />
+    <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="app\app.json">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\index.html">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="app\js\index.js">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\js</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)app\js</DestinationFolders>
+    </CopyFileToFolders>
+    <None Include="packages.config" />
+  </ItemGroup>
+  
+  
   <ItemGroup>
     <ClCompile Include="Browser\Browser.cpp" />
     <ClCompile Include="Browser\Handler.cpp" />
@@ -288,7 +308,131 @@
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)app\icon</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
+  
+  <ItemGroup>
+    <ClInclude Include="App.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="log\async.h" />
+    <ClInclude Include="log\async_logger-inl.h" />
+    <ClInclude Include="log\async_logger.h" />
+    <ClInclude Include="log\cfg\argv.h" />
+    <ClInclude Include="log\cfg\env.h" />
+    <ClInclude Include="log\cfg\helpers-inl.h" />
+    <ClInclude Include="log\cfg\helpers.h" />
+    <ClInclude Include="log\common-inl.h" />
+    <ClInclude Include="log\common.h" />
+    <ClInclude Include="log\details\backtracer-inl.h" />
+    <ClInclude Include="log\details\backtracer.h" />
+    <ClInclude Include="log\details\circular_q.h" />
+    <ClInclude Include="log\details\console_globals.h" />
+    <ClInclude Include="log\details\file_helper-inl.h" />
+    <ClInclude Include="log\details\file_helper.h" />
+    <ClInclude Include="log\details\fmt_helper.h" />
+    <ClInclude Include="log\details\log_msg-inl.h" />
+    <ClInclude Include="log\details\log_msg.h" />
+    <ClInclude Include="log\details\log_msg_buffer-inl.h" />
+    <ClInclude Include="log\details\log_msg_buffer.h" />
+    <ClInclude Include="log\details\mpmc_blocking_q.h" />
+    <ClInclude Include="log\details\null_mutex.h" />
+    <ClInclude Include="log\details\os-inl.h" />
+    <ClInclude Include="log\details\os.h" />
+    <ClInclude Include="log\details\periodic_worker-inl.h" />
+    <ClInclude Include="log\details\periodic_worker.h" />
+    <ClInclude Include="log\details\registry-inl.h" />
+    <ClInclude Include="log\details\registry.h" />
+    <ClInclude Include="log\details\synchronous_factory.h" />
+    <ClInclude Include="log\details\tcp_client-windows.h" />
+    <ClInclude Include="log\details\tcp_client.h" />
+    <ClInclude Include="log\details\thread_pool-inl.h" />
+    <ClInclude Include="log\details\thread_pool.h" />
+    <ClInclude Include="log\details\udp_client-windows.h" />
+    <ClInclude Include="log\details\udp_client.h" />
+    <ClInclude Include="log\details\windows_include.h" />
+    <ClInclude Include="log\fmt\bin_to_hex.h" />
+    <ClInclude Include="log\fmt\bundled\args.h" />
+    <ClInclude Include="log\fmt\bundled\chrono.h" />
+    <ClInclude Include="log\fmt\bundled\color.h" />
+    <ClInclude Include="log\fmt\bundled\compile.h" />
+    <ClInclude Include="log\fmt\bundled\core.h" />
+    <ClInclude Include="log\fmt\bundled\format-inl.h" />
+    <ClInclude Include="log\fmt\bundled\format.h" />
+    <ClInclude Include="log\fmt\bundled\locale.h" />
+    <ClInclude Include="log\fmt\bundled\os.h" />
+    <ClInclude Include="log\fmt\bundled\ostream.h" />
+    <ClInclude Include="log\fmt\bundled\printf.h" />
+    <ClInclude Include="log\fmt\bundled\ranges.h" />
+    <ClInclude Include="log\fmt\bundled\std.h" />
+    <ClInclude Include="log\fmt\bundled\xchar.h" />
+    <ClInclude Include="log\fmt\chrono.h" />
+    <ClInclude Include="log\fmt\compile.h" />
+    <ClInclude Include="log\fmt\fmt.h" />
+    <ClInclude Include="log\fmt\ostr.h" />
+    <ClInclude Include="log\fmt\ranges.h" />
+    <ClInclude Include="log\fmt\std.h" />
+    <ClInclude Include="log\fmt\xchar.h" />
+    <ClInclude Include="log\formatter.h" />
+    <ClInclude Include="log\fwd.h" />
+    <ClInclude Include="log\logger-inl.h" />
+    <ClInclude Include="log\logger.h" />
+    <ClInclude Include="log\pattern_formatter-inl.h" />
+    <ClInclude Include="log\pattern_formatter.h" />
+    <ClInclude Include="log\sinks\android_sink.h" />
+    <ClInclude Include="log\sinks\ansicolor_sink-inl.h" />
+    <ClInclude Include="log\sinks\ansicolor_sink.h" />
+    <ClInclude Include="log\sinks\base_sink-inl.h" />
+    <ClInclude Include="log\sinks\base_sink.h" />
+    <ClInclude Include="log\sinks\basic_file_sink-inl.h" />
+    <ClInclude Include="log\sinks\basic_file_sink.h" />
+    <ClInclude Include="log\sinks\callback_sink.h" />
+    <ClInclude Include="log\sinks\daily_file_sink.h" />
+    <ClInclude Include="log\sinks\dist_sink.h" />
+    <ClInclude Include="log\sinks\dup_filter_sink.h" />
+    <ClInclude Include="log\sinks\hourly_file_sink.h" />
+    <ClInclude Include="log\sinks\kafka_sink.h" />
+    <ClInclude Include="log\sinks\mongo_sink.h" />
+    <ClInclude Include="log\sinks\msvc_sink.h" />
+    <ClInclude Include="log\sinks\null_sink.h" />
+    <ClInclude Include="log\sinks\ostream_sink.h" />
+    <ClInclude Include="log\sinks\qt_sinks.h" />
+    <ClInclude Include="log\sinks\ringbuffer_sink.h" />
+    <ClInclude Include="log\sinks\rotating_file_sink-inl.h" />
+    <ClInclude Include="log\sinks\rotating_file_sink.h" />
+    <ClInclude Include="log\sinks\sink-inl.h" />
+    <ClInclude Include="log\sinks\sink.h" />
+    <ClInclude Include="log\sinks\stdout_color_sinks-inl.h" />
+    <ClInclude Include="log\sinks\stdout_color_sinks.h" />
+    <ClInclude Include="log\sinks\stdout_sinks-inl.h" />
+    <ClInclude Include="log\sinks\stdout_sinks.h" />
+    <ClInclude Include="log\sinks\syslog_sink.h" />
+    <ClInclude Include="log\sinks\systemd_sink.h" />
+    <ClInclude Include="log\sinks\tcp_sink.h" />
+    <ClInclude Include="log\sinks\udp_sink.h" />
+    <ClInclude Include="log\sinks\wincolor_sink-inl.h" />
+    <ClInclude Include="log\sinks\wincolor_sink.h" />
+    <ClInclude Include="log\sinks\win_eventlog_sink.h" />
+    <ClInclude Include="log\spdlog-inl.h" />
+    <ClInclude Include="log\spdlog.h" />
+    <ClInclude Include="log\stopwatch.h" />
+    <ClInclude Include="log\tweakme.h" />
+    <ClInclude Include="log\version.h" />
+    <ClInclude Include="Page.h" />
+    <ClInclude Include="PageController.h" />
+    <ClInclude Include="PageEnvironment.h" />
+    <ClInclude Include="Window.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets" Condition="Exists('..\packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.ImplementationLibrary.1.0.220914.1\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.220914.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Web.WebView2.1.0.1462.37\build\native\Microsoft.Web.WebView2.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.220914.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.ImplementationLibrary.1.0.220914.1\build\native\Microsoft.Windows.ImplementationLibrary.targets'))" />
+  </Target>
+  <PropertyGroup>
+    <WebView2LoaderPreference>Static</WebView2LoaderPreference>
+  </PropertyGroup>
 </Project>

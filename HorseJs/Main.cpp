@@ -1,100 +1,104 @@
-#include <windows.h>
-#include <wx/wx.h>
-#include "include/cef_app.h"
-#include "include/base/cef_scoped_refptr.h"
-#include "include/cef_command_line.h"
-#include "Browser/Browser.h"
-#include "Other/Other.h"
-#include "Renderer/Renderer.h"
-#include "Scheme/SchemeHandlerFactory.h"
-#include "Browser/TheWxApp.h"
-#include "Browser/TopWindow.h"
-
-
-// --renderer-startup-dialog 
-// http://localhost:10086/json
-// devtools://devtools/bundled/inspector.html?ws=localhost:10086/devtools/page/3DEDA81C103D19CDDB8BCC7B53BBC563
-IMPLEMENT_APP_NO_MAIN(TheWxApp);
-IMPLEMENT_WX_THEME_SUPPORT;
-int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
+ï»¿#include <windows.h>
+#include "json.hpp"
+#include <shellapi.h>
+#include <fstream>
+#include <filesystem>
+#include "App.h"
+using nlohmann::json;
+void readFile()
 {
-    CefEnableHighDPISupport();
-    CefMainArgs main_args(hInstance);
-    CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
-    command_line->InitFromString(::GetCommandLineW());
-    CefRefPtr<CefApp> app;
-    if (!command_line->HasSwitch("type"))
+//std::wstring buffer;            // stores file contents
+//FILE* f;
+//_wfopen_s(&f, L"build.json", L"rtS, ccs=UTF-8");
+//// Failed to open file
+//if (f == NULL)
+//{
+//    // ...handle some error...
+//}
+//struct _stat fileinfo;
+//_wstat(L"build.json", &fileinfo);
+//size_t filesize = fileinfo.st_size;
+//if (filesize > 0)
+//{
+//    buffer.resize(filesize);
+//    size_t wchars_read = fread(&(buffer.front()), sizeof(wchar_t), filesize, f);
+//    buffer.resize(wchars_read);
+//    buffer.shrink_to_fit();
+//}
+//fclose(f);
+}
+
+bool checkRegKey(const HKEY& key, const std::wstring& subKey) {
+    size_t bufferSize = 20; //æ¯ä½4ä¸ªï¼Œå…±4ä½ï¼ŒåŠ 3ä¸ªç‚¹ï¼Œå†å¤šç»™ä¸€ä½ï¼Œåé¢ä¼šæˆªæ‰å¤šä½™çš„
+    std::wstring valueBuf;
+    valueBuf.resize(bufferSize);
+    auto valueSize = static_cast<DWORD>(bufferSize * sizeof(wchar_t));
+    auto rc = RegGetValue(key, subKey.c_str(), L"pv", RRF_RT_REG_SZ, nullptr,
+        static_cast<void*>(valueBuf.data()), &valueSize
+    );
+    if (rc == ERROR_SUCCESS)
     {
-        app = new Browser();
-    }
-    else if (command_line->GetSwitchValue("type").ToString() == "renderer")
-    {
-        app = new Renderer();
+        valueSize /= sizeof(wchar_t);
+        valueBuf.resize(static_cast<size_t>(valueSize - 1));//todo è¿™ä¸ªç‰ˆæœ¬å·å¯èƒ½æœ‰ç”¨
+        if (valueBuf.empty() || valueBuf == L"0.0.0.0") {
+            return false;
+        }
     }
     else
     {
-        app = new Other();
+        return false;
     }
-    int exit_code = CefExecuteProcess(main_args, app, nullptr);
-    if (exit_code >= 0) return exit_code;
-    
-    wxCmdLineArgType cmdLine = (char*)lpCmdLine;
-    wxEntryStart(hInstance, hPrevInstance, cmdLine, nCmdShow);
-    wxTheApp->CallOnInit();
-    //TopWindow* win = new TopWindow();
-    //win->Show();
-    CefSettings settings;
-    settings.multi_threaded_message_loop = true;
-#if defined(_DEBUG)
-    settings.log_severity = cef_log_severity_t::LOGSEVERITY_INFO;
-    //settings.remote_debugging_port = 10086;
-#else
-    settings.log_severity = cef_log_severity_t::LOGSEVERITY_ERROR;  //LOGSEVERITY_ERROR
-    //settings.remote_debugging_port = 10086;
-#endif
-    
-    CefInitialize(main_args, settings, app.get(), nullptr);
-    CefRegisterSchemeHandlerFactory("http", "horse", new SchemeHandlerFactory());
-    //int result = message_loop->Run();
-    //CefRunMessageLoop();
-    //CefDoMessageLoopWork();
-
-    wxTheApp->OnRun();
-    CefShutdown();
-    wxEntryCleanup();
-    return 0;
+    return true;
 }
 
-
-
-/*
-* 
-* ÅäÖÃÎÄ¼ş
-*       Ö¸¶¨¾²Ì¬ÎÄ¼şÄ¿Â¼£¬»òÖ¸¶¨¾ßÌåµÄÈë¿ÚÒ³ÃæÎÄ¼şÂ·¾¶
-*       ÊÇ·ñÁ¢¼´ÏÔÊ¾´°¿Ú
-* npm°ü
-*       ÏÂÔØexeºÍÏà¹ØµÄdllÎÄ¼ş
-*       
-´ò¿ªµ÷ÊÔÆ÷»òÕßÕÒµ½ÆäËû¿ÉÒÔµ÷ÊÔÒ³Ãæ´úÂëµÄ·½·¨
-ÎŞ±êÌâÀ¸ºÍÎŞ±ß¿òµÄ´°¿Ú
-MACÏÂÊ¹ÓÃCEFµÄ°ì·¨
-ÍĞÅÌÍ¼±ê¡¢ÎÄ¼şÏµÍ³¡¢¼ôÇĞ°åµÈAPI
-ÈçºÎ¼ÓÃÜÓÃ»§Ô´Âë
-
-
-2.  ÔÚ XXX Ä¿Â¼ÏÂ´´½¨Ò»¸ö horse.config.json µÄÎÄ¼ş£¬²¢ÊäÈëÈçÏÂÄÚÈİ£º
-
-```json
+bool checkRuntime()
 {
-  "appDir": "./app/"
+    std::wstring regSubKey = L"\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}";
+    bool hasRuntime = checkRegKey(HKEY_LOCAL_MACHINE, L"SOFTWARE\\WOW6432Node"+regSubKey);
+    if (hasRuntime) return true;
+    hasRuntime = checkRegKey(HKEY_CURRENT_USER, L"Software"+regSubKey);
+    if (!hasRuntime) {
+        auto result = MessageBox(nullptr, L"æ‚¨å¾—ç³»ç»Ÿä¸­ç¼ºå°‘å¿…è¦ç»„ä»¶ï¼Œç°åœ¨ä¸ºæ‚¨æ‰“å¼€ä¸‹è½½é“¾æ¥ï¼Œä¸‹è½½ç›¸å…³ç»„ä»¶ï¼Ÿ", 
+            L"ç³»ç»Ÿæç¤º", MB_OKCANCEL | MB_ICONINFORMATION | MB_DEFBUTTON1);
+        if (result == IDOK) {
+            ShellExecute(0, 0, L"https://go.microsoft.com/fwlink/p/?LinkId=2124703", 0, 0, SW_SHOW);
+        }
+        return false;
+    }
+    return true;
 }
-```
 
-ÅäÖÃÎÄ¼şÖĞµÄ¾ßÌåº¬ÒåÈçÏÂ
+static json config;
+void initConfig()
+{
+    std::string buffer;
+    std::ifstream f("app/app.json");
+    f.seekg(0, std::ios::end);
+    buffer.resize(f.tellg());
+    f.seekg(0);
+    f.read(buffer.data(), buffer.size());
+    config = json::parse(buffer);
+}
 
-> appDir£ºÄãµÄ¾²Ì¬ÎÄ¼şµÄÄ¿Â¼£¬±ØĞëÎªÏà¶ÔÂ·¾¶£¬Ò²¾ÍÊÇËµÄãµÄ HTML/CSS/JS µÈÎÄ¼ş±ØĞë·ÅÖÃÔÚ yourAppName ×ÓÄ¿Â¼ÄÚ£¬¸Ã×ÓÄ¿Â¼ÏÂ±ØĞë°üº¬Ò»¸ö index.html µÄÎÄ¼ş£¬HorseJs ¼ÓÔØµÄµÚÒ»¸öÒ³Ãæ¾ÍÊÇËü£»
 
-*/
-
-
- 
+//entry point
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)
+{
+    auto result = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+    if (result != S_OK) {
+        return 0;
+    }
+    auto flag = checkRuntime();
+    if (!flag) return 0;
+    initConfig();
+    App::Init(hInstance);
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0))
+    {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }    
+    App::Dispose();
+    CoUninitialize();
+    return (int)msg.wParam;
+}
