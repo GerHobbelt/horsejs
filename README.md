@@ -69,7 +69,7 @@ await horse.window.openDevTool();
 
 ## 第五步
 
-你可以使用 [Resource Hacker](http://angusj.com/resourcehacker/) 之类的工具修改 HorseJs.exe 的图标或属性信息；
+你可以使用 [Resource Hacker](http://angusj.com/resourcehacker/) or [Resource Cracker](https://www.pelock.com/products/resource-cracker) 之类的工具修改 HorseJs.exe 的图标或属性信息；
 
 你可以使用 [NSIS](https://nsis.sourceforge.io/) 或 [InnoSetup](https://jrsoftware.org/isinfo.php) 之类的工具把 HorseJs 目录下的内容制作成一个安装文件，分发给你的用户；
 
@@ -188,7 +188,7 @@ After the development is completed, put your front-end project construction prod
 
 ## the fifth step
 
-You can use tools like [Resource Hacker](http://angusj.com/resourcehacker/) to modify the icon or property information of `HorseJs.exe`;
+You can use tools like [Resource Hacker](http://angusj.com/resourcehacker/) or [Resource Cracker](https://www.pelock.com/products/resource-cracker) to modify the icon or property information of `HorseJs.exe`;
 
 You can use tools like [NSIS](https://nsis.sourceforge.io/) or [InnoSetup](https://jrsoftware.org/isinfo.php) to make a setup file from the contents of the `HorseJs` directory and distribute it to your users;
 
